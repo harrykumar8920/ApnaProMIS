@@ -1,0 +1,817 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<title>INSPECTOR</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="userHome">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Add
+						Charge Instance</li>
+
+				</ol>
+			</div>
+		</div>
+		<div th:if="${message}" class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+		<form th:action="@{/saveChargeInstance}" method="post" id="saveChargeInstance" autocomplete="off"
+			th:object="${chargeInstance}" enctype="multipart/form-data">
+			<input type="hidden" th:field=*{assignedTask}> <input type="hidden" th:field=*{procourtdtl}> <input
+				type="hidden" th:field=*{id}> <input type="hidden" th:field=*{instanceRemarksA}> <input type="hidden"
+				th:field=*{instanceIDA}> <input type="hidden" th:field=*{punishmentIDA}> <input type="hidden"
+				th:field=*{actA}> <input type="hidden" th:field=*{compoundabilityA}>
+			<input type="hidden" th:field=*{releventSectionA}>
+			<input type="hidden" th:field=*{addActSecId}>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="form-header ">
+								<h5 class="modal-header bg-info">Add Charge/Instance</h5>
+								<div class="form-group row">
+									<label for="input-16" class="col-sm-3 col-form-label">
+										Cause Title</label>
+									<div class="col-sm-3">
+										<span class="text-primary" style="font-size: 13px; text-align: left;"
+											th:text="*{procourtdtl.causeTitle}"> </span>
+									</div>
+									<label for="input-16" class="col-sm-3 col-form-label">
+										Court Case No</label> <span class="col-sm-3 text-primary"
+										style="font-size: 13px" th:text="*{procourtdtl.courtCaseNo}">
+									</span>
+								</div>
+							</div>
+
+							<div class="modal-body">
+
+								<div class="form-group row">
+
+
+									<label for="input-10" class="col-sm-2 col-form-label">Accused
+										<span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-4">
+										<select class="form-control" id="accuseName" th:field="*{accuseName1}"
+											multiple="multiple">
+
+											<option th:each="court:${accusedList}" th:value="${court.id}"
+												th:utext="${court.accusedName}" />
+										</select> <span class="text-danger" th:errors="*{accuseName1}"></span>
+									</div>
+
+									<label for="input-10" class="col-sm-2 col-form-label">Charge
+										<span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-4">
+										<select class="form-control" th:field="*{charge}">
+											<option th:value="0" th:utext="Choose" />
+											<option th:each="court:${chargelist}" th:value="${court.id}"
+												th:utext="${court.chargeName}" />
+										</select> <span class="text-danger" th:errors="*{charge}"></span>
+									</div>
+
+
+								</div>
+								<div class="form-group row">
+
+
+									<label for="input-10" class="col-sm-2 col-form-label">Nature
+										of charge <span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-4">
+										<textarea class="form-control" th:field="*{description}"
+											id="remarksDescription1" onkeyup="countWords22()"></textarea>
+										<span id="wordCount7">0</span> Words <span class="text-danger">
+											Maximum Words limit is 100</span>
+
+
+									</div>
+									<!-- 	<label for="input-10" class="col-sm-2 col-form-label">Punishment
+											<span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-4">
+
+											<select class="form-control" id="punishmentID" th:field="*{punishment}">
+												<option th:value="0" th:utext="Choose" />
+												<option th:each="court:${punishment}" th:value="${court.id}"
+													th:utext="${court.punishment1}" />
+											</select>
+										</div> -->
+
+								</div>
+
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th style="width: 100%;" colspan="9"><label style="font-size: 14px">ADD ACT,
+													Section and
+													Compoundality </label></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="width: 8%;">ACT <span class="text-danger">*</span></td>
+											<td style="width: 10%;"><select class="form-control" id="act">
+													<option th:each="court:${act}" th:value="${court.id}"
+														th:utext="${court.act}" />
+												</select></td>
+
+											<td style="width: 8%;">Compoundability<span class="text-danger">*</span>
+											</td>
+											<td style="width: 10%;"><select class="form-control" id="compoundability">
+													<option th:value="0" th:utext="Choose" />
+													<option th:value="Compoundable" th:utext="Compoundable" />
+													<option th:value="Non-Compoundable" th:utext="Non-Compoundable" />
+													<option th:value="Both" th:utext="Both" />
+												</select></td>
+
+											<td style="width: 10%;">Relevant Section(Ref.) <span
+													class="text-danger">*</span></td>
+											<td style="width: 10%;"><select class="form-control" id="releventSectionId">
+													<option value="0">Choose Section</option>
+												</select></td>
+
+
+											<td style="width: 10%;">Punishment <span class="text-danger">*</span></td>
+
+											<td style="width: 15%;">
+												<select class="form-control" id="punishmentIDD">
+													<!-- <option th:value="0" th:utext="Choose" /> -->
+													<option th:each="court:${punishment}" th:value="${court.id}"
+														th:utext="${court.punishment1}" />
+												</select>
+
+											</td>
+											<td style="width: 4%;">
+												<button type="button" class="btn btn-primary"
+													onclick="addRow()">Add</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+
+
+
+
+
+								<!-- Table to Display Added Rows -->
+								<table class="table table-bordered mt-3" id="dataTable" style="display: none;">
+									<thead>
+										<tr>
+											<th style="font-size: 14px">ACT</th>
+											<th style="font-size: 14px">Compoundability</th>
+											<th style="font-size: 14px">Relevant Section(Ref.)</th>
+											<th style="font-size: 14px">Punishment</th>
+											<th style="font-size: 14px">Relevent Section Id</th>
+											<th style="font-size: 14px">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="form-footer d-flex justify-content-between px-3 py-3">
+							<div>
+								<button type="button" class="btn btn-primary" onclick="saveIPC();">Back</button>
+							</div>
+							<div>
+								
+								<button type="button" th:if="*{id==null}" class="btn btn-success btn-round m-1"
+									th:onclick="SaveAccusedDetails();">
+									<i class="fa fa-check-square-o"></i> SAVE
+								</button>
+
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+
+		<div class="form-group row" th:if="${not #lists.isEmpty(chargeInstanceList)}">
+
+			<div class="table-responsive">
+				<table id="CompTable1" class="table table-bordered">
+					<thead>
+						<tr class="bg-info">
+							<th>S.No</th>
+							<th>CHARGE</th>
+							<th>Nature of charge</th>
+							<th>ACCUSED</th>
+
+							<th>ACT</th>
+							<th>COMPOUNDABILITY</th>
+							<th>RELEVANT SECTION(REF.)</th>
+							<th>PUNISHMENT</th>
+
+
+
+
+
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="p,stats: ${chargeInstanceList}">
+							<td th:text="${stats.count}"></td>
+							<td class="text-wrap" th:text="${p.charge.chargeName}"></td>
+							<td class="text-wrap" th:text="${p.description}"></td>
+
+							<td>
+								<table>
+
+									<tr th:each="subItem,stats : ${p.chargeInstanceAccused}" style="border: none;"
+										class="m-0 p-0">
+										<td style="border: none;" class="m-0 p-0" th:text="${stats.count} + . "></td>
+										<td style="border: none;" class=" p-1"></td>
+										<td style="border: none;" class="m-0 p-0" th:text="${subItem.accuseName.accusedName}"></td>
+									</tr>
+								</table>
+							</td>
+
+
+
+
+							<!-- <td class="text-wrap" th:text="${p.punishment.punishment1}"></td> -->
+
+
+
+
+							<td>
+								<table>
+
+									<tr th:each="subItem,stats : ${p.actCompundRelevantSection}" style="border: none;"
+										class="m-0 p-0">
+										<td style="border: none;" class="m-0 p-0" th:text="${stats.count} + . "></td>
+										<td style="border: none;" class=" p-1"></td>
+										<td style="border: none;" class="m-0 p-0" th:text="${subItem.act.act}"></td>
+									</tr>
+								</table>
+							</td>
+
+							<td>
+								<table>
+
+									<tr th:each="subItem,stats : ${p.actCompundRelevantSection}" style="border: none;"
+										class="m-0 p-0">
+										<td style="border: none;" class="m-0 p-0" th:text="${stats.count} + . "></td>
+										<td style="border: none;" class=" p-1"></td>
+										<td style="border: none;" class="m-0 p-0" th:text="${subItem.compoundability}">
+										</td>
+									</tr>
+								</table>
+							</td>
+							<td>
+								<table>
+
+									<tr th:each="subItem,stats : ${p.actCompundRelevantSection}" style="border: none;"
+										class="m-0 p-0">
+										<td style="border: none;" class="m-0 p-0" th:text="${stats.count} + . "></td>
+										<td style="border: none;" class=" p-1"></td>
+										<td style="border: none;" class="m-0 p-0" th:text="${subItem.releventSection}">
+										</td>
+									</tr>
+								</table>
+							</td>
+							<td>
+								<table>
+
+									<tr th:each="subItem,stats : ${p.actCompundRelevantSection}" style="border: none;"
+										class="m-0 p-0">
+										<td style="border: none;" class="m-0 p-0" th:text="${stats.count} + . "></td>
+										<td style="border: none;" class=" p-1"></td>
+										<td style="border: none;" class="m-0 p-0"
+											th:text="${subItem.punishment.punishment1}"></td>
+									</tr>
+								</table>
+							</td>
+
+							<td>
+								<!-- Display "Confirmed" if approvalStatus is 2 inside a button with the correct class -->
+								<button class="btn btn-success" th:if="${p.approvalStatus == 2}">
+									<span>Confirmed</span>
+								</button>
+								<form th:action="@{/chargeDelete}" method="post">
+									<input type="hidden" name="id" th:value="${p.id}" />
+									<button type="submit" class="btn btn-danger">Delete</button>
+								</form>
+								
+								
+
+								<!-- If approvalStatus is not 2, show the Confirm button -->
+								<form th:action="@{/confirm}" method="post" th:if="${p.approvalStatus != 2}">
+									<input type="hidden" name="id" th:value="${p.id}" />
+									<button type="submit" class="btn btn-primary">Confirm</button>
+								</form>
+							</td>
+
+
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<script src="plugins/bootstrap-datatable/js/jquery.d.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="js/customValidation.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+		<script type="text/javascript">
+			$(document)
+				.ready(
+					function () {
+
+						$("#accuseName")
+							.change(
+								function () {
+									$('#myTable tbody').empty();
+									var assintaskId = document
+										.getElementById("assignedTask").value;
+									var courtType = $(this)
+										.val();
+
+									//alert(courtType);
+									//alert(assintaskId);
+
+									var selectedText = $(
+										this)
+										.find(
+											"option:selected")
+										.text();
+
+									$
+										.ajax({
+
+											type: "GET",
+											url: "chagerget?courtType="
+												+ courtType
+												+ "&assintaskId="
+												+ assintaskId,
+											data: courtType,
+											success: function (
+												data) {
+												var html = '';
+												var len = data.length;
+
+
+												if (len > 0) {
+													html += '<option value="0"> Choose</option>';
+													for (var i = 0; i < len; i++) {
+														html += '<option value="' + data[i].id + '">'
+															+ data[i].chargeName
+															+ '</option>';
+													}
+													$(
+														"#charge")
+														.html(
+															html);
+												}
+											}
+										});
+
+								});
+
+					});
+		</script>
+
+
+		<script type="text/javascript">
+			function addRow() {
+				var actValue = document.getElementById("act").value;
+
+				// If the ACT is not selected (i.e., value is empty), show an error
+				if (actValue === "0" || actValue === "") {
+					swal("Required!", "Please select an ACT.", "error");
+					return;
+					
+				}
+				var actText = document.querySelector("#act option:checked").text;
+
+				var compoundabilityValue = $('#compoundability').val();
+				
+				var releventSectionValue = document.querySelector("#releventSectionId option:checked").text;
+				var releventSectionId = $('#releventSectionId').val();
+				
+				var punishmentValue = $('#punishmentIDD').val(); 
+				var punishmentText = document.querySelector('#punishmentIDD option:checked').text; 
+
+				if (compoundabilityValue === "0" || compoundabilityValue === "") {
+					swal("Required!", "Please select a compoundability.", "error");
+					
+					return; 
+				}
+				if (releventSectionId === "0" || releventSectionId == "0") {
+					swal("Required!", "Please select a Relevent Section.", "error");
+					return; 
+				}
+
+
+				if (punishmentValue === "0" || punishmentValue === "") {
+					swal("Required!", "Please select a punishment.", "error");
+					return; 
+				}
+				// If the form fields are not empty, add the row
+				if (actValue && compoundabilityValue && releventSectionValue && punishmentValue) {
+					var table = document.getElementById("dataTable").getElementsByTagName('tbody')[0];
+					var newRow = table.insertRow(table.rows.length);
+					var cell1 = newRow.insertCell(0);
+					var cell2 = newRow.insertCell(1);
+					var cell3 = newRow.insertCell(2);
+					var cell4 = newRow.insertCell(3);
+					var cell5 = newRow.insertCell(4);
+					var cell6 = newRow.insertCell(5);
+					cell1.textContent = actText;
+					cell1.dataset.actId = actValue;
+					cell2.textContent = compoundabilityValue;
+					cell3.textContent = releventSectionValue;
+					cell4.textContent = punishmentText;
+					cell4.dataset.punishmentId = punishmentValue;
+					cell5.textContent = releventSectionId;
+					cell5.dataset.releventSectionId = releventSectionId;
+					// Create a delete button
+					var deleteButton = document.createElement("button");
+					deleteButton.textContent = "Delete";
+					deleteButton.className = "btn btn-danger btn-sm";
+					deleteButton.onclick = function () {
+						var row = this.closest('tr');
+						row.remove();
+						if (table.rows.length === 0) {
+							document.getElementById("dataTable").style.display = "none";
+						}
+					};
+					cell6.appendChild(deleteButton);
+
+					// Show the table if it's hidden
+					document.getElementById("dataTable").style.display = "table";
+
+					// Optionally, clear the form inputs after adding the row
+					document.getElementById("act").value = "0"; // Reset the act dropdown
+					document.getElementById("releventSectionId").value = "0";
+					document.querySelector("compoundability").value = "0"; // Reset compoundability dropdown
+					document.getElementById("punishmentIDD").value = "0"; // Reset punishment dropdown
+				} else {
+					alert("Please fill in all fields before adding.");
+				}
+			}
+
+		</script>
+
+		<script type="text/javascript">
+			function SaveAccusedDetails() {
+				var table = document.getElementById("dataTable").getElementsByTagName('tbody')[0];
+				var actArray = [];
+				var compoundabilityArray = [];
+				var releventArray = [];
+				var releventString = '';
+				var punishmentArray = [];
+				var releventIdArray = [];
+				for (var i = 0; i < table.rows.length; i++) {
+					var row = table.rows[i];
+					var actId = row.cells[0].dataset.actId; // Assuming 'actId' is stored in the 'data-act-id' attribute
+					var compoundability = row.cells[1].textContent.trim();
+					var releventSection = row.cells[2].textContent.trim();
+					var punishmentId = row.cells[3].dataset.punishmentId;
+					var releventId = row.cells[4].dataset.releventSectionId;
+					//alert("releventId : - " + releventId);
+					//alert("punishmentId : - " + punishmentId);
+					// Store the values in arrays
+					actArray.push(actId);
+					compoundabilityArray.push(compoundability);
+					releventArray.push(releventSection);
+					punishmentArray.push(punishmentId);
+					releventIdArray.push(releventId);
+					if (releventString !== '') {
+						releventString += "*#";  
+					}
+					releventString += releventSection;
+				}
+
+				$('#actA').val(actArray);
+				$('#compoundabilityA').val(compoundabilityArray);
+				$('#releventSectionA').val(releventString);
+				$('#addActSecId').val(releventIdArray);
+				$('#punishmentIDA').val(punishmentArray);
+
+				var ida = $('#id').val();
+				var accuseName = $('#accuseName').val();
+				var remarksDescription1 = $('#remarksDescription1').val();
+				
+				//alert(accuseName);
+
+				if (!accuseName || accuseName.length === 0) {
+					swal("Required!", "Please Select Accused", "error");
+					return;
+				}
+
+				var charge = $('#charge').val();
+				var act = $('#act').val();
+
+				var natureofDiscription = $('#remarksDescription1').val();
+
+
+
+				if (remarksDescription1.trim() === '') {
+				    swal("Required!", "Please Enter Nature of charge", "error");
+				    return;
+				}
+				var allowedPattern = /^[a-zA-Z0-9.,\/()\-_ ]+$/;
+
+				if (!allowedPattern.test(remarksDescription1)) {
+				    swal("Invalid!", "Only letters, numbers, spaces, and . , / ( ) - _ are allowed.", "error");
+				    return;
+				}
+				if (charge == 0) {
+					swal("Required!", "Please Select charge",
+						"error");
+					return;
+				}
+				var rowCount = $("#dataTable tbody tr").length;
+
+				if (rowCount < 1) { 
+				    swal("Required!", "Please add at least one ADD ACT, Section and Compoundality", "error"); 
+				    return;
+				}
+
+				$
+					.confirm({
+						title: '',
+						content: 'Sure ! Want to save? If saved cannot be edited ',
+						type: 'green',
+						typeAnimated: true,
+						buttons: {
+							tryAgain: {
+								text: 'Yes',
+								btnClass: 'btn-Success',
+								action: function () {
+
+
+									$('#saveChargeInstance').attr('action', 'saveChargeInstance');
+									$('#saveChargeInstance').submit();
+								}
+							},
+							No: function () {
+							}
+						}
+					});
+			}
+		</script>
+
+
+
+
+
+
+
+
+		<script type="text/javascript">
+			$("#addActSection")
+				.click(
+					function () {
+
+
+
+						if (($('#instanceID').val() == 0) || ($('#instanceID').val() == null)) {
+							swal("Required!", "PLEASE SELECT INSTANCE", "error");
+							return;
+						}
+
+
+						if ($('#instanceRemarksID').val() == '') {
+							swal("Required!", "PLEASE TYPE REMARKS", "error");
+							return;
+						}
+
+						if ($('#punishmentID').val() == 0 || $('#punishmentID').val() == null) {
+							swal("Required!",
+								"Please SELECT PUNISHMENT", "error");
+							return;
+						}
+
+						$('#actSectionDiv').show();
+						var table = $('#actSectionTAble');
+						var rowCount = $('#actSectionTAble tr').length;
+
+						var instance = jQuery(
+							"#instanceID option:selected")
+							.text();
+						var punishment = jQuery("#punishmentID option:selected")
+							.text();
+
+						var punishmentID1 = $('#punishmentID').val();
+						var instanceID1 = $('#instanceID').val();
+						var instanceRemarks = $('#instanceRemarksID').val();
+
+						var markup = "";
+
+						markup = [
+							'<tr th:object="*{actSectLIST}" >',
+							'<td class="index" th:field="*{actSectLIST.setId()}">',
+							rowCount + 1,
+							'</td>',
+							'<td class="text-wrap"  th:field="*{actSectLIST.setAct()}">'
+							+ instance + '</td>',
+							'<td class="text-wrap" th:field="*{actSectLIST.setAccDesc()}">'
+							+ punishment + '</td>',
+							'<td class="text-wrap" th:field="*{actSectLIST.setAccDesc()}">'
+							+ instanceRemarks + '</td>',
+							'<td style="display: none;" class="text-wrap" th:field="*{actSectLIST.setAccDesc()}">'
+							+ instanceID1 + '</td>',
+							'<td style="display: none;" class="text-wrap" th:field="*{actSectLIST.setAccDesc()}">'
+							+ punishmentID1 + '</td>',
+							'<td> <button class="btn btn-danger btn-round m-1 deleteBtn">Delete</button> </td>',
+							'</tr>'];
+						table.append(markup.join(''));
+						$('#punishmentID').val("Choose");
+						$('#instanceID').val("Choose");
+						$('#instanceRemarksID').val('');
+
+					});
+			$("#actSectionTAble").on(
+				'click',
+				'.deleteBtn',
+				function () {
+
+					var currentRow = $(this).closest("tr");
+					currentRow.remove();
+					$('#companyTable').find('tr').find('td:first').each(
+						function (index) {
+							$(this).text(index + 1);
+						});
+				});
+			/* $("#actSectionTAble").on(
+					'click',
+					'.editBtn',
+					function() {
+						var currentRow = $(this).closest("tr");
+						var actID = currentRow.find("td:eq(1)").text();
+						var discription = currentRow.find("td:eq(2)").text();
+						$('#freezerAssetsType').val(actID);
+						$('#freezerAssetsName').val(discription);
+						$('#exampleModalCenter').modal('show');
+
+						currentRow.remove();
+
+						$('#actSectionTAble').find('tr').find('td:first').each(
+								function(index) {
+									$(this).text(index + 1);
+								});
+					}); */
+		</script>
+
+
+
+
+		<script type="text/javascript">
+			function deleteChargeInstance() {
+
+				var deleteID = $('#deleteID').val();
+
+				$('#id').val(deleteID);
+
+				//alert(deleteID);
+				$('#saveChargeInstance').attr("action", "deleteInstance");
+
+				$('#saveChargeInstance').submit();
+
+			}
+		</script>
+
+
+
+		<script type="text/javascript">
+			function saveIPC() {
+
+				$('#saveChargeInstance').attr("action", "backFromCharge");
+				$('#saveChargeInstance').submit();
+
+			}
+		</script>
+
+
+		<script type="text/javascript">
+			function countWords22() {
+				const textField = document
+					.getElementById('remarksDescription1');
+				const wordCountDisplay = document.getElementById('wordCount7');
+				const words = textField.value.split(' ').filter(Boolean);
+				const wordCount = words.length;
+				wordCountDisplay.innerHTML = wordCount;
+				if (wordCount > 101) {
+					var wordCount1 = document
+						.getElementById("remarksDescription1");
+					var characters = wordCount1.value.split(' ');
+					var lenth = characters.length;
+					document.getElementById("remarksDescription1").maxLength = lenth;
+					//alert("xdcxc xdc xc xc");
+				} else {
+					document.getElementById("remarksDescription1").maxLength = 5000;
+				}
+			}
+		</script>
+		<script type="text/javascript">
+			function countWords221() {
+				const textField = document
+					.getElementById('instanceRemarksID');
+				const wordCountDisplay = document.getElementById('wordCount71');
+				const words = textField.value.split(' ').filter(Boolean);
+				const wordCount = words.length;
+				wordCountDisplay.innerHTML = wordCount;
+				if (wordCount > 101) {
+					var wordCount1 = document
+						.getElementById("instanceRemarksID");
+					var characters = wordCount1.value.split(' ');
+					var lenth = characters.length;
+					document.getElementById("instanceRemarksID").maxLength = lenth;
+					//alert("xdcxc xdc xc xc");
+				} else {
+					document.getElementById("instanceRemarksID").maxLength = 5000;
+				}
+			}
+		</script>
+		<script>
+			$("#charge").change(function () {
+				$('#myTable tbody').empty();
+
+			});
+		</script>
+		<script>
+			$("#act").change(function () {
+				$('#myTable tbody').empty();
+
+			});
+		</script>
+		<script>
+			$("#compoundability").change(function () {
+				$('#myTable tbody').empty();
+
+			});
+		</script>
+		<script type="text/javascript">
+			$('#act').on('change', function () {
+				var stateid = $('#act').val();
+
+				$.ajax({
+					type: "GET",
+					url: "showsSectionList?stateid=" + stateid,
+					cache: false,
+					timeout: 600000,
+					success: function (data) {
+						// Clear existing options
+						$('#releventSectionId').empty();
+
+						// Add a default option
+						$('#releventSectionId').append('<option value="0">Choose Section</option>');
+
+						// Populate new options
+						$.each(data, function (index, item) {
+							$('#releventSectionId').append(
+								'<option value="' + item.id + '">' + item.section + '</option>'
+							);
+						});
+					},
+					error: function () {
+						alert("Failed to load sections.");
+					}
+				});
+			});
+		</script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+		<script src="js/jquery-confirm.js"></script>
+
+
+
+
+	</div>
+
+</body>
+
+</html>

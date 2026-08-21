@@ -1,0 +1,130 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+  <link href="plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css">
+<title>All Users</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-5">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page"> Person  Details</li>
+				</ol>
+			</div>
+		</div>
+		<div th:if="${message}" class="alert alert-danger alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header text-uppercase">
+							<i class="fa fa-user"></i>  Person  Details
+						</h4>
+							<div class="form-group row">
+								<table class="table table-responsive" id="userTable">
+									<thead class="bg-info text-white">
+										<tr>
+											<th>S.No.</th>
+											<th>Person Name</th>
+											
+											<th>Father's Name </th>
+										    <th>Pan Number</th>
+											<th>Date of Birth</th>
+											<th>Passport No.</th>
+											<th>primaryMobile</th>
+											<th>Email</th>
+											<th>Action</th>
+											
+										</tr>
+									</thead>
+									<tbody>
+									 <tr th:each="p,stats: ${applicantList}">
+											<td th:text="${stats.count}"></td>
+											<td>
+											<th:block th:if="${p.salutation != null}">
+														<span class="text-wrap"
+															th:text="${p.salutation}"></span>
+													</th:block>
+											 <th:block th:if="${p.givenName != null}">
+														<span class="text-wrap"
+															th:text="${p.givenName}"></span>
+													</th:block> <th:block th:if="${p.middleName != null}">
+														<span class="text-wrap"
+															th:text="${p.middleName}"></span>
+													</th:block><th:block th:if="${p.Surname != null}">
+														<span class="text-wrap"
+															th:text="${p.Surname}"></span>
+													</th:block>
+											</td>
+											<td>
+										    <th:block th:if="${p.fatherName != null}"> 
+												<span class="text-wrap" th:text="${p.fatherName}"></span>
+											</th:block>
+											</td>
+											
+										   	<td class="text-wrap" th:text="${p.panNumber}"></td>
+											<td class="text-wrap" th:text="${#dates.format(p.dob,'dd/MM/YYYY ')}"></td>
+											<td><span th:text="${p.passportNumber}"></span></td>
+											
+											<td class="text-wrap" th:text="${(p.primaryMobile)}"></td>
+												<td class="text-wrap" th:text="${(p.email)}"></td>
+										
+											
+													<td>
+														<form th:action="@{/editApplicant}" method="post"autocomplete="off">
+		
+			
+													<button type="submit"   th:name="editapplicant" class="btn btn-success text-wrap"
+													        th:value="${p.id}"  >Edit</button>
+													   		<button type="submit"   th:name="Viewapplicant" class="btn btn-info text-wrap"
+													        th:value="${p.id}"  >View Details</button>
+												      
+													        
+													        </form>
+													        </td>
+									<!-- 		<td><a th:href="@{/edit/{id}(id=${p.id})}">Edit</a></td> -->
+											
+										</tr> 
+									</tbody>
+
+								</table>
+							</div>
+					
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			
+			 var table = $('#userTable').DataTable( {
+//		 	        lengthChange: false,
+			        buttons: [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+			      } );
+		});
+		
+		</script>		
+	</div>
+
+</body>
+</html>

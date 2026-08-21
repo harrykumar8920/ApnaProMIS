@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+<link href="css/bootstrap-datetimepicker-build.css" rel="stylesheet" />
+<title>Monthly Progressive Report</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-8">
+				<h5 class="page-title">Monthly Progressive Report-Point 3</h5>
+			</div>
+			<div class="col-sm-4">
+				<ol class="breadcrumb">
+					<li th:if="${userRole=='ROLE_PROSECUTORUNITHEAD'}"
+						class="breadcrumb-item"><a href="puhHome">Home</a></li>
+
+
+					<li th:if="${userRole=='ROLE_PUH_STAFF'}" class="breadcrumb-item"><a
+						href="puhStaffhome">Home</a></li>
+
+
+				</ol>
+			</div>
+		</div>
+
+
+		<form th:action="@{/monthlyProgresiveReport3}"
+			th:object="${reportWeeklyInput}" method="post">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+
+							<div class="form-group row">
+								<!-- <label class="control-label" id="fromDate">From Date</label>
+								<div class="col-sm-2">
+									<input class="form-control" type="text" th:field="*{date}"
+										placehoder="Start Date" id="startdate" required="required" />
+
+								</div>
+
+
+								<label class="control-label" id="toDate">To Date </label>
+								<div class="col-sm-2">
+									<input class="form-control" th:field="*{toDate}" type="text"
+										placehoder="End Date" id="enddate" required="required" />
+								</div> -->
+								<div class="col-sm-4">
+
+									<!-- <Button class="btn btn-success" type="submit">
+										<i class="ace-icon fa fa-check bigger-110"></i> Submit
+									</Button>
+									&nbsp; &nbsp; &nbsp;
+									<button class="btn btn-warning" type="reset">
+										<i class="ace-icon fa fa-undo bigger-110"></i> Reset
+									</button> -->
+
+
+									&nbsp; &nbsp; &nbsp; <a
+										th:if="${userRole=='ROLE_PROSECUTORUNITHEAD'}" href="puhHome"><i
+										class="ace-icon fa fa-arrow-left bigger-110 btn btn-danger ">Back</i></a>
+
+									<a th:if="${userRole=='ROLE_PUH_STAFF'}" href="puhStaffhome"><i
+										class="ace-icon fa fa-arrow-left bigger-110 btn btn-danger ">Back</i></a>
+								</div>
+							</div>
+
+
+
+
+							<h4 style="display: none;">
+								<span th:text="${message}"></span>
+							</h4>
+
+							<div class="table-responsive">
+								<table class="table table-bordered" id="summonDetailsTable">
+									<thead class="bg-info">
+										<tr>
+											<th class="text-wrap">S.No.</th>
+											<th class="text-wrap">investigation Name</th>
+											<th class="text-wrap">Date of prosecution sanction</th>
+											<th class="text-wrap">AGEING from prosecution</th>
+											<th class="text-wrap">date of CORRIGENDUM</th>
+											<th class="text-wrap">AGEING from CORRIGENDUM APPROVED</th>
+
+
+											<th class="text-wrap">Provisions of Companies Act, 1956</th>
+											<th class="text-wrap">Provisions of Companies Act, 2013</th>
+											<th class="text-wrap">Provisions of IPC</th>
+											<th class="text-wrap">Provisions of Cr.PC</th>
+											<th class="text-wrap">Provisions of LLP Act, 2008</th>
+											<th class="text-wrap">Other Act & Section</th>
+											<th class="text-wrap">Counsel Name : Mobile no.</th>
+																						
+											<th class="text-wrap">current status</th>
+
+
+
+
+
+										</tr>
+									</thead>
+									<tbody>
+
+
+
+
+
+										<tr th:each="detail,iStat :${courtCasedtl}">
+											<td th:text="${iStat.count}"></td>
+
+
+											<!-- 										<td class="text-wrap" th:text="${detail.causeTitle}"></td> -->
+											<td class="text-wrap"
+												th:text="${detail.causeTitle} ? ${detail.causeTitle} : NA"></td>
+											<!-- <td class="text-wrap"
+												th:text="${#dates.format(detail.addCase.proSanctionDate,'dd/MM/yyyy')}"></td> -->
+
+											<td class="text-wrap"
+												th:text="${#dates.format(detail.addCase.proSanctionDate,'dd/MM/yyyy')} ? ${#dates.format(detail.addCase.proSanctionDate,'dd/MM/yyyy')} : NA"></td>
+
+
+
+											<td><span th:if="${detail.threeMonth == null}">NA</span>
+												<span th:if="${detail.threeMonth == 'three'}">Less
+													than 3 months</span> <span th:if="${detail.threeMonth == 'six'}">3-6
+													Months</span> <span th:if="${detail.threeMonth == 'nine'}">6-12
+													Months</span> <span th:if="${detail.threeMonth == 'oneyear'}">Over
+													1 Year</span></td>
+											<!-- <td class="text-wrap"
+												th:text="${#dates.format(detail.corrigendumDate,'dd/MM/yyyy')}"></td> -->
+											<td class="text-wrap"
+												th:text="${#dates.format(detail.corrigendumDate,'dd/MM/yyyy')} ? ${#dates.format(detail.corrigendumDate,'dd/MM/yyyy')} : NA"></td>
+
+
+											<td><span th:if="${detail.corrigendumDateView == null}">NA</span>
+												<span th:if="${detail.corrigendumDateView == 'three'}">Less
+													than 3 months</span> <span
+												th:if="${detail.corrigendumDateView == 'six'}">3-6
+													Months</span> <span
+												th:if="${detail.corrigendumDateView == 'nine'}">6-12
+													Months</span> <span
+												th:if="${detail.corrigendumDateView == 'oneyear'}">Over
+													1 Year</span></td>
+
+											<!-- <td class="text-wrap">
+											<span
+											th:each="sumType,xyz321z : ${detail.sec}"> <span th:text="${sumType.Section.section} + ${!xyz321z.last ? ', ' : ''}"></span></span> 
+
+										</td> -->
+											<td class="text-wrap"><span
+												th:if="${#lists.isEmpty(detail.sec)}"> <span>NA
+												</span>
+											</span> <span th:unless="${#lists.isEmpty(detail.sec)}"> <span
+													th:each="sumType,xyz321z: ${detail.sec}"> <span
+														th:text="${sumType.releventSection} + ${!xyz321z.last ? ', ' : ''}"></span></span></span></td>
+
+
+											<!-- <td class="text-wrap"><span
+											th:each="sumType,xyz321z : ${detail.sec1}"> <span th:text="${sumType.Section.section} + ${!xyz321z.last ? ', ' : ''}"></span></span> 
+
+										</td> -->
+											<td class="text-wrap"><span
+												th:if="${#lists.isEmpty(detail.sec1)}"> <span>NA
+												</span>
+											</span> <span th:unless="${#lists.isEmpty(detail.sec1)}"> <span
+													th:each="sumType,xyz321z: ${detail.sec1}"> <span
+														th:text="${sumType.releventSection} + ${!xyz321z.last ? ', ' : ''}"></span></span></span></td>
+
+
+
+											<!-- <td class="text-wrap"><span
+											th:each="sumType,xyz321z : ${detail.sec2}"> <span th:text="${sumType.Section.section} + ${!xyz321z.last ? ', ' : ''}"></span></span> 
+
+										</td> -->
+											<td class="text-wrap"><span
+												th:if="${#lists.isEmpty(detail.sec2)}"> <span>NA
+												</span>
+											</span> <span th:unless="${#lists.isEmpty(detail.sec2)}"> <span
+													th:each="sumType,xyz321z: ${detail.sec2}"> <span
+														th:text="${sumType.releventSection} + ${!xyz321z.last ? ', ' : ''}"></span></span></span></td>
+											<!-- 											<td class="text-wrap"><span
+											th:each="sumType,xyz321z : ${detail.sec3}"> <span th:text="${sumType.Section.section} + ${!xyz321z.last ? ', ' : ''}"></span></span> 
+
+ -->
+											<!-- </td>
+											<td class="text-wrap"><span
+											th:each="sumType,xyz321z : ${detail.sec4}"> <span th:text="${xyz321z.count<1} ? hello : xdds"></span></span> 
+
+										</td> -->
+											<td class="text-wrap"><span
+												th:if="${#lists.isEmpty(detail.sec3)}"> <span>NA
+												</span>
+											</span> <span th:unless="${#lists.isEmpty(detail.sec3)}"> <span
+													th:each="sumType,xyz321z: ${detail.sec3}"> <span
+														th:text="${sumType.releventSection} + ${!xyz321z.last ? ', ' : ''}"></span></span></span></td>
+											<td class="text-wrap"><span
+												th:if="${#lists.isEmpty(detail.sec4)}"> <span>NA
+												</span>
+											</span> <span th:unless="${#lists.isEmpty(detail.sec4)}"> <span
+													th:each="sumType,xyz321z: ${detail.sec4}"> <span
+														th:text="${sumType.releventSection} + ${!xyz321z.last ? ', ' : ''}"></span></span></span></td>
+
+											<td class="text-wrap"><span
+												th:if="${#lists.isEmpty(detail.sec5)}"> <span>NA
+												</span>
+											</span> 
+											
+											<span th:unless="${#lists.isEmpty(detail.sec5)}"> <span
+													th:each="sumType,xyz321z: ${detail.sec5}">
+														<table>
+
+															<tr th:if="${sumType.actId == 3}">
+																<th>IBC 2016</th>
+																<td><span>Section-: </span><span th:text="${sumType.releventSection}"></span></td>
+															</tr>
+															<tr th:if="${sumType.actId == 13}">
+																<th>Company act 1956 R/W IPC 1860</th>
+																<td><span>Section-: </span><span th:text="${sumType.releventSection}"></span></td>
+															</tr>
+															<tr th:if="${sumType.actId == 14}">
+																<th>Company act 2013 R/W IPC 1860</th>
+																<td><span>Section-: </span><span th:text="${sumType.releventSection}"></span></td>
+															</tr>
+															<tr th:if="${sumType.actId == 15}">
+																<th>LLP R/W IPC 1860</th>
+																<td><span>Section-: </span><span th:text="${sumType.releventSection}"></span></td>
+															</tr>
+															<tr th:if="${sumType.actId == 16}">
+																<th>IPC R/W IPC 1860</th>
+																<td><span>Section-: </span><span th:text="${sumType.releventSection}"></span></td>
+															</tr>
+
+														</table>
+												</span></span></td>
+											<td class="text">
+												<span th:text="${detail.counselOfficer ?: 'NA'}"></span> :
+												<span th:text="${detail.counselOfficerPhone ?: 'NA'}"></span>
+											</td>
+											<td class="text-wrap"
+												th:text="${detail.hearingDetailsstatus} ? ${detail.hearingDetailsstatus} : NA"></td>
+
+
+
+
+
+											<!-- <span th:each="sumType,rowStat : ${detail.actSecDetailsInfo}">
+											
+											<span th:text="${sumType.Section.section}"> </span>
+												<br></span>
+												</td>
+												 -->
+
+
+										</tr>
+
+
+									</tbody>
+
+								</table>
+
+
+
+
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jszip.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/pdfmake.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/vfs_fonts.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.html5.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.print.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.colVis.min.js"></script>
+		<script type="text/javascript">
+			$(document)
+					.ready(
+							function() {
+								$("#startdate")
+										.datepicker({
+
+											format : 'dd-mm-yyyy',
+											endDate : new Date(),
+										// autoclose: true,
+										})
+										.on(
+												'changeDate',
+												function(selected) {
+													var minDate = new Date(
+															selected.date
+																	.valueOf());
+													var seven_date = minDate
+															.getDate() + 7;
+													var curr_month = minDate
+															.getMonth();
+
+													var curr_year = minDate
+															.getFullYear();
+													var sevenDate = (seven_date
+															+ "/" + curr_month
+															+ "/" + curr_year);
+													$('#enddate').datepicker(
+															'setStartDate',
+															minDate);
+												});
+
+								/* $(
+										'#enddate')
+										.datepicker(
+												'setStartDate',
+												minDate);
+								});  */
+
+								$("#enddate").datepicker({
+									format : 'dd-mm-yyyy',
+								//endDate : new Date(),
+
+								}).on(
+										'changeDate',
+										function(selected) {
+											var minDate = new Date(
+													selected.date.valueOf());
+
+											$('#startdate').datepicker(
+													'setEndDate', minDate);
+										});
+
+								var table = $('#summonDetailsTable')
+										.DataTable(
+												{
+													//		 	        lengthChange: false,
+													dom : 'Bfrtip',
+													/* buttons: [
+													    'copyHtml5',
+													    'excelHtml5',
+													    'csvHtml5',
+													    'pdfHtml5'
+													] */
+													buttons : {
+														buttons : [
+																{
+																	extend : 'excel',
+																	text : '<i class="fa fa-print"></i> Excel',
+																	title : $(
+																			'h4')
+																			.text(),
+
+																	exportOptions : {
+																		columns : ':not(.no-print)'
+																	},
+																	footer : true,
+																	autoPrint : false
+																},
+																/* {
+																      extend: 'print',
+																      
+																		
+																      text: '<i class="fa fa-print"></i> Print',
+																   
+																      title: $('h4').text(),
+																      exportOptions: {
+																        columns: ':not(.no-print)'
+																      },
+																      footer: true,
+																      autoPrint: false
+																    }, */{
+																	//  extend: 'pdf',
+																	extend : 'pdfHtml5',
+																	orientation : 'landscape',
+																	pageSize : 'LEGAL',
+																	text : '<i class="fa fa-file-pdf-o"></i> PDF',
+																	title : $(
+																			'h4')
+																			.text(),
+
+																	exportOptions : {
+																		columns : ':not(.no-print)'
+																	},
+																	footer : true
+																} ],
+
+														dom : {
+															container : {
+																className : 'dt-buttons'
+															},
+															button : {
+																className : 'btn btn-default'
+															}
+														}
+													}
+												});
+							});
+		</script>
+
+
+
+
+	</div>
+</body>

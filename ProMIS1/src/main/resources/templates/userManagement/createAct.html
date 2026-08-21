@@ -1,0 +1,215 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Add Act</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="home">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Add Act
+					</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<form th:action="@{/updateAct}" method="post" class="needs-validation"
+			th:object="${addAct}">
+			<input type="hidden" th:field="*{isEditAct}">
+			<div th:if="${message}" class="alert alert-success alert-dismissible"
+				role="alert">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<div class="alert-icon">
+					<i class="fa fa-check"></i>
+				</div>
+				<div class="alert-message">
+					<span th:text="${message}"></span>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-sitemap"></i> Add Act
+							</h4>
+
+							<input type="hidden" th:field="*{id}">
+
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">Act
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="act"
+										th:field="*{act}" name="act" placeholder="Enter Act"
+										maxlength="40"> <span class="text-danger"
+										th:if="${#fields.hasErrors('act')}" th:errors="*{act}"></span>
+								</div>
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Act Type <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+
+									<select class="form-control" th:field="*{actType}"
+										required="required">
+										<option value="">choose</option>
+										<option value="Other">Other</option>
+										<option value="NCLT">NCLT</option>
+									</select> <span class="text-danger"
+										th:if="${#fields.hasErrors('actType')}" th:errors="*{actType}">Act
+										Error</span>
+
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">Description
+									<!-- <span class="text-danger">*</span> -->
+								</label>
+								<div class="col-sm-4">
+									<textarea class="form-control" id="act" name="the-textarea"
+										th:field="*{description}" placeholder="Enter Description"
+										rows="4" maxlength="250" autofocus></textarea>
+									<div id="the-count">
+										<span>Character Count-</span><span id="current"> 0</span> <span
+											id="maximum">/ 250</span>
+									</div>
+
+								</div>
+							</div>
+
+
+
+
+							<div class="form-footer">
+								<!-- <button type="reset" class="btn btn-danger">
+									<i class="fa fa-times"></i> CANCEL
+								</button> -->
+
+
+								<th:block th:if="${addAct.isEditAct == false}">
+									<button type="submit" class="btn btn-success">
+										<i class="fa fa-check-square-o"></i> Add
+									</button>
+								</th:block>
+
+								<th:block th:if="${addAct.isEditAct == true}">
+									<button type="submit" class="btn btn-success">
+										<i class="fa fa-check-square-o"></i> Update
+									</button>
+								</th:block>
+
+
+								<a href="backAct" class="btn btn-dark">Back</a>
+
+							</div>
+
+
+
+
+
+
+						</div>
+					</div>
+				</div>
+		</form>
+
+
+
+
+
+		<!-- Saurabh Changes Start -->
+
+
+
+
+
+
+
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<!-- <script type="text/javascript">
+		$(document).ready(function(){
+			
+			 var table = $('#desigTable').DataTable( {
+//		 	        lengthChange: false,
+			        buttons: [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+			      } );
+		});
+		
+		</script>	 -->
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var table = $('#AddActTable').DataTable({
+					//			 	        lengthChange: false,
+					buttons : [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+				});
+			});
+		</script>
+		<script type="text/javascript">
+			$('textarea')
+					.keyup(
+							function() {
+
+								var characterCount = $(this).val().length, current = $('#current'), maximum = $('#maximum'), theCount = $('#the-count');
+
+								current.text(characterCount);
+
+								/*This isn't entirely necessary, just playin around*/
+								if (characterCount < 70) {
+									current.css('color', '#666');
+								}
+								if (characterCount > 70 && characterCount < 90) {
+									current.css('color', '#6d5555');
+								}
+								if (characterCount > 90 && characterCount < 100) {
+									current.css('color', '#793535');
+								}
+								if (characterCount > 100
+										&& characterCount < 120) {
+									current.css('color', '#841c1c');
+								}
+								if (characterCount > 120
+										&& characterCount < 139) {
+									current.css('color', '#8f0001');
+								}
+
+								if (characterCount >= 140) {
+									maximum.css('color', '#8f0001');
+									current.css('color', '#8f0001');
+									theCount.css('font-weight', 'bold');
+								} else {
+									maximum.css('color', '#666');
+									theCount.css('font-weight', 'normal');
+								}
+
+							});
+		</script>
+
+
+
+
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,302 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<title>INSPECTOR</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="userHome">Home</a></li>
+				</ol>
+			</div>
+		</div>
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+		<form th:action="@{/saveInspector}" method="post" id="saveInspector"
+			autocomplete="off" th:object="${inspector}"
+			enctype="multipart/form-data">
+			<input type="hidden" th:field=*{assignedTask}>
+			<input type="hidden" th:field="*{id}">
+			<input
+			
+				type="hidden" th:field=*{procourtdtl}>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="form-header ">
+								<h4>INSPECTOR</h4>
+								<div class="form-group row">
+									<label for="input-16" class="col-sm-3 col-form-label">
+										Cause Title</label>
+									<div class="col-sm-3">
+										<span class="text-primary"
+											style="font-size: 13px; text-align: left;"
+											th:text="*{procourtdtl.causeTitle}"> </span>
+									</div>
+									<label for="input-16" class="col-sm-3 col-form-label">
+										Court Case No</label> <span class="col-sm-3 text-primary"
+										style="font-size: 13px" th:text="*{procourtdtl.courtCaseNo}">
+									</span>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-3 col-form-label">
+									Inspector Name/Designation<span class="text-danger">*</span>
+								</label>
+
+
+
+								<div class="col-sm-3">
+									<select class="form-control" th:field="*{inspectorName}">
+										<option value="0">Choose</option>
+										<option th:each="design: ${pairaviOfficerList}"
+											th:value="${design.id}"
+											th:utext="${design.name+ ',  '+design.designation.designation }" />
+									</select> <span class="text-danger"
+										th:if="${#fields.hasErrors('inspectorName')}"
+										th:errors="*{inspectorName}"></span>
+								</div>
+
+
+
+
+								<label for="input-16" class="col-sm-3 col-form-label">Upload
+									Order File<span class="text-danger">*</span>
+								</label>
+
+								<div class="col-sm-3">
+									<input type="file" class="form-control" th:field="*{orderFile}">
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('orderFile')}"
+										th:errors="*{orderFile}"></span>
+
+								</div>
+							</div>
+
+
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-3 col-form-label">Date
+									of order <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control"
+										placeholder="Enter Order Date" th:field="*{orderDate}">
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('orderDate')}"
+										th:errors="*{orderDate}"></span>
+								</div>
+
+
+								<label for="input-16" class="col-sm-3 col-form-label">Order
+									Number<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control"
+										placeholder="Enter Order Number" th:field="*{orderNumber}">
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('orderNumber')}"
+										th:errors="*{orderNumber}"></span>
+								</div>
+
+
+							</div>
+						</div>
+						<div class="form-footer d-flex justify-content-between px-3 py-3">
+							<div>
+								<button type="button" class="btn btn-primary"
+									onclick="saveIPC();">Back</button>
+							</div>
+							<div>
+								<button type="button" th:if="*{id==null}"
+									class="btn btn-success btn-round m-1" id="saveInspector"
+									th:onclick="SaveAccusedDetails();">
+									<i class="fa fa-check-square-o"></i> SAVE
+								</button>
+								<button type="submit" th:if="*{id!=null}"
+									class="btn btn-success btn-round m-1">
+									<i class="fa fa-check-square-o"></i> Update
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="form-group row">
+			<div class="table-responsive">
+				<table id="CompTable1" class="table table-bordered">
+					<thead>
+						<tr class="bg-info">
+							<th>S.No</th>
+							<th>INSPRCTOR NAME</th>
+							<th>DESIGNATION</th>
+							<th>DATE OF ORDER</th>
+							<th>ORDER FILE</th>
+							<th>ORDER NUMBER</th>
+							<th>ACTION</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="p,stats: ${inspectorList}">
+							<td th:text="${stats.count}"></td>
+							<td th:text="${p.inspectorName.name}"></td>
+							<td th:text="${p.inspectorName.designation.designation}"></td>
+							<td
+								th:text="${p.orderDate != null ? #dates.format(p.orderDate, 'dd/MM/yyyy') : 'NA'}"></td>
+							<!-- <td class="text-wrap"
+								th:text="${#dates.format(p.orderDate, 'dd/MM/yyyy')}"></td> -->
+							<td><span th:if="${p.orderFileName==null}">NA</span> <a
+								th:if="${p.orderFileName!=null}" th:target="_blank"
+								th:href="@{|/downloadFiles?fileName=${p.orderFileName}|}"> <span>
+										<span>View</span> <i class="fa fa-file-pdf-o"
+										style="font-size: 24px; color: red"></i>
+								</span>
+							</a></td>
+
+							<td th:text="${p.orderNumber != '' ? p.orderNumber : 'NA'}"></td>
+
+						<td class="d-flex"> <form th:action="@{/saveInspector}" method="get" th:if="${p.approvalStatus == 0}">
+            <input type="hidden" th:name="editInspector" th:value="${p.id}" />
+            <button class="btn btn-info mr-2" type="submit" >Edit</button>
+        </form>
+		<form th:action="@{/confirmInspector}" method="get" th:if="${p.approvalStatus == 0}">
+		            <input type="hidden" th:name="conInspector" th:value="${p.id}" />
+		            <button class="btn btn-info" type="submit">Confirm</button>
+		        </form>
+				<button type="button" class="btn btn-success" th:if="${p.approvalStatus == 2}">Confirmed</button>
+		</td> 
+								<!-- <td>
+                                <button class="btn btn-success" type="button" onclick="editInspector(${p.id})">
+                                    Edit
+                                </button>
+                            </td> -->	
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!--Form Wizard-->
+		<script src="plugins/jquery.steps/js/jquery.steps.min.js"></script>
+		<script src="plugins/jquery-validation/js/jquery.validate.min.js"></script>
+		<!--wizard initialization-->
+		<script src="plugins/jquery.steps/js/jquery.wizard-init.js"></script>
+
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+
+
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript">
+			function saveIPC() {
+
+				$('#saveInspector').attr("action", "backFromInspector");
+				$('#saveInspector').submit();
+
+			}
+		</script>
+		<script type="text/javascript">
+			$("#orderDate").datepicker({
+				format : 'dd/mm/yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			});
+		</script>
+		<script type="text/javascript">
+			function SaveAccusedDetails() {
+
+				var inspectorN = $('#inspectorName').val();
+				var orderD = $('#orderDate').val();
+				var orderF = $('#orderFile').val();
+				var orderNumber = $('#orderNumber').val();
+
+				// Alert the user with the values
+				//alert("Inspector Name: " + inspectorN + " and Order Date: "
+					//	+ orderD);
+
+				// Validation checks
+				if (inspectorN == 0) {
+					swal("Required!", "Please select Inspector Name", "error");
+					return;
+				}
+
+				if (orderD == '') {
+					swal("Required!", "Please Enter Order Date", "error");
+					return;
+				}
+
+				if (orderF == '') {
+					swal("Required!", "Please Enter Order File", "error");
+					return;
+				}
+
+				if (orderNumber == '') {
+					swal("Required!", "Please Enter Order Number", "error");
+					return;
+				}
+
+				// Confirmation dialog before saving
+				$
+						.confirm({
+							title : 'Confirm Save',
+							content : 'Are you sure you want to save? Once saved, it cannot be edited.',
+							type : 'green',
+							typeAnimated : true,
+							buttons : {
+								tryAgain : {
+									text : 'Yes',
+									btnClass : 'btn-Success',
+									action : function() {
+										$('#saveInspector').attr("action",
+												"saveInspector");
+										$('#saveInspector').submit();
+									}
+								},
+								No : {
+									text : 'No',
+									btnClass : 'btn-danger',
+									action : function() {
+										// Action to take when the user cancels
+										alert("Save operation canceled.");
+									}
+								}
+							}
+						});
+			}
+		</script>
+
+
+		<script src="js/jquery-confirm.min.js"></script>
+		<script src="js/jquery-confirm.js"></script>
+	</div>
+
+</body>
+</html>

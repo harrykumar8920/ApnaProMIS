@@ -1,0 +1,170 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Add New Designation</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Edit Task
+						Puh </li>
+				</ol>
+			</div>
+		</div>
+
+
+		<form th:action="@{/updateActSec}" method="post"
+			class="needs-validation" th:object="${taskPuhList}">
+             
+		 <div th:if="${message}" class="alert alert-success alert-dismissible"
+				role="alert">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<div class="alert-icon">
+					<i class="fa fa-check"></i>
+				</div>
+				<div class="alert-message">
+					<span th:text="${message}"></span>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-sitemap"></i> Add Act Sections
+							</h4>
+
+    <input type="hidden" th:field="*{id}">
+
+                             <div class="form-group row">
+								
+								<label for="input-10" class="col-sm-2 col-form-label">Task
+									<span class="text-danger" >*</span>
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{Task}" >
+										<option value="0">Choose Task</option>
+										<option th:each="Task: ${taskspuh}"
+											th:value="${Task.id}" th:utext="${Task.task}"  />
+									</select>
+									
+									
+								</div> 								
+									
+								<!-- <label for="input-16" class="col-sm-2 col-form-label">Court Type
+									 <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="Section" th:field="*{Section}"
+									 name="Section" placeholder="Enter Section" required="required" maxlength="40" >
+						 
+								</div> -->
+							</div>
+
+
+								<!-- <div class="col-sm-4">
+                                    
+									<button type="submit" class="btn btn-success">
+										<i class="fa fa-plus"></i>Update
+									</button>
+									<button type="reset" class="btn btn-danger">
+										<i class="fa fa-times"></i> CANCEL
+									</button>
+								</div>
+ -->
+
+
+                       <div class="form-footer">
+                                   <button type="reset" class="btn btn-danger">
+										<i class="fa fa-times"></i> CANCEL
+									</button>
+									
+																	
+                                
+								<!-- <button type="submit" class="btn btn-success">
+									<i class="fa fa-check-square-o"></i> Add 
+								</button>
+								 -->
+								
+								<button type="submit" class="btn btn-success">
+									<i class="fa fa-check-square-o"></i> Edit 
+								</button>
+								
+								
+								
+							<!-- 	<a href="backButton" class="btn btn-dark">Back </a> -->
+						
+								
+								
+								</div>
+        
+                                <!--   <div class="form-footer">
+								<a href="backButton" class="btn btn-danger">Back XoXo</a>
+							      </div>
+ -->
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+
+
+
+
+<!-- Saurabh Changes Start --> 
+
+
+
+
+
+
+
+
+				<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<!-- <script type="text/javascript">
+		$(document).ready(function(){
+			
+			 var table = $('#desigTable').DataTable( {
+//		 	        lengthChange: false,
+			        buttons: [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+			      } );
+		});
+		
+		</script>	 -->
+		
+	    	 <script type="text/javascript">
+			$(document).ready(function(){
+				 var table = $('#AddActTable').DataTable( {
+//			 	        lengthChange: false,
+				        buttons: [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+				      } );
+			});
+		</script>
+		
+	
+		
+		
+
+	</div>
+
+</body>
+</html>

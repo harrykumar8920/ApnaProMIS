@@ -1,0 +1,352 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="css/jquery-confirm.min.css">
+	<script src="js/jquery-confirm.min.js"></script>
+	<title>Add New High Cort Details</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="userHome">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page" >Add High Court Details</li>
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<form th:action="@{/addHighCourtOrderdtl}" method="post" class="needs-validation" autocomplete="off"
+			th:object="${proCourtCaseDetails}" id="proCourtCaseDetails" enctype="multipart/form-data">
+			
+			
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+
+
+
+
+							<h5>
+								<i class="fa fa-address-book-o"></i>Add High Court Details
+							</h5>
+							
+							<div class="form-header text-uppercase">
+								<div class="row">
+									<label for="input-16" class="col-sm-2 col-form-label pt-3"><span >FILE
+											NO. OF SANCTION ORDER/MCA order</span></label> <label class="col-sm-4 text-primary"
+										style="font-size: 13px" th:text="*{proSectionOrderNumber}">
+									</label> 
+									
+									<label for="input-16" class="col-sm-2 col-form-label pt-3">
+										<span
+											>SANCTION
+											ORDER DATE</span>
+									</label> <label class="col-sm-4 text-primary" style="font-size: 13px"
+										th:text="*{#dates.format(proSanctionDate, 'dd/MM/yyyy')}">
+									</label>
+								</div>
+								<div class="row">
+									<label for="input-16" class="col-sm-2 col-form-label pt-3">Company</label>
+									<label class="col-sm-4 text-primary" style="font-size: 13px" th:text="*{caseTitle}">
+									</label> <label for="input-16" class="col-sm-2 col-form-label pt-3"> PETITIONER'S
+										NAME</label> <label class="col-sm-4 text-primary" style="font-size: 13px"
+										th:text="*{petionerName}"> </label>
+								</div>
+
+
+							</div>
+
+							 <input type="hidden"
+								th:field="*{assignedTaskIda}"> <input
+								type="hidden" th:field="*{addCaseIda}"> <input type="hidden" th:field="*{id}">
+
+
+
+
+
+
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">SFIO
+									As <span class="text-danger">*</span>
+								</label> <span class="text-danger" th:errors="*{sfioAs}"></span>
+								
+								<div class="col-sm-8">
+									<th:block id="Petitioner">
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="inlineRadioOptions"
+												id="inlineRadio1" value="1" th:checked /> <label class="form-check-label"
+												for="inlineRadio1">Petitioner/Complainant/Applicant
+											</label>
+										</div>
+									</th:block>
+
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="inlineRadioOptions"
+											id="inlineRadio2" value="2" /> <label class="form-check-label"
+											for="inlineRadio2">Respondent</label>
+									</div>
+
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="inlineRadioOptions"
+											id="inlineRadio3" value="3" /> <label class="form-check-label"
+											for="inlineRadio3">Appellant</label>
+									</div>
+
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="inlineRadioOptions"
+											id="inlineRadio4" value="4" /> <label class="form-check-label"
+											for="inlineRadio4">On the
+											Behalf of Union of India</label>
+									</div>
+
+									<input type="hidden" th:field="*{sfioAs}" th:id="sfioAs">
+
+
+
+								</div>
+
+
+							</div>
+							
+							
+							
+							
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									High Court Type <span class="text-danger">* </span>
+								</label>
+								<div class="col-sm-4">
+
+									<select class="form-control" th:field="*{highCourtType}">
+										<option value="CIVIL">CIVIL</option>
+										<option value="CRIMINAL">CRIMINAL</option>
+										<option value="Miscellaneous">Miscellaneous</option>
+										<!--<option th:each="court:${typeList}" th:value="${court.id}"
+											th:utext="${court.type}" />-->
+
+									</select> <span class="text-danger" th:errors="*{highCourtType}"></span>
+								</div>
+
+								<label for="input-10" class="col-sm-2 col-form-label" >State <span
+											class="text-danger">*</span>
+									</label>
+									<div class="col-sm-4">
+										<select class="form-control" th:field="*{state}" id="stateid">
+											<option th:each="statelst:${statelist}" th:value="${statelst.id}"
+												th:utext="${statelst.state}" />
+										</select> <span class="text-danger" th:errors="*{state}"></span>
+									</div>
+							</div>
+							
+							<div class="form-group row">
+								<label for="input-10" class="col-sm-2 col-form-label">District/City
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4" >
+									<select class="form-control" th:field="*{city}" th:id="citylst">
+										<option value="0">Select</option>
+										<option th:each="statelst:${districtlist}" th:value="${statelst.id}"
+											th:utext="${statelst.districtName}" />
+									</select> <span class="text-danger" th:errors="*{city}"></span>
+								</div>
+
+								<label for="input-16" class="col-sm-2 col-form-label">Court
+									Case No </label>
+									
+								
+								<div class="col-sm-4">
+									<div class="row">
+										
+										<div class="col-sm-12">
+											<input type="text" class="form-control" th:field="*{courtCaseNo}"
+												placeholder="Enter Court Case No " > <span class="text-danger" th:errors="*{courtCaseNo}"></span>
+										</div>
+										
+									</div>
+
+								</div>
+
+
+
+							</div>
+						
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Filing Date <span class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" th:field="*{fillingDate}" 
+										placeholder="Enter Filing Date"> <span class="text-danger"
+										th:errors="*{fillingDate}"></span>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Cause Title/Case Title <!-- <span class="text-danger">*</span> -->
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" th:field="*{causeTitle}"> <span
+										class="text-danger" th:errors="*{causeTitle}"></span>
+									
+
+								</div>
+
+							</div>
+
+
+						
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label" > CNR Number
+								</label> 
+								<div class="col-sm-4">
+									<input type="text" class="form-control" th:field="*{cnrNumber}" maxlength="30">
+									<span id="lblError4" style="color: red"></span>
+									<span class="text-danger" th:errors="*{cnrNumber}"></span>
+
+								</div>
+
+								<label class="col-sm-2 col-form-label">
+									Arising out of <span class="text-danger">* </span>
+								</label>
+								<div class="col-sm-4">
+
+									<select class="form-control" th:field="*{assignOutOf}">
+										<option value="1">Fresh Case</option>
+										<option value="2">Complaint Pending Befor Distric Court</option>
+										<option value="3">Non</option>
+										
+									</select> <span class="text-danger" th:errors="*{assignOutOf}"></span>
+								</div>
+
+
+							</div>
+							
+
+							
+							
+
+
+
+							
+
+
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Remarks 
+								</label>
+								<div class="col-sm-10">
+									<textarea class="inputTxt form-control" cols="2" rows="3" th:id="brief"
+										th:field="*{brief}" name="brief" placeholder="Enter Brief" maxlength="5000"
+										onkeyup="countWords()"></textarea>
+									<span id="wordCount">0</span> Words <span class="text-danger">
+										Maximum Words limit is 400</span><br> <span class="text-danger"
+										th:errors="*{brief}"></span>
+								</div>
+
+
+
+							</div>
+							
+							
+
+
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Upload Complaint <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="file" class="form-control" th:field="*{progistFile}"> <span
+										class="text-danger" th:errors="*{progistFile}"></span>
+								</div>
+								<div class="col-sm-2" th:if="${proCourtCaseDetails.gistFile} == true">
+
+
+									<label class=" col-form-label text-primary"> <a th:target="_blank"
+											th:href="@{|/downloadFiles?fileName=*{gistFile}|}"><span>View</span>
+											<span th:if="*{gistFile}"><i class="fa fa-file-pdf-o"
+													style="font-size: 24px; color: red"></i></span></a></label>
+
+
+
+
+								</div>
+							</div>
+
+							
+
+
+
+
+
+							<div class="form-footer">
+								<!--<a class="btn btn-dark" href="totalNumberOfSendBackCourtCases"> <i
+										class="fa fa-check-square-o"></i> Back
+								</a>-->
+								<th:block th:if="${proCourtCaseDetails.id}">
+									<a class="btn btn-dark" href="totalNumberOfSendBackCourtCases"> <i
+											class="fa fa-check-square-o"></i> Back
+									</a>
+								</th:block>
+								<th:block th:unless="${proCourtCaseDetails.id}">
+									<a class="btn btn-dark" href="prosecutorPendingTaskList"> <i
+											class="fa fa-check-square-o"></i> Back
+									</a>
+								</th:block>
+								
+								<th:block th:if="${proCourtCaseDetails.id}">
+									<button type="button" class="btn btn-success" onclick="savedtl();">
+										<i class="fa fa-check-square-o"></i> Update
+									</button>
+								</th:block>
+								<th:block th:unless="${proCourtCaseDetails.id}">
+									<button type="button" class="btn btn-success" onclick="savedtl();">
+										<i class="fa fa-check-square-o"></i> SAVE
+									</button>
+								</th:block>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				 <input type="hidden" th:field="*{gistFile}">
+		</form>
+		<script type="text/javascript" src="js/customValidation.js"></script>
+		<script type="text/javascript">
+			function savedtl() {
+						$('#proCourtCaseDetails').attr("action",
+							"SaveHighCourtCaseDetails");
+						$('#proCourtCaseDetails').submit();
+
+					}
+			
+		</script>
+	
+
+
+	</div>
+
+</body>
+
+</html>

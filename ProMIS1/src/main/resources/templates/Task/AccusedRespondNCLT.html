@@ -1,0 +1,637 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<title>ADD Details</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="userHome">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page"><span
+						th:if="${accusedResponse.typeOfCase}!=NCLT">Add Accused
+							Response </span> <span th:if="${accusedResponse.typeOfCase}==NCLT">Add
+							Respondent Response </span></li>
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+		<form th:action="@{/saveAccusedResponseNCLT}" method="post"
+			id="saveAccusedResponse" class="needs-validation" autocomplete="off"
+			th:object="${accusedResponse}" enctype="multipart/form-data">
+
+			<input type="hidden" th:field=*{typeOfCase}> <input
+				type="hidden" th:field=*{assignedTask}> <input type="hidden"
+				th:field=*{addCase}> <input type="hidden"
+				th:field=*{accusedDetailsID}>
+				<input type="hidden"
+								th:field=*{id}>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="form-header ">
+								<h4>
+									<i class="fa fa-address-book-o"></i> <span
+										th:if="${accusedResponse.typeOfCase}!=NCLT">Add Accused
+										Response </span> <span th:if="${accusedResponse.typeOfCase}==NCLT">Add
+										Respondent Response </span>
+								</h4>
+
+
+								<div class="form-group row">
+									<label for="input-16" class="col-sm-2 col-form-label">
+										Cause Title</label>
+									<div class="col-sm-4">
+										<span class="text-primary"
+											style="font-size: 13px; text-align: left;"
+											th:text="${proCourtDtls.causeTitle}"> </span>
+									</div>
+
+
+
+									<label for="input-16" class="col-sm-2 col-form-label">
+										Court Case No</label> <span class="col-sm-4 text-primary"
+										style="font-size: 13px" th:text="${proCourtDtls.courtCaseNo}">
+									</span>
+								</div>
+								<div class="form-group row">
+									<label for="input-16" class="col-sm-2 col-form-label ">Accused
+										Name</label>
+									<div class="col-sm-4">
+										<!-- <span class="col-sm-8 text-primary" style="font-size: 13px"
+											th:text="${accusedDetails.accusedName}">
+										</span>  -->
+									</div>
+
+
+
+									<label for="input-16" class="col-sm-2 col-form-label">
+										PAN Number</label>
+									<!-- <span class="col-sm-4 text-primary"
+										style="font-size: 13px"
+										th:text="${accusedDetails.panNumber}"> </span>  -->
+								</div>
+
+
+
+							</div>
+
+
+							<div class="form-group row">
+
+								<label for="input-10" class="col-sm-2 col-form-label">Type
+									of Response <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{typeofResponse}">
+										<!-- <option th:value="0" th:utext="Choose" /> -->
+										<option th:each="court:${typeofResponse}"
+											th:value="${court.id}" th:utext="${court.response}" />
+									</select><span class="text-danger" th:errors="*{typeofResponse}"></span>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Application Number<span class="text-danger">*</span>
+								</label>
+
+
+								<div class="col-sm-4">
+									<input class="form-control" type="text"
+										th:field="*{applicationNumber}"> <span
+										class="text-danger" th:errors="*{applicationNumber}"></span>
+								</div>
+
+
+							</div>
+
+
+							<div class="form-group row" id="courtt1">
+
+
+
+
+								<label for="input-10" class="col-sm-2 col-form-label">Court
+									Type <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{courtType}">
+										<!-- <option th:value="0" th:utext="Choose" /> -->
+										<option th:each="court:${courtType}" th:value="${court.id}"
+											th:utext="${court.courtName}" />
+									</select> <span class="text-danger" th:errors="*{courtType}"></span>
+								</div>
+								<label for="input-10" class="col-sm-2 col-form-label">State
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{state}" id="stateid">
+										<!-- <option th:value="0" th:utext="Choose" /> -->
+										<option th:each="statelst:${statelist}"
+											th:value="${statelst.id}" th:utext="${statelst.state}" />
+									</select> <span class="text-danger" th:errors="*{state}"></span>
+								</div>
+
+							</div>
+							<div class="form-group row" id="courtt2">
+								<label for="input-10" class="col-sm-2 col-form-label">District/City
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{city}" th:id="citylst">
+										<!-- 	<option th:value="0" th:utext="Choose" /> -->
+										<option th:each="statelst:${districtlist}"
+											th:value="${statelst.id}" th:utext="${statelst.districtName}" />
+									</select> <span class="text-danger" th:errors="*{city}"></span>
+								</div>
+							</div>
+
+
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Order <span class="text-danger">*</span>
+								</label>
+
+
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{orderType}">
+										<option th:value="0" th:utext="Choose" />
+										<option th:value="Rejected" th:utext="Rejected" />
+										<option th:value="Allowed" th:utext="Allowed" />
+										<option th:value="Stayed" th:utext="Stayed" />
+										<option th:value="Dismissed" th:utext="Dismissed" />
+										<option th:value="Other" th:utext="Other" />
+									</select><span class="text-danger" th:errors="*{orderType}"></span>
+								</div>
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Order Date <span class="text-danger">*</span>
+								</label>
+
+
+								<div class="col-sm-4">
+
+									<input type="text" class="form-control"
+										placeholder="Enter To Date" th:field="*{orderDate}"> <span
+										class="text-danger" th:if="${#fields.hasErrors('orderDate')}"
+										th:errors="*{orderDate}"></span>
+								</div>
+
+
+
+
+							</div>
+
+							<div class="form-group row">
+
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Reply Filed <span class="text-danger">*</span>
+								</label>
+
+
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{replyfiled}">
+
+										<option th:value="true" th:utext="Yes" />
+										<option th:value="false" th:utext="No" />
+
+									</select>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label"
+									id="replyF"> Reply Filed Date <span class="text-danger">*</span>
+								</label>
+
+
+								<div class="col-sm-4" id="replyF1">
+
+									<input type="text" class="form-control"
+										placeholder="Enter To Date" th:field="*{replyFiledDate}">
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('replyFiledDate')}"
+										th:errors="*{replyFiledDate}"></span>
+								</div>
+
+
+							</div>
+							<!-- Start New four fields Add on date 28.11.2023 -->
+
+							<div class="form-group row">
+
+								<label for="input-10" class="col-sm-2 col-form-label">Date
+									of Application <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control"
+										placeholder="Enter To Date of application"
+										th:field="*{dateOfApplication}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('dateOfApplication')}"
+										th:errors="*{dateOfApplication}"></span>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Application Order File<span class="text-danger">*</span>
+								</label>
+
+
+								<div class="col-sm-4">
+									<input class="form-control" type="file"
+										th:field="*{applicationOrderFile}"><span
+										class="text-danger"
+										th:if="${#fields.hasErrors('applicationOrderFile')}"
+										th:errors="*{applicationOrderFile}"></span>
+								</div>
+
+
+							</div>
+							<div class="form-group row">
+
+								<label for="input-10" class="col-sm-2 col-form-label">Order
+									File <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input class="form-control" type="file" th:field="*{orderFile}"><span
+										class="text-danger" th:if="${#fields.hasErrors('orderFile')}"
+										th:errors="*{orderFile}"></span>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label" id="replyFFF">
+									Reply Filed Order <span class="text-danger">*</span>
+								</label>
+
+
+								<div class="col-sm-4" id="replyFF">
+									<input class="form-control" type="file"
+										th:field="*{replyFiledOrder}"><span
+										class="text-danger"
+										th:if="${#fields.hasErrors('replyFiledOrder')}"
+										th:errors="*{replyFiledOrder}"></span>
+								</div>
+
+
+							</div>
+
+
+							<!-- Stop New four Fields add on date 28.11.2023  -->
+
+
+							<div class="form-footer d-flex justify-content-between px-3 py-3">
+
+								<div>
+									<button type="button" class="btn btn-primary" id="addIPC"
+										onclick="saveIPC();">Back</button>
+								</div>
+								<div th:if="*{id==null}">
+									<button type="submit" class="btn btn-success">
+										<i class="fa fa-check-square-o"></i> SAVE
+									</button>
+								</div>
+								<div th:if="*{id!=null}">
+																	<button type="submit" class="btn btn-success">
+																		<i class="fa fa-check-square-o"></i> Update
+																	</button>
+																</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+			</div>
+			</form>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-header">
+							<i class="fa fa-table"></i> Accused Response Details
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table id="accusedresponse" class="table table-bordered">
+
+									<thead>
+										<tr>
+											<th>S.No.</th>
+											<th>TYPE OF RESPONSE</th>
+											<th>Application No.</th>
+											<th>Court Type</th>
+											<th>State</th>
+											<th>District/City</th>
+
+											<th>Order</th>
+											<th>APPLICATION Order File</th>
+											<th>Order File</th>
+											<th>REPLY FILED ORDER</th>
+											<th>Order Date</th>
+											<th>Reply Filed</th>
+											<th>Reply Filed Date</th>
+											<th>Action</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="p,stats: ${accusedResponseList}">
+											<td th:text="${stats.count}"></td>
+											<td th:text="${p.typeofResponse.response}"></td>
+											<td th:text="${p.applicationNumber}"></td>
+											<td th:text="${p.courtType.courtName}"></td>
+											<td th:text="${p.state.state}"></td>
+											<td th:text="${p.city.districtName}"></td>
+											<td th:text="${p.orderType}"></td>
+											<td><label class=" col-form-label text-primary">
+													<a th:target="_blank"
+													th:href="@{|/downloadFiles?fileName=${p.applicationOrderFileName}|}"> <span>View</span>
+														<span th:unless="${p.applicationOrderFileName==null}"><i
+															class="fa fa-file-pdf-o"
+															style="font-size: 24px; color: red"></i></span>
+												</a>
+											</label></td>
+											<td><label class=" col-form-label text-primary">
+													<a th:target="_blank"
+													th:href="@{|/downloadFiles?fileName=${p.orderFileName}|}"> <span>View</span>
+														<span th:unless="${p.orderFileName==null}"><i
+															class="fa fa-file-pdf-o"
+															style="font-size: 24px; color: red"></i></span>
+												</a>
+											</label></td>
+											<td><label  th:if="${p.replyOrderFiledName}!=null" class="col-form-label text-primary">
+													<a th:target="_blank"
+													th:href="@{|/downloadFiles?fileName=${p.replyOrderFiledName}|}"> <span>View</span>
+														<span th:unless="${p.replyOrderFiledName==null}"><i
+															class="fa fa-file-pdf-o"
+															style="font-size: 24px; color: red"></i></span>
+												</a>
+											</label><label th:if="${p.replyOrderFiledName}==null">N/A</label></td>
+											<td class="text"
+												th:text="${#dates.format(p.orderDate, 'dd/MM/yyyy')}"></td>
+
+											<td th:text="${p.replyfiled} ? 'Yes' : 'No'"></td>
+
+
+											<td class="text"
+												th:text="${#dates.format(p.replyFiledDate, 'dd/MM/yyyy')}"></td>
+												<td>
+												    <!-- Button displayed when approvalStatus is 2 -->
+												    <button type="button" class="btn btn-success" th:if="${p.approvalStatus == 2}" disabled>Confirmed</button>
+
+												    <!-- Form for confirming details, displayed when approvalStatus is not 2 -->
+												    <form th:action="@{/confirmDetailsNCLT}" method="post" th:if="${p.approvalStatus != 2}" style="display: inline;">
+												        <input type="hidden" name="id" th:value="${p.id}" />
+												        <button type="submit" class="btn btn-success btn-sm">Confirm</button>
+												    </form>
+
+												    <!-- Form for editing details, displayed when approvalStatus is not 2 -->
+												    <form th:action="@{/editDetailsNCLT}" method="post" th:if="${p.approvalStatus != 2}" style="display: inline;">
+												        <input type="hidden" name="id" th:value="${p.id}" />
+												        <button type="submit" class="btn btn-primary btn-sm">Edit</button>
+												    </form>
+												</td>
+
+										</tr>
+									</tbody>
+
+								</table>
+							</div>
+
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+
+		
+
+		<script src="plugins/bootstrap-datatable/js/jquery.d.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(
+
+			function() {
+				var courtType = $('#replyfiled').val();
+
+				if (courtType == 'true') {
+					$('#replyF1').show();
+					$('#replyF').show();
+					$('#replyFF').show();
+					$('#replyFFF').show();
+				} else {
+					$('#replyF1').hide();
+					$('#replyF').hide();
+					$('#replyFF').hide();
+					$('#replyFFF').hide();
+				}
+
+			});
+		</script>
+
+
+
+
+
+		<script type="text/javascript">
+			$("#replyfiled").change(function() {
+				var selectedText = $(this).find("option:selected").text();
+				var courtType = $(this).val();
+
+				if (courtType == 'true') {
+					$('#replyF1').show();
+					$('#replyF').show();
+					$('#replyFF').show();
+					$('#replyFFF').show();
+				} else {
+					$('#replyF1').hide();
+					$('#replyF').hide();
+					$('#replyFF').hide();
+					$('#replyFFF').hide();
+				}
+			});
+		</script>
+
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				var table = $('#accusedresponse').DataTable({
+					//		 	        lengthChange: false,
+					buttons : [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+				});
+			});
+		</script>
+		<script type="text/javascript">
+			function saveIPC() {
+
+				$('#saveAccusedResponse').attr("action", "backToAccusedNCLT");
+				$('#saveAccusedResponse').submit();
+
+			}
+		</script>
+
+		<script type="text/javascript">
+			$("#courtType")
+					.change(
+							function() {
+								var selectedText = $(this).find(
+										"option:selected").text();
+								var courtType = $(this).val();
+								//alert(courtType);
+
+								$
+										.ajax({
+											type : "GET",
+											url : "getState?courtType="
+													+ courtType,
+											data : courtType,
+											success : function(data) {
+												var html = '';
+												var len = data.length;
+												/* alert(len); */
+
+												if (len > 0) {
+													for (var i = 0; i < len; i++) {
+														html += '<option value="' + data[i].id + '">'
+																+ data[i].state
+																+ '</option>';
+													}
+													$("#stateid").html(html);
+												} else {
+													html += '<option value="0">-- Choose --</option>';
+
+													$("#stateid").html(html);
+													$("#stateid").prop(
+															"disabled", true);
+												}
+											}
+										});
+
+								$
+										.ajax({
+											type : "GET",
+											url : "getcity?courtType="
+													+ courtType,
+											data : courtType,
+											success : function(data) {
+												var html = '';
+												var len = data.length;
+												/* alert(len); */
+
+												if (len > 0) {
+													for (var i = 0; i < len; i++) {
+														html += '<option value="' + data[i].id + '">'
+																+ data[i].districtName
+																+ '</option>';
+													}
+													$("#citylst").html(html);
+												} else {
+
+													html += '<option value="0">-- Select --</option>';
+													$("#citylst").html(html);
+													$("#citylst").prop(
+															"readonly", true);
+												}
+											}
+										});
+
+							});
+
+			$('#stateid')
+					.on(
+							'change',
+							function() {
+								var stateid = $('#stateid').val();
+								//alert(stateid)
+								$
+										.ajax({
+											//crossDomain: true,
+											type : "GET",
+											url : "showsDistrictList?stateid="
+													+ stateid,
+											//contentType : "application/json; charset=utf-8",
+											cache : false,
+											timeout : 600000,
+											success : function(data) {
+												$('#citylst').html('');
+												var options = '';
+												options += '<option value="0">Select</option>';
+												for (var i = 0; i < data.length; i++) {
+													options += '<option value="' + data[i].id + '">'
+															+ data[i].districtName
+															+ '</option>';
+												}
+												$('#citylst').append(options);
+											}
+
+										});
+
+							});
+		</script>
+
+		<script type="text/javascript">
+			$("#orderDate").datepicker({
+
+				format : 'dd/mm/yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			})
+
+			$("#replyFiledDate").datepicker({
+
+				format : 'dd/mm/yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			})
+			$("#dateOfApplication").datepicker({
+
+				format : 'dd/mm/yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			})
+		</script>
+
+
+
+	</div>
+</body>
+</html>

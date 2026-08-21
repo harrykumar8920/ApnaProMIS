@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Login</title>
+<!-- loader-->
+<link href="css/pace.min.css" rel="stylesheet" />
+<script src="js/pace.min.js"></script>
+<script type="text/javascript" src="js/crypto-js.min.js"></script>
+<!-- <script src="js/bCrypt.js"></script> -->
+<!--     <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script> -->
+<!--favicon-->
+<link rel="icon" href="images/India_flag.png" type="image/x-icon" />
+<!-- Bootstrap core CSS-->
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<!-- animate CSS-->
+<link href="css/animate.css" rel="stylesheet" type="text/css" />
+<!-- Icons CSS-->
+<link href="css/icons.css" rel="stylesheet" type="text/css" />
+<!-- Custom Style-->
+<link href="css/app-style.css" rel="stylesheet" />
+<!-- custom external css -->
+<link href="css/customExternal.css" rel="stylesheet" />
+
+<style>
+.alert {
+	padding: 20px;
+	background-color: #f44336;
+	color: white;
+	opacity: 1;
+	transition: opacity 0.6s;
+	margin-bottom: 15px;
+}
+
+.alert1 {
+	padding: 20px;
+	background-color: green;
+	color: white;
+	opacity: 1;
+	transition: opacity 0.6s;
+	margin-bottom: 15px;
+}
+
+.alert.success {
+	background-color: #04AA6D;
+}
+
+.alert.info {
+	background-color: #2196F3;
+}
+
+.alert.warning {
+	background-color: #ff9800;
+}
+
+.closebtn {
+	margin-left: 15px;
+	color: white;
+	font-weight: bold;
+	float: right;
+	font-size: 22px;
+	line-height: 20px;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+.closebtn:hover {
+	color: black;
+}
+
+body {
+	
+
+	}
+body::before {
+	    content: "";
+	    position: fixed;
+	    top: 142.5px;
+	    left: 0;
+	    width: 100%;
+	    height: 80%;
+		background: url("images/investigation.jpeg") no-repeat center center;
+	    background-size: cover;
+	    opacity: 1.0;  
+	    z-index: 0;
+	}
+</style>
+
+</head>
+
+<body>
+	<div style="background-color: white;">
+			<div class="row align-items-center text-center  py-2 m-0" style="border-top:7px solid #f5cb7e;border-bottom: 7px solid #f5cb7e;" >
+
+				<!-- Left Logo -->
+				<div class="col-md-3 text-start">
+					<img src="images/emblem-dark.png" class="img-fluid logo-img">
+				</div>
+
+				<!-- Center Text -->
+				<div class="col-md-6">
+					<h3 class="title-text" style="color: #0b586d;">
+						Prosecution Management Information System (ProMIS)<br>
+						Serious Fraud Investigation Office<br>
+						Ministry of Corporate Affairs
+					</h3>
+				</div>
+
+				<!-- Right Logo -->
+				<div class="col-md-3 text-end">
+					<img src="images/SfioImg.png" class="img-fluid logo-img">
+				</div>
+
+			</div>
+		</div>
+
+	<!-- Start wrapper-->
+	<div id="wrapper" style="padding-top: 25px;">
+
+
+
+		<div
+			class="d-flex align-items-center justify-content-center">
+			<div class="card-authentication2">
+				<div th:if="${message}"
+					class="alert1 alert-success alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<!-- <div class="alert-icon">
+					<i class="fa fa-check"></i>
+				</div> -->
+					<div class="alert-message">
+						<span th:text="${message}"></span>
+					</div>
+				</div>
+
+				<div class="card-group" style="     box-shadow:none;">
+					<div class="container-fluid d-flex justify-content-center">
+					    <div class="row w-100  d-flex align-items-stretch justify-content-center">
+							
+							<div class="col-5" style="padding-left: 20px;">
+							<div class="card mb-0"
+								style="border: 3px solid #0b586d; border-radius: 10px;height: 100%; ">
+								<div class="card-header  nav-color text-center" style="font-size: 20px;">
+																<span class="text-white">About ProMIS</span>
+															</div>
+															<div class="card-content p-2 text-black mr-2 ml-2" align="justify" style="color: #0b586d;overflow-y: scroll;height: 600PX;">
+
+																<p>SFIO is a multi-disciplinary organization under Ministry of Corporate Affairs, consisting of
+																	experts in the
+																	field of accountancy, forensic auditing, law, information technology, investigation, company
+																	law, capital
+																	market and taxation for detecting and prosecuting or recommending for prosecution
+																	white-collar
+																	crimes/ frauds. SFIO has head office in New Delhi and regional offices in Maharashtra,
+																	Telengana, Tamil
+																	Nadu and West Bengal.</p>
+																<p>SFIO deals with prosecution of cases as assigned by MCA. The prosecution division handles the
+																	cases
+																	investigated by SFIO after receipt of instruction from MCA. The division is involved in
+																	drafting of
+																	criminal complaints/petitions/ applications/counter affidavits/ replies/ appeals/ etc. to be
+																	filed return
+																	various Courts/ Forums. Moreover, Typically the criminal complaint filed by SFIO involve
+																	large number
+																	of accused both individual as well as companies. Once the cognizance of complaint is
+																	taken the
+																	litigation increases multiple times.</p>
+																<p>Similarly the sanction received from the Ministry of Corporate Affairs as the investigation
+																	report
+																	consists of instruction which also includes proceedings to be instituted at NCLT with
+																	regards to
+																	disgorgement as well renewal of auditing, management takeover, winding etc. Which also
+																	involves
+																	multiple respondents with multiple jurisdictions. Moreover complaints are to be filed before
+																	Disciplinary
+																	Committee of ICAI/ICSI/NFRA. Litigation involves provision of Companies Act 1956 and
+																	Companies Act
+																	2013 carrying forward of the legacy cases.</p>
+																<p>
+																	To overcome the problems in manual system, a new system is envisaged to provide facility to
+																	generate
+																	summons through workflow-based system which comprises of proper approval mechanisms.
+																</p>
+																<p>
+																	ProMIS(Prosecution Management Information System) designed and developed by NIC in
+																	collaboration
+																	with domain experts from SFIO. This system enables SFIO in effective management of cases
+																	dealt by
+																	prosecution Unit. The system was built based on the workflow of SFIO. System assists in
+																	capturing
+																	information related to cases, companies and individuals thru user-friendly screens and
+																	generating
+																	periodic reports that are to be submitted to MCA. Once the prosecution of the case is taken
+																	up, it can be
+																	entered into the system. Typically SFIO plays Petitioner/Respondent/Appellant role in each
+																	case. At any
+																	point of time, the officers can view the case details and its progress thru dashboards
+																	provided.
+																</p>
+															</div>
+
+							</div>
+						</div>
+						
+						<div class="col-5" style="padding-right: 25px;" >
+							<div class="card mb-0 "
+													style="height: 100%;    border: 3px solid #0b586d;border-radius: 10px;">
+													<div class="card-header  nav-color text-center" style="font-size: 20px;">
+															<span class="text-white">Login</span>
+														</div>
+													<div class="card-body p-5">
+														<div class="card-content p-3"></div>
+
+
+
+
+
+														<!--<div class="card-title text-uppercase text-center py-3"
+															style="font-size: 30px; color: #0d5c75"></div>-->
+														<div class="card-title text-center py-3"></div>
+														<form name='f' th:action="@{/securityCheck}" method="post"
+															onsubmit="return validate()">
+															<!--  <form name='f'  th:action="@{/login}" method="post"> -->
+															<div class="form-group">
+																<span th:text="${error}" class="text-danger text-lowercase"></span>
+																<label for="exampleInputUsername" class="sr-only">Username</label>
+																<div class="position-relative has-icon-right">
+																	<input type="text" id="username" name="username"
+																		class="form-control input-shadow"
+																		placeholder="Enter Username" autocomplete="off"> <span
+																		id="usernameErr" class="text-danger"></span>
+																	<div class="form-control-position">
+																		<i class="icon-user"></i>
+																	</div>
+
+																</div>
+															</div>
+															<div class="form-group">
+																<label for="exampleInputPassword" class="sr-only">Password</label>
+																<div class="position-relative has-icon-right">
+																	<input type="password" id="password" name="password"
+																		maxlength="100" class="form-control input-shadow"
+																		placeholder="Enter Password" autocomplete="off"
+																		onblur="passHash()" />
+
+
+																	<!-- <input type="password" id="password" name="password"
+																		class="form-control input-shadow"
+																		placeholder="Enter Password" autocomplete="off"
+																		onblur="passHashhhh()" /> -->
+																	<span id="passwordErr" class="text-danger"></span>
+																	<div class="form-control-position">
+																		<i class="icon-lock"></i>
+																	</div>
+
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="exampleInputcaptcha" class="sr-only">Security
+																	Code</label>
+
+																<div class="position-relative has-icon-right">
+																	<span class="col-sm-3 text-center"> <img id="cImg"
+																		style="margin-left: -12px" class="text-left" alt="not-load"></span>
+
+																	<div class="form-control-position has-icon-left">
+																		<a href="#" id="refreshCaptcha" class="refresh-captcha"><img
+																			class="cap-ref" alt="refresh" src="images/refresh.png"
+																			width="35px" /></a>
+																	</div>
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="exampleInputPassword" class="sr-only">Security
+																	Code</label>
+																<div class="position-relative has-icon-right">
+																	<input type="hidden" id="captcha" name="captcha"> <input
+																		type="text" id="captcha1" name="captcha1"
+																		class="form-control input-shadow"
+																		placeholder="Enter Security Code" maxlength="6"
+																		autocomplete="off" onblur="encrypt_Capcha()">
+
+																	<div class="form-control-position">
+																		<i class="icon-lock"></i>
+																	</div>
+																	<span id="captchaErr" class="text-danger"></span>
+																</div>
+															</div>
+
+															<input type="hidden" id="key" name="key"
+																th:value="${session.key}" /> <input type="hidden"
+																id="randomToken" name="randomToken"
+																th:value="${session.random_Token}"> <input
+																type="submit" id="login-submit" class="btn btn-danger"
+																value="Sign In" />
+
+														</form>
+
+													</div>
+												</div>
+						</div>
+						
+					</div>
+					
+
+					
+</div>
+
+
+
+
+
+
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="footer " style="position: fixed;bottom: 0px;background-color:#0b586d;color: white;	width: 100%;
+	left: 0;	font-size: 14px;font-style: normal;">
+			     
+	        <div class="text-center" style=" line-height: 8px;">
+				<p>Content Owned by Serious Fraud Investigation Office</p>
+				<p>Developed and hosted by National Informatics Centre,</p>
+	          <p>Ministry of Electronics & Information Technology, Government of India</p>
+	        </div>
+	      
+	 </footer>
+	<!--Start Back To Top Button-->
+	<a href="javaScript:void();" class="back-to-top"><i
+		class="fa fa-angle-double-up"></i> </a>
+	<!--End Back To Top Button-->
+
+	</div>
+	<!--wrapper-->
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="js/jquery.min.js"></script>
+
+	<!-- Javascript Bcrypt -->
+
+	<script>
+		function validation() {
+
+			alert('test Submit');
+
+			return true;
+		}
+	</script>
+
+	<script>
+		$(document)
+				.ready(
+						function() {
+							$("form")
+									.submit(
+											function() {
+												console.log("Submitted");
+
+												var password = $('#password')
+														.val();
+												//alert(password);
+												var passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$_.])[a-zA-Z0-9!@#$_.]{8,20}$/;
+												if (isBlank('#password',
+														password,
+														"#passwordErr")){
+													return false;}
+												if (!isBlank('#password',
+														password,
+														"#passwordErr")) {
+													if (!passwordReg
+															.test(password)) {
+														$('#passwordErr')
+																.text(
+																		'Password must have at least 8 characters, an uppercase,'
+																				+ ' a lowercase, a number and a special character(!@#$_.)')
+																.addClass(
+																		"errMsg");
+
+														return false;
+													} else {
+
+														var pwdhash = SHA512(password);
+														console.log(pwdhash);
+														var rand = $(
+																'[name="randomToken"]')
+																.val();
+														var hash = SHA512(pwdhash
+																+ rand);
+
+														//  $('[name="hash"]').val(hash);
+														$('[name="password"]')
+																.val(hash);
+
+													}
+												}
+
+												var captcha2 = $('#captcha1')
+														.val();
+
+												var passwordReg1 = /^[A-Za-z0-9. ]+$/;
+												;
+												if (isBlank('#captcha1',
+														captcha2, "#captchaErr")) {
+													$('#password').val("");
+
+													return false;
+												}
+												if (!isBlank('#captcha1',
+														captcha2, "#captchaErr")) {
+													if (!passwordReg1
+															.test(captcha2)) {
+														$('#captchaErr')
+																.text(
+																		'Capcha must have at least 6 alphanumeric characters.')
+																.addClass(
+																		"errMsg");
+
+														return false;
+													} else {
+														var encryptedBase64Key = $(
+																'#key').val();
+														var parsedBase64Key = CryptoJS.enc.Base64
+																.parse(encryptedBase64Key);
+														var encryptedData = CryptoJS.AES
+																.encrypt(
+																		captcha2,
+																		parsedBase64Key,
+																		{
+																			mode : CryptoJS.mode.ECB,
+																			padding : CryptoJS.pad.Pkcs7
+																		});
+
+														$('#captcha')
+																.val(
+																		encryptedData
+																				.toString());
+													}
+												}
+
+											});
+						});
+	</script>
+
+	<!-- 
+	<script type="text/javascript">
+		
+
+		function encrypt_Capcha() {
+			debugger
+		
+		}
+
+		console.log("crypto-js", CryptoJS);
+	</script> -->
+
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/customValidation.js"></script>
+	
+	<script src="js/sidebar-menu.js"></script>
+
+	<!-- Custom scripts -->
+	<script src="js/app-script.js"></script>
+	<script type="text/javascript" src="js/sha512.js"></script>
+
+</body>
+
+
+</body>
+
+</html>

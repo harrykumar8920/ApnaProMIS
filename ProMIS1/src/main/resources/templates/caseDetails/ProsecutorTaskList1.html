@@ -1,0 +1,189 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+	<link href="plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css">
+	<title>Pending Sanction Orders for Finalization</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+		<div th:if="${message}" class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+
+
+					<li class="breadcrumb-item"><a href="userHome">Home</a></li>
+
+
+
+					<li class="breadcrumb-item active" aria-current="page">Tasks
+						in progress</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header ">Tasks in progress</h4>
+
+
+						<form th:action="@{/additionalDetails}" method="post" th:object="${assignedTaskPuh}"
+							id="viewPendingTaskdtl1">
+
+
+							<div class="table-responsive">
+						
+								<table class="table table-bordered" id="assignedTable" >
+									<thead class="bg-info text-white">
+										<tr>
+											<th>S.No.</th>
+											<th>Task Name</th>
+											<th>Pririty Case</th>
+											<th>Case no.</th>
+											<th>Company Name</th>
+											
+											<th>Case Title</th>
+											<th>PROSECUTION <br>SANCTION DATE
+											</th>
+
+
+											<th>PROSECUTION <br>SANCTION ORDER FILE
+											</th>
+
+											<th>Action</th>
+
+
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="p,stats: ${listAssinedTask}">
+											<td th:text="${stats.count}"></td>
+											<td th:text="${p.createTask.task}"></td>
+											<td>
+												<span th:if="${p.proCourtCaseDetails.caseStatusCheck==3}" 
+												      class="bg-danger p-2 rounded-pill text-white">
+												      High Priority case
+												</span>
+												<span th:if="${p.proCourtCaseDetails.caseStatusCheck==2}" 
+												class="bg-warning p-2 rounded-pill text-white">
+												      Advance stage of trial case
+												</span>
+												<span th:if="${p.proCourtCaseDetails.caseStatusCheck==1}" 
+												class="bg-success p-2 rounded-pill text-white">
+												      Routine Case
+												</span>
+												
+											</td>
+											<td th:text="${p.proCourtCaseDetails.courtCaseNo}"></td>
+											<td th:text="${p.proCourtCaseDetails.addCase.caseTitle}"></td>
+											<td th:text="${p.proCourtCaseDetails.causeTitle}"></td>
+
+											<td
+												th:text="${#dates.format(p.proCourtCaseDetails.addCase.proSanctionDate, 'dd/MM/yyyy')}">
+											</td>
+
+
+											<td><label class=" col-form-label text-primary">
+													<a th:target="_blank"
+														th:href="@{|/downloadFiles?fileName=${p.proCourtCaseDetails.addCase.proSanctionFileName}|}">
+												
+														<span>View</span> <span
+															th:unless="${p.proCourtCaseDetails.addCase.proSanctionFileName==null}"><i
+																class="fa fa-file-pdf-o"
+																style="font-size: 24px; color: red"></i></span>
+													</a>
+												</label></td>
+
+											
+											<td>
+												<th:block th:if="${p.createTask.id==2}">
+													<button type="submit" th:name="assignTaskID" class="btn btn-success"
+														th:value="${p.id}">Additional
+														Details</button>
+												</th:block>
+												<th:block th:if="${p.createTask.id==11}">
+													<button type="submit" th:name="assignTaskIDNCLT"
+														class="btn btn-success" th:value="${p.id}">Tribunal Petition
+														Details</button>
+												</th:block>
+												<th:block th:if="${p.createTask.id==15}">
+													<button type="submit" th:name="assignTaskIDSuprime"
+														class="btn btn-success" th:value="${p.id}">Suprime Court Petition
+														Details</button>
+												</th:block>
+												<th:block th:if="${p.createTask.id==16}">
+														<button type="submit" th:name="assignTaskIDHigh"
+															class="btn btn-success" th:value="${p.id}">High Court Petition
+															Details</button>
+													</th:block>
+
+											</td>
+
+										</tr>
+
+
+									</tbody>
+
+								</table>
+							
+</div>
+						</form>
+						
+						
+
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+				<script
+					src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+				<script type="text/javascript">
+					$(document).ready(function() {
+
+						var table = $('#assignedTable').DataTable({
+							//		 	        lengthChange: false,
+							buttons : [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+						});
+					});
+				</script>
+
+
+		
+
+	</div>
+
+
+
+
+</body>
+
+</html>

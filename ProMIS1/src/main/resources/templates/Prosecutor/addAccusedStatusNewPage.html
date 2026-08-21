@@ -1,0 +1,1188 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+
+<title>ADD SANCTION ORDER DETAILS</title>
+
+<style type="text/css">
+#main #faq .card {
+	margin-bottom: 30px;
+	border: 0;
+}
+
+#main #faq .card .card-header {
+	border: 0;
+	-webkit-box-shadow: 0 0 20px 0 rgba(213, 213, 213, 0.5);
+	box-shadow: 0 0 20px 0 rgba(213, 213, 213, 0.5);
+	border-radius: 2px;
+	padding: 0;
+}
+
+#main #faq .card .card-header .btn-header-link {
+	color: #fff;
+	display: block;
+	text-align: left;
+	background: #FFE472;
+	color: #222;
+	padding: 20px;
+}
+
+#main #faq .card .card-header .btn-header-link:after {
+	content: "\f107";
+	font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
+	float: right;
+}
+
+#main #faq .card .card-header .btn-header-link.collapsed {
+	background: #A541BB;
+	color: #fff;
+}
+
+#main #faq .card .card-header .btn-header-link.collapsed:after {
+	content: "\f106";
+}
+
+#main #faq .card .collapsing {
+	background: #FFE472;
+	line-height: 30px;
+}
+
+#main #faq .card .collapse {
+	border: 0;
+}
+
+#main #faq .card .collapse.show {
+	background: #FFE472;
+	line-height: 30px;
+	color: #222;
+}
+</style>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item" th:if="${rollID}==ROLE_OFFICER"><a
+						href="userHome">Home</a></li>
+					<li class="breadcrumb-item" th:if="${rollID}==ROLE_PUH_STAFF"><a
+						href="puhStaffhome">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Final
+						Accused Status</li>
+
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<form th:action="@{/saveAccusedStatus}" method="post"
+			id="saveAccusedStatus" class="needs-validation" autocomplete="off"
+			th:object="${accusedStatus}" enctype="multipart/form-data">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="form-header ">
+								<i class="fa fa-address-book-o"></i>Final Accused Status
+							</h4>
+							<input type="hidden" th:field="*{id}"> 
+							<!-- <input type="hidden" th:field="*{actName}">   -->
+							<input type="hidden" th:field="*{adddActTableId}">
+							<input type="hidden"th:field="*{releventSectionId}"> 
+							
+							<input
+								type="hidden" th:field="*{creationDate}"><input
+								type="hidden" th:field="*{assignedTask}" id="assignedTaskID">
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-3 col-form-label">
+									TYPE OF STATUS<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<select class="form-control" th:field="*{statusCheck}">
+										<option value="1">Punishment</option>
+										<option value="2">Discharge</option>
+										<option value="3">Stayed</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-3 col-form-label">
+									Accused <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<select class="form-control" th:field="*{accusedId}">
+										<option th:value="0">Choose</option>
+										<option th:each="court:${accusedList}" th:value="${court.id}"
+											th:utext="${court.accusedName}" />
+
+									</select> <span class="text-danger" th:errors="*{accusedId}"></span>
+								</div>
+								<label for="input-16" class="col-sm-3 col-form-label">
+									Charged <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<select class="form-control" th:field="*{chargeName}">
+
+										<option th:each="court:${findByAssignedTask}"
+											th:value="${court.charge.id}"
+											th:utext="${court.charge.chargeName}" />
+
+									</select> <span class="text-danger" th:errors="*{chargeName}"></span>
+								</div>
+							</div>
+							<!-- <div class="form-group row">
+								<label for="input-16" class="col-sm-3 col-form-label">
+									Instance <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<select class="form-control" th:field="*{instanceId}">
+
+										<option th:each="court:${findAll3}"
+											th:value="${court.id}"
+											th:utext="${court.instance.instanseName}" />
+									</select> <span class="text-danger" th:errors="*{instanceId}"></span>
+								</div>
+								<label for="input-16" class="col-sm-3 col-form-label">
+									Remarks <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<input class="form-control" type="text"
+										th:field="*{instanceRemarks}" readonly="readonly"> <span
+										class="text-danger" th:errors="*{instanceRemarks}"></span>
+								</div>
+							</div> -->
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-3 col-form-label">
+									Act <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<select class="form-control" th:field="*{actList}">
+    
+</select><span class="text-danger" th:errors="*{actList}"></span>
+									
+									
+								</div>
+								
+									<label for="input-16" class="col-sm-3 col-form-label" id="showAfterActCompoundabilityL" style="display: none;">
+										Compoundability  <span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-3" id="showAfterActCompoundabilityD" style="display: none;">
+										<input class="form-control" type="text"
+										th:field="*{CompoundabilityText}" readonly="readonly">
+									</div>
+								
+
+							</div>
+							<div class="form-group row" id="showAfterActCompoundability1" style="display: none;">
+							<label for="input-16" class="col-sm-3 col-form-label">
+										Relevant Section <span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-3">
+										<input class="form-control" type="text"
+										th:field="*{relevantText}" readonly="readonly">
+									</div>
+									<label for="input-16" class="col-sm-3 col-form-label">
+										Punishment <span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-3">
+										<input class="form-control" type="text"
+										th:field="*{punishmentText}" readonly="readonly">
+									</div>
+							</div>
+
+
+							<div class="form-group row">
+								<label for="input-16" id="punishmentShow1L1"
+									class="col-sm-3 col-form-label"> Punishment List<span
+									class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3" id="punishmentShow1D1">
+									<select class="form-control" th:field="*{punishmenttId}">
+										<option th:each="court:${punishmentList1}"
+											th:value="${court.id}" th:utext="${court.punishment1}" />
+
+									</select><span class="text-danger" th:errors="*{punishmenttId}"></span>
+								</div>
+								<label for="input-16" id="punishmentShow2L1"
+									class="col-sm-3 col-form-label"> Discharge<span
+									class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3" id="punishmentShow2D1">
+									<select class="form-control" th:field="*{discharge}">
+
+										<option th:each="court:${dischargeList}"
+											th:value="${court.id}" th:utext="${court.dischargeName}" />
+										<!-- <option value=1>Charge not made</option>
+											<option value=2>Death</option>
+											<option value=3>Quashed</option>
+											<option value=4>Cognizance not taken</option> -->
+									</select> <span class="text-danger" th:errors="*{discharge}"></span>
+								</div>
+								<label for="input-16" class="col-sm-3 col-form-label"
+									id="punishmentShow3L1"> Stayed <span
+									class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3" id="punishmentShow3D1">
+									<select class="form-control" th:field="*{stayed}">
+										<option value="false">No</option>
+										<option value="true">Yes</option>
+
+									</select> <span class="text-danger" th:errors="*{stayed}"></span>
+
+								</div>
+
+
+
+
+
+
+
+								<label for="input-16" class="col-sm-3 col-form-label"
+									id="punishmentShow1L2"> Punishment Order of court List<span
+									class="text-danger">*</span>
+								</label> <label for="input-16" class="col-sm-3 col-form-label"
+									id="punishmentShow2L2"> Discharge-order of court <span
+									class="text-danger">*</span></label> <label for="input-16"
+									class="col-sm-3 col-form-label" id="punishmentShow3L2">
+									Stay Court List <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<select class="form-control" th:field="*{courtList}">
+										<option value="0">Choose</option>
+										<option th:each="court:${addCourtList}" th:value="${court.id}"
+											th:utext="${court.courtName}" />
+
+									</select><span class="text-danger" th:errors="*{courtList}"></span>
+								</div>
+
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-3 col-form-label"
+									id="punishmentShow1L3"> Punishment Order<span
+									class="text-danger">*</span>
+								</label> <label for="input-16" class="col-sm-3 col-form-label"
+									id="punishmentShow2L3"> DISCHARGE ORDER<span
+									class="text-danger">*</span>
+								</label> <label for="input-16" class="col-sm-3 col-form-label"
+									id="punishmentShow3L3"> STAYED ORDER<span
+									class="text-danger">*</span>
+								</label>
+
+
+								<div class="col-sm-3">
+
+									<input class="form-control" type="text"
+										th:field="*{punishmentOrder}" maxlength="50" /> <span
+										class="text-danger" th:errors="*{punishmentOrder}"></span>
+
+								</div>
+								<label for="input-16" class="col-sm-3 col-form-label"
+									id="punishmentShow1L4"> Punishment ORDER Date<span
+									class="text-danger">*</span>
+								</label> <label for="input-16" class="col-sm-3 col-form-label"
+									id="punishmentShow2L4"> DISCHARGE ORDER DATE<span
+									class="text-danger">*</span>
+								</label> <label for="input-16" class="col-sm-3 col-form-label"
+									id="punishmentShow3L4"> STAY ORDER DATE<span
+									class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<input class="form-control" type="text"
+										th:field="*{punishmentDate}" /> <span class="text-danger"
+										th:errors="*{punishmentDate}"></span>
+								</div>
+
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-3 col-form-label">
+									Final Remarks</label>
+								<div class="col-sm-9">
+									<textarea class="form-control" th:field="*{remarksCheck}"
+										rows="4" maxlength="500"> </textarea>
+
+									<span class="text-danger">Note:Only 500 character.</span> <span
+										class="text-danger" th:errors="*{remarksCheck}"></span>
+								</div>
+							</div>
+							<div class="form-footer">
+								<button type="button" class="btn btn-primary"
+									onclick="saveIPC();">Back</button>
+								<button type="reset" class="btn btn-danger">
+									<i class="fa fa-check-square-o"></i> Reset
+								</button>
+								</th:block>
+								<th:block th:if="${accusedStatus.id}">
+									<button type="submit" class="btn btn-success">
+										<i class="fa fa-check-square-o"></i> Update
+									</button>
+								</th:block>
+								<th:block th:unless="${accusedStatus.id}">
+									<button type="submit" class="btn btn-success">
+										<i class="fa fa-check-square-o"></i> SAVE
+									</button>
+								</th:block>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="row">
+			<div class="col-lg-12">
+
+				<div class="card">
+
+					<div class="card-header">
+						<h5>
+							<span id="punishmentStatusSpan" class="fa fa-table "><span
+								class="ml-2">PUNISHMENT STATUS DETAILS</span> </span> <span
+								id="dischageStatusSpan" class="fa fa-table"><span
+								class="ml-2">DISCHARGE STATUS DETAILS</span> </span> <span
+								id="stayedStatusSpan" class="fa fa-table"><span
+								class="ml-2">STAYED STATUS DETAILS</span> </span>
+						</h5>
+					</div>
+					<div class="card-body py-0 my-0"
+						th:each="chakDeIndia : ${groupedByStatusCheck}">
+						<table style="display: none; margin-top: 10px;" id="stayedTable"
+							th:if="${chakDeIndia.key == 3}"
+							class="table table-bordered table-respgonsive table-bordered">
+
+							<thead class="bg-info">
+								<tr>
+									<th>Sr. No.</th>
+									<th>Accused Name</th>
+									<th>Charged</th>
+									
+									<!--<th>Remark</th>-->
+									<th>PUNISHMENT</th>
+									<th>STAYED</th>
+									<th>STAY COURT LIST</th>
+									<th>STAYED Order</th>
+									<th>STAYED Date</th>
+									<th class="text-wrap">Final Remarks</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="accused,count : ${chakDeIndia.value}">
+									<td th:text="${count.count}"></td>
+									<td th:text="${accused.accusedId.accusedName}"></td>
+									<td th:text="${accused.chargeName.chargeName}"></td>
+									
+								<!--	<td th:text="${accused.instanceRemarks}"></td>-->
+									<td th:text="${accused.punishmentText}"></td>
+
+									<td><th:block th:if="*{accused.stayed==true}">
+											<i class="fa fa-check    " aria-hidden="true"></i>
+										</th:block> <th:block th:unless="*{accused.stayed==true}">
+											<i class="fa fa-times    " aria-hidden="true"></i>
+										</th:block></td>
+									<td
+										th:text="${accused.courtList.id!=0} ? ${accused.courtList.courtName} : 'NA'"></td>
+									<!-- <td th:text="${accused.courtList.courtName}"></td> -->
+									<td class="text-wrap" th:text="${accused.punishmentOrder}"></td>
+									<td class="text-wrap"
+										th:text="${#dates.format(accused.punishmentDate, 'dd/MM/yyyy')}"></td>
+									<td class="text-wrap" th:text="${accused.remarksCheck}"></td>
+
+								</tr>
+							</tbody>
+						</table>
+						<table style="display: none; margin-top: 10px;"
+							id="punishmentTable" th:if="${chakDeIndia.key == 1}"
+							class="table table-bordered table-respo8nsive table-bordered">
+							<thead class="bg-info">
+								<tr>
+									<th>Sr. No.</th>
+									<th>Accused Name</th>
+									<th>Charged</th>
+									
+									<!--<th>Remark</th>-->
+									<th>PUNISHMENT</th>
+									<th>PUNISHMENT 2</th>
+									<th>PUNISHMENT COURT LIST</th>
+									<th>PUNISHMENT ORDER</th>
+									<th>PUNISHMENT Date</th>
+									<th class="text-wrap">Final Remarks</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="accused,count : ${chakDeIndia.value}">
+									<td th:text="${count.count}"></td>
+									<td th:text="${accused.accusedId.accusedName}"></td>
+									<td th:text="${accused.chargeName.chargeName}"></td>
+									
+									<!--<td th:text="${accused.instanceRemarks}"></td>-->
+									<td th:text="${accused.punishmentText}"></td>
+									<td th:text="${accused.punishmenttId.punishment1}"></td>
+									<td th:text="${accused.courtList.courtName}"></td>
+									<td th:text="${accused.punishmentOrder}"></td>
+									<td
+										th:text="${#dates.format(accused.punishmentDate, 'dd/MM/yyyy')}"></td>
+									<td class="text-wrap" th:text="${accused.remarksCheck}"></td>
+								</tr>
+							</tbody>
+						</table>
+						<table style="display: none; margin-top: 10px;"
+							id="dischargedTable" th:if="${chakDeIndia.key == 2}"
+							class="table table-bordered table-responpsive table-bordered">
+							<thead class="bg-info">
+								<tr>
+									<th>Sr. No.</th>
+									<th>Accused Name</th>
+									<th>Charged</th>
+									
+									<!--<th>Remark</th>-->
+									<th>PUNISHMENT</th>
+									<th>Discharge</th>
+									<th>Discharge COURT LIST</th>
+									<th>Discharge ORDER</th>
+									<th>Discharge Date</th>
+									<th class="text-wrap">Final Remarks</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="accused,count : ${chakDeIndia.value}">
+									<td th:text="${count.count}"></td>
+									<td th:text="${accused.accusedId.accusedName}"></td>
+									<td th:text="${accused.chargeName.chargeName}"></td>
+									
+								<!--	<td th:text="${accused.instanceRemarks}"></td>-->
+									<td th:text="${accused.punishmentText}"></td>
+									<td th:text="${accused.discharge.dischargeName}"></td>
+									<td th:text="${accused.courtList.courtName}"></td>
+									<td class="text-wrap" th:text="${accused.punishmentOrder}"></td>
+									<td class="text-wrap"
+										th:text="${#dates.format(accused.punishmentDate, 'dd/MM/yyyy')}"></td>
+									<td class="text-wrap" th:text="${accused.remarksCheck}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+
+					<!--  - --  - - - - - - - --  - - - -- --------- -- - - - ----- -->
+				</div>
+			</div>
+
+
+
+
+			<!-- Bootstrap JavaScript and Popper.js -->
+			<script
+				src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+			<script src="plugins/bootstrap-datatable/js/jquery.d.min.js"></script>
+			<script
+				src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+			<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+			<script
+				src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+			<script
+				src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+
+			<script type="text/javascript" src="js/customValidation.js"></script>
+
+			<script type="text/javascript">
+				$(document)
+						.ready(
+								function() {
+									
+									var assintaskId = document
+											.getElementById("assignedTaskID").value;
+									var courtType = $('#accusedId').val();
+									var chargeID = $("#chargeName").val();
+									var instanceId1 = $("#instanceId").val();
+									var tableId = $("#adddActTableId").val();
+									
+									$("#chargeName").val('0');
+									$("#instanceId").val('0');
+									$("#instanceRemarks").val("");
+									$("#punishmentId").val("");
+
+									$
+											.ajax({
+												type : "GET",
+												url : "getInstanse?courtType="
+														+ courtType
+														+ "&assintaskId="
+														+ assintaskId,
+												data : courtType,
+												success : function(data) {
+													var html = '';
+													var len = data.length;
+													//	alert(len);
+
+													if (len > 0) {
+														html += '<option value="0"> Choose</option>';
+														for (var i = 0; i < len; i++) {
+															html += '<option value="' + data[i].id + '">'
+																	+ data[i].chargeName
+																	+ '</option>';
+														}
+														$("#chargeName").html(
+																html);
+													} else {
+														html += '<option value="0"> Choose</option>';
+														$("#chargeName").html(
+																html);
+
+													}
+													$("#chargeName").val(
+															chargeID);
+
+												}
+											});
+
+									var courtType1 = chargeID;
+									var accusedId = $('#accusedId').val();
+
+									$("#instanceId").val('0');
+									$("#instanceRemarks").val("");
+									$("#punishmentId").val("");
+									
+									$
+									.ajax({
+										type : "GET",
+										url : "getChargeSub?courtType="
+												+ courtType1
+												+ "&assintaskId="
+												+ assintaskId
+												+ "&accusedId="
+												+ accusedId,
+										data : courtType,
+										success : function(
+												data){
+													var html = '';
+													var len = data.length;
+
+													if (len > 0) {
+														html += '<option value="0"> Choose</option>';
+														for (var i = 0; i < len; i++) {
+															if (tableId == data[i].tableId) {
+												                // Add the 'selected' attribute for the matching option
+												                html += '<option value="' + data[i].tableId + '" selected>'
+												                        + data[i].actName
+												                        + '</option>';
+												            } else {
+												                // Regular option for non-matching values
+												                html += '<option value="' + data[i].tableId + '">'
+												                        + data[i].actName
+												                        + '</option>';
+												            }
+															
+														}
+														
+														
+														$(
+																"#actList")
+																.html(
+																		html);
+														
+													} else {
+														html += '<option value="0"> Choose</option>';
+														$(
+																"#actList")
+																.html(
+																		html);
+
+													}
+												} 
+												
+									});
+
+									var actListId = $("#actList").val();
+									if(actListId!=null || tableId!=0){
+										$
+										.ajax({
+											type : "GET",
+											url : "getReleventData?courtType="
+													+ tableId
+													+ "&chargeName="
+													+ courtType1,
+											data : courtType,
+											success : function(
+													data) {
+												var len = data.length;
+
+												//alert("Data ki lenth dekhna hai :- "+len+", Act name dekhna hai  "+data.actName);
+												if(data!=null){
+													$('#showAfterActCompoundabilityL').show();
+													$('#showAfterActCompoundabilityD').show();
+													$('#showAfterActCompoundability1').show(); 
+													
+													var compoundability321 = data.compoundability;
+													var releventSection321 = data.releventSection;
+													var punishment321 = data.punishment;
+													$("#CompoundabilityText").val(data.compoundability);
+													$("#relevantText").val(data.releventSection);
+													$("#punishmentText").val(data.punishment);
+												}else{
+													 $('#showAfterActCompoundabilityL').hide();
+														$('#showAfterActCompoundabilityD').hide();
+														$('#showAfterActCompoundability1').hide(); 
+												}
+
+											},
+											error : function() {
+												alert("Error occurred while fetching data.");
+												$('#showAfterActCompoundabilityL').hide();
+												$('#showAfterActCompoundabilityD').hide();
+												$('#showAfterActCompoundability1').hide(); 
+											}
+
+										});
+									}
+
+								});
+			</script>
+
+
+
+
+
+
+
+
+			<script type="text/javascript">
+				$(document)
+						.ready(
+								function() {
+
+									$("#accusedId")
+											.change(
+													function() {
+													
+														var assintaskId = document
+																.getElementById("assignedTaskID").value;
+														var courtType = $(this)
+																.val();
+														$("#chargeName").val(
+																'0');
+														$("#instanceId").val(
+																'0');
+														$("#adddActTableId").val(0);
+														
+														$("#instanceRemarks")
+																.val("");
+														$("#punishmentId").val(
+																"");
+														$("#CompoundabilityText").val('');
+														$("#relevantText").val('');
+														$("#punishmentText").val('');
+														
+														$("#actList").val(0);
+														 $('#showAfterActCompoundabilityL').hide();
+														$('#showAfterActCompoundabilityD').hide();
+														$('#showAfterActCompoundability1').hide();  
+														
+														var selectedText = $(
+																this)
+																.find(
+																		"option:selected")
+																.text();
+
+														$
+																.ajax({
+																	type : "GET",
+																	url : "getInstanse?courtType="
+																			+ courtType
+																			+ "&assintaskId="
+																			+ assintaskId,
+																	data : courtType,
+																	success : function(
+																			data) {
+																		var html = '';
+																		var len = data.length;
+
+																		// For debugging: display chargeName in an alert (if needed)
+																		/* alert("Charge Names: "
+																				+ data
+																						.map(
+																								function(
+																										item) {
+																									return item.chargeName;
+																								})
+																						.join(
+																								", ")); */
+																		if (len > 0) {
+																			html += '<option value="0"> Choose</option>';
+																			for (var i = 0; i < len; i++) {
+																				html += '<option value="' + data[i].id + '">'
+																						+ data[i].chargeName
+																						+ '</option>';
+																			}
+																			$(
+																					"#chargeName")
+																					.html(
+																							html);
+																		} else {
+																			html += '<option value="0"> Choose</option>';
+																			$(
+																					"#chargeName")
+																					.html(
+																							html);
+
+																		}
+																	}
+																});
+
+													});
+									$("#chargeName")
+											.change(
+													function() {
+														var assintaskId = document
+																.getElementById("assignedTaskID").value;
+														var courtType = $(this)
+																.val();
+														
+														var accusedId = $(
+																'#accusedId')
+																.val();
+
+														$("#adddActTableId").val(0);
+														$("#instanceId").val(
+																'0');
+														$("#instanceRemarks")
+																.val("");
+														$("#punishmentId").val(
+																"");
+														$("#CompoundabilityText").val('');
+														$("#relevantText").val('');
+														$("#punishmentText").val('');
+														 $('#showAfterActCompoundabilityL').hide();
+														$('#showAfterActCompoundabilityD').hide();
+														$('#showAfterActCompoundability1').hide();  
+														
+														
+														var selectedText = $(
+																this)
+																.find(
+																		"option:selected")
+																.text();
+														
+														$
+																.ajax({
+																	type : "GET",
+																	url : "getChargeSub?courtType="
+																			+ courtType
+																			+ "&assintaskId="
+																			+ assintaskId
+																			+ "&accusedId="
+																			+ accusedId,
+																	data : courtType,
+																	success : function(
+																			data){
+																				var html = '';
+																				var len = data.length;
+
+																				if (len > 0) {
+																					html += '<option value="0"> Choose</option>';
+																					for (var i = 0; i < len; i++) {
+																						html += '<option value="' + data[i].tableId + '">'
+																								+ data[i].actName
+																								+ '</option>';
+																					}
+																					$(
+																							"#actList")
+																							.html(
+																									html);
+																				} else {
+																					html += '<option value="0"> Choose</option>';
+																					$(
+																							"#actList")
+																							.html(
+																									html);
+
+																				}
+																			} 
+																			
+																});
+
+													});
+									/*second Api Data fetch */
+									$("#actList")
+											.change(
+													function() {
+
+														var courtType = $(this)
+																.val();
+														
+														var chargeName = $(
+																'#chargeName')
+																.val();
+														var actText = $(this).find("option:selected").text();
+														$("#actName").val(actText);
+														
+														$("#adddActTableId").val(courtType);
+														var selectedText = $(
+																this)
+																.find(
+																		"option:selected")
+																.text();
+														
+														$
+																.ajax({
+																	type : "GET",
+																	url : "getReleventData?courtType="
+																			+ courtType
+																			+ "&chargeName="
+																			+ chargeName,
+																	data : courtType,
+																	success : function(
+																			data) {
+																		var len = data.length;
+
+																		/* alert("Data ki lenth dekhna hai :- "+len+", Act name dekhna hai  "+data.actName); */
+																		if(data!=null){
+																			$('#showAfterActCompoundabilityL').show();
+																			$('#showAfterActCompoundabilityD').show();
+																			$('#showAfterActCompoundability1').show(); 
+																			
+																			var compoundability321 = data.compoundability;
+																			var releventSection321 = data.releventSection;
+																			var punishment321 = data.punishment;
+																			$("#CompoundabilityText").val(data.compoundability);
+																			$("#relevantText").val(data.releventSection);
+																			$("#punishmentText").val(data.punishment);
+																		}else{
+																			 $('#showAfterActCompoundabilityL').hide();
+																				$('#showAfterActCompoundabilityD').hide();
+																				$('#showAfterActCompoundability1').hide(); 
+																		}
+
+																	},
+																	error : function() {
+																		alert("Error occurred while fetching data.");
+																		$('#showAfterActCompoundabilityL').hide();
+																		$('#showAfterActCompoundabilityD').hide();
+																		$('#showAfterActCompoundability1').hide(); 
+																	}
+
+																});
+
+													});
+
+								});
+			</script>
+
+			<script type="text/javascript">
+				
+			</script>
+			<!-- <script type="text/javascript">
+				$("#instanceId").change(
+						function() {
+
+							var courtType = $(this).val();
+							//alert(courtType);
+							var selectedText = $(this).find("option:selected")
+									.text();
+							//var subTableId = document.getElementById("#subTableId").value;
+							//alert("subTableId"+ subTableId);
+
+							$.ajax({
+								type : "GET",
+								url : "getPunishment?courtType=" + courtType,
+								data : courtType,
+								success : function(data) {
+									var html = '';
+									var len = data.length;
+									//alert(len);
+
+									if (len > 0) {
+										for (var i = 0; i < len; i++) {
+											/* html += '<option value="' + data[i].punishment + '">'
+													+ data[i].punishmentName
+													+ '</option>'; */
+											$("#punishmentId").val(
+													data[i].punishmentName);
+											/* $("#punishmentId").html(
+													html); */
+											$("#instanceRemarks").val(
+													data[i].instanceRemarks);
+										}
+
+									}
+
+								}
+							});
+
+						});
+			</script> -->
+
+			<script type="text/javascript">
+				$(document).ready(function() {
+
+					var courtType = $('#stayed').val();
+
+					if (courtType == 'true') {
+						$('#punishmentShow3L2').show();
+						$('#courtList').show();
+					} else if (courtType == 'false') {
+
+						$('#punishmentShow3L2').hide();
+						$('#courtList').hide();
+					} else {
+						$('#courtList').show();
+					}
+
+				});
+			</script>
+
+
+			<script type="text/javascript">
+				$(document).ready(function() {
+
+					$('#stayed').change(function() {
+						var courtType = $(this).val();
+						//alert(courtType);
+						if (courtType == 'true') {
+							$('#punishmentShow3L2').show();
+							$('#courtList').show();
+						} else {
+
+							$('#punishmentShow3L2').hide();
+							$('#courtList').hide();
+						}
+
+					});
+				});
+			</script>
+			<script type="text/javascript">
+				$(document).ready(function() {
+
+					var courtType = $('#statusCheck').val();
+					if (courtType == 1) {
+						$('#punishmentTable').show();
+						$('#punishmentStatusSpan').show();
+						$('#dischargedTable').hide();
+						$('#dischageStatusSpan').hide();
+						$('#stayedStatusSpan').hide();
+						$('#stayedTable').hide();
+						$('#courtList').show();
+						$('#punishmentShow1L1').show();
+						$('#punishmentShow1D1').show();
+						$('#punishmentShow2L1').hide();
+						$('#punishmentShow2D1').hide();
+						$('#punishmentShow3L1').hide();
+						$('#punishmentShow3D1').hide();
+						$('#punishmentShow1L3').show();
+						$('#punishmentShow1L4').show();
+						$('#punishmentShow2L3').hide();
+						$('#punishmentShow2L4').hide();
+						$('#punishmentShow3L3').hide();
+						$('#punishmentShow3L4').hide();
+						$('#punishmentShow1L2').show();
+						$('#punishmentShow2L2').hide();
+						$('#punishmentShow3L2').hide();
+					} else if (courtType == 2) {
+						$('#stayedTable').hide();
+						$('#stayedStatusSpan').hide();
+						$('#dischargedTable').show();
+						$('#dischageStatusSpan').show();
+						$('#courtList').show();
+						$('#punishmentTable').hide();
+						$('#punishmentStatusSpan').hide();
+
+						$('#punishmentShow2L2').show();
+						$('#punishmentShow1L1').hide();
+						$('#punishmentShow1D1').hide();
+						$('#punishmentShow2L1').show();
+						$('#punishmentShow2D1').show();
+						$('#punishmentShow3L1').hide();
+						$('#punishmentShow3D1').hide();
+						$('#punishmentShow1L3').hide();
+						$('#punishmentShow1L4').hide();
+						$('#punishmentShow2L3').show();
+						$('#punishmentShow2L4').show();
+						$('#punishmentShow3L3').hide();
+						$('#punishmentShow3L4').hide();
+						$('#punishmentShow1L2').hide();
+						$('#punishmentShow3L2').hide();
+					} else if (courtType == 3) {
+						var courtType = $('#stayed').val();
+
+						if (courtType == 'true') {
+							$('#punishmentShow3L2').show();
+							$('#courtList').show();
+						} else if (courtType == 'false') {
+
+							$('#punishmentShow3L2').hide();
+							$('#courtList').hide();
+						}
+						$('#stayedTable').show();
+						$('#stayedStatusSpan').show();
+						$('#dischargedTable').hide();
+						$('#dischageStatusSpan').hide();
+						$('#punishmentTable').hide();
+						$('#punishmentStatusSpan').hide();
+						$('#punishmentShow1L1').hide();
+						$('#punishmentShow1D1').hide();
+						$('#punishmentShow2L1').hide();
+						$('#punishmentShow2D1').hide();
+						$('#punishmentShow3L1').show();
+						$('#punishmentShow3D1').show();
+						$('#punishmentShow1L3').hide();
+						$('#punishmentShow1L4').hide();
+						$('#punishmentShow2L3').hide();
+						$('#punishmentShow2L4').hide();
+						$('#punishmentShow3L3').show();
+						$('#punishmentShow3L4').show();
+						$('#punishmentShow1L2').hide();
+						$('#punishmentShow2L2').hide();
+					}
+
+				});
+			</script>
+
+			<script type="text/javascript">
+				$('#statusCheck').change(function() {
+					var courtType = $(this).val();
+					//alert('check first : -'+courtType);
+					if (courtType == 1) {
+						$('#courtList').show();
+						$('#stayedTable').hide();
+						$('#stayedStatusSpan').hide();
+						$('#dischargedTable').hide();
+						$('#dischageStatusSpan').hide();
+						$('#punishmentTable').show();
+						$('#punishmentStatusSpan').show();
+						$('#punishmentShow1L1').show();
+						$('#punishmentShow1D1').show();
+						$('#punishmentShow2L1').hide();
+						$('#punishmentShow2D1').hide();
+						$('#punishmentShow3L1').hide();
+						$('#punishmentShow3D1').hide();
+						$('#punishmentShow1L3').show();
+						$('#punishmentShow1L4').show();
+						$('#punishmentShow2L3').hide();
+						$('#punishmentShow2L4').hide();
+						$('#punishmentShow3L3').hide();
+						$('#punishmentShow3L4').hide();
+						$('#punishmentShow1L2').show();
+						$('#punishmentShow2L2').hide();
+						$('#punishmentShow3L2').hide();
+					} else if (courtType == 2) {
+						$('#courtList').show();
+						$('#stayedTable').hide();
+						$('#stayedStatusSpan').hide();
+						$('#dischargedTable').show();
+						$('#dischageStatusSpan').show();
+						$('#punishmentTable').hide();
+						$('#punishmentStatusSpan').hide();
+						$('#punishmentShow2L2').show();
+						$('#punishmentShow1L1').hide();
+						$('#punishmentShow1D1').hide();
+						$('#punishmentShow2L1').show();
+						$('#punishmentShow2D1').show();
+						$('#punishmentShow3L1').hide();
+						$('#punishmentShow3D1').hide();
+						$('#punishmentShow1L3').hide();
+						$('#punishmentShow1L4').hide();
+						$('#punishmentShow2L3').show();
+						$('#punishmentShow2L4').show();
+						$('#punishmentShow3L3').hide();
+						$('#punishmentShow3L4').hide();
+						$('#punishmentShow1L2').hide();
+						$('#punishmentShow3L2').hide();
+					} else if (courtType == 3) {
+						var courtType = $('#stayed').val();
+
+						if (courtType == 'true') {
+							$('#punishmentShow3L2').show();
+							$('#courtList').show();
+						} else if (courtType == 'false') {
+
+							$('#punishmentShow3L2').hide();
+							$('#courtList').hide();
+						}
+						$('#stayedTable').show();
+						$('#stayedStatusSpan').show();
+						$('#dischargedTable').hide();
+						$('#dischageStatusSpan').hide();
+						$('#punishmentTable').hide();
+						$('#punishmentStatusSpan').hide();
+						$('#punishmentShow1L1').hide();
+						$('#punishmentShow1D1').hide();
+						$('#punishmentShow2L1').hide();
+						$('#punishmentShow2D1').hide();
+						$('#punishmentShow3L1').show();
+						$('#punishmentShow3D1').show();
+						$('#punishmentShow1L3').hide();
+						$('#punishmentShow1L4').hide();
+						$('#punishmentShow2L3').hide();
+						$('#punishmentShow2L4').hide();
+						$('#punishmentShow3L3').show();
+						$('#punishmentShow3L4').show();
+						$('#punishmentShow1L2').hide();
+						$('#punishmentShow2L2').hide();
+					}
+				});
+			</script>
+			<script type="text/javascript">
+				$(document).ready(function() {
+					var table = $('#userTable').DataTable({
+						//	        lengthChange: false,
+						buttons : [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+					});
+				});
+			</script>
+
+			<script type="text/javascript">
+				$("#punishmentDate").datepicker({
+
+					format : 'dd/mm/yyyy',
+					endDate : new Date(),
+
+				})
+				/* $("#stayedDate").datepicker({
+
+					format : 'dd/mm/yyyy',
+					endDate : new Date(),
+				}) */
+			</script>
+			<script type="text/javascript">
+				function saveIPC() {
+					//alert("hello test page");
+					$('#saveAccusedStatus').attr("action",
+							"backFromAccusedStatus");
+					$('#saveAccusedStatus').submit();
+				}
+			</script>
+		</div>
+	</div>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

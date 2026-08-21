@@ -1,0 +1,518 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css"
+	rel="stylesheet" type="text/css">
+<title>Assign Cases</title>
+</head>
+<body>
+	<div layout:fragment="content"> 
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-5">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">
+						Additional Information</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header text-uppercase">
+							<i class="fa fa-address-book-o"></i> Add Addition Information As
+							Petitioner
+						</h4>
+
+						<form th:action="@{/updateInfo}" method="post"
+							class="needs-validation" th:object="${procourtdt}">
+
+							<div class="form-group row" th:if="${errorCaseID}">
+								<span th:text="${errorCaseID}" class="text-danger "></span>
+							</div>
+
+							<div class="form-group row">
+
+								<input type="hidden"
+									th:field="*{invCaseDetail.invcaseDetailsId}"> <input
+									type="hidden" th:field="*{id}"> <label
+									class="col-sm-2 col-form-label"> Court Case No : </label> <label
+									class="col-sm-2 col-form-label text-primary"> <span
+									th:text="${procourtdt.courtCaseNo}"> </span></label> <label
+									class="col-sm-2 col-form-label">Court :</label> <label
+									class="col-sm-2 col-form-label text-primary"> <span
+									th:text="${procourtdt.courtType.courtName}"></span></label> <label
+									class="col-sm-2 col-form-label">MCA Order No :</label> <label
+									class="col-sm-2 col-form-label text-primary"> <span
+									th:text="${procourtdt.invCaseDetail.mcaOrder}"></span></label>
+
+							</div>
+							<div class="form-group row">
+
+								<div class="col-lg-12">
+									<div class="accordion" id="accordionExample">
+
+										<div class="card-header" id="petitioner">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#petitionerOne" aria-expanded="false"
+														aria-controls="petitionerOne">Complainant /
+														Petitioner Details</button>
+											</h2>
+										</div>
+										<div id="petitionerOne" class="collapse"
+											aria-labelledby="petitioner" data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary"
+														id="petitionerinfo" th:name="petitionerinfo">
+														<i class="fa fa-plus"></i> Complainant / Petitioner
+														Details
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>Name</th>
+															<th>Mobile</th>
+															<th>Email</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each="p,stats: ${petdtl}"
+															th:if="${p.detailsType.id==2}">
+															<td th:text="${stats.count}"></td>
+															<td th:text="${p.name}"></td>
+															<td th:text="${p.mobile}"></td>
+															<td th:text="${p.email}"></td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="UpPetitioner" th:value="${p.id}">Update
+																</button></td>
+														</tr>
+													</tbody>
+			
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+
+										<!-- </div> -->
+
+										<div class="card-header" id="headingTwo">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#collapseTwo" aria-expanded="false"
+														aria-controls="collapseTwo">Respondent Details</button>
+											</h2>
+										</div>
+										<div id="collapseTwo" class="collapse"
+											aria-labelledby="headingTwo" data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary"
+														id="addnewCompanycase" th:name="RespondentInfo">
+														<i class="fa fa-plus"></i> Add New Respondent
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="respondentTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>Name</th>
+															<th>Mobile</th>
+															<th>Email</th>
+															<th>Action</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each="p,stats: ${petdtl}"
+															th:if="${p.detailsType.id==1}">
+															<td th:text="${stats.count}"></td>
+															<td th:text="${p.name}"></td>
+															<td th:text="${p.mobile}"></td>
+															<td th:text="${p.email}"></td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="UpRespondent" th:value="${p.id}">Update</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+
+
+										<div class="card-header" id="pairavi">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#collapseSeven" aria-expanded="false"
+														aria-controls="collapseSeven">Pairavi Officer
+														Details</button>
+											</h2>
+										</div>
+										<div id="collapseSeven" class="collapse"
+											aria-labelledby="pairavi" data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary"
+														id="PairaviInfo" th:name="PairaviInfo">
+														<i class="fa fa-plus"></i> Pairavi Officer Details
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>Name</th>
+															<th>Mobile</th>
+															<th>Email</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each="p,stats: ${pairavidtl}">
+															<td th:text="${stats.count}"></td>
+															<td th:text="${p.name}"></td>
+															<td th:text="${p.mobile}"></td>
+															<td th:text="${p.email}"></td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="UpPairavi" th:value="${p.id}">Update
+																</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+
+
+
+										
+
+										<div class="card-header" id="act">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse" data-target="#actone"
+														aria-expanded="false" aria-controls="actone">Act,Sections, SubSections
+														Details </button>
+											</h2>
+										</div>
+										<div id="actone" class="collapse" aria-labelledby="act"
+											data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary" id="ActSectDetailsInfo"
+														th:name="ActSectDetailsInfo">
+														<i class="fa fa-plus"></i>Add Act,Sections Details
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="desigTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>Act</th>
+															<th>Section</th>
+															<th>SubSection</th>
+															<th>Description</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+												<tbody>
+														    <tr th:each="p,stats: ${actsecdtls}">
+															<td class="text-wrap" th:text="${stats.count}"></td> 
+															<td class="text-wrap" th:text="${p.Act.act}"></td>
+															<td class="text-wrap" th:text="${p.Section.Section}"></td>
+															<td class="text-wrap" th:text="${p.SubSection.SubSection}"></td>
+															<td class="text-wrap" th:text="${p.Description}"></td>
+															 <td><button type="submit" class="btn btn-success"
+																	th:name="actsecdtlsInfoUpdate" th:value="${p.id}">Update
+																	</button></td> 
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+										
+
+
+										<div class="card-header" id="casestatus">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#statusOne" aria-expanded="false"
+														aria-controls="statusOne">Case Status</button>
+											</h2>
+										</div>
+										<div id="statusOne" class="collapse"
+											aria-labelledby="casestatus" data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary"
+														id="casestatusinfo" th:name="casestatusinfo">
+														<i class="fa fa-plus"></i>Case Status
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>DATE</th>
+															<th>Court Status</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each="p,stats: ${caseStatuslst}">
+															<td th:text="${stats.count}"></td>
+															<td th:text="${p.caseStatusDate}"></td>
+															<td th:text="${p.caseStatus.statusName}"></td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="UpCaseStatus" th:value="${p.id}">Update
+																</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+
+										
+										<div class="card-header" id="headingOne">
+											<h2 class="mb-0">
+
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#collapseOne" aria-expanded="true"
+														aria-controls="collapseOne">
+														<i class="fa fa-angle-left pull-right" aria-hidden="true"></i>
+														Accused Details
+													</button>
+												</div>
+											</h2>
+
+										</div>
+
+										<div id="collapseOne" class="collapse "
+											aria-labelledby="headingOne" data-parent="#accordionExample">
+											<div class="card-body">
+												<!-- 		<span th:text = "${procourtdt.invCaseDetail.invcaseDetailsId}"></span> -->
+												<br>
+												<th:block
+													th:if="${procourtdt.invCaseDetail.invcaseDetailsId !=null }">
+													<button type="submit" class="btn btn-primary" id="accused"
+														th:name="snmsAccused"
+														th:value="${procourtdt.invCaseDetail.invcaseDetailsId}">
+														<i class="fa fa-plus"></i> Add New Accused From SNMS
+													</button>
+												</th:block>
+												<button type="submit" class="btn btn-primary"
+													id="addnewCompanycase" th:name="Newaccused">
+													<i class="fa fa-plus"></i> Add New Accused
+												</button>
+												<br>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>Name</th>
+															<th>Pan Number</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each="p,stats: ${accdtl}">
+															<td th:text="${stats.count}"></td>
+															<td th:text="${p.accusedMaster.accusedName}"></td>
+															<td th:text="${p.accusedMaster.panNumber}"></td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="UpAccused" th:value="${p.id}">Update
+																</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer">
+												<!-- 
+												<button type="submit" class="btn btn-primary"
+													id="addnewCompanycase" th:name="Newaccused">
+													<i class="fa fa-plus"></i> Add New Accused
+												</button> -->
+											</div>
+										</div>
+
+
+
+										
+										<div class="card-header" id="hearingDtlOne">
+											<h2 class="mb-0">
+
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#hearingdetailOne" aria-expanded="true"
+														aria-controls="hearingdetailOne">
+														<i class="fa fa-angle-left pull-right" aria-hidden="true"></i>
+														Case Hearing Details
+													</button>
+												</div>
+											</h2>
+
+										</div>
+
+										<div id="hearingdetailOne" class="collapse "
+											aria-labelledby="hearingDtlOne"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<br>
+												<button type="submit" class="btn btn-primary"
+													id="addnewCompanycase" th:name="AddHearingDetail">
+													<i class="fa fa-plus"></i> Add Hearing Details
+												</button>
+											</div>
+
+											<div class="form-group row">
+												<table class="table table-respnsive" id="assignTable2">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>Judge</th>
+															<th>Hearing Date</th>
+															<th>Purpose of Hearing</th>
+															<th>Next Hearing</th>
+															<th>Action be Taken</th>
+															<th>remark</th>
+															<th>Action</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each="p,stats: ${hearingDtls1}">
+															<td class="text-wrap" th:text="${stats.count}"></td>
+															<td th:text="${p.judgename}" class="text-wrap"></td>
+															<td class="text-wrap" th:text="${p.hearingDate}"></td>
+															<td class="text-wrap" th:text="${p.purposeHearing}"></td>
+															<td class="text-wrap" th:text="${p.nextHearingDate}"></td>
+															<td class="text-wrap" th:text="${p.nextAction}"></td>
+															<td class="text-wrap" th:text="${p.remark}"></td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="UpHearing" th:value="${p.id}">Update
+																	| Deactivate</button></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+
+											<div class="modal-footer"></div>
+										</div>
+
+
+									</div>
+									<div class="form-footer">
+
+
+										<a class="btn btn-dark" href="getCaseList"> <i
+											class="fa fa-check-square-o"></i> Back
+										 </a> 
+										<button type="submit" class="btn btn-primary"
+											id="getPrintReport" th:name="getPrintReport">
+											<i class="fa fa-plus"></i> Print Report
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var table = $('#assignTable','').DataTable();
+
+			});
+			$(document).ready(function() {
+
+				var table = $('#respondentTable'').DataTable();
+
+			});		
+		</script>
+		
+		<script type="text/javascript">
+		$(document).ready(function(){
+			
+			 var table = $('#desigTable').DataTable( {
+//		 	        lengthChange: false,
+			        buttons: [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+			      } );
+		});
+		
+		</script>
+		
+	</div>
+
+</body>
+</html>

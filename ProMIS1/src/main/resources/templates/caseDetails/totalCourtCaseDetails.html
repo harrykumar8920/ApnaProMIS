@@ -1,0 +1,423 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css"
+	rel="stylesheet" type="text/css">
+<link href="plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css"
+	rel="stylesheet" type="text/css">
+<title>Total court case details</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+
+					<th:block th:if="${userRole=='ROLE_DIRECTOR'}">
+						<li class="breadcrumb-item"><a href="directorhome">Home</a></li>
+					</th:block>
+					<th:block th:unless="${userRole=='ROLE_DIRECTOR'}">
+						<li class="breadcrumb-item"><a href="puhHome">Home</a></li>
+					</th:block>
+					<li class="breadcrumb-item active" aria-current="page">Total court case details</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header text-uppercase">
+
+							<th:block th:if="${userRole=='ROLE_DIRECTOR'}">
+																	
+							Total court case details
+							</th:block>
+							<th:block th:unless="${userRole=='ROLE_DIRECTOR'}">
+							
+Total court case details
+</th:block>
+						</h4>
+
+
+						<form th:action="@{/CourtCaseDtl}" method="post"
+							th:object="${assignedTaskPuh}">
+
+						<!--	<div class="row">
+												
+												<div class="col-sm-4 pb-2">
+													<input class="form-control" type="text" id="tableSearch" placeholder="Please Enter Here for Search ...." />
+												</div>
+												</div>-->
+
+
+							<div class="table-responsive">
+								<table class="table table-bordered" id="assignedTable">
+									<thead class="bg-info text-white">
+										<tr>
+											<th>S.No.</th>
+											<!-- <th hidden="">id</th>
+											<th hidden="">userid</th> -->
+
+
+											<th>Case Priority</th>
+											<th>Court Case No̥</th>
+											<th>Task Name</th>
+											
+
+											<!-- <th>Company Name</th> -->
+											<th>Cause Title</th>
+
+<th>Prosecutor</th>
+
+												<th>Status</th>
+												<th>Remarks</th>
+ 
+
+											<!-- <th>Action</th> -->
+
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="p,stats: ${lstCourtCase}">
+											<td th:text="${currentRow+stats.count-1}"></td>
+											<!-- <td th:hidden="${p.id}"></td>
+											<td th:hidden="${p.user.id}"></td> -->
+											
+											<td>
+											<select class="form-control" th:id="'priority_'+${p.id}">
+												<option value="1">Routine Case</option>
+												<option value="2">Advance stage of trial case</option>
+												<option value="3">High Priority case</option>
+											</select>
+											
+											<button type="button" class="btn btn-success" th:value="${p.id}" onclick="chaloChangeKaroStatus(this.value)">
+												Change
+											</button>
+											<span th:if="${p.caseStatusCheck == 1}" class="bg-success p-2 rounded-pill text-white">
+												Routine Case
+											</span>
+											
+											<span th:if="${p.caseStatusCheck == 2}" class="bg-warning p-2 rounded-pill text-white">
+												Advance stage of trial case
+											</span>
+											
+											<span th:if="${p.caseStatusCheck == 3}" class="bg-danger p-2 rounded-pill text-white">
+												High Priority case
+											</span>
+											</td>
+
+
+										<!--	<td th:text="${p.assignedTask.sfioAs.SfioAs}"></td>-->
+
+											<td th:text="${p.courtCaseNo}"></td>
+											<td th:text="${p.assignedTask.createTask.task}"></td>
+											
+
+											<td th:text="${p.causeTitle}"></td>
+											<!-- <td th:text="${p.assignedTask.user.firstName}"></td>-->
+											
+											<td>
+																							
+																								<span th:text="${p.createdBy.salutation + ' ' 
+																																													            + p.createdBy.firstName + ' ' 
+																																													            + (p.createdBy.middleName ?: '') + ' ' 
+																																													            + p.createdBy.lastName}"></span>
+																						</td>
+											<td>
+											<th:block th:if="${p.approveStatus==0}">
+									<Span>Not Forwarded</Span>
+												</th:block>
+									<th:block th:if="${p.approveStatus==1}">
+									<Span>Pending for Approval</Span>
+												</th:block>
+													
+													<th:block th:if="${(p.approveStatus==2 || p.approveStatus==4)||p.approveStatus==5}">
+													<Span>Approved</Span>
+													</th:block>
+													<th:block th:if="${p.approveStatus==3}">
+													<Span>Sent Back</Span>
+													</th:block>
+											</td>
+											<td th:text="${p.sendBackRemarks}"></td>
+											<!-- <td><button type="submit" th:name="Courtdtl" th:id="caseId"
+													th:value="${p.id}" class="btn btn-warning">View Court Case Details</button></td> -->
+
+
+
+
+
+
+										</tr>
+
+
+									</tbody>
+
+								</table>
+							</div>
+
+
+						</form>
+						<div class="d-flex justify-content-between px-3 py-3">
+						<div  th:if="${totalPages > 0}">
+								Total Rows: [[${totalItems}]]
+								</div>
+								<div th:if="${totalPages > 0}">Showing [[${currentRow}]] to [[${lastRow}]]  of [[${totalRow}]]	</div>
+		
+								
+								<div  th:if="${totalPages > 0}">
+								Page Number: [[${currentPage}]]
+								</div></div>
+								<div class=" row col-md-12  pagination justify-content-center" th:if="${totalPages > 1}">
+										<div class="page-item">
+										
+										<a class="page-link" th:if="${currentPage > 0}" href="#"
+											th:onclick="'DetailsforNCRBPending(\'' + ${currentPage - 1} +'\');'">Preview</a>
+										<span class="page-link" th:unless="${currentPage > 0}" >Preview</span>
+									</div >
+									
+										<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+											
+											<a class="page-link" th:if="${currentPage != i}" href="#" 
+											th:onclick="'DetailsforNCRBPending(\'' + ${i} +'\');'">[[${i}]]</a>
+											<span class="page-link"  th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
+											&nbsp;
+										</span>
+									
+									<div class="page-item">
+								<a class="page-link" th:if="${currentPage < totalPages}" href="#"
+											th:onclick="'DetailsforNCRBPending(\'' + ${currentPage + 1} +'\');'">Next</a>
+										<span class="page-link" th:unless="${currentPage < totalPages}" >Next</span>
+</div>
+									
+										<div class="page-item">
+										<a class="page-link page-item" th:if="${currentPage < totalPages}" href="#"
+											th:onclick="'DetailsforNCRBPending(\'' + ${totalPages} +'\');'">Last</a>
+
+										<span class="page-link" th:unless="${currentPage < totalPages}">Last</span>
+									</div>
+								
+								
+								
+							</div>
+							
+							
+							<form action="getUsers1" id="getUsers" th:object="${pageNoDTO}" method="post">
+							
+							
+							<input type="hidden" th:field=*{pageno}>
+							<input type="hidden" th:name=${_csrf.parameterName} th:value=${_csrf.token}>
+							
+							
+							</form>
+
+
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+
+function DetailsforNCRBPending(pageId) {
+	
+	$('#pageno').val(pageId);
+	$('#getUsers').attr('action', 'totalCourtCaseDetails');
+	$('#getUsers').submit();
+	
+}
+</script>
+<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jszip.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/pdfmake.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/vfs_fonts.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.html5.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.print.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.colVis.min.js"></script>
+
+		<script type="text/javascript">	
+			
+			
+
+									$(document).ready(function () {
+			  $("#tableSearch").on("keyup", function () {
+			    var value = $(this).val().toLowerCase();
+			    $("#assignedTable tbody tr").filter(function () {
+			      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+			    });
+			  });
+			});
+			
+		
+		$(document).ready(function(){
+			  var empDataTable = $('#assignedTable111').DataTable({
+			     dom: 'Blfrtip',
+			                
+			   //  "bPaginate": false,//Dont want paging  
+
+			   "bPaginate": false,
+			    lengthMenu: [
+				            [10, 25, 50, -1],
+				          //  [10, 25, 50, 'All'],
+				            [10, 25, 50],
+				        ],
+				        "pageLength" : 25,
+			     buttons: [
+			       {  
+			          extend: 'copy'
+			       },
+			       {
+			    	  // title: $('h4').text(),
+			    	  title: "COURT CASE DETAILS",
+			    	   extend: 'pdfHtml5',
+			    	   
+			           exportOptions: {
+			               columns: [0,1, 2, 3, 4, 5, 6, 7]
+			           },
+			           customize : function(doc) {
+			               doc.styles['td:nth-child(8)'] = { 
+			                   width: '1000px',
+			                   'max-width': '1000px'
+			               },
+			               
+			               doc['footer']=(function(page, pages) {
+			                   return {
+			                       columns: [
+			                           'User Details ' + new Date(),
+			                           {
+			                               // This is the right column
+			                               alignment: 'right',
+			                               text: ['page ', { text: page.toString() },  ' of ', { text: pages.toString() }]
+			                           }
+			                       ],
+			                       margin: [10, 0]
+			                   }
+			               });
+			           
+			           }, 
+			           
+			           text: 'Export Current Page: PDF',
+			           orientation: 'landscape',
+			           pageSize: 'A3',
+			         
+			       
+			       
+			       },
+			       {
+			          extend: 'csv',
+			          title: "COURT CASE DETAILS",
+			       },
+			       {
+			          extend: 'excel',
+			          //title: $('h4').text(),
+			          title: "COURT CASE DETAILS",
+			          exportOptions: {
+			               columns: [0,1, 2, 3, 4, 5, 6, 7]
+			           },
+			       } 
+			     ] 
+
+			  });
+		});
+
+		
+		</script>
+		
+		
+		
+		
+		
+		<script>
+						function chaloChangeKaroStatus(id){
+
+						    var priority = document.getElementById("priority_"+id).value;
+
+						    window.location.href = "/ProMIS/updateCasePriority2?caseId=" + id + "&priority=" + priority;
+
+						}
+						</script>
+				<script type="text/javascript">
+					$(document).ready(function () {
+
+						var table = $('#assignedTable').DataTable({
+							//		 	        lengthChange: false,
+							buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+						});
+					});
+				</script>
+		
+		
+		<!-- <script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				var table = $('#assignedTable').DataTable({
+					//		 	        lengthChange: false,
+					buttons : [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+				});
+			});
+		</script>
+
+		<script type="text/javascript">
+		$(document).ready(function(){
+
+		    // code to read selected table row cell data (values).
+		    $("#assignedTable").on('click','.btnSelect',function(){
+		         // get the current row
+		         var currentRow=$(this).closest("tr"); 
+		         
+		         
+		        var id=currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+		        var user=currentRow.find("td:eq(2)").text(); // get current row 2nd TD
+		     
+					$('#viewPendingTaskdtl1').attr('action', 'initiateApprove');
+					 $('#id').val(id);
+					 $('#user').val(user);
+				      
+				      alert($('#id').val());
+				      alert($('#user').val());
+				      
+				     
+					$('#viewPendingTaskdtl1').submit(); 
+				
+		    });
+		});
+		
+		
+		</script>
+ -->
+	</div>
+
+
+
+
+</body>
+</html>

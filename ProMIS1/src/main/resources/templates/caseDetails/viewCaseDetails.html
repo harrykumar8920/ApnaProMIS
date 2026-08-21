@@ -1,0 +1,373 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<title>VIEW SANCTION ORDER DETAILS</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="puhHome">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">VIEW
+						SANCTION ORDER DETAILS</li>
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<form th:action="@{/approveAndReject}" method="post"
+			class="needs-validation" autocomplete="off" th:object="${addCase}"
+			id="addCase" enctype="multipart/form-data">
+
+
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+
+
+
+
+
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-address-book-o"></i> View SANCTION order Details
+							</h4>
+
+
+
+							<input type="hidden" th:field="*{id}"> <input
+								type="hidden" th:field="*{proSanctionFileName}">
+
+
+
+
+
+
+
+
+
+
+							<div class="form-group row" id="prosecutionSON">
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Prosecution Sanction Order No <span class="text-danger">*
+								</span>
+								</label>
+								<div class="col-sm-4">
+
+
+									<label class="col-form-label text-primary" id="CourtNo">
+										<span th:id="CourtNo" th:text="*{proSectionOrderNumber}"></span>
+									</label>
+
+
+
+
+								</div>
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Prosecution Sanction Date <span class="text-danger">* </span>
+								</label>
+								<div class="col-sm-4">
+
+
+									<label class="col-form-label text-primary" id="CourtNo">
+										<span th:id="CourtNo"
+										th:text="*{#dates.format(proSanctionDate, 'dd/MM/yyyy')}"></span>
+									</label>
+
+
+
+								</div>
+
+
+							</div>
+
+							<div class="form-group row" id="prosecutionSFile">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Prosecution Sanction Order File <span class="text-danger">
+										* </span>
+								</label>
+
+								<div class="col-sm-4">
+									<label class=" col-form-label text-primary"> <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=*{proSanctionFileName}|}"><span
+											th:text="*{proSanctionFileName}"></span> <span
+											th:if="*{proSanctionFileName}"><i
+												class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></span></a></label>
+
+
+								</div>
+
+
+
+
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Order Type </label>
+								<div class="col-sm-4">
+
+									<label class="col-form-label text-primary" id="CourtNo">
+										<span th:if="*{typeofOrder == 1}">Prosecution Sanction
+											Order </span> <span th:if="*{typeofOrder == 3}">Investigation
+											Order </span> <span th:if="*{typeofOrder == 2}">Court Notice
+											<br>Court Type : <span th:text="*{courtType.courtName}"></span>
+									</span>
+									</label>
+
+								</div>
+
+
+
+
+							</div>
+
+
+
+							<div class="form-group row">
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Case Title /Company Name <span class="text-danger">*</span>
+
+								</label>
+								<div class="col-sm-4">
+
+
+									<label class="col-form-label text-primary" id="CourtNo">
+										<span th:id="CourtNo" th:text="*{caseTitle}"></span>
+									</label>
+
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">
+									CIN<span class="text-danger">*</span>
+
+								</label>
+								<div class="col-sm-4">
+
+
+									<label class="col-form-label text-primary" id="CourtNo">
+										<span th:id="typeOfCase" th:text="*{cinNumber}"></span>
+									</label>
+
+								</div>
+							</div>
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									INVESTIGATION ORDER NO. <span class="text-danger">*</span>
+
+								</label>
+								<div class="col-sm-4">
+
+
+									<label class="col-form-label text-primary"> <span
+										th:id="investigationOrderNo" th:text="*{investigationOrderNo}"></span>
+									</label>
+
+								</div>
+							</div>
+
+							<th:block th:if="*{typeofOrder==2}">
+								<div class="form-group row">
+
+
+
+
+									<label for="input-10" class="col-sm-2 col-form-label">Court
+										Type <span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-4">
+
+										<label class="col-form-label text-primary"> <span
+											th:text="*{courtType.courtName}"></span>
+										</label>
+
+
+
+									</div>
+									<label for="input-10" class="col-sm-2 col-form-label"
+										th:if="*{typeOfCaseT}==NCLT">Bench Name </label>
+									<div class="col-sm-4" th:if="*{typeOfCaseT}==NCLT">
+										<label class="col-form-label text-primary"> <span
+											th:text="*{benchName.bench}"></span>
+										</label>
+
+									</div>
+
+								</div>
+								<div class="form-group row" th:if="*{typeOfCaseT}!=NCLT">
+									<label for="input-10" class="col-sm-2 col-form-label">State
+
+									</label>
+									<div class="col-sm-4">
+										<label class="col-form-label text-primary"> <span
+											th:text="*{state.state}"></span>
+										</label>
+
+									</div>
+									<label for="input-10" class="col-sm-2 col-form-label">District/City
+
+									</label>
+									<div class="col-sm-4">
+										<label class="col-form-label text-primary"> <span
+											th:text="*{city.districtName}"></span>
+										</label>
+
+									</div>
+								</div>
+								<div class="form-group row">
+									<label for="input-16" class="col-sm-2 col-form-label">
+										File Number </label>
+									<div class="col-sm-4">
+
+										<label class="col-form-label text-primary" id="CourtNo">
+											<span th:id="CourtNo" th:text="*{fileNumber}"></span>
+										</label>
+
+									</div>
+								</div>
+								<div class="form-group row">
+									<label for="input-16" class="col-sm-2 col-form-label">
+										Petitioner's Name <span class="text-danger">*</span>
+
+									</label>
+
+									<div class="col-sm-4">
+										<label class="col-form-label text-primary"> <span
+											th:text="*{petionerName}"></span>
+										</label>
+
+									</div>
+
+
+
+									<label for="input-16" class="col-sm-2 col-form-label">
+										Accused <span class="text-danger">*</span>
+
+									</label>
+									<div class="col-sm-4">
+
+
+										<label class="col-form-label text-primary" id="CourtNo">
+											<span th:if="*{isAccused}">YES</span> <span
+											th:unless="*{isAccused}">NO</span>
+										</label>
+
+									</div>
+								</div>
+
+
+							</th:block>
+
+
+
+
+
+							<div class="form-group row" id="rejectdiv" style="display: none;">
+
+								<label for="input-10" class="col-sm-2 col-form-label">Remarks</label>
+								<div class="col-sm-4">
+									<textarea maxlength="100" th:field="*{remarksByPUH}" rows="4"
+										cols="40"></textarea>
+								</div>
+								<div class="col-sm-4">
+									<button type="submit" class="btn btn-danger btn-round m-1"
+										th:name="sendBackCase">Send back for update</button>
+								</div>
+
+							</div>
+							<div class="form-group row">
+
+
+								<a class="btn btn-dark" href="pendingFinalizecourtCaseDtl">
+									<i class="fa fa-check-square-o"></i> Back
+								</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+								<div id="rejectdiv1">
+
+									<button type="submit" class="btn btn-success" th:name="approve"
+										th:value="*{id}">Finalize</button>
+
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<button type="button" th:value="*{id}" id="rejectID"
+										th:onclick="sendBackase();" class="btn btn-danger">
+										Send back for update</button>
+
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+
+
+
+			</div>
+		</form>
+
+
+
+
+
+
+		<script src="plugins/bootstrap-datatable/js/jquery.d.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+
+		<script type="text/javascript">
+			function sendBackase() {
+				//alert('testpage');
+				$("#rejectdiv").show();
+				$("#rejectdiv1").hide();
+				window.scrollTo(1000, document.body.scrollHeight);
+
+			}
+		</script>
+
+
+
+
+
+
+	</div>
+</body>
+</html>

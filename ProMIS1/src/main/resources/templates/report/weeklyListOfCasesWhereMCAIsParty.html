@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+<link href="css/bootstrap-datetimepicker-build.css" rel="stylesheet" />
+<title>Cause title</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-8">
+				<h5 class="page-title">Weekly List of Cases where MCA is party</h5>
+			</div>
+			<div class="col-sm-4">
+				<ol class="breadcrumb">
+				<li th:if="${userRole=='ROLE_PROSECUTORUNITHEAD'}" class="breadcrumb-item"><a href="puhHome">Home</a></li>
+					
+					
+					<li th:if="${userRole=='ROLE_PUH_STAFF'}" class="breadcrumb-item"><a href="puhStaffhome">Home</a></li>
+					
+
+				</ol>
+			</div>
+		</div>
+
+		<!-- <div class="card"> -->
+		<!-- <div class="card-header bg-info text-white text-uppercase"></div>
+			 -->
+		<!-- <div class="card-body"> -->
+		<form th:action="@{/weeklyListOfCasesWhereMCAIsParty1}"
+			th:object="${reportWeeklyInput}" method="post">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+
+							<div class="form-group row">
+								<label class="control-label" id="fromDate">From Date</label>
+								<div class="col-sm-2">
+									<input class="form-control" type="text" th:field="*{date}"
+										placehoder="Start Date" id="startdate" required="required" />
+
+								</div>
+
+
+								<label class="control-label" id="toDate">To Date </label>
+								<div class="col-sm-2">
+									<input class="form-control" th:field="*{toDate}" type="text"
+										placehoder="End Date" id="enddate" required="required" />
+								</div>
+								<div class="col-sm-4">
+
+									<Button class="btn btn-success" type="submit">
+										<i class="ace-icon fa fa-check bigger-110"></i> Submit
+									</Button>
+									&nbsp; &nbsp; &nbsp;
+									<button class="btn btn-warning" type="reset">
+										<i class="ace-icon fa fa-undo bigger-110"></i> Reset
+									</button>
+
+
+									&nbsp; &nbsp; &nbsp;
+										<a th:if="${userRole=='ROLE_PROSECUTORUNITHEAD'}"
+										href="puhHome"><i
+										class="ace-icon fa fa-arrow-left bigger-110 btn btn-danger ">Back</i></a>
+
+									<a th:if="${userRole=='ROLE_PUH_STAFF'}" href="puhStaffhome"><i
+										class="ace-icon fa fa-arrow-left bigger-110 btn btn-danger ">Back</i></a>
+								</div>
+							</div>
+							<!-- <div class="clearfix form-actions">
+								<div class="col-md-offset-3 col-md-9">
+
+									<Button class="btn btn-success" type="submit">
+										<i class="ace-icon fa fa-check bigger-110"></i> Submit
+									</Button>
+									&nbsp; &nbsp; &nbsp;
+									<button class="btn btn-warning" type="reset">
+										<i class="ace-icon fa fa-undo bigger-110"></i> Reset
+									</button>
+
+
+									&nbsp; &nbsp; &nbsp;
+									<button class="btn btn-danger" type="button"
+										onclick="window.history.back();">
+										<i class="ace-icon fa fa-arrow-left bigger-110 "></i> Back
+									</button>
+								</div>
+							</div>
+ -->
+
+							<h4>
+								<span th:text="${message}"></span>
+							</h4>
+
+							<div class="table-responsive">
+								<table class="table table-bordered" id="weaklyReport">
+									<thead class="bg-info">
+										<tr>
+											<th class="text-wrap">S.No.</th>
+
+											<th class="text-wrap">Title of Investigation</th>
+											<th class="text-wrap">Name of the Court</th>
+											<th class="text-wrap">Cause Title of the Case</th>
+											<!-- <th class="text-wrap">Whether reply Filed</th> -->
+											<!-- <th class="text-wrap">Whether Briefing Done</th> -->
+											<th class="text-wrap">Brief Facts of the Case</th>
+											<th class="text-wrap">Details of Counsel</th>
+											<!-- <th class="text-wrap">Officer(s) Dealing with the Case</th> -->
+											<th class="text-wrap">Next Date of Hearing</th>
+
+											<th class="text-wrap">Case No.</th>
+											<!-- <th class="text-wrap">Section of the Companies Act,1956</th> -->
+											<th class="text-wrap">Case Status</th>
+											<th class="text-wrap">Name of the Pairavi Officer</th>
+											<th class="text-wrap">LDOH</th>
+											<th class="text-wrap">Jurisdiction</th>
+											<th class="text-wrap">Case attended on NDOH by</th>
+											<th class="text-wrap">Section of the Companies Act,1956</th>
+											<th class="text-wrap">Section of the Companies Act,2013</th>
+											<th class="text-wrap">Other Act(S)</th>
+
+
+
+
+										</tr>
+									</thead>
+									<tbody>
+
+
+										<tr th:each="detail,iStat :${courtCasedtl}">
+											<td th:text="${iStat.count}"></td>
+
+											<td class="text-wrap"
+												th:text="${detail.caseTitle} ? ${detail.caseTitle} : NA"></td>
+											<td class="text-wrap"
+												th:text="${detail.courtType} ? ${detail.courtType} : NA"></td>
+											<td class="text-wrap"
+												th:text="${detail.causeTitle} ? ${detail.causeTitle} : NA"></td>
+
+
+											<td class="text-wrap"
+												th:text="${detail.brief} ? ${detail.brief} : NA"></td>
+
+											<td style="text-align: center"><span
+												th:text="${detail.hd1.counselName.name + ' ' + detail.hd1.counselName.mobile} ? ${detail.hd1.counselName.name + ' ' + detail.hd1.counselName.mobile} : NA">
+											</span> <br> <span
+												th:text="${detail.hd1.officer.name + ' ' + detail.hd1.officer.mobile} ? ${detail.hd1.officer.name + ' ' + detail.hd1.officer.mobile} : NA">
+											</span></td>
+
+											<td class="text-wrap"
+												th:text="${#dates.format(detail.hd1.nextHearingDate, 'dd/MM/yyyy')} ? ${#dates.format(detail.hd1.nextHearingDate, 'dd/MM/yyyy')} : NA">
+
+											</td>
+
+											<td class="text-wrap"
+												th:text="${detail.hd1.procourtdtl.courtCaseNo} ? ${detail.hd1.procourtdtl.courtCaseNo} : NA">
+
+											</td>
+											<td class="text-wrap"
+												th:text="${detail.hd1.status.statusName} ? ${detail.hd1.status.statusName} : NA">
+
+												<!-- <span th:each="sumType,rowStat : ${detail.hd1.procourtdtl.sec}">
+												<span
+												th:text="${sumType.section}">
+												</span>
+												
+												</span> -->
+
+
+											</td>
+											<td class="text-wrap"
+												th:text="${detail.pairaviofficer} ? ${detail.pairaviofficer} : NA">
+
+											</td>
+
+											<td class="text-wrap"
+												th:text="${#dates.format(detail.hd1.lastHearingDate, 'dd/MM/yyyy')} ? ${#dates.format(detail.hd1.lastHearingDate, 'dd/MM/yyyy')} : NA">
+
+											</td>
+											<!-- <td class="text-wrap"
+												th:text="${detail.hd1.procourtdtl.city.districtName} ? ${detail.hd1.procourtdtl.city.districtName} : NA">
+
+											</td> -->
+											
+											<td class="text-wrap">
+											<span th:if="${detail.courtType=='National Company Law Tribunal (NCLT)' OR detail.courtType=='National Company Law Appellate Tribunal (NCLAT)'}">NA</span>
+											
+											<span th:unless="${detail.courtType=='National Company Law Tribunal (NCLT)' OR detail.courtType=='National Company Law Appellate Tribunal (NCLAT)'}" th:text="${detail.hd1.procourtdtl.city.districtName}"></span>
+											<!-- <span th:text="${detail.hd1.procourtdtl.city.districtName} ? ${detail.hd1.procourtdtl.city.districtName} : NA"></span> -->
+											</td>
+											
+											<td class="text-wrap"
+												th:text="${detail.hd1.counselName.name} ? ${detail.hd1.counselName.name} : NA">
+
+											</td>
+
+											<td class="text-wrap"><span
+												th:if="${#lists.isEmpty(detail.secq)}"> <span>NA
+												</span>
+											</span> 
+											
+											<span th:unless="${#lists.isEmpty(detail.secq)}"> <span
+													th:each="sumType,xyz321z : ${detail.secq}"> <span
+														th:text="${sumType.releventSection} + ${!xyz321z.last ? ', ' : ''}"></span></span>
+											</span>
+											</td>
+											<td class="text-wrap"><span
+												th:if="${#lists.isEmpty(detail.sec1q)}"> <span>NA
+												</span>
+											</span> <span th:unless="${#lists.isEmpty(detail.sec1q)}"> <span
+													th:each="sumType,xyz321z : ${detail.sec1q}"> <span
+														th:text="${sumType.releventSection} + ${!xyz321z.last ? ', ' : ''}"></span></span>
+											</span></td>
+											<td class="text-wrap"><span
+												th:if="${#lists.isEmpty(detail.sec2q)}"> <span>NA
+												</span>
+											</span> <span th:unless="${#lists.isEmpty(detail.sec2q)}"> <span
+													th:each="sumType,xyz321z : ${detail.sec2q}"> <span
+														th:text="${sumType.act.act} + ${!xyz321z.last ? '- ' : ''}"></span>-<span
+														th:text="${sumType.releventSection} + ${!xyz321z.last ? ', ' : ''}"></span></span>
+											</span></td>
+
+
+
+
+
+
+
+
+
+
+
+
+										</tr>
+
+
+									</tbody>
+
+								</table>
+
+
+
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jszip.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/pdfmake.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/vfs_fonts.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.html5.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.print.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.colVis.min.js"></script>
+		<script type="text/javascript">
+			$(document)
+					.ready(
+							function() {
+								$("#startdate")
+										.datepicker({
+
+											format : 'dd-mm-yyyy',
+											endDate : new Date(),
+										// autoclose: true,
+										})
+										.on(
+												'changeDate',
+												function(selected) {
+													var minDate = new Date(
+															selected.date
+																	.valueOf());
+													var seven_date = minDate
+															.getDate() + 7;
+													var curr_month = minDate
+															.getMonth();
+
+													var curr_year = minDate
+															.getFullYear();
+													var sevenDate = (seven_date
+															+ "/" + curr_month
+															+ "/" + curr_year);
+													$('#enddate').datepicker(
+															'setStartDate',
+															minDate);
+												});
+
+								/* $(
+										'#enddate')
+										.datepicker(
+												'setStartDate',
+												minDate);
+								});  */
+
+								$("#enddate").datepicker({
+									format : 'dd-mm-yyyy',
+								//endDate : new Date(),
+
+								}).on(
+										'changeDate',
+										function(selected) {
+											var minDate = new Date(
+													selected.date.valueOf());
+
+											$('#startdate').datepicker(
+													'setEndDate', minDate);
+										});
+
+								var table = $('#weaklyReport')
+										.DataTable(
+												{
+													//		 	        lengthChange: false,
+													dom : 'Bfrtip',
+													/* buttons: [
+													    'copyHtml5',
+													    'excelHtml5',
+													    'csvHtml5',
+													    'pdfHtml5'
+													] */
+													buttons : {
+														buttons : [
+																{
+																	extend : 'excel',
+																	text : '<i class="fa fa-print"></i> Excel',
+																	title : $(
+																			'h4')
+																			.text(),
+
+																	exportOptions : {
+																		columns : ':not(.no-print)'
+																	},
+																	footer : true,
+																	autoPrint : false
+																},
+																/* {
+																      extend: 'print',
+																      
+																		
+																      text: '<i class="fa fa-print"></i> Print',
+																   
+																      title: $('h4').text(),
+																      exportOptions: {
+																        columns: ':not(.no-print)'
+																      },
+																      footer: true,
+																      autoPrint: false
+																    }, */{
+																	//   extend: 'pdf',
+
+																	extend : 'pdfHtml5',
+																	orientation : 'landscape',
+																	pageSize : 'LEGAL',
+																	text : '<i class="fa fa-file-pdf-o"></i> PDF',
+																	title : $(
+																			'h4')
+																			.text(),
+
+																	exportOptions : {
+																		columns : ':not(.no-print)'
+																	},
+																	footer : true
+																} ],
+
+														dom : {
+															container : {
+																className : 'dt-buttons'
+															},
+															button : {
+																className : 'btn btn-default'
+															}
+														}
+													}
+												});
+							});
+		</script>
+
+
+
+
+	</div>
+</body>
+</html>

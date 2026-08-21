@@ -1,0 +1,380 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Add New Respondent</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Add
+						Accused Details</li>
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<form th:action="@{/addNewUser}" method="post" th:id="AddDetail"
+			th:object="${accusedCompCaseDtl}" class="needs-validation"
+			autocomplete="off">
+			<input type ="hidden" th:id="courtId" name ="courtId">
+			<input type="hidden" th:field="*{id}"> <input type="hidden"
+				th:field="*{proCourtId}">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+
+
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-address-book-o"></i> Accused Details
+							</h4>
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">Select
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio"
+											name="inlineRadioOptions" id="inlineRadio1" value="C" /> <label
+											class="form-check-label" for="inlineRadio1">Company </label>
+									</div>
+
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio"
+											name="inlineRadioOptions" id="inlineRadio2" value="A" /> <label
+											class="form-check-label" for="inlineRadio2">Individual
+										</label>
+									</div>
+
+									<input type="hidden" th:id="type" name="type" value="type"  th:field="*{type}">
+								</div>
+
+
+							</div>
+							<div style="display: none;" id="individual">
+								<div class="form-group row">
+									<label for="input-10" class="col-sm-2 col-form-label">Company
+										<span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-4">
+										<select class="custom-select" th:field="*{AccusedDto.company}"
+											id="chooseComp">
+											<option value="0">Select Company</option>
+											<option th:each="c : ${compLst}" th:value="${c.company.id}"
+												th:text="${c.company.companyName}"></option>
+
+										</select> <span id="chooseCompErr" style="color: red;" th:errors="*{AccusedDto.company}"></span>
+									</div>
+
+									<label for="input-10" class="col-sm-2 col-form-label">Pan
+										Number <span class="text-danger">*</span>
+									</label>
+
+									<div class="col-sm-4">
+										<input type="text" class="form-control"
+											th:field="*{AccusedDto.accusedMaster.panNumber}"
+											id="panNumber"
+											onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 47 && event.charCode < 58)"
+											placeholder="Enter Pan Number " maxlength="10">
+                                            <span	class="text-danger" th:errors="*{AccusedDto.accusedMaster.panNumber}"></span>
+									</div>
+
+								</div>
+								<div class="form-group row">
+
+									<label for="input-16" class="col-sm-2 col-form-label">
+										Name <span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-4">
+										<input type="text" class="form-control"
+											th:field="*{AccusedDto.accusedMaster.accusedName}"
+											maxlength="50" id="accusedName"
+											onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32) || (event.charCode==46)"
+											placeholder="Enter Name">
+											     <span	class="text-danger" th:errors="*{AccusedDto.accusedMaster.accusedName}"></span>
+									</div>
+
+									<label for="input-16" class="col-sm-2 col-form-label">
+										Designation <span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-4">
+										<select class="form-control"
+											th:field="*{AccusedDto.designation}">
+											<option value="0">Choose Designation</option>
+											<option th:each="design: ${desilst}" th:value="${design.id}"
+												th:utext="${design.designation}" />
+										</select> <span class="text-danger"
+											th:if="${#fields.hasErrors('AccusedDto.designation')}"
+											th:errors="*{AccusedDto.designation}"></span>
+									</div>
+
+
+								</div>
+
+								<div class="form-group row">
+									
+									<label for="input-10" class="col-sm-2 col-form-label">Status
+										<span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-4">
+										<select class="custom-select"
+											th:field="*{AccusedDto.accusedstatus}" id="chooseStatus">
+											
+											<option th:each="s : ${statusLst}" th:value="${s.id}"
+												th:text="${s.statusName}"></option>
+
+										</select> <span id="chooseCompErr" style="color: red;" th:errors="*{AccusedDto.accusedstatus}"></span>
+									</div>
+
+
+
+								</div>
+
+
+
+							</div>
+
+							<div style="display: none;" th:id="Companydtl">
+								<div class="form-group row">
+
+									<label for="input-16" class="col-sm-2 col-form-label">
+										Company Name <span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-4">
+										<input type="text" class="form-control"
+											th:field="*{companyDto.company.companyName}" maxlength="50" >
+											
+											<span id="chooseCompErr" style="color: red;" th:errors="*{companyDto.company.companyName}"></span>
+									</div>
+
+									<label for="input-16" class="col-sm-2 col-form-label">
+										CIN <span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-4">
+										<input type="text" class="form-control"
+											th:field="*{companyDto.company.cin}" maxlength="21" >
+												<span id="chooseCompErr" style="color: red;" th:errors="*{companyDto.company.cin}"></span>
+									</div>
+								</div>
+								<div class="form-group row">
+
+									<label for="input-10" class="col-sm-2 col-form-label">Address
+										<span class="text-danger">*</span>
+									</label>
+
+									<div class="col-sm-4">
+										<input type="text" class="form-control"
+											th:field="*{companyDto.company.address}">
+												<span id="chooseCompErr" style="color: red;" th:errors="*{companyDto.company.address}"></span>
+									</div>
+
+
+								</div>
+
+
+
+							</div>
+
+
+							<div class="form-footer">
+								<button type="reset" class="btn btn-danger">
+									<i class="fa fa-times"></i> Reset
+								</button>
+								<button type="button" class="btn btn-success" id="save_btn"
+									onclick="saveBtn();">
+									<i class="fa fa-check-square-o"></i> SAVE
+								</button>
+								 <button type="button" class="btn btn-dark" id="update_btn" th:onclick="'backPage(\'' + ${courtdtl} +'\');'">
+							  		<i class="fa fa-check-square-o"></i> Back
+							  </button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+		
+		
+		
+		function backPage(courtID) {
+			
+			
+
+    			$('#AddDetail').attr('action', 'AdditionalInfo');
+    			$("#courtId").val(courtID)
+    			$('#AddDetail').submit();
+		}
+			$(document).ready(function() {
+				var table = $('#userTable').DataTable({});
+
+				if($('#type').val()=='A'){
+					 $("input[name=inlineRadioOptions][value=" + $('#type').val() + "]").prop('checked', true);
+					 $("#individual").show();
+						$("#Companydtl").hide();
+	              }else if($('#type').val() == 'C') {
+				
+					 $("input[name=inlineRadioOptions][value=" + $('#type').val() + "]").prop('checked', true);
+						$("#individual").hide();
+						$("#Companydtl").show();
+				}
+				
+				if($('#panNumber').val()!=''){
+					debugger
+					$.ajax({
+					      type : "post",
+					      url : "getpanDetails?panNumber="+$('#panNumber').val(),
+//			 		      data : {editDeleteId:id},
+					      contentType : "application/json; charset=utf-8",
+					      success : function(data) {
+					    	  if(data!=''){
+					    		  $("#accusedName").attr("readonly", true); 
+					    	      $("#accusedName").val(data.accusedName);
+					    	      $("#accusedName").attr("readonly", true); 
+						     }else{
+						    	 $("#accusedName").attr("readonly", false); 
+						    	 $("#accusedName").val('');
+						     }
+					      },
+					      error : function(xhr, status, error) {
+						       alert('NO DATA FOUND');
+						  /*      $("#largesizemodal").modal("hide");*/
+								 $('#compnayBlock').show(); 
+								 
+						      }
+					  }); 
+					 
+				}
+				
+				
+				$('input[type="radio"]').click(function() {
+					var inputValue = $(this).attr("value");
+
+					if (inputValue == "A") {
+						$("#individual").show();
+						$("#Companydtl").hide();
+
+					} else {
+						$("#individual").hide();
+						$("#Companydtl").show();
+					}
+				});
+			});
+
+			$('#uiDob').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+
+			$('#uiJoiningDate').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+
+			$("input[name='inlineRadioOptions']")
+					.change(
+							function() {
+								$('#type')
+										.val(
+												$(
+														'input:radio[name=inlineRadioOptions]:checked')
+														.val());
+
+							});
+
+			function saveBtn() {
+				var type = $('#type').val();
+
+				if (type == 'C') {
+					$('#AddDetail').attr('action', 'SaveCompany');
+
+					$('#AddDetail').submit();
+				} else {
+					$('#AddDetail').attr('action', 'SaveAccused');
+
+					$('#AddDetail').submit();
+				}
+
+			}
+			
+			
+			 $('#panNumber').blur(function(){
+					
+				 var token = $("input[name=_csrf]").val();
+				 var header = 'X-CSRF-TOKEN';
+				
+				 $(document).ajaxSend(function(e, xhr, options)
+				{
+				    xhr.setRequestHeader(header, token);
+				}), 
+		       // var compName = $("#chooseComp").val();				
+				//var caseId = $("#caseId").val();
+				
+			
+				$.ajax({
+				      type : "post",
+				      url : "getpanDetails?panNumber="+$(this).val(),
+//		 		      data : {editDeleteId:id},
+				      contentType : "application/json; charset=utf-8",
+				      success : function(data) {
+				    	  if(data!=''){
+				    		  $("#accusedName").attr("readonly", true); 
+				    	      $("#accusedName").val(data.accusedName);
+				    	      $("#accusedName").attr("readonly", true); 
+					     }else{
+					    	 $("#accusedName").attr("readonly", false); 
+					    	 $("#accusedName").val('');
+					     }
+				      },
+				      error : function(xhr, status, error) {
+					       alert('NO DATA FOUND');
+					  /*      $("#largesizemodal").modal("hide");*/
+							 $('#compnayBlock').show(); 
+							 
+					      }
+				  }); 
+				 
+			 });
+		</script>
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+
+
+
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Add New Respondent</title>
+</head>
+
+<body>
+
+
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-12">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="userHome">Home</a></li>
+					<li class="breadcrumb-item"><a href="ApproveproTaskList">Task
+							Details</a></li>
+					<!-- <li class="breadcrumb-item"><a href="#">Court Case Details</a></li> -->
+					<li class="breadcrumb-item active" aria-current="page">High Court
+						Details and Related Information</li>
+				</ol>
+			</div>
+		</div>
+
+	
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+
+
+
+						<form th:action="@{/addNewUser}" method="post" class="needs-validation"
+							th:object="${assignedDtl}" autocomplete="off">
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label" style="font-size: medium;"> Cause
+									Title <span class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-sm-12 col-form-label text-primary"> <span
+											style="font-size: medium;" th:text="${assignedDtl.causeTitle}"></span>
+									</label>
+
+								</div>
+
+								<label for="input-16" class="col-sm-2 col-form-label" style="font-size: medium;">Court
+									Case No <span class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-sm-12 col-form-label text-primary" id="CourtNo"> <span
+											th:id="CourtNo" style="font-size: medium;"
+											th:text="${assignedDtl.courtCaseNo}"></span></label>
+								</div>
+
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		
+
+				
+
+		<script src="js/jquery-confirm.min.js"></script>
+		<script src="js/jquery-confirm.js"></script>
+
+
+
+
+
+
+	</div>
+</body>
+
+</html>

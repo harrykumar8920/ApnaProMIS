@@ -1,0 +1,375 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>CRIMINAL COMPLAINT</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div layout:fragment="content">
+		<form th:action="@{/generateReport1}" method="post"
+			class="needs-validation" th:object="${complaintReport}"
+			id="complaintReport">
+
+			<input type="hidden" class="inputTxt form-control" autocomplete="off"
+				id="id" th:field="*{id}" name="id" required /> <input type="hidden"
+				th:field="*{assignedTaskPuh}">
+
+			<div class="row text-black">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<!-- <h4 class="form-header text-uppercase">
+							<i class="fa fa-briefcase"></i> Complaint Report
+						</h4> -->
+
+<!-- <div class="form-group row">
+  <div class="col-sm-4">.col-sm-6</div>
+  <div class="col-sm-4">.col-sm-6</div>
+  <div class="col-sm-4">.col-sm-6</div>
+</div> -->
+
+								<div class="form-group row">
+								<div class="col-lg-12" align="center">
+									<label>
+										<h5>IN THE COURT OF  <span &nbsp th:text="${courtDtl.courtType.courtName}"></span></h5>
+									
+										
+									<h5>
+											<span th:text="${courtDtl.city.districtName}"></span><span>,</span>
+										
+											<span nbsp th:text="${courtDtl.state.state}"></span>
+										</h5>
+									</label> <br>
+
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<div class="col-lg-12" align="center">
+									<label style="font-weight: bolder;">CRIMINAL COMPLAINT
+										NO.</label><span th:text="${complaintReport.id}"></span><span>/2022</span>
+								</div>
+
+							</div>
+
+							<div class="form-group row">
+								<div class="col-lg-3">
+									<label style="font-style: italic; text-decoration: underline;">In
+										the matter of:</label>
+								</div>
+
+							</div>
+
+							<div class="form-group row">
+								<div class="col-lg-3">
+									<label>Serious Fraud Investigation Office </label>
+								</div>
+								<div class="col-lg-6"></div>
+
+								<div class="col-lg-3" align="right">
+
+									<label>….…Complainant </label>
+								</div>
+							</div>
+
+							<div class="col-lg-12" align="center">
+								<label> <span>Versus </span>
+								</label>
+							</div>
+
+
+							<div class="form-group row">
+								<div class="col-lg-3">
+									<label><span th:text="${courtDtl.causeTitle}"></span> </label><br>
+									<span>(As per Memo of Parties) </span>
+								</div>
+								<div class="col-lg-6"></div>
+
+								<div class="col-lg-3" align="right">
+
+									<label>……..Accused </label>
+								</div>
+							</div>
+							<hr style="width: 50%;">
+							<div class="col-lg-12" align="center">
+								<label> <span>MEMO OF PARTIES </span>
+								</label>
+							</div>
+
+
+							<div class="form-group row">
+								<div class="col-lg-6">
+									<label>In the matter of: <br>Serious Fraud
+										Investigation Office <br>Ministry of Corporate Affairs <br>
+										Government of India<br> <br> Through:
+									</label> <br> <br> <label><span
+										th:text="${compdtl.IOName}"></span> </label> <br> Ministry of
+									Corporate Affairs, <br>Government of India <br>
+									Serious Fraud Investigation Office<br>
+									2nd Floor Pt. Deendayal Antyodaya Bhawan, <br>
+									CGO Complex Lodhi Road, New delhi-110003
+								</div>
+
+							</div>
+
+
+
+							
+
+							
+							<br>
+							<div class="col-lg-12" align="center">
+								<label> <span>Versus </span>
+								</label>
+							</div>
+
+							<br>
+							<div class="form-group row">
+								<div class="col-lg-6">
+
+									<table class="table table-borderless" id="personList1">
+
+
+										<tbody>
+											<tr th:each="p,stats: ${CompanyList}">
+
+												<td th:text="${p.id}" style="display: none;"></td>
+												<br>
+												<td><span style="font-weight: bolder; color: black;" th:text="${p.company.companyName}"></span><br>
+												<span>Through its Authorized Representative</span><br>
+												<span  >CIN NO.</span>	<span th:text="${p.company.cin}"></span> <br> </span>  <span style="font-weight: bolder; color: black;" >Registered Office Address:</span><br>	<span th:text="${p.company.address}"></span> <br>  </td>
+											</tr>
+										</tbody>
+
+
+
+									</table>
+									<table class="table table-borderless" id="personList1">
+
+
+										<tbody>
+											<tr th:each="p,stats: ${personList}">
+
+												<td th:text="${p.id}" style="display: none;"></td>
+												
+												<td><span th:text="${p.accusedMaster.accusedName}"></span><br>
+												<span style="font-weight: bolder; color: black;">PAN No.</span>
+													<span th:text="${p.accusedMaster.panNumber}"></span> <br>
+													<span style="font-weight: bolder; color: black;">Designation</span>
+													<span th:text="${p.accusedMaster.accDesination}"></span> <br>
+													<!-- <span th:text="${p.company.company.companyName}"></span> <br> -->
+												
+												<br><br>
+										
+												</td>
+											</tr>
+										</tbody>
+
+
+
+									</table>
+								</div>
+							</div>
+							<div class="col-lg-12" align="right">
+
+								<label>……..Accused </label>
+							</div>
+
+
+							<div class="col-lg-12" align="center">
+
+								<label
+									style="text-decoration: underline; text-align: justify; font-weight: bolder; font-size: large;">COMPLAINT
+									U/S. 439(2) R/W S. 436 R/W S. 212 OF THE <br> COMPANIES
+									ACT, 2013, R/W S.621 (1) OF THE COMPANIES ACT, <br> 1956,
+									R/W S. 193 OF THE CODE OF CRIMINAL PROCEDURE, 1973 <br>
+									SEEKING TAKING OF COGNIZANCE AND PROSECUTION OF <br>THE
+									ACCUSED NAMED HEREIN ABOVE FOR THE OFFENCES, <br>COMMITTED
+									BY THEM JOINTLY AND SEVERALLY,<br> MENTIONED HEREIN
+									UNDER:-
+								</label>
+							</div>
+		<br><br>
+		<div class="col-lg-12" align="left">
+							
+								<table class="form-group row" align="justify" id="actsecDtl">
+
+									<thead>
+
+									</thead>
+									<tbody>
+										<tr th:each="p,stats: ${complaintReport.actsecDtl}">
+											
+										
+
+											<td style="font-weight: bolder; color: black;"> Sections :- <span
+												th:text="${p.act.act}"
+												></span> of the companies Act :- <span
+												th:text="${p.Section.section}"></span></td><br>
+										</tr>
+										
+									</tbody>
+
+
+
+								</table>
+</div>								
+
+							<!-- <span th:text="${sectionPara1}"></span> <br> <span
+								style="font-weight: bolder; color: black;">MOST
+								RESPECTFULLY SHOWETH: </span> <br> <br> <span
+								th:text="${para1}"></span> <br>
+
+							<table class="form-group row" align="justify" id="personList">
+
+								<thead>
+
+								</thead>
+								<tbody>
+									<tr th:each="p,stats: ${complaintReport.addAccused}">
+										
+										<td th:text="${stats.count}"></td>
+
+										<td><span th:text="${stats.count}"> </span> <span
+											th:text="${p.accusedMaster.accusedName}"
+											style="font-weight: bold;"></span> <br> <span
+											th:text="${p.accDesc}"></span></td>
+									</tr>
+								</tbody>
+
+
+
+							</table> -->
+						<br>	<br> <span style="font-weight: bolder; color: black;">
+								MOST RESPECTFULLY SHOWETH </span> <br> <span th:text="${complaintReport.mpara1}"></span>
+
+
+
+<br><br> <span style="font-weight: bolder; color: black;">
+								DESCRIPTION </span> <br> <span th:text="${complaintReport.descPara}"></span>	
+							<br><br> <span style="font-weight: bolder; color: black;">
+								BACKGROUND </span> <br> <span th:text="${complaintReport.backPara}"></span>
+							
+							
+								
+						<br> <br>
+							<span style="font-weight: bolder; color: black;"> PRAYER </span>
+							<br> <span th:text="${complaintReport.prayerPara}"></span> <br>
+							<div class="form-group row">
+							
+							
+							
+							
+							
+							<br> <br>
+								<div class="col-lg-6">
+									<label>Place :</label> <span th:text="${complaintReport.place}"></span>
+
+								</div>
+							</div>
+							<br> <br>
+							<div class="form-group row">
+								<div class="col-lg-6">
+									<label for="input-15" class="col-form-label"> Date :<span
+										class="text-danger"></span></label> <span th:text="${#dates.format(complaintReport.date, 'dd/MM/yyyy')}"></span>
+										
+									
+
+
+
+								</div>
+
+							</div>
+<div class="col-lg-12" align="right" style="font-weight: bolder; color: black;">
+	
+								<span>(COMPLAINT)</span><br>
+								<span  th:text="${compdtl.IOName}"></span> </label> <br>Serious Fraud Investigation Office<br> Ministry of
+									Corporate Affairs, <br>Government of India <br>
+									
+							</div>
+
+<div class="col-lg-12" align="center" style="font-weight: bolder; color: black;">
+	
+							<br><br><br>	<span>Through</span><br>
+								
+									
+							</div>
+							
+							
+							
+							
+							
+<div class="row">
+							
+							<div class="col-lg-5" align="right" >
+	
+							<span th:text="${complaintReport.counsel}"></span><br>
+							<span th:text="${complaintReport.counsel2}"></span><br>
+							<span >Special Counsel</span>
+							
+							
+								
+								</div>	
+							
+							<div class="col-lg-7" align="center" >
+						<span th:text="${complaintReport.pairaviofficer}"></span><br><br>
+						<span>Senior Prosecutor</span>
+								
+									
+							</div>
+							</div>
+							
+
+
+
+						</div>
+
+					</div>
+				</div>
+		</form>
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+		<script src="plugins/bootstrap-datatable/js/jquery.d.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+
+
+
+		<script type="text/javascript">
+		$(document).ready(function() {
+			var table = $('#personList').DataTable({
+				//		 	        lengthChange: false,
+				buttons : [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+			});
+		});
+		
+		$('#date').datepicker({
+			autoclose : true,
+			todayHighlight : true,
+			format : 'dd/mm/yyyy',
+		});
+		
+		
+		
+		function pdfFView() {
+			
+			
+			
+			$('#complaintReport').attr("action", "genComplaintPdfPreview");
+			$('#complaintReport').submit();
+			$('div').removeClass('loading');
+		}
+	</script>
+	</div>
+
+</body>
+</html>

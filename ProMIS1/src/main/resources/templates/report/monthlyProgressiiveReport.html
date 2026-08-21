@@ -1,0 +1,159 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css"
+	rel="stylesheet" type="text/css">
+<title>Assign Cases</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-5">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Monthly Progressive Report</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header text-uppercase">
+							<i class="fa fa-address-book-o"></i> Monthly Progressive Report
+						</h4>
+						<div th:if="${message}"
+							class="alert alert-success alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<div class="alert-icon">
+								<i class="fa fa-check"></i>
+							</div>
+							<div class="alert-message">
+								<span th:text="${message}"></span>
+							</div>
+						</div>
+						<form th:action="@{/CourtCaseDtl}" method="post"
+							class="needs-validation" th:object="${caseDetails}"
+							th:id="hearingDts">
+							<input type="hidden" th:id="courtId" name="courtId">
+
+
+							<div class="form-group row" th:if="${errorCaseID}">
+								<span th:text="${errorCaseID}" class="text-danger "></span>
+							</div>
+							<div class="table-responsive">
+								<table class="table table-bordered" id="assignTable">
+									<thead class="bg-info">
+										<tr>
+											<th class="text-wrap">S.No.</th>
+											<th class="text-wrap">Name of Company/Case Title</th>
+											<th class="text-wrap">Case No.</th>
+											<th class="text-wrap">Cause Title</th>
+											<th class="text-wrap">Name of The Accused</th>
+											<th class="text-wrap">Date of Filing</th>
+											<th class="text-wrap">Financial Year</th>
+											<th class="text-wrap">Name of the Courts/DA Committee</th>
+											<th class="text-wrap">Next Date of hearing</th>
+											<th class="text-wrap">Present Position</th>
+											
+
+
+										</tr>
+									</thead>
+									<tbody>
+
+
+										<tr th:each="detail,iStat :${courtCasedtl}">
+											<td th:text="${iStat.count}"></td>
+											
+											<td class="text-wrap" th:text="${detail.caseTitle}">
+											<td class="text-wrap" th:text="${detail.courtCaseNo}">
+											<td class="text-wrap" th:text="${detail.causeTitle}">
+											
+											
+											
+									
+											
+											
+											
+											<td class="text" th:text="${detail.fillingDate}">
+											<td class="text" th:text="${#dates.format(detail.fillingDate, 'dd/MM/yyyy')}">
+											<td class="text" th:text="${detail.financialYear}">
+											<td class="text" th:text="${detail.courtType}">
+										
+											
+											<td class="text" th:text="${#dates.format(detail.proDate, 'dd/MM/yyyy')}">
+											
+											
+										
+											
+											
+											
+											
+										
+
+												<div class="dropdown-menu">
+													<button type="submit" th:name="Courtdtl" th:id="caseId"
+														th:value="${detail.id}" class="dropdown-item">
+														View Court case Details</button>
+
+													<button type="submit" th:name="assignTask"
+														th:value="${detail.id}" class="dropdown-item">Assigned
+														Task</button>
+
+												</div></td>
+
+
+
+
+										</tr>
+
+
+									</tbody>
+
+								</table>
+							</div>
+						</form>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jszip.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/pdfmake.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/vfs_fonts.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.html5.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.print.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.colVis.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				$(document).ready(function() {
+					var table = $('#assignTable').DataTable({
+						//	 	        lengthChange: false,
+						buttons : [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+					});
+				});
+
+			});
+		</script>
+	</div>
+
+</body>
+</html>

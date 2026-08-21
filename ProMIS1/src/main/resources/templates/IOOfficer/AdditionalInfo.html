@@ -1,0 +1,788 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css"
+	rel="stylesheet" type="text/css">
+<title>Assign Cases</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-5">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">
+						Additional Information</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header text-uppercase">
+							<i class="fa fa-address-book-o"></i> Add Addition Information As
+							Petitioner
+						</h4>
+
+						<form th:action="@{/updateInfo}" method="post"
+							class="needs-validation" th:object="${caseDetails}">
+
+							<div class="form-group row" th:if="${errorCaseID}">
+								<span th:text="${errorCaseID}" class="text-danger "></span>
+							</div>
+							<div class="form-group row">
+								<div class="col-lg-12">
+									<div class="accordion" id="accordionExample">
+
+										<div class="card-header" id="petitioner">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#petitionerOne" aria-expanded="false"
+														aria-controls="petitionerOne">Complainant /
+														Petitioner Details</button>
+											</h2>
+										</div>
+										<div id="petitionerOne" class="collapse"
+											aria-labelledby="petitioner" data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary"
+														id="petitionerinfo" th:name="petitionerinfo">
+														<i class="fa fa-plus"></i> Complainant / Petitioner
+														Details
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>Name</th>
+															<th>Petioner No</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>1</td>
+															<td>Ankit</td>
+															<td>L89089867</a>
+															</td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="petitionerinfo">Update | Deactivate</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+
+										<!-- </div> -->
+
+										<div class="card-header" id="headingTwo">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#collapseTwo" aria-expanded="false"
+														aria-controls="collapseTwo">Respondent Details</button>
+											</h2>
+										</div>
+										<div id="collapseTwo" class="collapse"
+											aria-labelledby="headingTwo" data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary"
+														id="addnewCompanycase" th:name="RespondentInfo">
+														<i class="fa fa-plus"></i> Add New Respondent
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>Name</th>
+															<th>Mobile Number</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>1</td>
+															<td>Ankit</td>
+															<td>9910789568</td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="RespondentInfo">Update | Deactivate</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+										<!-- <div class="card-header" id="PrayersInfo">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#collapseSix" aria-expanded="false"
+														aria-controls="collapseSix">Details of Prayers</button>
+											</h2>
+										</div>
+										<div id="collapseSix" class="collapse"
+											aria-labelledby="PrayersInfo" data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary"
+														id="PrayersInfo" th:name="PrayersInfo">
+														<i class="fa fa-plus"></i> Details of Prayers
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>Name</th>
+															<th>DOB</th>
+															<th>Mobile</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>1</td>
+															<td>Ankit</td>
+															<td>10/2/2022</td>
+															<td>8956741536</td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="PrayersInfo">Update | Deactivate</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+ -->
+
+
+
+										<div class="card-header" id="pairavi">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#collapseSeven" aria-expanded="false"
+														aria-controls="collapseSeven">Pairavi Officer
+														Details</button>
+											</h2>
+										</div>
+										<div id="collapseSeven" class="collapse"
+											aria-labelledby="pairavi" data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary"
+														id="PairaviInfo" th:name="PairaviInfo">
+														<i class="fa fa-plus"></i> Pairavi Officer Details
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>Name</th>
+															<th>Designation</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>1</td>
+															<td>Ankit Kumar</td>
+															<td>Auditor</td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="PairaviInfo">Update | Deactivate</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+
+
+
+										<!-- <div class="card-header" id="Ipc">
+										<h2 class="mb-0">
+											<div class="card mb-2 border border-success">
+												<button
+													class="btn btn-link shadow-none text-success collapsed"
+													type="button" data-toggle="collapse"
+													data-target="#IpcFour" aria-expanded="false"
+													aria-controls="IpcFour">IPC Details</button>
+										</h2>
+									</div> -->
+										<!-- <div id="IpcFour" class="collapse"
+										aria-labelledby="Ipc" data-parent="#accordionExample">
+
+
+										<div class="card-body">
+											<div class="form-group row">
+												<button type="submit" class="btn btn-primary"
+													id="Ipcinfo" th:name="Ipcinfo">
+													<i class="fa fa-plus"></i> IPC Details
+												</button>
+											</div>
+											<table class="table table-bordered table-responsive-lg"
+												id="assignTable">
+												<thead class="bg-info text-white">
+													<tr>
+														<th>S.No.</th>
+														<th>DATE</th>
+														<th>LETTER SEND TO MINISTER FOR CLARIFICATION <br>
+															/REQUEST TO IO TO PROVIDE INPUTS
+														</th>
+														<th>Action</th>
+
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>1</td>
+														<td>10/2/2022</td>
+														<td>abc.pdf</a>
+														</td>
+														<td><button type="submit" class="btn btn-success"
+																th:name="Ipcinfo">Update | Deactivate</button></td>
+													</tr>
+												</tbody>
+
+											</table>
+
+										</div>
+										<div class="modal-footer"></div>
+									</div> -->
+
+										<div class="card-header" id="Court">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#courtFour" aria-expanded="false"
+														aria-controls="collapseFour">Court Details</button>
+											</h2>
+										</div>
+										<div id="courtFour" class="collapse"
+											aria-labelledby="followUp" data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary"
+														id="Courtinfo" th:name="Courtinfo">
+														<i class="fa fa-plus"></i> Court Details
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>DATE</th>
+															<th>LETTER SEND TO MINISTER FOR CLARIFICATION <br>
+																/REQUEST TO IO TO PROVIDE INPUTS
+															</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>1</td>
+															<td>10/2/2022</td>
+															<td>abc.pdf</a>
+															</td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="Courtinfo">Update | Deactivate</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+
+										<div class="card-header" id="cgsc">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#cgscFour" aria-expanded="false"
+														aria-controls="collapseFour">CGSC Details</button>
+											</h2>
+										</div>
+										<div id="cgscFour" class="collapse" aria-labelledby="cgsc"
+											data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary" id="cgscinfo"
+														th:name="cgscinfo">
+														<i class="fa fa-plus"></i>CGSC Details
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>Name</th>
+															<th>Address</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>1</td>
+															<td>Ankit</td>
+															<td>CGO complex </a>
+															</td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="cgscinfo">Update | Deactivate</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+										<div class="card-header" id="act">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse" data-target="#actone"
+														aria-expanded="false" aria-controls="actone">Act,Sections
+														Details</button>
+											</h2>
+										</div>
+										<div id="actone" class="collapse" aria-labelledby="act"
+											data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary" id="ActInfo"
+														th:name="ActInfo">
+														<i class="fa fa-plus"></i> Act,Sections Details
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>Act</th>
+															<th>Description</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>1</td>
+															<td>Act 120</td>
+															<td>abc.pdf</a>
+															</td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="ActInfo">Update | Deactivate</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+
+
+
+										<div class="card-header" id="casestatus">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#statusOne" aria-expanded="false"
+														aria-controls="statusOne">Case Status</button>
+											</h2>
+										</div>
+										<div id="statusOne" class="collapse"
+											aria-labelledby="casestatus" data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary"
+														id="casestatusinfo" th:name="casestatusinfo">
+														<i class="fa fa-plus"></i>Case Status
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>DATE</th>
+															<th>Court Status</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>1</td>
+															<td>10/2/2022</td>
+															<td>Ongoing</a>
+															</td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="casestatusinfo">Update | Deactivate</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+
+										<div class="card-header" id="instruction">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#collapseThree" aria-expanded="false"
+														aria-controls="collapseThree">MCA Instruction'S /
+														Directions</button>
+											</h2>
+										</div>
+										<div id="collapseThree" class="collapse"
+											aria-labelledby="instruction" data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary"
+														id="addnewCompanycase" th:name="InstmoreInfo">
+														<i class="fa fa-plus"></i> MCA Instruction'S / Directions
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>DATE OF MCA INSTRUCTION</th>
+															<th>UPLOAD MCA INSTRUCTION FILE</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>1</td>
+															<td>10/2/2022</td>
+															<td>abc.pdf</a>
+															</td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="InstmoreInfo">Update | Deactivate</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+										<div class="card-header" id="followUp">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#collapseFour" aria-expanded="false"
+														aria-controls="collapseFour">Follow-up
+														Details/Further action</button>
+											</h2>
+										</div>
+										<div id="collapseFour" class="collapse"
+											aria-labelledby="followUp" data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary"
+														id="FollowupInfo" th:name="FollowupInfo">
+														<i class="fa fa-plus"></i> Follow-up Details/Further
+														action
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>DATE</th>
+															<th>LETTER SEND TO MINISTER FOR CLARIFICATION <br>
+																/REQUEST TO IO TO PROVIDE INPUTS
+															</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>1</td>
+															<td>10/2/2022</td>
+															<td>abc.pdf</a>
+															</td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="FollowupInfo">Update | Deactivate</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+
+										<div class="card-header" id="activites">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#collapseFive" aria-expanded="false"
+														aria-controls="collapseFive">Dates of various
+														activities of SFIO/Milestones</button>
+											</h2>
+										</div>
+										<div id="collapseFive" class="collapse"
+											aria-labelledby="activites" data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary"
+														id="activitiesInfo" th:name="activitiesInfo">
+														<i class="fa fa-plus"></i> Dates of various activities of
+														SFIO/Milestones
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>DATE</th>
+															<th>Order Type</th>
+															<th>File</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>1</td>
+															<td>10/2/2022</td>
+															<th>Investigate Order</th>
+															<td>abc.pdf</a>
+															</td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="activitiesInfo">Update | Deactivate</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+										<div class="card-header" id="Fyt">
+											<h2 class="mb-0">
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse" data-target="#fyFour"
+														aria-expanded="false" aria-controls="fyFour">Date
+														& FY of filling</button>
+											</h2>
+										</div>
+										<div id="fyFour" class="collapse" aria-labelledby="Fyt"
+											data-parent="#accordionExample">
+
+
+											<div class="card-body">
+												<div class="form-group row">
+													<button type="submit" class="btn btn-primary" id="Fytinfo"
+														th:name="Fytinfo">
+														<i class="fa fa-plus"></i> Date & FY of filling
+													</button>
+												</div>
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>DATE</th>
+															<th>Filling Number</th>
+															<th>Financial Year OF Filling OF Complaint</th>
+															<th>Status</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>1</td>
+															<td>10/2/2022</td>
+															<td>test12324</td>
+															<td>2018-2019</td>
+															<td><button type="submit" class="btn btn-success"
+																	th:name="Fytinfo">Update</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer"></div>
+										</div>
+
+										<div class="card-header" id="headingOne">
+											<h2 class="mb-0">
+
+												<div class="card mb-2 border border-success">
+													<button
+														class="btn btn-link shadow-none text-success collapsed"
+														type="button" data-toggle="collapse"
+														data-target="#collapseOne" aria-expanded="true"
+														aria-controls="collapseOne">
+														<i class="fa fa-angle-left pull-right" aria-hidden="true"></i>
+														Accused Details
+													</button>
+												</div>
+											</h2>
+
+										</div>
+
+										<div id="collapseOne" class="collapse "
+											aria-labelledby="headingOne" data-parent="#accordionExample">
+											<div class="card-body">
+
+												<table class="table table-bordered table-responsive-lg"
+													id="assignTable">
+													<thead class="bg-info text-white">
+														<tr>
+															<th>S.No.</th>
+															<th>Name</th>
+															<th>Pan Number</th>
+															<th>Action</th>
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>1</td>
+															<td>Ankit</td>
+															<td>CUHPP8904R</td>
+															<td><button type="submit" class="btn btn-info"
+																	th:name="accusedstausInfo">Update</button></td>
+														</tr>
+													</tbody>
+
+												</table>
+
+											</div>
+											<div class="modal-footer">
+												<!-- <button type="button" class="btn btn-dark" data-dismiss="modal">
+							<i class="fa fa-times"></i> Close
+						</button> -->
+												<button type="submit" class="btn btn-primary"
+													id="addnewCompanycase" th:name="Newaccused">
+													<i class="fa fa-plus"></i> Add New Accused
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="form-footer">
+
+
+										<a class="btn btn-dark" href="getCaseList"> <i
+											class="fa fa-check-square-o"></i> Back
+										</a>
+									</div>
+								</div>
+						</form>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				var table = $('#assignTable').DataTable();
+
+			});
+		</script>
+	</div>
+
+</body>
+</html>

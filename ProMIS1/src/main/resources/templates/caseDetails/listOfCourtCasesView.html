@@ -1,0 +1,143 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css"
+	rel="stylesheet" type="text/css">
+<link href="plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css"
+	rel="stylesheet" type="text/css">
+<title>All Created Cases</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="directorhome">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Total Number of Cases</li>
+					<!-- <th:block th:if="${userRole=='ROLE_DIRECTOR'}">
+						<li class="breadcrumb-item"><a href="directorhome">Home</a></li>
+					</th:block>
+					<th:block th:unless="${userRole=='ROLE_DIRECTOR'}">
+						<li class="breadcrumb-item"><a href="puhHome">Home</a></li>
+					</th:block>
+
+
+
+					<li class="breadcrumb-item active" aria-current="page">Court
+						Case Sanction Order Details</li> -->
+				</ol>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header text-uppercase">
+							<i class="fa fa-address-book-o"></i> Total Number of Cases
+
+						</h4>
+
+
+						<form th:action="@{/}" method="post" class="needs-validation">
+
+							<div class="form-group row">
+							<div class="table-responsive">
+								<table class="table table-striped table-bordered"
+									id="assignedTable">
+									<thead class="bg-info text-white">
+										<tr>
+
+											<th>S.No.</th>
+											<th>Case Title/Company</th>
+											<th>FILE NO. OF SANCTION ORDER NO</th>
+											<th>Sanction File Name</th>
+											<th>Court Case No</th>
+											<th>Cause Title</th>
+											<th>Case Status</th>
+											<th>Role of SFIO</th>
+											<th>Created By</th>
+											
+											
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="p,stats: ${lstCourtCase}">
+											<td th:text="${stats.count}"></td>
+											<td th:text="${p.assignedTask.addCase.caseTitle}"></td>
+											<td th:text="${p.assignedTask.addCase.proSectionOrderNumber}"></td>
+											<td th:text="${p.assignedTask.addCase.proSanctionFileName}"></td>
+											<!-- <td th:text="${p.sfioAs.SfioAs}"></td> -->
+											
+											<td th:text="${p.courtCaseNo}"></td>
+											
+											<td th:text="${p.causeTitle}"></td>
+
+
+											<td><th:block th:if="${p.casePosition==0}">
+													<span style="color: blue">Case created but not
+														forwarded</span>
+												</th:block> <th:block th:if="${p.casePosition==1}">
+													<span style="color: brown">Forwarded to PUH by PUH
+														Staff</span>
+												</th:block> <th:block th:if="${p.casePosition==2}">
+													<span style="color: blue">Case finalized but not
+														assigned</span>
+												</th:block> <th:block th:if="${p.casePosition==3}">
+													<span style="color: red">Sent back to PUH Staff by
+														PUH</span>
+												</th:block> <th:block th:if="${p.casePosition==4}">
+													<span style="color: blue">Assigned to prosecutor by
+														PUH</span>
+												</th:block></td>
+											<td th:text="${p.sfioAs.SfioAs}"></td>
+											<td th:text="${p.createdBy.firstName}"></td>	
+											
+
+										</tr>
+									</tbody>
+
+								</table>
+								</div>
+							</div>
+						</form>
+
+
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				var table = $('#assignedTable').DataTable({
+					//		 	        lengthChange: false,
+					buttons : [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+				});
+			});
+		</script>
+
+	</div>
+
+</body>
+</html>

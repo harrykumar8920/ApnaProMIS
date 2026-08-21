@@ -1,0 +1,5833 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Add New Respondent</title>
+</head>
+
+<body>
+
+
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-12">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="userHome">Home</a></li>
+					<li class="breadcrumb-item"><a href="ApproveproTaskList">Task
+							Details</a></li>
+					<!-- <li class="breadcrumb-item"><a href="#">Court Case Details</a></li> -->
+					<li class="breadcrumb-item active" aria-current="page">NCLT/NCLAT
+						Details and Related Information</li>
+				</ol>
+			</div>
+		</div>
+
+
+
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+
+
+
+						<form th:action="@{/addNewUser}" method="post" class="needs-validation"
+							th:object="${assignedDtl}" autocomplete="off">
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label" style="font-size: medium;"> Cause
+									Title <span class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-sm-12 col-form-label text-primary"> <span
+											style="font-size: medium;" th:text="${assignedDtl.causeTitle}"></span>
+									</label>
+
+								</div>
+
+								<label for="input-16" class="col-sm-2 col-form-label" style="font-size: medium;">Court
+									Case No <span class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-sm-12 col-form-label text-primary" id="CourtNo"> <span
+											th:id="CourtNo" style="font-size: medium;"
+											th:text="${assignedDtl.courtCaseNo}"></span></label>
+								</div>
+
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<form th:action="@{/addCriminalDtl11}" method="post" class="needs-validation"
+							th:object="${nCLTTaskDTO}" th:id="viewGeneratedComplaint" autocomplete="off"
+							enctype="multipart/form-data" target="_blank">
+							<input type="hidden" th:field="*{assignedTask}">
+						</form>
+
+						<form th:action="@{/addCriminalDtl}" method="post" class="needs-validation"
+							th:object="${nCLTTaskDTO}" th:id="addCriminalDtl1" autocomplete="off"
+							enctype="multipart/form-data">
+
+
+							<input type="hidden" th:id="accCIN" th:value="${accCIN}" th:field="*{accCIN}"> <input
+								type="hidden" th:id="accusedAddress" th:value="${accusedAddress}"
+								th:field="*{accusedAddress}">
+							<!-- <input type="hidden"
+								th:id="accDesination" th:value="${accDesination}"
+								th:field="*{accDesination}"> -->
+							<input type="hidden" th:id="incvaseId" th:value="${invCasedtl.invcaseDetailsId}"> <input
+								type="hidden" th:field="*{pairaviId}" th:value="${nCLTTaskDTO.pairaviId}"> <input
+								type="hidden" th:field="*{caseproseingID}" th:value="${nCLTTaskDTO.caseproseingID}">
+							<input type="hidden" th:field="*{companyId}" th:value="${nCLTTaskDTO.companyId}">
+							<!-- <input type="text" style="display: none;" th:id="invMcaOrder" th:value="${invCasedtl.mcaOrder}"> -->
+							<input type="text" style="display: none;" th:id="invMcaOrder"
+								th:value="${nCLTTaskDTO.InvCaseNo}"> <input type="hidden" th:field="*{proCourtDtl}"
+								id="procourtdtlIDD">
+							<input type="hidden" th:field="*{assignedTask}"> <input type="hidden" th:id="companyId"
+								th:value="companyId" th:field="*{companyId}"> <input type="hidden" th:id="accusedCompId"
+								th:field="*{accusedCompId}"> <input type="hidden" th:field="*{tabId}" th:id="tabId">
+							<input type="hidden" th:field="*{hearingEditId}"> <input type="hidden"
+								th:field="*{AccusedStatusID}"> <input type="hidden" th:field="*{AccusedStatusID2}">
+							<input type="hidden" th:field="*{accusedIdEdit}"> <input type="hidden"
+								th:field="*{typeOfCase}"> <input type="hidden" th:field="*{uploadID}"> <input
+								type="hidden" th:field="*{performaID}">
+
+
+
+
+							<div class="modal fade" id="largesizemodal12">
+								<div class="modal-dialog modal-lg modal-dialog-centered" style="width: 100%;">
+									<div class="modal-content">
+										<div class="modal-header bg-primary">
+											<h5 class="modal-title text-white">Add Respondent Status
+											</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<div class="form-group row">
+
+												<label for="input-10" class="col-sm-2 col-form-label">Select
+													Respondent <span class="text-danger">*</span>
+												</label> <span th:if="${#lists.isEmpty(personList)}"
+													class="text-danger">Please add the Respondent first
+												</span>
+												<div class="col-sm-4" th:unless="${#lists.isEmpty(personList)}">
+													<select class="form-control" th:field="*{addAccused}">
+
+
+														<option th:each="stlst: ${personList}" th:value="${stlst.id}"
+															th:utext="${stlst.accusedName }" />
+
+													</select> <span class="text-danger"
+														th:if="${#fields.hasErrors('addAccused')}"
+														th:errors="*{addAccused}"></span>
+
+												</div>
+											</div>
+											<div class="form-group row">
+
+												<label for="input-10" class="col-sm-2 col-form-label">Status
+													<span class="text-danger">*</span>
+												</label>
+												<div class="col-sm-4">
+													<select class="form-control" th:field="*{caseStatus}">
+
+														<option th:each="stlst: ${statusLst}" th:value="${stlst.id}"
+															th:utext="${stlst.statusName}" />
+													</select>
+
+												</div>
+											</div>
+
+
+											<div id="msg"></div>
+											<!-- </form> -->
+										</div>
+										<div class="modal-footer" th:unless="${#lists.isEmpty(personList)}">
+
+											<button type="submit" class="btn btn-success btn-round m-1"
+												th:name="saveHearingDetailsNCLT1">
+												<i class="fa fa-check-square-o"></i> SAVE
+											</button>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+
+
+
+
+
+
+
+
+							<h6 class="text-uppercase">NCLT TASK DETAILS</h6>
+							<hr>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="row">
+
+												<div class="col-md-3">
+
+													<ul class="nav nav-pills nav-pills-warning flex-column" id="myTab"
+														role="tablist" style="align-items: flex-start;">
+
+														<li class="nav-item"><a class="nav-link py-2 active"
+																data-toggle="pill" href="#piil-21"><i
+																	class="zmdi zmdi-circle"></i> <span
+																	class="hidden-xs" style="font-size: 15px">Complainant
+																</span> </a></li>
+														<!-- <li class="nav-item"><a class="nav-link py-2"
+															th:href="@{/addinspector(inputField=${nCLTTaskDTO.assignedTask.id})}"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px">Inspector</span></a></li> -->
+														<li class="nav-item">
+															<button type="button" id="freezerAssetsID"
+																class="nav-link py-2" th:onclick="inspector();">
+																<i class="zmdi zmdi-circle"></i><span class="hidden-xs"
+																	style="font-size: 15px; margin-left: 5px">Inspector</span>
+															</button>
+														</li>
+
+
+
+														<li class="nav-item"><a class="nav-link py-2" data-toggle="pill"
+																href="#piil-23"><i class="zmdi zmdi-circle"></i> <span
+																	class="hidden-xs" style="font-size: 15px">Pairavi
+																	officer/IO </span></a></li>
+
+
+													<!--	<li class="nav-item"><a class="nav-link py-2" data-toggle="pill"
+																href="#piil-25"><i class="zmdi zmdi-circle"></i> <span
+																	class="hidden-xs" style="font-size: 15px">Update
+																	NCLT/NCLAT Case
+																	Number </span> </a></li>-->
+
+														<!-- <li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-25"  th:if="${nCLTTaskDTO.typeOfCase}==NCLT"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px">Update NCLT/NCLAT Case Number
+															</span></a></li> -->
+
+														<li class="nav-item"><a class="nav-link py-2" data-toggle="pill"
+																href="#piil-24"><i class="zmdi zmdi-circle"></i> <span
+																	class="hidden-xs" style="font-size: 15px">Case
+																	processing dates </span></a></li>
+														<!-- <li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-25"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs" style="font-size: 15px">Financial
+																	Year </span></a></li> -->
+														<!-- <li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-26"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs">Case
+															</span></a></li> -->
+														<li class="nav-item"><a class="nav-link py-2" data-toggle="pill"
+																href="#piil-26"><i class="zmdi zmdi-circle"></i> <span
+																	class="hidden-xs" style="font-size: 15px">Respondent
+																</span> </a></li>
+
+														<li class="nav-item">
+															<button type="button" class="nav-link py-2"
+																th:onclick="chargeInstance();">
+																<i class="zmdi zmdi-circle"></i><span class="hidden-xs"
+																	style="font-size: 15px; margin-left: 5px">Add
+																	Section</span>
+															</button>
+														</li>
+
+
+
+
+														<li class="nav-item"><a class="nav-link py-2" data-toggle="pill"
+																href="#piil-27"><i class="zmdi zmdi-circle"></i> <span
+																	class="hidden-xs" style="font-size: 15px">Hearing
+																	Details </span></a></li>
+
+
+														<li class="nav-item"><a class="nav-link py-2"
+																style="text-align: left;" data-toggle="pill"
+																href="#piil-30"><i class="zmdi zmdi-circle mb-1">
+																</i> <span class="hidden-xs"
+																	style="font-size: 15px">Miscellaneous application
+																	filled by the Respondent </span></a>
+
+
+															<ul class="nav flex-column sub-menu pl-5">
+																<li class="nav-item"><span
+																		onclick="getCompanyAccusedInfo();">Upload
+																		Additional Files</span></li>
+															</ul>
+														</li>
+														<li class="nav-item"><a class="nav-link py-2"
+																style="text-align: left;" data-toggle="pill"
+																href="#piil-32"><i class="zmdi zmdi-circle mb-1">
+																</i> <span class="hidden-xs" style="font-size: 15px">
+																	Respondent / SFIO File</span></a>
+
+														</li>
+
+
+														<li class="nav-item">
+															<button type="button" id="freezerAssetsID"
+																class="nav-link py-2"
+																th:value="${nCLTTaskDTO.assignedTask.id}"
+																th:onclick="responseofrespondent();">
+																<i class="zmdi zmdi-circle"></i><span class="hidden-xs"
+																	style="font-size: 15px; margin-left: 5px">Response
+																	of the respondent</span>
+															</button>
+														</li>
+
+
+
+														<li class="nav-item">
+															<button type="button" id="freezerAssetsID"
+																class="nav-link py-2"
+																th:value="${nCLTTaskDTO.assignedTask.id}"
+																th:onclick="freezerAssets();">
+																<i class="zmdi zmdi-circle"></i><span class="hidden-xs"
+																	style="font-size: 15px; margin-left: 5px">Freezer
+																	asset order</span>
+															</button>
+														</li>
+
+
+
+													</ul>
+												</div>
+												<div class="col-md-9">
+													<!-- Tab panes -->
+													<div class="tab-content">
+														<div id="piil-21" class="container tab-pane active">
+
+															<th:block
+																th:if="${nCLTTaskDTO.complanitId==null OR nCLTTaskDTO.approve_status==3 }">
+																<div class="form-group row">
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">
+																		Investigation Officer <span
+																			class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			autocomplete="off" th:id="IOName"
+																			name="IOName" th:field="*{IOName}"
+																			placeholder="Enter  Name" maxlength="50">
+																		<span class="text-danger"
+																			th:if="${#fields.hasErrors('IOName')}"
+																			th:errors="*{IOName}"></span>
+																	</div>
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Designation
+																		of Investigation Officer <span
+																			class="text-danger">*</span>
+																	</label>
+
+																	<div class="col-sm-4">
+																		<select class="form-control"
+																			th:field="*{desigInvesOffi}">
+																			<option value="0">Choose</option>
+																			<option th:each="design: ${desilst}"
+																				th:value="${design.id}"
+																				th:utext="${design.designation}" />
+																		</select> <span class="text-danger"
+																			th:if="${#fields.hasErrors('desigInvesOffi')}"
+																			th:errors="*{desigInvesOffi}"></span>
+																	</div>
+																	<!-- 	
+																 <div class="col-sm-4">
+																		<select class="form-control" th:field="*{IOName}">
+																			<option value="0">Choose Officer</option>
+																		</select> <span class="text-danger"
+																			th:if="${#fields.hasErrors('IOName')}"
+																			th:errors="*{IOName}"></span>
+																	</div>  -->
+
+																</div>
+																<div class="form-group row">
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">
+																		Complainant <span class="text-danger">*</span>
+																	</label>
+
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			autocomplete="off" th:id="complanitName"
+																			name="complanitName"
+																			th:field="*{complanitName}"
+																			placeholder="Enter  Name" maxlength="50">
+																		<span class="text-danger"
+																			th:if="${#fields.hasErrors('complanitName')}"
+																			th:errors="*{complanitName}"></span>
+																	</div>
+
+
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">Email
+																		<span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			autocomplete="off" id="email"
+																			placeholder="Enter Email"
+																			th:field="*{complanitEmail}" maxlength="50">
+																		<span class="text-danger"
+																			th:if="${#fields.hasErrors('complanitEmail')}"
+																			th:errors="*{complanitEmail}"
+																			maxlegth="100"></span>
+																	</div>
+																</div>
+																<div class="form-group row">
+
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Designation
+																		of Complainant <span class="text-danger">*</span>
+																	</label>
+
+																	<div class="col-sm-4">
+																		<select class="form-control"
+																			th:field="*{complanitdesignation}">
+																			<option value="0">Choose</option>
+																			<option th:each="design: ${desilst}"
+																				th:value="${design.id}"
+																				th:utext="${design.designation}" />
+																		</select> <span class="text-danger"
+																			th:if="${#fields.hasErrors('complanitdesignation')}"
+																			th:errors="*{complanitdesignation}"></span>
+																	</div>
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Mobile
+																		Number <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			th:field="*{complaintMobile}"
+																			name="contactnumber" id="mobileNo"
+																			placeholder="Enter Mobile No" maxlength="10"
+																			onblur="checkMobile()"
+																			oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+																		<span class="text-danger"
+																			th:if="${#fields.hasErrors('complaintMobile')}"
+																			th:errors="*{complaintMobile}"></span> <span
+																			id="MobileErr" class="text-danger"></span>
+																	</div>
+																</div>
+
+																<div class="form-group row">
+
+
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">Petition
+																		Number </label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			name="complaintPetinoner"
+																			id="complaintPetinoner"
+																			th:field="*{complaintPetinoner}"
+																			placeholder="Enter Petition Number"
+																			maxlength="25">
+
+																		<span class="text-danger"
+																			th:if="${#fields.hasErrors('complaintPetinoner')}"
+																			th:errors="*{complaintPetinoner}"></span>
+
+																	</div>
+
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">Date
+																		of filing of petition </label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			th:field="*{complaintPetinonerDate}"
+																			placeholder="Enter Petition Number"
+																			maxlength="10">
+
+																		<span class="text-danger"
+																			th:if="${#fields.hasErrors('complaintPetinonerDate')}"
+																			th:errors="*{complaintPetinonerDate}"></span>
+
+																	</div>
+																</div>
+																<div class="form-group row">
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">
+																		Investigation Case No <span
+																			class="text-danger"></span>
+																	</label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			autocomplete="off" th:id="InvCaseNo"
+																			th:field="*{InvCaseNo}" maxlength="50">
+																	</div>
+
+
+																</div>
+																<div th:if="${nCLTTaskDTO.complanitId==null}">
+																	<button type="submit"
+																		class="btn btn-success btn-round m-1"
+																		id="ComplainDtlSave"
+																		th:name="complainDtlSaveNCLT">
+																		<i class="fa fa-check-square-o"></i> SAVE
+																	</button>
+																</div>
+																<div th:if="${nCLTTaskDTO.complanitId!=null}">
+																	<button type="submit"
+																		class="btn btn-success btn-round m-1"
+																		id="ComplainDtlSave"
+																		th:name="complainDtlSaveNCLT">
+																		<i class="fa fa-check-square-o"></i> Update
+																	</button>
+
+																</div>
+
+															</th:block>
+
+
+
+
+															<th:block th:if="${nCLTTaskDTO.complanitId!=null}">
+																<div class="form-group row">
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">
+																		Investigation Officer <span
+																			class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span
+																				th:text="${nCLTTaskDTO.IOName}"></span>
+																		</label>
+
+
+																	</div>
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">DESIGNATION
+																		OF INVESTIGATION OFFICER <span
+																			class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span
+																				th:text="${nCLTTaskDTO.desigInvesOffi.designation}"></span>
+																		</label>
+																	</div>
+
+																</div>
+																<div class="form-group row">
+
+
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">
+																		Petitioner <span class="text-danger">*</span>
+																	</label>
+
+																	<div class="col-sm-4">
+
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span
+																				th:text="${nCLTTaskDTO.complanitName}"></span><br>
+
+																		</label>
+
+																	</div>
+
+
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">Email
+																		<span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span
+																				th:text="${nCLTTaskDTO.complanitEmail}"></span>
+																		</label>
+
+																	</div>
+																</div>
+																<div class="form-group row">
+
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Designation
+																		of Petitioner</label>
+
+																	<div class="col-sm-4">
+
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span
+																				th:text="${nCLTTaskDTO.complanitdesignation.designation}"></span>
+																		</label>
+
+																	</div>
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Mobile
+																		Number <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span
+																				th:text="${nCLTTaskDTO.complaintMobile}"></span>
+																		</label>
+
+
+																	</div>
+																</div>
+
+																<div class="form-group row">
+
+
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">Petition
+																		Number </label>
+																	<div class="col-sm-4">
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span
+																				th:text="${nCLTTaskDTO.complaintPetinoner}"></span>
+																		</label>
+																	</div>
+
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">Date
+																		of filing of petition </label>
+																	<div class="col-sm-4">
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span
+																				th:text="${#dates.format(nCLTTaskDTO.complaintPetinonerDate, 'dd/MM/yyyy')}"></span>
+																		</label>
+																	</div>
+																</div>
+
+																<div class="form-group row">
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">
+																		Investigation Case No <span
+																			class="text-danger"></span>
+																	</label>
+																	<div class="col-sm-4">
+
+
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span
+																				th:text="${nCLTTaskDTO.InvCaseNo}"></span>
+																		</label>
+
+																	</div>
+																</div>
+
+
+
+																<th:block th:if="${nCLTTaskDTO.approve_status==0}">
+																	<button type="submit"
+																		class="btn btn-success btn-round m-1"
+																		id="complainDtlSaveNCLT1"
+																		th:name="complainDtlSaveNCLT1">
+																		<i class="fa fa-check-square-o"></i> Confirm
+																	</button>
+																</th:block>
+																<th:block th:if="${nCLTTaskDTO.approve_status==1}">
+																	<button type="" disabled="disabled"
+																		class="btn btn-success btn-round m-1">
+																		approval is in Process</button>
+
+
+																</th:block>
+
+																<th:block th:if="${nCLTTaskDTO.approve_status==2}">
+																	<button type="" disabled="disabled"
+																		class="btn btn-success btn-round m-1">Confirmed</button>
+
+
+																</th:block>
+																<th:block th:if="${nCLTTaskDTO.approve_status==3}">
+
+																	<button type="" disabled="disabled"
+																		class="btn btn-success btn-round m-1">Sent
+																		Back by PUH</button>
+																	<label class="col-sm-6 col-form-label text-danger">
+																		<span
+																			th:text="${nCLTTaskDTO.rejectRemark}"></span>
+																	</label>
+
+
+																</th:block>
+
+															</th:block>
+
+
+														</div>
+
+
+
+
+
+														<div id="piil-22" class="container tab-pane fade">
+															<div class="form-group row">
+																<button type="button" th:id="selectComp"
+																	class="btn btn-info">
+																	<i class="fa fa-plus"></i> Select CUI From SNMS
+																</button>
+																&nbsp;&nbsp;&nbsp;&nbsp;
+																<!-- <button type="button" class="btn btn-primary"
+																	id="addnewCompanycase" onclick="addnewComp()">
+																	<i class="fa fa-plus"></i> Add New Company
+																</button> -->
+															</div>
+															<div id="newComp">
+																<div class="form-group row">
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">
+																		Company Name <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			maxlength="50" th:field="*{compName}"
+																			th:id="compName"> <span class="text-danger"
+																			th:if="${#fields.hasErrors('compName')}"
+																			th:errors="*{compName}"></span>
+
+
+																	</div>
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">
+																		CIN <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			maxlength="21" th:field="*{cin}"
+																			th:id="cin"> <span class="text-danger"
+																			th:if="${#fields.hasErrors('cin')}"
+																			th:errors="*{cin}"></span>
+
+
+																	</div>
+																</div>
+
+																<div class="form-group row">
+
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">Address
+																		<!-- <span class="text-danger">*</span> -->
+																	</label>
+
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			th:field="*{compAddess}" th:id="compAddess">
+
+																		<span class="text-danger"
+																			th:if="${#fields.hasErrors('compAddess')}"
+																			th:errors="*{compAddess}"></span>
+
+																	</div>
+
+
+																</div>
+
+																<th:block th:if="${nCLTTaskDTO.companyId==null}">
+																	<button type="button"
+																		class="btn btn-success btn-round m-1"
+																		id="NewCompanyDetailsd"
+																		th:onclick="NewCompanyDetails();">
+																		<i class="fa fa-check-square-o"></i> SAVE
+																	</button>
+																</th:block>
+																<th:block th:if="${nCLTTaskDTO.companyId>0}">
+																	<button type="button"
+																		class="btn btn-success btn-round m-1"
+																		id="NewCompanyDetailsd"
+																		th:onclick="editCompanyDetails();">
+																		<i class="fa fa-check-square-o"></i> UPDATE
+																	</button>
+																</th:block>
+
+
+																<!-- 	<button type="button"
+																	class="btn btn-success btn-round m-1"
+																	id="NewCompanyDetailsd"
+																	th:onclick="NewCompanyDetails();">
+																	<i class="fa fa-check-square-o"></i> SAVE
+																</button>
+ -->
+
+																<!-- 	<th:block th:if="${nCLTTaskDTO.companyId==null}">
+																	<button type="button"
+																		class="btn btn-success btn-round m-1"
+																		id="NewCompanyDetailsd"
+																		th:onclick="NewCompanyDetails();">
+																		<i class="fa fa-check-square-o"></i> SAVE
+																	</button>
+																</th:block>
+																<th:block th:if="${nCLTTaskDTO.companyId>0}">
+																	<button type="button"
+																		class="btn btn-success btn-round m-1"
+																		id="NewCompanyDetailsd"
+																		th:onclick="NewCompanyDetails();">
+																		<i class="fa fa-check-square-o"></i> UPDATE
+																	</button>
+																</th:block> -->
+
+
+
+															</div>
+															<div class="form-group row" id="compCin">
+																<div class="table-responsive">
+																	<table id="CompTable1" class="table table-bordered">
+
+																		<thead>
+																			<tr>
+																				<th>S.No</th>
+																				<th>CIN</th>
+																				<th>Company</th>
+																				<th>Action</th>
+																				<th>Remarks</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="p,stats: ${companyList}">
+																				<td th:text="${stats.count}"></td>
+																				<td th:text="${p.company.cin}"
+																					th:id="cinVal"></td>
+																				<td th:text="${p.company.companyName}"
+																					th:id="cinVal"></td>
+																				<td>
+																					<th:block
+																						th:if="${p.approveStatus==0}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							type="submit"
+																							th:name="forwardToApprovalCompany"
+																							th:value="${p.Id}">FORWARD</button>
+																					</th:block>
+																					<th:block
+																						th:if="${p.approveStatus==1}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVAL
+																							IS IN
+																							PROCESS</button>
+																					</th:block>
+																					<th:block
+																						th:if="${p.approveStatus==2}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVED</button>
+																					</th:block>
+																					<th:block
+																						th:if="${p.approveStatus==3}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">Sent
+																							Back</button>
+
+																					</th:block>
+																					<th:block
+																						th:if="${p.approveStatus==0||p.approveStatus==3||p.approveStatus==5}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							type="submit"
+																							th:name="editcompanyNCLT"
+																							th:value="${p.company.Id}">Edit</button>
+																					</th:block>
+																				</td>
+																				<td th:text="${p.rejectRemark}"></td>
+
+																			</tr>
+																		</tbody>
+
+
+
+																	</table>
+																</div>
+															</div>
+														</div>
+														<div id="piil-23" class="container tab-pane fade">
+
+
+															<!-- <input type="hidden" name="pairaviId" th:field="*{nCLTTaskDTO.pairaviId}"> -->
+
+
+															<div class="form-group row">
+																<label for="input-10"
+																	class="col-sm-2 col-form-label">Pairavi
+																	Type<span class="text-danger">*</span>
+																</label>
+																<div class="col-sm-4">
+																	<select class="form-control" th:id="pairaviType"
+																		th:field="*{pairaviType}">
+																		<option value="0">Choose</option>
+																		<option th:each="pt :${ptypelst}"
+																			th:value="${pt.id}"
+																			th:utext="${pt.pairaviType}" />
+																	</select> <span class="text-danger"
+																		th:if="${#fields.hasErrors('pairaviType')}"
+																		th:errors="*{pairaviType}"></span>
+
+
+																</div>
+															</div>
+															<div class="form-group row">
+																<label for="input-16"
+																	class="col-sm-2 col-form-label">Pairavi
+																	Officer <span class="text-danger">*</span>
+																</label>
+
+																<div class="col-sm-10">
+																	<select class="form-control"
+																		th:field="*{pairaviOfficer}">
+																		<option value="0">Choose</option>
+																		<option th:each="design: ${pairaviOfficerList}"
+																			th:value="${design.id}"
+																			th:utext="${design.name + ',  '+design.designation.designation}" />
+																	</select> <span class="text-danger"
+																		th:if="${#fields.hasErrors('pairaviOfficer')}"
+																		th:errors="*{pairaviOfficer}"></span>
+																</div>
+															</div>
+															<!-- <div class="form-group row">
+
+																<label for="input-10" class="col-sm-2 col-form-label">
+																	Name <span class="text-danger">*</span>
+																</label>
+																<div class="col-sm-4">
+																	<input type="text" class="form-control"
+																		autocomplete="off" id="pairaviName" name="pairaviName"
+																		th:field="*{pairaviName}" placeholder="Enter  Name"
+																		maxlength="50"> <span class="text-danger"
+																		th:if="${#fields.hasErrors('pairaviName')}"
+																		th:errors="*{pairaviName}"></span>
+																</div>
+
+
+																<label for="input-10" class="col-sm-2 col-form-label">Email
+																	<span class="text-danger">*</span>
+																</label>
+																<div class="col-sm-4">
+																	<input type="text" class="form-control"
+																		autocomplete="off" id="pairaviemail"
+																		th:field="*{pairaviemail}" placeholder="pairavi Email"
+																		maxlength="50"> <span class="text-danger"
+																		th:if="${#fields.hasErrors('pairaviemail')}"
+																		th:errors="*{pairaviemail}"></span>
+																</div>
+															</div>
+															<div class="form-group row">
+
+
+																<label for="input-16" class="col-sm-2 col-form-label">Designation
+																	<span class="text-danger">*</span>
+																</label>
+
+
+																<div class="col-sm-4">
+																	<select class="form-control"
+																		th:field="*{pairavidesignation}">
+																		<option value="0">Choose Designation</option>
+																		<option th:each="design: ${desilst}"
+																			th:value="${design.id}"
+																			th:utext="${design.designation}" />
+																	</select> <span class="text-danger"
+																		th:if="${#fields.hasErrors('pairavidesignation')}"
+																		th:errors="*{pairavidesignation}"></span>
+																</div>
+
+
+																<label for="input-16" class="col-sm-2 col-form-label">Mobile
+																	Number <span class="text-danger">*</span>
+																</label>
+																<div class="col-sm-4">
+																	<input type="text" class="form-control"
+																		name="PairaviMobileNo" id="PairavimobileNo"
+																		th:field="*{pairaviMobile}"
+																		placeholder="Enter Mobile No" maxlength="10">
+
+																	<span class="text-danger"
+																		th:if="${#fields.hasErrors('pairaviMobile')}"
+																		th:errors="*{pairaviMobile}"></span>
+																</div>
+															</div> -->
+															<div class="form-group row">
+
+
+																<label for="input-16"
+																	class="col-sm-2 col-form-label">From
+																	Date <span class="text-danger">*</span>
+																</label>
+																<div class="col-sm-4">
+
+
+																	<input type="text" class="form-control"
+																		placeholder="Enter To Date" id="startdate"
+																		th:field="*{pairavifromDate}"> <span
+																		class="text-danger"
+																		th:if="${#fields.hasErrors('pairavifromDate')}"
+																		th:errors="*{pairavifromDate}"></span>
+
+																</div>
+
+
+
+																<label for="input-16" class="col-sm-2 col-form-label">To
+																	Date <span class="text-danger">*</span>
+																</label>
+																<div class="col-sm-4">
+																	<input type="text" class="form-control"
+																		placeholder="Enter To Date" th:id="enddate"
+																		th:field="*{pairavitoDate}"> <span
+																		class="text-danger"
+																		th:if="${#fields.hasErrors('pairavitoDate')}"
+																		th:errors="*{pairavitoDate}"></span>
+																</div>
+															</div>
+
+
+
+															<th:block th:if="${nCLTTaskDTO.pairaviId==null}">
+
+																<button type="submit"
+																	class="btn btn-success btn-round m-1"
+																	th:name="savePairaviNCLT">
+																	<i class="fa fa-check-square-o"></i> SAVE
+																</button>
+															</th:block>
+															<th:block th:if="${nCLTTaskDTO.pairaviId>0}">
+
+																<button type="submit"
+																	class="btn btn-success btn-round m-1"
+																	th:name="savePairaviNCLT">
+																	<i class="fa fa-check-square-o"></i> Update
+																</button>
+
+
+															</th:block>
+
+
+
+															<div class="form-group row">
+																<div class="table-responsive">
+																	<table id="PairaviDtl" class="table table-bordered">
+
+																		<thead>
+																			<tr>
+																				<th>S.No</th>
+																				<th>Name</th>
+																				<th>Email</th>
+																				<th>Designation</th>
+																				<th>Mobile Number</th>
+																				<th>From Date</th>
+																				<th>To Date</th>
+																				<th>Action</th>
+																				<th>Remarks</th>
+
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="p,stats: ${pairvidtl}">
+																				<td th:text="${stats.count}"></td>
+																				<td th:text="${p.pairaviOfficer.name}">
+																				</td>
+																				<td th:text="${p.pairaviOfficer.email}">
+																				</td>
+																				<td
+																					th:text="${p.pairaviOfficer.designation.designation}">
+																				</td>
+																				<td
+																					th:text="${p.pairaviOfficer.mobile}">
+																				</td>
+																				<!-- <td th:text="${p.fromDate}"></td> -->
+																				<td
+																					th:text="${#dates.format(p.fromDate, 'dd/MM/yyyy')}">
+																				</td>
+																				<td
+																					th:text="${#dates.format(p.toDate, 'dd/MM/yyyy')}">
+																				</td>
+																				<!-- <td th:text="${p.toDate}"></td> -->
+																				<!-- <td th:text="${p.id}"></td> -->
+																				<td>
+																					<th:block
+																						th:if="${p.approveStatus==0}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							type="submit"
+																							th:name="editPairaviOfficerNCLT"
+																							th:value="${p.Id}">Edit</button>
+																						<button
+																							class="btn btn-success text-wrap"
+																							type="submit"
+																							th:name="forwardtoapprovalPairaviOfficerNCLT"
+																							th:value="${p.Id}">Confirm</button>
+																					</th:block>
+																					<th:block
+																						th:if="${p.approveStatus==1}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVAL
+																							IS IN
+																							PROCESS</button>
+
+																					</th:block>
+																					<th:block
+																						th:if="${p.approveStatus==2}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">Confirmed</button>
+
+																					</th:block>
+																					<th:block
+																						th:if="${p.approveStatus==3}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">Sent
+																							Back</button>
+																						<button
+																							class="btn btn-success text-wrap"
+																							type="submit"
+																							th:name="editPairaviOfficerNCLT"
+																							th:value="${p.Id}">Edit</button>
+
+																				<td th:text="${p.rejectRemark}"></td>
+																				</th:block>
+																				</td>
+
+
+																			</tr>
+																		</tbody>
+
+
+
+																	</table>
+																</div>
+															</div>
+														</div>
+														<div id="piil-25" class="container tab-pane fade">
+
+															<th:block
+																th:if="${assignedDtl.courtCaseNo==null|| assignedDtl.approveStatus==5}">
+																<div class="form-group row">
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label"
+																		th:if="${nCLTTaskDTO.typeOfCase}!=NCLT"> COURT
+																		CASE NO<span class="text-danger">*</span>
+																	</label> <label for="input-16"
+																		class="col-sm-2 col-form-label"
+																		th:if="${nCLTTaskDTO.typeOfCase}==NCLT">
+																		NCLT/NCLAT CASE Number<span
+																			class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-3">
+																		<input type="text" class="form-control"
+																			maxlength="50" th:field="*{courtCaseName}"
+																			placeholder="Enter the Court Case Number">
+																		<span>
+																			case format-<span
+																				class="text-success">"casename/100001/2023"</span>
+																		</span> <br> <span class="text-danger"
+																			th:if="${#fields.hasErrors('courtCaseName')}"
+																			th:errors="*{courtCaseName}"></span>
+																	</div>
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">
+																		UPLOAD PDF File HERE<span
+																			class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-3">
+																		<input type="file" class="form-control pl-2"
+																			th:name="courtCaseDtlFile"> <span
+																			class="text-danger"></span> <span
+																			class="text-danger"
+																			th:if="${#fields.hasErrors('courtCaseDtlFile')}"
+																			th:errors="*{courtCaseDtlFile}"></span>
+																	</div>
+
+
+
+
+																</div>
+																<button type="submit"
+																	th:if="${assignedDtl.courtCaseNo==null|| assignedDtl.approveStatus==2}"
+																	class="btn btn-success btn-round m-1"
+																	th:name="updateCourtCaseDetailsNCLT">
+																	<i class="fa fa-check-square-o"></i> SAVE
+																</button>
+																<button type="submit"
+																	th:if="${assignedDtl.courtCaseNo!=null|| assignedDtl.approveStatus==5}"
+																	class="btn btn-success btn-round m-1"
+																	th:name="updateCourtCaseDetails1NCLT">
+																	<i class="fa fa-check-square-o"></i> Update
+																</button>
+
+															</th:block>
+
+															<th:block th:if="${assignedDtl.courtCaseNo!=null}">
+																<div class="form-group row">
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label"
+																		th:if="${nCLTTaskDTO.typeOfCase}!=NCLT"> CASE
+																		NO<span class="text-danger">*</span>
+																	</label> <label for="input-16"
+																		class="col-sm-2 col-form-label"
+																		th:if="${nCLTTaskDTO.typeOfCase}==NCLT">
+																		NCLT/NCLAT CASE Number<span
+																			class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+																		<label class="col-form-label text-primary">
+																			<span
+																				th:text="${assignedDtl.courtCaseNo}"></span>
+																		</label>
+
+																	</div>
+
+
+																	<label
+																		th:if="${assignedDtl.courtCaseNo!=null && assignedDtl.approveStatus!=2}"
+																		for="input-10"
+																		class="col-sm-2 col-form-label">UPLOAD
+																		File </label>
+																	<div class="col-sm-4"
+																		th:if="${assignedDtl.courtCaseNo!=null && assignedDtl.approveStatus!=2}">
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span> <a th:target="_blank"
+																					th:href="@{|/downloadFiles?fileName=${assignedDtl?.CourtCaseDtlFile}|}">
+																					<button type="button"
+																						class="btn btn-success btn-round m-1">View
+																						Uploaded File</button>
+																				</a>
+																			</span>
+																		</label>
+
+																	</div>
+																</div>
+															</th:block>
+
+
+															<th:block
+																th:if="${assignedDtl.courtCaseNo!=null && assignedDtl.approveStatus==3}">
+																<button type="submit"
+																	class="btn btn-success btn-round m-1"
+																	th:name="forwardUpdateCourtcaseDetailsNCLT">
+																	<i class="fa fa-check-square-o"></i> FORWARD
+																</button>
+															</th:block>
+															<th:block
+																th:if="${assignedDtl.courtCaseNo!=null && assignedDtl.approveStatus==4}">
+																<button type="" disabled="disabled"
+																	class="btn btn-success btn-round m-1">
+																	approval is In Process</button>
+
+
+															</th:block>
+															<th:block th:if="${assignedDtl.approveStatus==5}">
+
+																<button type="" disabled="disabled"
+																	class="btn btn-success btn-round m-1">Sent
+																	Back</button>
+																<label class="col-sm-6 col-form-label text-danger">
+																	<span
+																		th:text="${assignedDtl.sendBackRemarks}"></span>
+
+																</label>
+
+
+															</th:block>
+
+															<th:block
+																th:if="${assignedDtl.courtCaseNo!=null && assignedDtl.approveStatus==2}">
+																<button type="" disabled="disabled"
+																	class="btn btn-success btn-round m-1">Approved
+																	by PUH</button>
+
+
+															</th:block>
+															<!-- <th:block th:if="${nCLTTaskDTO.approve_status==5}">
+
+																<button type="" disabled="disabled"
+																	class="btn btn-success btn-round m-1">Sent
+																	Back by PUH</button>
+																<label class="col-sm-6 col-form-label text-danger">
+																	<span th:text="${nCLTTaskDTO.rejectRemark}"></span>
+																</label>
+
+
+															</th:block> -->
+
+
+
+														</div>
+
+
+
+
+
+														<div id="piil-24" class="container tab-pane fade">
+															<th:block
+																th:if="${caseproseingdates.id==null OR nCLTTaskDTO.foreEditStatus==2}">
+																<div class="form-group row">
+
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Date
+																		of order of Investigation <span
+																			class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+
+
+																		<input type="text" class="form-control"
+																			placeholder="Enter To Date" id="invOrder"
+																			th:field="*{invOrder}"> <span
+																			class="text-danger"
+																			th:if="${#fields.hasErrors('invOrder')}"
+																			th:errors="*{invOrder}"></span>
+
+																	</div>
+
+
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Date
+																		of Order of Supplementary Investigation <!--<span
+																			class="text-danger">*</span>-->
+																	</label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			placeholder="Enter To Date" id="suppInv"
+																			th:field="*{suppInv}"> <span
+																			class="text-danger"
+																			th:if="${#fields.hasErrors('suppInv')}"
+																			th:errors="*{suppInv}"></span>
+																	</div>
+																</div>
+
+																<div class="form-group row">
+
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Date
+																		of submission of Investigation Report<span
+																			class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+
+
+																		<input type="text" class="form-control"
+																			placeholder="Enter To Date" id="invReport"
+																			th:field="*{invReport}"> <span
+																			class="text-danger"
+																			th:if="${#fields.hasErrors('invReport')}"
+																			th:errors="*{invReport}"></span>
+
+																	</div>
+
+
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Date
+																		of submission of Supplementary Investigation
+																		Report </label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			placeholder="Enter To Date"
+																			id="suppInvReport"
+																			th:field="*{suppInvReport}"> <span
+																			class="text-danger"
+																			th:if="${#fields.hasErrors('suppInvReport')}"
+																			th:errors="*{suppInvReport}"></span>
+																	</div>
+																</div>
+
+																<div class="form-group row">
+
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">DATE
+																		OF ISSUANCE OF SANCTION BY MCA FOR FILING OF
+																		PROSECUTION<span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+
+																		<input type="text" class="form-control"
+																			placeholder="Enter To Date" id="dateFilling"
+																			th:field="*{dateFilling}"> <span
+																			class="text-danger"
+																			th:if="${#fields.hasErrors('dateFilling')}"
+																			th:errors="*{dateFilling}"></span>
+
+																	</div>
+
+																</div>
+																<div class="form-footer" align="left">
+																	<button type="reset"
+																		class="btn btn-danger btn-round m-1">
+																		<i class="fa fa-times"></i> Reset
+																	</button>
+																	<th:block
+																		th:if="${nCLTTaskDTO.caseproseingID==null}">
+																		<button type="submit"
+																			class="btn btn-success btn-round m-1"
+																			th:name="caseProcessingDateNCLT">
+																			<i class="fa fa-check-square-o"></i> SAVE
+																		</button>
+																	</th:block>
+
+																	<th:block
+																		th:if="${nCLTTaskDTO.caseproseingID!=null}">
+																		<button type="submit"
+																			class="btn btn-success btn-round m-1"
+																			th:name="caseProcessingDateNCLT">
+																			<i class="fa fa-check-square-o"></i> UPDATE
+																		</button>
+																	</th:block>
+																	<!-- <button type="button"
+																		class="btn btn-dark btn-round m-1" id="update_btn">
+																		<i class="fa fa-check-square-o"></i> Back
+																	</button> -->
+																</div>
+															</th:block>
+
+															<th:block th:if="${caseproseingdates.id!=null}">
+																<div class="form-group row">
+
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Date
+																		of order of Investigation <span
+																			class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+
+
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span
+																				th:text="${#dates.format(caseproseingdates.orderOfInv, 'dd/MM/yyyy')}"></span>
+
+
+																		</label>
+
+																	</div>
+
+
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Date
+																		of Order of Supplementary Investigation <!--<span
+																			class="text-danger">*</span>-->
+																	</label>
+																	<div class="col-sm-4">
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span
+																				th:text="${#dates.format(caseproseingdates.orderOfSupplyInv, 'dd/MM/yyyy')}"></span>
+																		</label>
+																	</div>
+																</div>
+
+																<div class="form-group row">
+
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Date
+																		of submission of Investigation Report<span
+																			class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span
+																				th:text="${#dates.format(caseproseingdates.submissionOfInvReport, 'dd/MM/yyyy')}"></span>
+																		</label>
+
+																	</div>
+
+
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Date
+																		of submission of Supplementary Investigation
+																		Report </label>
+																	<div class="col-sm-4">
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span
+																				th:text="${#dates.format(caseproseingdates.submissionOfSupplyInvReport, 'dd/MM/yyyy')}"></span>
+																		</label>
+																	</div>
+																</div>
+
+																<div class="form-group row">
+
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Date
+																		of issuance of Instruction by MCA for filing of
+																		prosecution<span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span
+																				th:text="${#dates.format(caseproseingdates.insuranceOFInvByMCA, 'dd/MM/yyyy')}"></span>
+																		</label>
+
+																	</div>
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">Date
+																		of filing of petition </label>
+																	<div class="col-sm-4">
+																		<label
+																			class="col-sm-6 col-form-label text-primary">
+																			<span
+																				th:text="${#dates.format(nCLTTaskDTO.complaintPetinonerDate, 'dd/MM/yyyy')}"></span>
+																		</label>
+																	</div>
+
+
+																</div>
+																<div class="form-footer" align="left">
+																	<th:block
+																		th:if="${caseproseingdates.approveStatus==0}">
+																		<button class="btn btn-success text-wrap"
+																			type="submit"
+																			th:name="editCaseProseingDates"
+																			th:value="${caseproseingdates.id}">Edit</button>
+																		<button class="btn btn-success text-wrap"
+																			type="submit"
+																			th:name="forwardCaseProseingDatesNCLT"
+																			th:value="${caseproseingdates.id}">Confirm</button>
+																	</th:block>
+
+																	<th:block
+																		th:if="${caseproseingdates.approveStatus==1}">
+
+																		<button class="btn btn-success text-wrap"
+																			disabled="disabled">APPROVAL IS IN
+																			PROCESS</button>
+																	</th:block>
+																	<th:block
+																		th:if="${caseproseingdates.approveStatus==2}">
+
+																		<button class="btn btn-success text-wrap"
+																			disabled="disabled">Confirmed</button>
+																	</th:block>
+																	<th:block
+																		th:if="${caseproseingdates.approveStatus==3}">
+																		<button class="btn btn-success text-wrap"
+																			disabled="disabled">Sent Back</button>
+																		<button class="btn btn-success text-wrap"
+																			type="submit"
+																			th:name="editCaseProseingDatesNCLT"
+																			th:value="${caseproseingdates.Id}">Edit</button>
+
+																		<label for="input-16"
+																			class="col-sm-2 col-form-label">Remarks
+																		</label>
+																		<span
+																			th:text="${caseproseingdates.rejectRemark}"></span>
+
+																	</th:block>
+																</div>
+															</th:block>
+
+
+														</div>
+
+
+														<div id="piil-25" class="container tab-pane fade">
+															<div class="form-group row">
+
+
+																<label for="input-16"
+																	class="col-sm-2 col-form-label">Financial
+																	Year </label>
+																<div class="col-sm-4">
+
+
+																	<input type="text" class="form-control"
+																		placeholder="Enter To Finanacial Year as 2020-2021"
+																		id="instructionFy" th:field="*{instructionFy}">
+																	<span class="text-danger"
+																		th:if="${#fields.hasErrors('instructionFy')}"
+																		th:errors="*{instructionFy}"></span>
+
+
+
+																</div>
+															</div>
+
+															<div class="form-footer" align="right">
+																<button type="reset"
+																	class="btn btn-danger btn-round m-1">
+																	<i class="fa fa-times"></i> Reset
+																</button>
+																<th:block th:if="${id==null}">
+																	<button type="submit"
+																		class="btn btn-success btn-round m-1"
+																		id="caseProcessingDate" th:name="financialYear">
+																		<i class="fa fa-check-square-o"></i> SAVE
+																	</button>
+																</th:block>
+
+																<th:block th:if="${id!=null}">
+																	<button type="submit"
+																		class="btn btn-success btn-round m-1">
+																		<i class="fa fa-check-square-o"></i> update
+																	</button>
+																</th:block>
+																<button type="button" class="btn btn-dark btn-round m-1"
+																	id="update_btn">
+																	<i class="fa fa-check-square-o"></i> Back
+																</button>
+															</div>
+														</div>
+
+														<div id="piil-26" class="container tab-pane fade">
+
+															<input type="hidden" th:field="*{sectionName}"> <input
+																type="hidden" th:field="*{actName}"> <input
+																type="hidden" th:field="*{subsectionName}"> <input
+																type="hidden" th:field="*{accusedACT}"> <input
+																type="hidden" th:field="*{accusedSection}"> <input
+																type="hidden" th:field="*{accusedSubSection}"> <input
+																type="hidden" th:field="*{accusedClause}"> <input
+																type="hidden" th:field="*{accusedDescription}">
+
+															<h4>Respondent</h4>
+															<!--<div class="col-sm-2">
+																<button type="button" class="btn btn-success"
+																	onclick="showAccusedList()">
+																	<i class="fa fa-plus"></i> Show Accused
+																</button>
+															</div>-->
+															<!-- 	<div class="form-group row">
+
+																<button type="button" class="btn btn-primary"
+																	id="addAccused1" th:name="Newaccused">
+																	<i class="fa fa-plus"></i> Add from SNMS
+																</button>
+															</div> -->
+															<!-- <div id="newAccused" style="display: none;"> -->
+
+															<div id="newAccused">
+																<div class="col-sm-12 mb-5" id="accusedListDiv"
+																	style="display: none; margin-top: 20px;">
+
+																	<div class="table-responsive"
+																		th:if="${not #lists.isEmpty(allAccusedFromCriminal)}">
+																		<h5>Accused List</h5>
+																		<table class="table table-bordered">
+																			<thead>
+																				<tr>
+																					<th>S.No</th>
+																					<th>Accused Type</th>
+																					<th>Name</th>
+																					<th>PAN</th>
+																					<th>CIN</th>
+																					<th>Address</th>
+																					<th>Company</th>
+																					<th>Designation</th>
+																					<th>Action</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<tr
+																					th:each="p,stats : ${allAccusedFromCriminal}">
+																					<td th:text="${stats.count}"></td>
+																					<td th:text="${p.accusedType}"></td>
+																					<td th:text="${p.accusedName}"></td>
+																					<td th:text="${p.panNumber}"></td>
+																					<td th:text="${p.cinNumber}"></td>
+																					<td th:text="${p.address}"></td>
+																					<td
+																						th:text="${p.individualRelateTo}">
+																					</td>
+																					<td
+																						th:text="${p.designation.designation}">
+																					</td>
+																					<td>
+																						<button type="button"
+																							class="btn btn-success addAccusedBtn"
+																							th:attr="data-name=${p.accusedName}, 
+																	                                     data-pan=${p.panNumber}, 
+																	                                     data-cin=${p.cinNumber},
+																	                                     data-accusedT=${p.accusedType},
+																	                                     data-accAddress=${p.address},
+																	                                     data-accCompany=${p.individualRelateTo},
+																	                                     data-accDesignation=${p.designation.id}">
+																							<i class="fa fa-plus"></i>
+																							Add
+																						</button>
+																					</td>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</div>
+
+																	<!-- Show message when list is empty -->
+																	<div class="alert alert-warning text-center p-2"
+																		th:unless="${not #lists.isEmpty(allAccusedFromCriminal)}">
+																		Accused not present.
+																	</div>
+
+																</div>
+
+																<div class="form-group row">
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">
+																		Type</label>
+																	<div class="col-sm-4">
+																		<select class="form-control"
+																			th:field="*{accusedType}"
+																			onchange="selectaccusedType();">
+
+																			<option value="Choose">Choose</option>
+																			<option value="Association">Association
+																			</option>
+																			<option value="Associate Company">Associate
+																				Company</option>
+																			<option value="CA Firm">CA Firm</option>
+																			<option value="Company">Company</option>
+																			<option value="Group Company">Group Company
+																			</option>
+																			<option value="Individual">Individual
+																			</option>
+																			<option value="Joint Venture Company">Joint
+																				Venture Company</option>
+
+																			<option value="LLP">LLP</option>
+																			<option value="Sole Proprietor">Sole
+																				Proprietor</option>
+																			<option value="Subsidary Company">Subsidary
+																				Company</option>
+
+
+
+
+																		</select> <span class="text-danger"
+																			th:if="${#fields.hasErrors('accusedType')}"
+																			th:errors="*{accusedType}"></span>
+
+																	</div>
+
+
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label"
+																		id="r1">Company</label>
+																	<div class="col-sm-4" id="r2">
+																		<input type="text" class="form-control"
+																			th:field="*{individualRelateTo}">
+																	</div>
+
+
+																	<div class="col-sm-4" style="display: none" id="2">
+																		<input type="text" class="form-control"
+																			maxlength="50" th:field="*{accComp}"
+																			th:id="accComp">
+
+																	</div>
+
+																</div>
+																<div class="form-group row">
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">
+																		Performa Party</label>
+																	<div class="col-sm-4">
+																		<select class="form-control"
+																			id="performaPartyRespondent"
+																			th:field="*{performaPartyRespondent}"
+																			onchange="PerformaPartyType();">
+																			<option value="Performa Party">Performa
+																				Party</option>
+																			<option value="Respondent">Respondent
+																			</option>
+																		</select> <!--<span class="text-danger"
+																			th:if="${#fields.hasErrors('accusedType')}"
+																			th:errors="*{accusedType}"></span>-->
+
+																	</div>
+
+
+
+																	<label for="input-16" id="pp1"
+																		class="col-sm-2 col-form-label">Respondent
+																		Number<span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control" id="pp2"
+																			th:field="*{respondentNumber}">
+																		<span id="pp2Error" class="text-danger"></span>
+																	</div>
+
+																</div>
+																<div class="form-group row">
+
+
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">Name
+																		<span class="text-danger">*</span>
+																	</label>
+
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			th:field="*{accusedName}"> <span
+																			class="text-danger"
+																			th:if="${#fields.hasErrors('accusedName')}"
+																			th:errors="*{accusedName}"></span>
+
+																	</div>
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">
+																		Pan Number <span class="text-danger"></span>
+																	</label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			maxlength="10" th:field="*{accPan}"
+																			th:id="accPan"> <span class="text-danger"
+																			th:if="${#fields.hasErrors('accPan')}"
+																			th:errors="*{accPan}"></span>
+																		<span id="panError" class="text-danger"></span>
+																	</div>
+																</div>
+
+
+																<div class="form-group row">
+
+
+
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label" id="r5">CIN
+																		Number <span class="text-danger"></span>
+																	</label>
+
+																	<div class="col-sm-4" id="r6">
+																		<input type="text" class="form-control"
+																			th:field="*{cinRespondent}" max="21"> <span
+																			class="text-danger"
+																			th:if="${#fields.hasErrors('cinRespondent')}"
+																			th:errors="*{cinRespondent}"></span>
+
+																	</div>
+
+
+
+
+
+
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label"
+																		id="r3">DESIGNATION <span
+																			class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4" id="r4">
+																		<select class="form-control"
+																			th:field="*{accDesination2}">
+																			<option value="0">Choose</option>
+																			<option th:each="design: ${desilstE}"
+																				th:value="${design.id}"
+																				th:utext="${design.designation}" />
+																		</select> <span class="text-danger"
+																			th:errors="*{accDesination}"></span>
+																	</div>
+
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">ADDRESS
+
+																	</label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			th:field="*{addAccusedAddress}"
+																			th:id="addAccusedAddress"
+																			placeholder="Please Enter Accused Address Here"
+																			maxlength="200">
+
+																	</div>
+
+
+																</div>
+
+																<div class="form-group row" style="display: none;"
+																	id="actSectionDiv">
+																	<div class="table-responsive">
+																		<table class="table table-bordered"
+																			id="myTable">
+
+																			<thead class="bg-info">
+																				<tr>
+
+																					<th>S.No</th>
+																					<th>Act</th>
+																					<th style="display: none;">ActID
+																					</th>
+																					<th>Section</th>
+																					<th style="display: none;">SectionID
+																					</th>
+																					<th>Sub Section</th>
+																					<th style="display: none;">Sub
+																						SectionID</th>
+																					<th>Clause</th>
+																					<!-- <th>Punishment</th>
+																					<th style="display: none;">PunishmentID</th>
+																					<th>Compoundability</th> -->
+																					<th>Description</th>
+																					<th style="display: none;">ClauseID
+																					</th>
+																					<th>Action</th>
+
+
+																				</tr>
+																			</thead>
+																			<tbody id="actSectionTAble">
+
+																			</tbody>
+																		</table>
+																	</div>
+																</div>
+
+																<!-- <button type="button" class="btn btn-primary"
+																	data-toggle="modal" data-target="#exampleModalCenter">
+																	Add Act&Section</button> -->
+																<div class="modal fade" id="exampleModalCenter"
+																	tabindex="-1" role="dialog"
+																	aria-labelledby="exampleModalCenterTitle"
+																	aria-hidden="true">
+																	<!-- 	<div class="modal-dialog modal-dialog-centered" role="document"	style="width: 1200px;"> -->
+																	<div class="modal-dialog" role="document"
+																		style="width: 1200px;">
+																		<div class="modal-content">
+																			<div class="modal-header bg-info">
+																				<h5 class="modal-title "
+																					id="exampleModalLongTitle">
+																					Add Act&Section</h5>
+																				<button type="button" class="close"
+																					data-dismiss="modal"
+																					aria-label="Close">
+																					<span
+																						aria-hidden="true">&times;</span>
+																				</button>
+																			</div>
+																			<div class="modal-body">
+
+
+																				<div class="form-group row">
+
+
+																					<label for="input-10"
+																						class="col-sm-2 col-form-label">ACT
+																						<span
+																							class="text-danger">*</span>
+																					</label>
+																					<div class="col-sm-4">
+																						<select class="form-control"
+																							id="actid">
+																							<!-- <option th:value="0" th:utext="Choose" /> -->
+																							<option
+																								th:each="court:${addActList}"
+																								th:value="${court.id}"
+																								th:utext="${court.act}" />
+																						</select> <span
+																							class="text-danger"
+																							th:errors="*{act}"></span>
+																					</div>
+																					<label for="input-10"
+																						class="col-sm-2 col-form-label">Section
+																						<span
+																							class="text-danger">*</span>
+																					</label>
+																					<div class="col-sm-4">
+																						<select class="form-control"
+																							th:field="*{section}"
+																							id="seclst">
+																							<!-- <option th:value="0" th:utext="Choose" /> -->
+
+																							<option
+																								th:each="court:${seclst}"
+																								th:value="${court.id}"
+																								th:utext="${court.section}" />
+
+
+
+
+																						</select> <span
+																							class="text-danger"
+																							th:errors="*{section}"></span>
+																					</div>
+
+																				</div>
+																				<div class="form-group row">
+																					<label for="input-10"
+																						class="col-sm-2 col-form-label">Sub
+																						Section <span
+																							class="text-danger"></span>
+																					</label>
+																					<div class="col-sm-4">
+																						<!-- <select class="form-control" th:field="*{subsection}"
+																			id="seclst1"> -->
+																						<select class="form-control"
+																							th:field="*{subsection}">
+																							<!-- <option th:value="0" th:utext="Choose" />  -->
+																							<option
+																								th:each="court:${subseclst}"
+																								th:value="${court.id}"
+																								th:utext="${court.subSection}" />
+																						</select> <span
+																							class="text-danger"
+																							th:errors="*{subsection}"></span>
+																					</div>
+																					<label for="input-10"
+																						class="col-sm-2 col-form-label">Clause
+																						<span
+																							class="text-danger"></span>
+																					</label>
+																					<div class="col-sm-4">
+
+																						<select class="form-control"
+																							th:field="*{clause}"
+																							id="clauseID">
+																							<!-- <option th:value="0" th:utext="Choose" /> -->
+																							<option
+																								th:each="court:${clauselist}"
+																								th:value="${court.id}"
+																								th:utext="${court.clause}" />
+																						</select> <span
+																							class="text-danger"
+																							th:errors="*{clause}"></span>
+																					</div>
+
+																				</div>
+
+
+
+
+																				<div class="form-group row">
+
+
+																					<label for="input-10"
+																						class="col-sm-2 col-form-label">Description
+																						<span
+																							class="text-danger">*</span>
+																					</label>
+
+																					<div class="col-sm-6">
+																						<textarea class="form-control"
+																							th:field="*{accDesc}"
+																							th:id="accDesc"
+																							onkeyup="countWords1()"></textarea>
+																						<span id="wordCount1">0</span>
+																						Words <span class="text-danger">
+																							Maximum Words limit
+																							is 100</span>
+
+
+																					</div>
+
+																					<div class="col-sm-2">
+																						<button type="button"
+																							th:name="addActSection"
+																							th:id="addActSection"
+																							class="btn btn-success">
+																							<i
+																								class="fa fa-plus"></i>Add
+																							Act&Section
+																						</button>
+
+
+																					</div>
+																					<div class="col-sm-1">
+																						<button type="button"
+																							class="btn btn-secondary"
+																							data-dismiss="modal">Close</button>
+																					</div>
+
+
+
+
+
+
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+
+
+																<th:block th:if="*{accusedIdEdit==null}">
+																	<button type="button"
+																		class="btn btn-success btn-round m-1"
+																		id="NewCompanyDetailsd"
+																		th:onclick="SaveAccusedDetails();">
+																		<i class="fa fa-check-square-o"></i> SAVE
+																	</button>
+
+
+
+
+
+
+																</th:block>
+																<th:block th:if="*{accusedIdEdit!=null}">
+
+																	<button type="button"
+																		class="btn btn-success btn-round m-1"
+																		id="NewCompanyDetailsd"
+																		th:onclick="SaveAccusedDetails();">
+																		<i class="fa fa-check-square-o"></i> Update
+																	</button>
+																</th:block>
+
+																<br>
+
+
+															</div>
+
+															<div class="form-group row">
+																<div class="table-responsive">
+																	<table id="CompTable1" class="table table-bordered">
+
+																		<thead>
+																			<tr>
+
+																				<th>S.No</th>
+																				<th>Respondant Type</th>
+																				<th>Name</th>
+																				<th>Designation</th>
+																				<th>Pan Number</th>
+																				<th>CIN</th>
+																				<th>Address</th>
+
+
+																				<th>Action</th>
+																				<th>Remarks</th>
+
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="p,stats: ${personList}">
+																				<td th:text="${stats.count}"></td>
+																				<td th:text="${p.accusedType}"></td>
+
+																				<td th:text="${p.accusedName}"></td>
+																				<td><span
+																						th:unless="${p.designation.id==0}">
+																						<span
+																							th:text="${p.designation.designation}"></span>
+																					</span></td>
+
+																				<td th:text="${p.panNumber}"></td>
+																				<td th:text="${p.cinNumber}"></td>
+																				<td th:text="${p.address}"></td>
+																				<td class="text-wrap">
+																					<!-- Button to trigger the modal -->
+
+																					<div class="dropdown">
+																						<button
+																							class="btn btn-success dropdown-toggle"
+																							type="button"
+																							id="dropdownMenu2"
+																							data-toggle="dropdown"
+																							aria-haspopup="true"
+																							aria-expanded="false">Action</button>
+																						<div class="dropdown-menu"
+																							aria-labelledby="dropdownMenu2">
+
+
+																							<!-- <button type="button" class=" dropdown-item"
+																								data-toggle="modal"
+																								th:data-target="'#modal' + ${p.id}">View
+																								Act&Section</button> -->
+																							<button
+																								class="dropdown-item"
+																								type="submit"
+																								th:name="addAccusedResponseNCLT"
+																								th:value="${p.Id}">Add &
+																								View Response</button>
+																							<th:block
+																								th:if="${p.approveStatus==0}">
+
+																								<button
+																									class="dropdown-item"
+																									type="submit"
+																									th:name="forwardToApprovalAccusedNCLT"
+																									th:value="${p.Id}">Confirm</button>
+
+																								<button
+																									class="dropdown-item"
+																									type="submit"
+																									th:name="editAccusedNCLT"
+																									th:value="${p.Id}">Edit</button>
+
+																								<!-- <button class="dropdown-item" type="submit"
+																									th:name="editAccused" th:value="${p.Id}">Edit</button> -->
+
+
+																							</th:block>
+																							<th:block
+																								th:if="${p.approveStatus==3}">
+
+
+																								<button
+																									class="dropdown-item"
+																									type="submit"
+																									th:name="editAccusedNCLT"
+																									th:value="${p.Id}">Edit</button>
+
+																								<!-- <button class="dropdown-item" type="submit"
+																									th:name="editAccused" th:value="${p.Id}">Edit</button> -->
+
+
+																							</th:block>
+
+
+
+
+
+																						</div>
+																					</div> <!-- The Modal -->
+																					<div th:id="'modal' + ${p.id}"
+																						class="modal fade ">
+																						<div class="modal-dialog"
+																							role="document">
+																							<div class="modal-content">
+																								<!-- Modal Header -->
+																								<div
+																									class="modal-header bg-info">
+																									<h4
+																										class="modal-title">
+																										Act & Section
+																										Details</h4>
+																									<button
+																										type="button"
+																										class="close"
+																										data-dismiss="modal">&times;</button>
+																								</div>
+
+																								<!-- Modal body -->
+																								<div class="modal-body">
+																									<!-- <h5>Addresses:</h5> -->
+																									<table
+																										class="table">
+																										<thead>
+																											<tr>
+
+																												<th>S.No
+																												</th>
+																												<th>ACT
+																												</th>
+																												<th>Section
+																												</th>
+																												<th>SubSection
+																												</th>
+																												<th>Clause
+																												</th>
+																												<!-- <th>Compoundabilty</th> -->
+																												<th>Discription
+																												</th>
+
+
+
+																											</tr>
+																										</thead>
+
+																										<tr
+																											th:each="p,stats: ${p.actSection}">
+																											<td
+																												th:text="${stats.count}">
+																											</td>
+																											<td
+																												th:text="${p.act.act}">
+																											</td>
+																											<td
+																												th:text="${p.section.section}">
+																											</td>
+																											<td
+																												th:text="${p.subSection.subSection}">
+																											</td>
+																											<td
+																												th:text="${p.clause}">
+																											</td>
+																											<!-- <td th:text="${p.punishment.punishment1}"></td>
+																											<td th:text="${p.compatability}"></td> -->
+																											<td class="text-wrap"
+																												th:text="${p.description}">
+																											</td>
+
+																										</tr>
+
+
+
+
+
+																									</table>
+
+																								</div>
+																								<!-- Modal footer -->
+																								<div
+																									class="modal-footer">
+																									<button
+																										type="button"
+																										class="btn btn-secondary"
+																										data-dismiss="modal">Close</button>
+																								</div>
+																							</div>
+																						</div>
+																				</td>
+
+
+																				<td>
+																					<!-- <button class="btn btn-success text-wrap"
+																						type="submit" th:name="addAccusedResponse"
+																						th:value="${p.Id}">Add & View Response</button> -->
+																					<!-- <th:block
+																						th:if="${p.approveStatus==5}">
+
+																						<button class="btn btn-success text-wrap"
+																							type="submit" th:name="editAccused"
+																							th:value="${p.Id}">Edit</button>
+
+
+																					</th:block>  --> <!-- <th:block
+																						th:if="${p.approveStatus==0}">
+
+																						<button class="btn btn-success text-wrap"
+																							type="submit" th:name="forwardToApprovalAccused"
+																							th:value="${p.Id}">FORWARD</button>
+																						<button class="btn btn-success text-wrap"
+																							type="submit" th:name="editAccused"
+																							th:value="${p.Id}">Edit</button>
+
+
+																					</th:block>  -->
+																					<th:block
+																						th:if="${p.approveStatus==1}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVAL
+																							IS IN
+																							PROCESS</button>
+
+																					</th:block>
+																					<th:block
+																						th:if="${p.approveStatus==2}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">Confirmed</button>
+
+																					</th:block>
+																					<th:block
+																						th:if="${p.approveStatus==3}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">Send
+																							Back By PUH</button>
+
+																					</th:block> <!-- <th:block th:if="${p.approveStatus==3}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">Sent Back</button>
+																						<button class="btn btn-success text-wrap"
+																							type="submit" th:name="editAccused"
+																							th:value="${p.Id}">Edit</button>
+
+																						<td th:text="${p.rejectRemark}"></td>
+																					</th:block> -->
+
+																				</td>
+
+
+
+
+
+
+
+
+
+																			</tr>
+																		</tbody>
+
+
+
+																	</table>
+																</div>
+															</div>
+														</div>
+
+
+
+														<div id="piil-29" class="container tab-pane fade">
+
+
+
+															<div class="form-group row">
+
+
+																<label for="input-16" class="col-sm-6col-form-label">
+																	Under Progress </label>
+															</div>
+														</div>
+
+
+														<div id="piil-27" class="container tab-pane fade">
+															<!--<div class="form-group row">
+																<button type="button" data-toggle="modal"
+																	data-target="#largesizemodal12"
+																	class="btn btn-info">
+																	<i class="fa fa-plus"></i> Add Respondent Status
+																</button>
+																&nbsp;&nbsp;&nbsp;&nbsp;
+
+															</div>
+
+
+															<div class="container"
+																th:if="${not #lists.isEmpty(lstAccusedStatus)}">
+
+																<div class="form-group row">
+																	<div class="table-responsive">
+																		<table class="table table-bordered">
+
+																			<thead>
+																				<tr>
+																					<th style="font-size: 15px">S.No
+																					</th>
+																					<th style="font-size: 15px">Name
+																					</th>
+																					<th style="font-size: 15px">Status
+																					</th>
+																					<th style="font-size: 15px">Action
+																					</th>
+
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<tr
+																					th:each="accusedS,stats: ${lstAccusedStatus}">
+																					<td th:text="${stats.count}"></td>
+
+																					<td
+																						th:text="${accusedS.addAccused.accusedName}">
+																					</td>
+																					<td
+																						th:text="${accusedS.caseStatus.statusName}">
+																					</td>
+																					<td><button
+																							class="btn btn-success text-wrap"
+																							type="submit"
+																							th:name="editAccusaedStatusNCLT"
+																							th:value="${accusedS.Id}">Edit</button>
+																						<button
+																							class="btn btn-success text-wrap"
+																							type="submit"
+																							th:name="deleteAccusaedStatusNCLT"
+																							th:value="${accusedS.Id}">Delete</button>
+																					</td>
+																				</tr>
+
+																			</tbody>
+
+
+
+																		</table>
+																	</div>
+																</div>
+															</div>-->
+
+															<div class="form-group row">
+
+
+																<label for="input-16"
+																	class="col-sm-2 col-form-label">Last
+																	Hearing Date <span class="text-danger">*</span>
+																</label>
+																<div class="col-sm-4">
+
+
+																	<input type="text" class="form-control"
+																		placeholder="Enter To Date" id="lastHearingDate"
+																		th:field="*{lastHearingDate}"> <span
+																		class="text-danger"
+																		th:if="${#fields.hasErrors('lastHearingDate')}"
+																		th:errors="*{lastHearingDate}"></span>
+
+																</div>
+																<input type="hidden" th:field="*{lastHearingDate}"
+																	id="nextHHHH">
+																<!--<div class="col-sm-4" th:if="*{lastHearingDate!=null}">
+
+
+																	<input type="text" class="form-control"
+																		placeholder="Enter To Date"
+																		id="lastHearingDate1"
+																		th:field="*{lastHearingDate}" readonly>
+
+
+
+
+
+
+
+																</div>-->
+
+
+
+																<label for="input-16"
+																	class="col-sm-2 col-form-label">Next
+																	Hearing Date <span class="text-danger">*</span>
+																</label>
+																<div class="col-sm-4">
+																	<input type="text" class="form-control"
+																		placeholder="Enter To Date"
+																		th:id="nextHearingDate"
+																		th:field="*{nextHearingDate}"> <span
+																		class="text-danger"
+																		th:if="${#fields.hasErrors('nextHearingDate')}"
+																		th:errors="*{nextHearingDate}"></span>
+																</div>
+															</div>
+															<div class="form-group row">
+
+
+
+
+																<label for="input-16"
+																	class="col-sm-2 col-form-label">Order Copy</label>
+																<label for="input-16" id="additionalDocuments2"
+																	style="display: none;"
+																	class="col-sm-2 col-form-label">Order ongoing of the
+																	last date of hearing <span
+																		class="text-danger">*</span></label>
+																<div class="col-sm-4">
+																	<input type="file" class="form-control"
+																		th:field="*{additionalDoc}"> <span
+																		class="text-danger"
+																		th:if="${#fields.hasErrors('additionalDoc')}"
+																		th:errors="*{additionalDoc}"></span>
+																</div>
+
+																<label for="input-16"
+																	class="col-sm-2 col-form-label">Case
+																	Status <span class="text-danger">*</span>
+																</label>
+																<div class="col-sm-4">
+																	<select class="custom-select" th:field="*{status}"
+																		id="status" onchange="selectStatusType();">
+
+																		<option value="0">Choose Case Status</option>
+
+																		<option th:each="s : ${statusLst1}"
+																			th:value="${s.id}"
+																			th:text="${s.statusName}"></option>
+
+																	</select> <span id="chooseCompErr"
+																		style="color: red;"
+																		th:errors="*{status}"></span>
+																</div>
+															</div>
+															<div class="form-group row">
+																<label for="input-16"
+																	class="col-sm-2 col-form-label">Counsel
+																	Name <span class="text-danger">*</span>
+																</label>
+
+																<div class="col-sm-10">
+																	<select class="form-control"
+																		th:field="*{counselNameH}">
+																		<option value="0">Choose</option>
+																		<option th:each="design: ${counselOfficerList}"
+																			th:value="${design.id}"
+																			th:utext="${design.name + ',  '+design.designation.designation}" />
+																	</select> <span class="text-danger"
+																		th:if="${#fields.hasErrors('counselNameH')}"
+																		th:errors="*{counselNameH}"></span>
+																</div>
+															</div>
+
+															<div class="form-group row">
+																<label for="input-16" class="col-sm-2 col-form-label">
+																	OFFICER FROM PROSECUTION <span
+																		class="text-danger">*</span>
+																</label>
+
+																<div class="col-sm-10">
+																	<select class="form-control" th:field="*{officerH}">
+																		<option value="0">Choose</option>
+																		<option th:each="design: ${pairaviOfficerList}"
+																			th:value="${design.id}"
+																			th:utext="${design.name + ',  '+design.designation.designation}" />
+																	</select> <span class="text-danger"
+																		th:if="${#fields.hasErrors('officerH')}"
+																		th:errors="*{officerH}"></span>
+																</div>
+															</div>
+
+
+
+															<div class="form-group row">
+																<label for="input-16"
+																	class="col-sm-2 col-form-label">Brief
+																	<span class="text-danger" id="additionalDocuments3"
+																		style="display: none;">*</span>
+																</label>
+																<div class="col-sm-12">
+																	<textarea class="form-control" th:field="*{briefHD}"
+																		placeholder="Enter Brief of the proceeding"
+																		maxlength="1000" rows="5" cols="60"></textarea>
+
+																	<span class="text-danger"
+																		th:if="${#fields.hasErrors('briefHD')}"
+																		th:errors="*{briefHD}"></span> <span
+																		class="text-danger" id="briefHD1"></span>
+																</div>
+
+
+															</div>
+
+
+
+
+
+															<th:block th:if="${nCLTTaskDTO.hearingEditId==null}">
+
+																<button type="submit"
+																	class="btn btn-success btn-round m-1"
+																	th:name="saveHearingDetailsNCLT">
+																	<i class="fa fa-check-square-o"></i> SAVE
+																</button>
+															</th:block>
+															<th:block th:unless="${nCLTTaskDTO.hearingEditId==null}">
+
+																<button type="submit"
+																	class="btn btn-success btn-round m-1"
+																	th:name="saveHearingDetailsNCLT">
+																	<i class="fa fa-check-square-o"></i> Update
+																</button>
+
+
+															</th:block>
+
+
+															<div class="container">
+
+																<div class="form-group row" id="PairaviDtl">
+																	<div class="table-responsive"
+																		style="height: 300px;">
+																		<table id="CompTable1"
+																			class="table table-bordered">
+
+																			<thead style="position: sticky; top: 0;"
+																				class="thead-info">
+																				<tr>
+																					<th
+																						style="font-size: 15px; position: sticky; left: 0px;">
+																						S.No</th>
+																					<th style="font-size: 15px">Counsel
+																						Name</th>
+
+																					<th style="font-size: 15px">Officer
+																						Name</th>
+																					<!--<th style="font-size: 15px">Accused
+																						& Status</th>-->
+
+
+																					<th> Last
+																						Hearing Date</th>
+																					<th> Next
+																						Hearing Date</th>
+
+																					</th>
+																					<th style="font-size: 15px">
+																						Order<br>
+																						Copy
+
+
+																					</th>
+																					<th style="font-size: 15px">Case
+																						Status
+
+
+																					</th>
+
+
+
+
+
+
+																					<th style="font-size: 15px">Brief
+																					</th>
+																					<th style="font-size: 15px">Action
+																					</th>
+
+
+
+
+
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<tr th:each="h,stats: ${hearinglist}">
+																					<td class="bg-info text-white"
+																						style="font-size: 15px; position: sticky; left: 0px; box-shadow: 10px 0 5px -2px rgba(0, 0, 0, 0.1);"
+																						th:text="${stats.count}"></td>
+																					<td th:text="${h.counselName.name}">
+																					</td>
+																					<td th:text="${h.officer.name}">
+																					</td>
+
+
+
+
+
+
+																					<td
+																						th:text="${#dates.format(h.lastHearingDate, 'dd/MM/yyyy')}">
+																					</td>
+																					<td
+																						th:text="${#dates.format(h.nextHearingDate, 'dd/MM/yyyy')}">
+																					</td>
+																					
+
+																					<td><label
+																							th:if="${h.additionalDocFileName !=null}"
+																							class="col-form-label text-primary">
+																							<a th:target="_blank"
+																								th:href="@{|/downloadFiles?fileName=${h.additionalDocFileName}|}">
+																								<span>View</span><i
+																									class="fa fa-file-pdf-o"
+																									style="font-size: 24px; color: red"></i>
+																							</a></label></td>
+																							<td th:text="${h.status.statusName}">
+																																												</td>
+
+
+
+
+
+
+
+
+
+
+
+
+																					<td class="text-wrap"
+																						th:text="${h.briefHD}"></td>
+
+																					<td> <button
+																							class="btn btn-success text-wrap"
+																							type="submit"
+																							th:name="editHearingDetailsNCLT"
+																							th:value="${h.Id}">Edit</button>
+																					</td>
+																					<!--<th:block
+																							th:if="${h.approveStatus==0}">
+
+																							<button
+																								class="btn btn-success text-wrap"
+																								type="submit"
+																								th:name="forwardtoapprovalHearingDetailsNCLT"
+																								th:value="${h.Id}">Confirm</button>
+																						</th:block>
+																						<th:block
+																							th:if="${h.approveStatus==1}">
+																							<button
+																								class="btn btn-success text-wrap"
+																								disabled="disabled">APPROVAL
+																								IS IN
+																								PROCESS</button>
+
+																						</th:block>
+																						<th:block
+																							th:if="${h.approveStatus==2}">
+																							<button
+																								class="btn btn-success text-wrap"
+																								disabled="disabled">Confirmed</button>
+
+																						</th:block>
+																						<th:block
+																							th:if="${h.approveStatus==3}">
+																							<button
+																								class="btn btn-success text-wrap"
+																								disabled="disabled">Sent
+																								Back</button>
+																							<button
+																								class="btn btn-success text-wrap"
+																								type="submit"
+																								th:name="editHearingDetailsNCLT"
+																								th:value="${h.Id}">Edit</button>
+
+																					<td th:text="${h.rejectRemark}">
+																					</td>
+																					</th:block>
+																					</td>-->
+
+																				</tr>
+
+																			</tbody>
+
+
+
+																		</table>
+
+																	</div>
+																	<span>Total Records</span><span class="pl-2"
+																		th:text="${#lists.size(hearinglist)}"></span>
+																</div>
+															</div>
+														</div>
+
+														<div id="piil-30" class="container tab-pane fade">
+															<div class="row pt-3">
+																<div class="col-sm-4">
+																	<label class="form-label">
+																		<span>Respondent</span></label>
+																	<select class="form-control"
+																		th:field="*{accusedIdtest}">
+
+																		<option value="0">Choose</option>
+																		<option th:each="design: ${personList}"
+																			th:value="${design.id}"
+																			th:utext="${design.accusedName}" />
+																	</select> <span class="text-danger"
+																		th:if="${#fields.hasErrors('accusedIdtest')}"
+																		th:errors="*{accusedIdtest}"></span>
+																</div>
+
+
+																<div class="col-sm-4 mb-3">
+																	<label class="form-label">UPLOAD PDF File
+																		HERE</label>
+																	<input type="file" class="form-control pl-2"
+																		th:field="*{file1}" multiple="multiple"> <span
+																		class="text-danger"
+																		th:if="${#fields.hasErrors('file1')}"
+																		th:errors="*{file1}"></span>
+																</div>
+
+															</div>
+															<div class="row">
+																<div class="col-sm-4 mb-3">
+
+																	<button type="button" id="saveUploadFile"
+																		class="btn btn-success btn-round m-1"
+																		th:name="saveUploadAdditionalFile">
+																		<i class="fa fa-check-square-o"></i> SAVE
+																	</button>
+
+																	<!-- <th:block th:if="${criminalTaskDto.uploadID!=null}">
+																		<button type="button" id="saveUploadFile"
+																			class="btn btn-success btn-round m-1"
+																			th:name="saveUploadAdditionalFile">
+																			<i class="fa fa-check-square-o"></i> Update
+																		</button>
+																	</th:block> -->
+
+
+
+
+																</div>
+
+															</div>
+															<div class="form-group row">
+																<div class="table-responsive">
+																	<table id="CompTable1" class="table table-bordered">
+																		<thead>
+																			<tr>
+																				<th>S.No</th>
+
+																				<th>Respondent Name</th>
+																				<th>File</th>
+																				<th>Action</th>
+																				<th>Remarks</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr
+																				th:each="h,stats: ${uploadadditionalfile}">
+																				<td th:text="${stats.count}"></td>
+
+
+
+
+																				<td
+																					th:text="${h.accusedId.accusedName}" />
+
+
+
+
+
+																				<td><label
+																						class="col-form-label text-primary">
+																						<a th:target="_blank"
+																							th:href="@{|/downloadFiles?fileName=${h.fileName}|}"><span
+																								th:text="${h.fileName}"></span><i
+																								class="fa fa-file-pdf-o"
+																								style="font-size: 24px; color: red"></i></a>
+																					</label></td>
+
+																				<td>
+																					<th:block
+																						th:if="${h.approveStatus==0}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							type="submit"
+																							th:name="forwardUploadFile"
+																							th:value="${h.Id}">Confirm</button>
+
+																						<button type="submit"
+																							class="btn btn-success text-wrap"
+																							th:value="${h.Id}"
+																							th:name="editUploadFile">Edit</button>
+
+
+																					</th:block>
+																					<th:block
+																						th:if="${h.approveStatus==1}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">Approval
+																							is in
+																							process</button>
+
+																					</th:block>
+																					<th:block
+																						th:if="${h.approveStatus==2}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">Confirmed</button>
+
+																					</th:block>
+																					<th:block
+																						th:if="${h.approveStatus==3}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">Sent
+																							Back</button>
+																						<button type="submit"
+																							class="btn btn-success text-wrap"
+																							th:value="${h.Id}"
+																							th:name="editUploadFile">Edit</button>
+
+																					</th:block>
+																				</td>
+
+																				<td th:text="${h.rejectRemark}" />
+
+																			</tr>
+
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+
+														</div>
+														<div id="piil-32" class="container tab-pane fade">
+															<div class="row">
+																<div class="pr-5"><input type="radio"
+																		th:field="*{misRespondent}" value="SFIO">
+																	<label for="SFIO">SFIO</label>
+																</div>
+																<div>
+																	<input type="radio" th:field="*{misRespondent}"
+																		value="Other">
+																	<label class="fs-1" for="Other">Other</label>
+																</div><br>
+																<span class="text-danger pl-5"
+																	th:if="${#fields.hasErrors('misRespondent')}"
+																	th:errors="*{misRespondent}"></span>
+															</div>
+															<div class="row pt-3">
+
+																<div class="col-sm-4">
+																	<label class="form-label">
+																		<span>Name</span></label>
+																	<input type="text" class="form-control"
+																		th:field="*{sfiorespondentfile}"
+																		placeholder="Enter the Text Velue">
+																	<span class="text-danger pl-5"
+																		th:if="${#fields.hasErrors('sfiorespondentfile')}"
+																		th:errors="*{sfiorespondentfile}"></span>
+																</div>
+
+
+																<div class="col-sm-4 mb-3">
+																	<label class="form-label">UPLOAD PDF File
+																		HERE</label>
+																	<input type="file" class="form-control pl-2"
+																		th:field="*{misFile1}" multiple="multiple">
+																	<span class="text-danger"
+																		th:if="${#fields.hasErrors('misFile1')}"
+																		th:errors="*{misFile1}"></span>
+																</div>
+
+															</div>
+															<div class="row">
+																<div class="col-sm-4 mb-3">
+
+																	<button type="button" id="saveUploadFile3"
+																		class="btn btn-success btn-round m-1"
+																		th:name="saveSfioFile">
+																		<i class="fa fa-check-square-o"></i> SAVE
+																	</button>
+
+																	<!-- <th:block th:if="${criminalTaskDto.uploadID!=null}">
+																		<button type="button" id="saveUploadFile"
+																			class="btn btn-success btn-round m-1"
+																			th:name="saveUploadAdditionalFile">
+																			<i class="fa fa-check-square-o"></i> Update
+																		</button>
+																	</th:block> -->
+
+
+
+
+																</div>
+
+															</div>
+															<div class="form-group row">
+																<div class="table-responsive">
+																	<table id="CompTable1" class="table table-bordered">
+																		<thead>
+																			<tr>
+																				<th>S.No</th>
+																				<th>NAME</th>
+																				<th>File</th>
+																				<th>Action</th>
+
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr
+																				th:each="h,stats: ${misAllDataByAssignTask}">
+																				<td th:text="${stats.count}"></td>
+
+
+
+
+																				<td th:text="${h.sfiorespondentfile}" />
+
+
+
+
+
+																				<td><label
+																						class="col-form-label text-primary">
+																						<a th:target="_blank"
+																							th:href="@{|/downloadFiles?fileName=${h.fileName}|}"><span
+																								th:text="${h.fileName}"></span><i
+																								class="fa fa-file-pdf-o"
+																								style="font-size: 24px; color: red"></i></a>
+																					</label></td>
+
+																				<td>
+																					<th:block
+																						th:if="${h.approveStatus==0}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							type="submit"
+																							th:name="confirmSfioFileUploade"
+																							th:value="${h.Id}">Confirm</button>
+
+																						<button type="submit"
+																							class="btn btn-success text-wrap"
+																							th:value="${h.Id}"
+																							th:name="editSfioFileUploade">Edit</button>
+
+
+																					</th:block>
+																					<th:block
+																						th:if="${h.approveStatus==1}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">Approval
+																							is in
+																							process</button>
+
+																					</th:block>
+																					<th:block
+																						th:if="${h.approveStatus==2}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">Confirmed</button>
+
+																					</th:block>
+																					<th:block
+																						th:if="${h.approveStatus==3}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">Sent
+																							Back</button>
+																						<button type="submit"
+																							class="btn btn-success text-wrap"
+																							th:value="${h.Id}"
+																							th:name="editSfioFileUploade">Edit</button>
+
+																					</th:block>
+																				</td>
+
+
+
+																			</tr>
+
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+
+														</div>
+
+
+
+														<div id="piil-31" class="container tab-pane fade">
+															<div>
+
+
+																<div class="form-group row">
+
+																	<div
+																		class="custom-control custom-radio custom-control-inline">
+																		<input type="radio" id="typeofOrder1"
+																			name="typeofOrder1"
+																			class="custom-control-input" value="1"
+																			th:field="*{typeofOrder}"
+																			onchange="myPPCompany();"> <label
+																			class="custom-control-label"
+																			for="typeofOrder1">Company</label>
+																	</div>
+																	<div
+																		class="custom-control custom-radio custom-control-inline">
+																		<input type="radio" id="typeofOrder2"
+																			name="typeofOrder1"
+																			class="custom-control-input" value="2"
+																			th:field="*{typeofOrder}"
+																			onchange="myPPAccused();"> <label
+																			class="custom-control-label"
+																			for="typeofOrder2">Respondent</label>
+																	</div>
+																</div>
+																<div class="form-group row" id="myPPCompanyDiv">
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Company<span
+																			class="text-danger">*</span></label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			th:field="*{pPCompany}" th:id="pPCompany">
+																		<span class="text-danger"
+																			th:if="${#fields.hasErrors('pPCompany')}"
+																			th:errors="*{pPCompany}"></span>
+
+																	</div>
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">CIN<span
+																			class="text-danger">*</span></label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			th:field="*{pPCompCin}" th:id="pPCompCin">
+																		<span class="text-danger"
+																			th:if="${#fields.hasErrors('pPCompCin')}"
+																			th:errors="*{pPCompCin}"></span>
+
+																	</div>
+																</div>
+																<div class="form-group row" id="myPPAccusedDiv">
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Respondent<span
+																			class="text-danger">*</span></label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			th:field="*{pPRespondentName}"
+																			th:id="pPRespondentName"> <span
+																			class="text-danger"
+																			th:if="${#fields.hasErrors('pPRespondentName')}"
+																			th:errors="*{pPRespondentName}"></span>
+
+																	</div>
+
+																	<label for="input-16"
+																		class="col-sm-2 col-form-label">Designation<span
+																			class="text-danger">*</span></label>
+																	<div class="col-sm-4">
+																		<select class="form-control"
+																			th:field="*{pPRespondentDesgination}">
+																			<!-- <option value="0">Choose Designation</option> -->
+																			<option th:each="design: ${desilstE}"
+																				th:value="${design.designation}"
+																				th:utext="${design.designation}" />
+																		</select> <span class="text-danger"
+																			th:errors="*{pPRespondentDesgination}"></span>
+																	</div>
+
+
+																</div>
+																<div class="form-group row">
+																	<label for="input-10"
+																		class="col-sm-2 col-form-label">ADDRESS<span
+																			class="text-danger">*</span>
+
+																	</label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			th:field="*{pPAddress}" th:id="pPAddress"
+																			placeholder="Please Enter Address Here">
+																		<span class="text-danger"
+																			th:if="${#fields.hasErrors('pPAddress')}"
+																			th:errors="*{pPAddress}"></span>
+
+																	</div>
+																</div>
+
+
+																<th:block th:if="*{performaID==null}">
+																	<button type="button"
+																		class="btn btn-success btn-round m-1"
+																		id="newPerformaParty"
+																		th:onclick="SavePerformaParty();">
+																		<i class="fa fa-check-square-o"></i> SAVE
+																	</button>
+																</th:block>
+																<th:block th:unless="*{performaID==null}">
+																	<button type="button"
+																		class="btn btn-success btn-round m-1"
+																		id="newPerformaParty"
+																		th:onclick="SavePerformaParty();">
+																		<i class="fa fa-check-square-o"></i> Update
+																	</button>
+																</th:block>
+															</div>
+
+															<div class="form-group row">
+																<div class="table-responsive">
+																	<table class="table table-bordered">
+
+																		<thead>
+																			<tr>
+
+																				<th>S.No</th>
+																				<th>Company Name</th>
+																				<th>CIN</th>
+																				<th>Name</th>
+																				<th>Designation</th>
+																				<th>Address</th>
+																				<th>Action</th>
+
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="p,stats: ${performaPartyList}">
+																				<td th:text="${stats.count}"></td>
+																				<td th:text="${p.pPCompany}" />
+																				<td th:text="${p.pPCompCin}" />
+																				<td th:text="${p.pPRespondentName}" />
+																				<td
+																					th:text="${p.pPRespondentDesgination}" />
+																				<td th:text="${p.pPAddress}" />
+																				<td>
+																					<th:block
+																						th:if="${p.approveStatus==0}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							type="submit"
+																							th:name="forwardPerformaParty"
+																							th:value="${p.Id}">Confirm</button>
+
+																						<button type="submit"
+																							class="btn btn-success text-wrap"
+																							th:value="${p.Id}"
+																							th:name="editPerformaParty">Edit</button>
+
+
+																					</th:block>
+																					<th:block
+																						th:if="${p.approveStatus==1}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">Approval
+																							is in
+																							process</button>
+
+																					</th:block>
+																					<th:block
+																						th:if="${p.approveStatus==2}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">Confirmed</button>
+
+																					</th:block>
+																					<th:block
+																						th:if="${p.approveStatus==3}">
+																						<button
+																							class="btn btn-success text-wrap"
+																							disabled="disabled">Sent
+																							Back</button>
+
+																					</th:block>
+																				</td>
+
+
+
+
+
+																			</tr>
+																		</tbody>
+
+
+
+																	</table>
+																</div>
+															</div>
+
+														</div>
+
+
+
+													</div>
+												</div>
+											</div>
+											<!--End row-->
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+						</form>
+
+
+
+
+						<!--End Row-->
+						<!--start overlay-->
+						<div class="overlay toggle-menu"></div>
+						<!--end overlay-->
+					</div>
+					<!-- End container-fluid-->
+
+				</div>
+				<!--End content-wrapper-->
+				<!--Start Back To Top Button-->
+				<a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+
+				<!--End row-->
+				<div class="modal fade" id="largesizemodal">
+					<div class="modal-dialog modal-xl modal-dialog-centered" style="width: 100%;">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h5 class="modal-title text-white">ADD Person Details</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+
+								<h4 class="form-header text-uppercase">
+									<i class="fa fa-industry"></i> Companies Under
+									Investigation(CUI)
+								</h4>
+
+
+
+								<div class="table-responsive">
+									<table id="CompTable" class="table table-bordered">
+										<thead>
+											<tr>
+												<th>Sr. No.</th>
+
+												<th>Company Name</th>
+												<th>CIN</th>
+												<th>Address</th>
+												<th>Action</th>
+
+											</tr>
+										</thead>
+										<tbody id="compData">
+
+
+										</tbody>
+
+
+									</table>
+
+								</div>
+								<div id="msg"></div>
+							</div>
+							<div class="modal-footer">
+								<!-- <button type="button" class="btn btn-dark" data-dismiss="modal">
+							<i class="fa fa-times"></i> Close
+						</button> -->
+								<button type="button" class="btn btn-primary" id="addnewCompanycase"
+									onclick="addnewComp()">
+									<i class="fa fa-plus"></i> Add New Company
+								</button>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+
+
+
+
+
+
+				<div class="modal fade" id="largesizemodal1">
+					<div class="modal-dialog modal-xl modal-dialog-centered" style="width: 100%;">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h5 class="modal-title text-white">ADD Person Details</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+
+								<h4 class="form-header text-uppercase">
+									<i class="fa fa-industry"></i> Accused added by Investigation
+									Unit
+								</h4>
+
+
+
+								<div class="table-responsive">
+									<table id="AccuseTable" class="table table-bordered">
+										<thead>
+											<tr>
+												<th>Sr. No.</th>
+
+												<th>Name</th>
+												<th>Designation</th>
+												<th>Pan Number</th>
+												<th>Gender</th>
+												<th>Mobile No</th>
+												<th>Email</th>
+												<th>Company</th>
+												<th>CIN</th>
+
+												<th>Add to prosecution database</th>
+											</tr>
+										</thead>
+										<tbody id="accuseData">
+
+
+										</tbody>
+
+
+									</table>
+
+								</div>
+								<div id="msg"></div>
+							</div>
+							<div class="modal-footer">
+								<!-- <button type="button" class="btn btn-dark" data-dismiss="modal">
+							<i class="fa fa-times"></i> Close
+						</button> -->
+								<!-- <button type="button" class="btn btn-primary"
+									id="addnewCompanycase" onclick="addnewComp()">
+									<i class="fa fa-plus"></i> Add New Person
+								</button> -->
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+
+		</div>
+		<!--Form Wizard-->
+		<script src="plugins/jquery.steps/js/jquery.steps.min.js"></script>
+		<script src="plugins/jquery-validation/js/jquery.validate.min.js"></script>
+		<!--wizard initialization-->
+		<script src="plugins/jquery.steps/js/jquery.wizard-init.js"></script>
+
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+
+
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", function () {
+				const buttons = document.querySelectorAll(".addAccusedBtn");
+
+				buttons.forEach(function (button) {
+					button.addEventListener("click", function () {
+						const name = this.getAttribute("data-name");
+						const pan = this.getAttribute("data-pan");
+						const cin = this.getAttribute("data-cin");
+						const accusedT = this.getAttribute("data-accusedT");
+						const accAddress = this.getAttribute("data-accAddress");
+						const company = this.getAttribute("data-accCompany");
+						const designation = this.getAttribute("data-accDesignation");
+						if (accusedT == 'Individual') {
+							$('#r1').show()
+							$('#r2').show()
+							$('#r3').show()
+							$('#r4').show()
+							$('#r5').hide()
+							$('#r6').hide()
+						} else {
+							$('#r1').hide()
+							$('#r2').hide()
+							$('#r3').hide()
+							$('#r4').hide()
+							$('#r5').show()
+							$('#r6').show()
+
+						}
+
+						document.getElementById("accusedName").value = name;
+						document.getElementById("accPan").value = pan;
+						document.getElementById("cinRespondent").value = cin;
+						document.getElementById("accusedType").value = accusedT;
+						document.getElementById("addAccusedAddress").value = accAddress;
+						document.getElementById("individualRelateTo").value = company;
+						document.getElementById("accDesination2").value = designation;
+
+					});
+				});
+			});
+		</script>
+
+
+		<script type="text/javascript">
+			function showAccusedList() {
+				var div = document.getElementById('accusedListDiv');
+				div.style.display = div.style.display === 'none' ? 'block' : 'none';
+			}
+		</script>
+		<script type="text/javascript">
+			function freezerAssets() {
+
+				$('#addCriminalDtl1').attr("action", "freezerAssetsOrder");
+				$('#addCriminalDtl1').submit();
+
+			}
+			function responseofrespondent() {
+
+				$('#addCriminalDtl1').attr("action", "responceOfRespondent");
+				$('#addCriminalDtl1').submit();
+
+			}
+			function inspector() {
+
+				$('#addCriminalDtl1').attr("action", "addinspector");
+				$('#addCriminalDtl1').submit();
+
+			}
+
+			function chargeInstance() {
+
+				$('#addCriminalDtl1').attr("action", "addUnderSection");
+				$('#addCriminalDtl1').submit();
+
+			}
+		</script>
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$("#briefHD").on("keyup", function () {
+					var value = this.value;
+					var regex = /^[\w\d\s,.'_:()\/-]{3,1000}$/;
+
+					if (!regex.test(value)) {
+						$("#briefHD1").html("Only alphanumeric and , . ' _ : ( ) / - characters are allowed (3-1000 characters).");
+						// Remove invalid characters (keeping allowed ones only)
+						this.value = value.replace(/[^\w\d\s,.'_:()\/-]/g, '');
+					} else if (value.trim().split(/\s+/).length > 200) {
+						$("#briefHD1").html("Maximum 200 words allowed.");
+					} else {
+						$("#briefHD1").html(""); // Clear error
+					}
+				});
+			});
+		</script>
+
+
+
+		<script type="text/javascript">
+			$(document).ready(
+
+				function () {
+
+					if ($('#AccusedStatusID2').val() == 2) {
+						$("#largesizemodal12").modal("show");
+					}
+					var minDate = $("#lastHearingDate1").val();
+
+					// alert(minDate);
+					$("#nextHearingDate").datepicker({
+
+						format: 'dd/mm/yyyy',
+						startDate: minDate,
+					}).on('changeDate', function (selected) {
+						var minDate = new Date(selected.date.valueOf());
+						$('#nextHHHH').datepicker('setStartDate', minDate);
+					});
+
+					var accusedType = $("#accusedType").val();
+					if (accusedType == 'Individual') {
+
+						$('#r1').show()
+						$('#r2').show()
+						$('#r3').show()
+						$('#r4').show()
+						$('#r5').hide()
+						$('#r6').hide()
+					} else {
+						$('#r1').hide()
+						$('#r2').hide()
+						$('#r3').hide()
+						$('#r4').hide()
+						$('#r5').show()
+						$('#r6').show()
+					}
+
+				});
+		</script>
+
+
+
+
+
+
+		<script type="text/javascript">
+			$(document).ready(
+
+				function () {
+					$('#uploadFile').hide();
+				});
+
+			$('#editFile')
+				.click(
+					function () {
+
+						if ($('#typeofreport').val() == 2) {
+							swal(
+								"Required!",
+								"You have already genrated the report So you can not upload",
+								"error");
+							return;
+						}
+
+						$('#uploadFile').show();
+
+					});
+
+			$('#editFile1').click(
+				function () {
+
+					if ($('#typeofreport').val() == 0
+						|| $('#typeofreport').val() == 2) {
+						swal("Required!", "Please upload the report first",
+							"error");
+						return;
+					}
+
+					$('#uploadFile').show();
+
+				});
+		</script>
+
+
+
+		<script type="text/javascript">
+			$(document)
+				.ready(
+
+					function () {
+
+						/* 	var lastHearingDate =$("#lastHearingDate").val(); 
+							alert(lastHearingDate);
+							
+							$(lastHearingDate!=null)
+							{
+								
+								  
+								 $("#lastHearingDate").attr('readonly','readonly');
+								} */
+
+						var table = $("#PairaviDtl").DataTable({
+
+						});
+
+						var pairaviType = $("#pairaviType").val();
+
+						if (pairaviType == 2) {
+							$("#enddate").prop('disabled', true);
+
+						} else {
+							$("#enddate").prop('disabled', false);
+						}
+
+						var tabId = $("#tabId").val();
+
+						if (tabId == 21) {
+							$("#myTab li:eq(0) a").tab("show");
+
+							var listItems = $(".nav-item");
+
+							listItems[0].classList.add("active");
+
+						}
+
+						if (tabId == 222) {
+							$("#myTab li:eq(1) a").tab("show");
+
+							var listItems = $(".nav-item");
+							listItems[1].classList.add("active");
+
+						}
+						if (tabId == 33) {
+							$("#myTab li:eq(10) a").tab("show");
+
+							var listItems = $(".nav-item");
+							listItems[1].classList.add("active");
+
+						}
+
+						if (tabId == 22) {
+							$("#myTab li:eq(2) a").tab("show");
+
+							var listItems = $(".nav-item");
+
+							listItems[2].classList.add("active");
+						}
+
+						if (tabId == 23) {
+							$("#myTab li:eq(3) a").tab("show");
+
+							var listItems = $(".nav-item");
+
+							listItems[3].classList.add("active");
+						}
+
+						if (tabId == 24) {
+							$("#myTab li:eq(4) a").tab("show");
+
+							var listItems = $(".nav-item");
+
+							listItems[4].classList.add("active");
+						}
+
+						if (tabId == 25) {
+							$("#myTab li:eq(5) a").tab("show");
+							//alert('25');
+
+							var listItems = $(".nav-item");
+
+							listItems[5].classList.add("active");
+						}
+						if (tabId == 266) {
+							
+
+							$("#myTab li:eq(6) a").tab("show");
+
+							var listItems = $(".nav-item");
+
+							listItems[6].classList.add("active");
+						}
+						if (tabId == 27) {
+							$("#myTab li:eq(7) a").tab("show");
+							//	alert('28');
+							var listItems = $(".nav-item");
+
+							listItems[7].classList.add("active");
+						}
+
+						if (tabId == 28) {
+							$("#myTab li:eq(8) a").tab("show");
+
+							var listItems = $(".nav-item");
+
+							listItems[8].classList.add("active");
+						}
+						if (tabId == 29) {
+							$("#myTab li:eq(9) a").tab("show");
+
+							var listItems = $(".nav-item");
+
+							listItems[9].classList.add("active");
+						}
+
+						$('#disposedoff').hide();
+
+						var status = $("#status").val();
+
+						if (status == 8) {
+
+							$('#transfer').show();
+							$('#withDraw').hide();
+							$('#stay').hide();
+							$('#windingup').hide();
+							$('#disposedoff').hide();
+
+						}
+
+						else if (status == 9) {
+
+							$('#transfer').hide();
+							$('#withDraw').show();
+							$('#stay').hide();
+							$('#windingup').hide();
+							$('#disposedoff').hide();
+
+						} else if (status == 10) {
+
+							$('#stay').show();
+							$('#transfer').hide();
+							$('#withDraw').hide();
+							$('#windingup').hide();
+							$('#disposedoff').hide();
+
+						} else if (status == 12) {
+
+							$('#stay').hide();
+							$('#transfer').hide();
+							$('#withDraw').hide();
+							$('#windingup').show();
+							$('#disposedoff').hide();
+
+						} else if (status == 4) {
+
+							$('#stay').hide();
+							$('#transfer').hide();
+							$('#withDraw').hide();
+							$('#windingup').hide();
+							$('#disposedoff').show();
+
+						}
+
+						else {
+							$('#transfer').hide();
+							$('#withDraw').hide();
+							$('#stay').hide();
+							$('#windingup').hide();
+
+						}
+
+						/* if (status==3)
+							{
+							$('#transfer').hide();
+							$('#withDraw').hide();
+							$('#stay').hide();
+							$('#windingup').hide();
+							} */
+
+						var invCaseId = $("#incvaseId").val();
+						var macorder = $("#invMcaOrder").val();
+						//	alert(macorder);
+						$('#InvCaseNo').val(macorder);
+
+						$
+							.ajax({
+								//crossDomain: true,
+								type: "GET",
+								url: "getActiveIo?invCaseId="
+									+ invCaseId,
+								//url : "getActiveKMP?invCaseId="+invCaseId,
+								//contentType : "application/json; charset=utf-8",
+								cache: false,
+								timeout: 600000,
+								success: function (data) {
+									debugger
+									//alert(data);
+									var html = '';
+									var len = data.length;
+									//alert(len);
+									var html = '';
+									var len = data.length;
+									$('#IOName').html('');
+									var options = '';
+									options += '<option value="0">Select</option>';
+									for (var i = 0; i < data.length; i++) {
+										options += '<option value="' + data[i].inspName + '">'
+											+ data[i].inspName
+											+ '</option>';
+									}
+									$('#IOName').append(options);
+
+								},
+
+								error: function (xhr, status, error) {
+									//alert('error in getting User List');
+								}
+							});
+
+						$("#invOrder").datepicker({
+
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+							// autoclose: true,
+						}).on(
+							'changeDate',
+							function (selected) {
+								var minDate = new Date(
+									selected.date.valueOf());
+								$('#suppInv').datepicker(
+									'setStartDate', minDate);
+							});
+
+						$("#suppInv").datepicker({
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+
+						}).on(
+							'changeDate',
+							function (selected) {
+								var minDate = new Date(
+									selected.date.valueOf());
+								$('#invOrder').datepicker(
+									'setEndDate', minDate);
+							});
+
+						$("#invReport").datepicker({
+
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+							// autoclose: true,
+						}).on(
+							'changeDate',
+							function (selected) {
+								var minDate = new Date(
+									selected.date.valueOf());
+								$('#suppInvReport').datepicker(
+									'setStartDate', minDate);
+							});
+
+						$("#suppInvReport").datepicker({
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+
+						}).on(
+							'changeDate',
+							function (selected) {
+								var minDate = new Date(
+									selected.date.valueOf());
+								$('#invReport').datepicker(
+									'setEndDate', minDate);
+							});
+
+						$("#startdate").datepicker({
+
+							format: 'dd/mm/yyyy',
+
+							// autoclose: true,
+						}).on(
+							'changeDate',
+							function (selected) {
+								var minDate = new Date(
+									selected.date.valueOf());
+								$('#enddate').datepicker(
+									'setStartDate', minDate);
+							});
+
+						$("#enddate").datepicker({
+							format: 'dd/mm/yyyy',
+							/* endDate : new Date(), */
+
+						}).on(
+							'changeDate',
+							function (selected) {
+								var minDate = new Date(
+									selected.date.valueOf());
+								$('#startdate').datepicker(
+									'setEndDate', minDate);
+							});
+
+						$("#nextHearingDate").datepicker({
+
+							format: 'dd/mm/yyyy',
+							/* 		endDate : new Date(), */
+						}).on(
+							'changeDate',
+							function (selected) {
+								var minDate = new Date(
+									selected.date.valueOf());
+								$('#lastHearingDate').datepicker(
+									'setEndDate', minDate);
+							});
+
+						$("#lastHearingDate").datepicker({
+
+							format: 'dd/mm/yyyy',
+							/* endDate : new Date(), */
+						}).on(
+							'changeDate',
+							function (selected) {
+								var minDate = new Date(
+									selected.date.valueOf());
+								$('#nextHearingDate').datepicker(
+									'setStartDate', minDate);
+							});
+
+						$("#dateofCaseStatusUpdate").datepicker({
+
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+						})
+
+						$("#complaintPetinonerDate").datepicker({
+
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+						})
+
+						$("#dateOfDisposed").datepicker({
+
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+						})
+
+						$("#dateoforder").datepicker({
+
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+						})
+						$("#dateoftransfer").datepicker({
+
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+						})
+
+						$("#closingDateStay").datepicker({
+
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+						})
+
+						$("#stayDateOfOrder").datepicker({
+
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+						})
+
+						$("#transferDateOfOrder").datepicker({
+
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+						})
+						$("#withdrawDateOfWithdraw").datepicker({
+
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+						})
+
+						$("#windingUpClosingDate").datepicker({
+
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+						})
+
+						$("#withdrawDateOfOrder").datepicker({
+
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+						})
+
+						$("#transferDateOfTransfer").datepicker({
+
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+						})
+
+						$("#dateFilling").datepicker({
+
+							format: 'dd/mm/yyyy',
+							endDate: new Date(),
+						})
+
+					});
+		</script>
+		<script>
+			function PerformaPartyType() {
+				var accusedType = $("#performaPartyRespondent").val();
+				//alert("accusedType "+accusedType);
+				if (accusedType == "Respondent") {
+					$('#pp1').show()
+					$('#pp2').show()
+				} else {
+					$('#pp1').hide()
+					$('#pp2').hide()
+				}
+			}
+		</script>
+		<script type="text/javascript">
+			function selectaccusedType() {
+				var accusedType = $("#accusedType").val();
+				if (accusedType == 'Individual') {
+
+					$('#r1').show()
+					$('#r2').show()
+					$('#r3').show()
+					$('#r4').show()
+					$('#r5').hide()
+					$('#r6').hide()
+				} else {
+					$('#r1').hide()
+					$('#r2').hide()
+					$('#r3').hide()
+					$('#r4').hide()
+					$('#r5').show()
+					$('#r6').show()
+				}
+
+			};
+		</script>
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+
+				var accusedType = $("#effectiveBoolean11").val();
+				var status = $("#status").val();
+				var accusedType5 = $("#performaPartyRespondent").val();
+				//alert("accusedType "+accusedType5);
+				if (accusedType5 == "Respondent") {
+					$('#pp1').show()
+					$('#pp2').show()
+				} else {
+					$('#pp1').hide()
+					$('#pp2').hide()
+				}
+
+
+				if (accusedType == 'true') {
+
+					$('#additionalDocuments3').show()
+				} else {
+
+
+					$('#additionalDocuments3').hide()
+				}
+
+
+			});
+			function effectiveBoolean1() {
+				var accusedType = $("#effectiveBoolean11").val();
+				//alert(accusedType);
+				if (accusedType == 'true') {
+
+
+					$('#additionalDocuments3').show()
+				} else {
+
+					$('#additionalDocuments3').hide()
+				}
+
+			};
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function () {
+
+				var accusedType = $("#status").val();
+				if (accusedType == 3) {
+					//alert("om");
+					$('#additionalDocuments1').hide()
+					$('#additionalDocuments2').show()
+					$('#additionalDocuments3').show()
+				} else {
+					$('#additionalDocuments1').show()
+					$('#additionalDocuments2').hide()
+					$('#additionalDocuments3').hide()
+				}
+
+
+			});
+			function selectStatusType() {
+				var accusedType = $("#status").val();
+				if (accusedType == 3) {
+					//alert("om");
+					$('#additionalDocuments1').hide()
+					$('#additionalDocuments2').show()
+					$('#additionalDocuments3').show()
+				} else {
+					$('#additionalDocuments1').show()
+					$('#additionalDocuments2').hide()
+					$('#additionalDocuments3').hide()
+				}
+
+			};
+		</script>
+
+
+
+
+		<script type="text/javascript">
+			$('#addAccused1')
+				.click(
+					function () {
+						var invCaseId = $("#incvaseId").val();
+						//alert(invCaseId);
+						$
+							.ajax({
+								//crossDomain: true,
+								type: "GET",
+								url: "getActiveKMP?invCaseId="
+									+ invCaseId,
+								//contentType : "application/json; charset=utf-8",
+								cache: false,
+								timeout: 600000,
+								success: function (data) {
+									debugger
+									$("#largesizemodal1").modal(
+										"show");
+									var html = '';
+									var len = data.length;
+									//alert(len);
+									$('#accuseData').empty();
+
+									table = $('#AccuseTable')
+										.dataTable(
+											{
+												'bProcessing': false,
+												'bServerSide': false,
+												'bJQueryUI': true,
+												'destroy': true,
+												"autoWidth": false,
+												"responsive": true,
+												'language': {
+													'sLoadingRecords': '<span style="width:100%;"><img src="resources/images/Spinner-1s-80px1.gif"></span>'
+												},
+
+												'data': data,
+												'columns': [
+													{
+														'sDefaultContent': '',
+														"mData": function (
+															mData,
+															type,
+															row,
+															meta) {
+															return meta.row
+																+ meta.settings._iDisplayStart
+																+ 1;
+														}
+													},
+
+													{
+														'sDefaultContent': '',
+														'mData': function (
+															data,
+															type,
+															row) {
+
+															return "<td class='text-wrap'>"
+																+ data[2]
+																+ "</td>"
+															/* return data[2]; */
+														}
+													},
+													{
+														'sDefaultContent': '',
+														'mData': function (
+															data,
+															type,
+															row) {
+															return "<td class='text-wrap'>"
+																+ data[7]
+																+ "</td>"
+															/* return data[7]; */
+														}
+													},
+													{
+														'sDefaultContent': '',
+														'mData': function (
+															data,
+															type,
+															row) {
+															return "<td class='text-wrap'>"
+																+ data[3]
+																+ "</td>"
+															/* return data[3]; */
+														}
+													},
+													{
+														'sDefaultContent': '',
+														'mData': function (
+															data,
+															type,
+															row) {
+															return "<td class='text-wrap'>"
+																+ data[4]
+																+ "</td>"
+															/* return data[4]; */
+														}
+													},
+													{
+														'sDefaultContent': '',
+														'mData': function (
+															data,
+															type,
+															row) {
+															return "<td class='text-wrap'>"
+																+ data[6]
+																+ "</td>"
+															/* return data[6]; */
+														}
+													},
+													{
+														'sDefaultContent': '',
+														'mData': function (
+															data,
+															type,
+															row) {
+															return "<td class='text-wrap'>"
+																+ data[5]
+																+ "</td>"
+															/* return data[5]; */
+														}
+													},
+													{
+														'sDefaultContent': '',
+														'mData': function (
+															data,
+															type,
+															row) {
+															return "<td class='text-wrap'>"
+																+ data[8]
+																+ "</td>"
+															/* return data[8]; */
+														}
+													},
+													{
+														'sDefaultContent': '',
+														'mData': function (
+															data,
+															type,
+															row) {
+															return "<td class='text-wrap'>"
+																+ data[9]
+																+ "</td>"
+															/* return data[9]; */
+														}
+													},
+
+													{
+														'sDefaultContent': '',
+														'mData': function (
+															data,
+															type,
+															row) {
+															var isAdded = false;
+
+															$(
+																'#personList tr')
+																.each(
+																	function (
+																		j,
+																		v) {
+																		if ($(
+																			this)
+																			.children(
+																				'td:eq(2)')
+																			.text() == data[3]) {
+																			isAdded = true
+																		}
+																		;
+																	});
+
+															if (isAdded)
+																return '<td><input type="button"  value = "Already Added" class = "btn btn-info" disabled="true"/></td></tr>';
+															else
+																return "<button type='button' class='btn btn-danger btn-round m-1' onclick=SavedAccused('"
+																	+ encodeURIComponent(data[2])
+																	+ "','"
+																	+ data[3]
+																	+ "','"
+																	+ encodeURIComponent(data[7])
+																	+ "','"
+																	+ data[4]
+																	+ "','"
+																	+ data[5]
+																	+ "','"
+																	+ data[6]
+																	+ "','"
+																	+ data[9]
+																	+ "','"
+																	+ encodeURIComponent(data[8])
+																	+ "','"
+																	+ encodeURIComponent(data[11])
+																	+ "','"
+																	+ data[10]
+																	+ "','"
+																	+ data[11]
+																	+ "','"
+																	+ data[0]
+																	+ "')>"
+																	+ 'Select'
+																	+ "</button>";
+														}
+													},],
+											});
+
+								},
+
+								error: function (xhr, status, error) {
+									//alert('error in getting User List');
+								}
+							});
+
+					})
+			function SavedAccused(accusedName, panNumber, accuseDesination,
+				gender, email, mobile, cin, company, accusedAddress,
+				companuSummonId, rpcId, idddd) {
+				//alert(accusedAddress);
+
+				//alert(accuseDesination);
+
+				//alert(accuseDesination1);
+
+				var res = accuseDesination.replace(/%20/g, " ");
+				//alert(res);
+
+				var accusedAddress1 = accusedAddress.replace("%20", " ");
+
+				var accName = accusedName.replace("%20", " ");
+				var cName = company.replace("%20", " ");
+
+				$("#largesizemodal1").modal("hide");
+				$('#newAccused').show()
+				$('#companyId').val(companuSummonId);
+				$("#accusedName").attr("readonly", true);
+				$('#accusedName').val(accName)
+				$("#accCIN").attr("readonly", true);
+				$('#accCIN').val(cin)
+				//alert($('#accCIN').val())
+
+				$("#accComp").attr("readonly", true);
+				$('#accComp').val(cName)
+				$('#2').show();
+				$('#1').hide();
+
+				//$("#caseCompanyForaccusedStatus").attr("readonly", true);
+				//$('#caseCompanyForaccusedStatus').val(company)
+				//$('#caseCompanyForaccusedStatus').val(company).attr("selected", "selected");
+				//$('caseCompanyForaccusedStatus').prop('selectedIndex', 3);
+
+				//$("#caseCompanyForaccusedStatus").val(company).change();
+
+				$("#accPan").attr("readonly", true);
+				$('#accPan').val(panNumber)
+				$("#accDesination").attr("readonly", false);
+				//$('#accDesination').val(res)
+
+				$("#accDesination option:contains(" + res + ")").attr(
+					'selected', 'selected');
+
+				$("#accusedAddress").attr("readonly", true);
+				$('#accusedAddress').val(accusedAddress1);
+
+				//alert(coyAddress2);
+
+			}
+
+			/* $('#selectComp12')
+			.click(
+					function() {
+				alert('testy');
+				$("#largesizemodal12").modal("show");
+					});
+			 */
+
+			$('#selectComp')
+				.click(
+					function () {
+						//alert('testy');
+						var invCaseId = $("#incvaseId").val();
+						//alert(invCaseId);
+						var temp = "getActiveCompany?invCaseId="
+							+ invCaseId;
+						//	alert(temp);
+						debugger
+						$
+							.ajax({
+								//crossDomain: true,
+								type: "GET",
+								url: "getActiveCompany?invCaseId="
+									+ invCaseId,
+								//url : "getActiveKMP?invCaseId="+invCaseId,
+								//contentType : "application/json; charset=utf-8",
+								cache: false,
+								timeout: 600000,
+								success: function (data) {
+									debugger
+									$("#largesizemodal").modal(
+										"show");
+
+									var html = '';
+									var len = data.length;
+									//alert(len);
+									$('#CompData').empty();
+
+									table = $('#CompTable')
+										.dataTable(
+											{
+												'bProcessing': false,
+												'bServerSide': false,
+												'bJQueryUI': true,
+												'destroy': true,
+												"autoWidth": false,
+
+												'language': {
+													'sLoadingRecords': '<span style="width:100%;"><img src="resources/images/Spinner-1s-80px1.gif"></span>'
+												},
+
+												'data': data,
+												'columns': [
+													{
+														'sDefaultContent': '',
+														"mData": function (
+															mData,
+															type,
+															row,
+															meta) {
+															return meta.row
+																+ meta.settings._iDisplayStart
+																+ 1;
+														}
+													},
+
+													{
+														'sDefaultContent': '',
+														'mData': function (
+															data,
+															type,
+															row) {
+															return data[0];
+														}
+													},
+													{
+														'sDefaultContent': '',
+														'mData': function (
+															data,
+															type,
+															row) {
+															return data[1];
+														}
+													},
+													{
+														'sDefaultContent': '',
+														'mData': function (
+															data,
+															type,
+															row) {
+															return data[3];
+														}
+													},
+
+													{
+														'sDefaultContent': '',
+														'mData': function (
+															data,
+															type,
+															row) {
+															var isAdded = false;
+
+															$(
+																'#compCin tr')
+																.each(
+																	function (
+																		j,
+																		v) {
+																		if ($(
+																			this)
+																			.children(
+																				'td:eq(1)')
+																			.text() == data[1]) {
+																			isAdded = true
+																		}
+																		;
+																	});
+
+															if (isAdded)
+																return '<td><input type="button"  value = "Already Added" class = "btn btn-info" disabled="true"/></td></tr>';
+															else
+																return "<button type='button' class='btn btn-danger btn-round m-1' onclick=SavedCompany1('"
+																	+ encodeURIComponent(data[0])
+																	+ "','"
+																	+ data[1]
+																	+ "','"
+																	+ data[2]
+																	+ "','"
+																	+ encodeURIComponent(data[3])
+																	+ "'"
+
+																	+ ")>"
+																	+ 'Add'
+																	+ "</button>";
+
+															/* 	   return "<button type='button' class='btn btn-danger btn-round m-1' onclick=SavedCompany1('"
+																	+ encodeURIComponent (data[0])
+																	+ "',"
+																	   + data[1]
+																	+ "',"
+																	   + data[2]+
+																		 ")>"+'Add'+"</button>";  */
+
+														}
+													},],
+											});
+
+								},
+
+								error: function (xhr, status, error) {
+									//alert('error in getting User List');
+								}
+							});
+
+					})
+
+			function SavedCompany1(compName, compCin, compId, compAddess) {
+				//alert(compName);
+
+				var compAddess1 = compAddess.replace("%20", " ");
+				var compName1 = compName.replace("%20", " ");
+
+				$('#addCriminalDtl1').attr('action', 'AddCompanyDetails');
+				$('#compName').val(compName1);
+				$('#companyId').val(compId);
+				$('#cin').val(compCin);
+				$('#compAddess').val(compAddess1);
+				$('#addCriminalDtl1').submit();
+			}
+
+			function NewCompanyDetails() {
+
+				$('#addCriminalDtl1').attr('action', 'NCLTAddCompanyDetails');
+				$('#addCriminalDtl1').submit();
+			}
+
+			function editCompanyDetails() {
+
+				$('#addCriminalDtl1').attr('action', 'editCompanyDetails');
+				$('#addCriminalDtl1').submit();
+			}
+
+			function mySample() {
+
+				$('#addCriminalDtl1').attr('action', 'AddCompanyDetails');
+				//$('#addCriminalDtl1').submit();
+			}
+		</script>
+
+
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				var table = $('#userTable').DataTable({});
+			});
+
+			$(document).ready(function () {
+
+				var table = $('#roleTable').DataTable({
+					//	 	        lengthChange: false,
+					buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+				});
+			});
+
+			$('#pairaviType').on('change', function () {
+
+				var pairaviType = this.value
+				if (pairaviType == 2) {
+					$("#enddate").prop('disabled', true);
+
+				} else {
+					$("#enddate").prop('disabled', false);
+				}
+
+			});
+
+			function addnewComp() {
+
+				$("#largesizemodal").modal("hide");
+
+				$("#compName").attr("readonly", false);
+				$('#compName').val('')
+				$("#cin").attr("readonly", false);
+				$('#cin').val('')
+
+				$('#newComp').show();
+
+			}
+
+			function complaintReportUpload() {
+				//alert("hi---------");
+
+				if ($('#complaintReportUpload1').val() == '') {
+					swal("Required!", "Please Select the file", "error");
+					return;
+				}
+
+				$('#addCriminalDtl1').attr('action', 'complaintReportUpload1');
+
+				$('#addCriminalDtl1').submit();
+			}
+
+			function complaintReportUpload5() {
+				//	alert("hi5");
+
+				if ($('#complaintReportUpload1').val() == '') {
+					swal("Required!", "Please Select the file", "error");
+					return;
+				}
+
+				$('#addCriminalDtl1').attr('action', 'complaintReportUpload1');
+
+				$('#addCriminalDtl1').submit();
+			}
+
+			function pdfFView() {
+				if ($('#typeofreport').val() == 1
+					|| $('#typeofreport').val() == 0) {
+					swal("Required!", "Please generate the report first",
+						"error");
+					return;
+				}
+
+				$('#viewGeneratedComplaint').attr("action",
+					"genComplaintPdfPreviewnew");
+				$('#viewGeneratedComplaint').submit();
+				$('div').removeClass('loading');
+			}
+
+			function generateComplaintReport() {
+				if ($('#typeofreport').val() == 1) {
+					swal(
+						"Required!",
+						"You have already uploaded the report So you can not generate",
+						"error");
+					return;
+				}
+
+				$('#addCriminalDtl1').attr('action', 'generateComplaintReport');
+
+				$('#addCriminalDtl1').submit();
+			}
+			$('#status').on('change', function () {
+				//	alert('l');
+				var status = this.value
+
+				if (status == 8) {
+
+					$('#transfer').show();
+					$('#withDraw').hide();
+					$('#stay').hide();
+					$('#windingup').hide();
+					$('#disposedoff').hide();
+
+				}
+
+				else if (status == 9) {
+
+					$('#transfer').hide();
+					$('#withDraw').show();
+					$('#stay').hide();
+					$('#windingup').hide();
+					$('#disposedoff').hide();
+
+				} else if (status == 10) {
+
+					$('#stay').show();
+					$('#transfer').hide();
+					$('#withDraw').hide();
+					$('#windingup').hide();
+					$('#disposedoff').hide();
+
+				} else if (status == 12) {
+
+					$('#stay').hide();
+					$('#transfer').hide();
+					$('#withDraw').hide();
+					$('#windingup').show();
+					$('#disposedoff').hide();
+
+				} else if (status == 4) {
+
+					$('#stay').hide();
+					$('#transfer').hide();
+					$('#withDraw').hide();
+					$('#windingup').hide();
+					$('#disposedoff').show();
+
+				}
+
+				else {
+					$('#transfer').hide();
+					$('#withDraw').hide();
+					$('#stay').hide();
+					$('#windingup').hide();
+					$('#disposedoff').hide();
+
+				}
+
+			});
+		</script>
+		<!-- <script type="text/javascript">
+			function getCompanyAccusedInfo() {
+				//alert("helli bhai");
+				
+					$("#testa").show();
+					alert("helli bhai");
+				
+				var span = document.getElementById("chosecompanyAndAccused");
+				if (span.style.display === "none") {
+					// $("#showUploadAdditional").hide();
+
+					$("#saveUploadAdditionalFile").hide();
+					span.style.display = "inline"; // show the span
+				} else {
+					span.style.display = "none"; // hide the span
+					// $("#CompanyFileUpload").hide();
+					$("#showUploadAdditional").hide();
+
+					$("#saveUploadAdditionalFile").hide();
+					$("#submitCompany").hide();
+					$("#showCompanyDiv").hide();
+					$("#CompanyFileUploadAccused").hide();
+					$("#noCompanyInput").hide();
+					$("#accusedDIV").hide();
+				}
+			}
+			//--------------------------------------
+
+			function getCompanyInfo() {
+
+				//alert('test company');
+				$("#noCompanyInput").hide();
+				$("#saveUploadAdditionalFile").show();
+				$("#submitCompany").show();
+				$("#CompanyFileUploadAccused").show();
+				$("#showCompanyDiv").show();
+				$("#accusedforFile").hide();
+				$("#accusedDIV").hide();
+			}
+			function getAccusedInfo() {
+				//alert('test Accused');
+				$("#accusedforFile").hide();
+				$("#CompanyFileUpload").hide();
+				$("#saveUploadAdditionalFile").show();
+				$("#submitCompany").show();
+				$("#showCompanyDiv").show();
+				$("#CompanyFileUploadAccused").show();
+				$("#showCompanyDivAndaccused").hide();
+				$("#accusedDIV").show();
+			}
+			/*  function selectCompany1(){
+			 var companyName = document.getElementById("selectCompany").selectedOptions[0].value;
+			 alert(companyName);
+			
+			 if(companyName=="Select"){
+			 //@@ show here no company name input box
+			 $("#noCompanyInput").show();
+			 }else{
+			 //@@ here remove no company name input box
+			 $("#noCompanyInput").hide();
+			 }
+			 }  */
+
+			function selectAccused1() {
+				//alert("uuii");
+				var companyName = document.getElementById("selectAccused").selectedOptions[0].value;
+				//alert(companyName);
+				if (companyName == 0) {
+					//@@ show here no company name input box
+					$("#accusedforFile").show();
+				} else {
+					//@@ here remove no company name input box
+					$("#accusedforFile").hide();
+				}
+			}
+		</script>
+		<script type="text/javascript">
+			$("#selectCompany")
+					.change(
+							function() {
+								var selectedText = $(this).find(
+										"option:selected").text();
+								var company = $(this).val();
+								var procourtdtlIDD = $('#procourtdtlIDD').val();
+
+								$
+										.ajax({
+											type : "GET",
+											url : "getaccusedforfileupload?company="
+													+ company
+													+ "&procourtdtlIDD="
+													+ procourtdtlIDD,
+											// data : courtType,
+											data : {
+												'company' : company,
+												'procourtdtlIDD' : procourtdtlIDD
+											},
+											success : function(data) {
+												var html = '';
+												var len = data.length;
+												/* alert(len); */
+
+												if (len > 0) {
+													for (var i = 0; i < len; i++) {
+														if (i == 0) {
+															html += '<option value="-1"> Select</option>';
+															html += '<option value="0"> New Accused</option>';
+														}
+
+														html += '<option value="' + data[i].id + '">'
+																+ data[i].accusedMaster.accusedName
+																+ '</option>';
+													}
+													$("#selectAccused").html(
+															html);
+												} else {
+													html += '<option value="-1"> Select</option>';
+													html += '<option value="0">New Accused</option>';
+
+													$("#selectAccused").html(
+															html);
+
+													// $("#selectAccused").prop("disabled", true);
+												}
+											}
+										});
+
+								var companyName = document
+										.getElementById("selectCompany").selectedOptions[0].value;
+
+								if (companyName == 99999) {
+									//@@ show here no company name input box
+									$("#noCompanyInput").show();
+								} else {
+									//@@ here remove no company name input box
+									$("#noCompanyInput").hide();
+								}
+
+								/* var companyNam1e = document.getElementById("selectAccused").selectedOptions[0].value;
+								//alert(companyName);
+								if (companyNam1e == 0) {
+									//@@ show here no company name input box
+									$("#accusedforFile").show();
+								} else {
+									//@@ here remove no company name input box
+									$("#accusedforFile").hide();
+								} */
+
+							});
+		</script>
+
+		FOr load the page
+
+		<script type="text/javascript">
+			$(document)
+					.ready(
+
+							function() {
+
+								if (document.getElementById('option1').checked == true) {
+									//alert("option1 radio button is selected");
+
+									$("#chosecompanyAndAccused").show();
+									$("#saveUploadAdditionalFile").show();
+									$("#submitCompany").show();
+									$("#CompanyFileUploadAccused").show();
+									$("#showCompanyDiv").show();
+									$("#accusedforFile").hide();
+									$("#accusedDIV").hide();
+
+									var companyName = document
+											.getElementById("selectCompany").selectedOptions[0].value;
+
+									//alert(companyName);
+									if (companyName == 99999) {
+										//@@ show here no company name input box
+										$("#noCompanyInput").show();
+									} else {
+										//@@ here remove no company name input box
+										$("#noCompanyInput").hide();
+									}
+
+								} else if (document.getElementById('option2').checked == true) {
+
+									//	alert('test Accused');
+									$("#chosecompanyAndAccused").show();
+									$("#accusedforFile").hide();
+									$("#CompanyFileUpload").hide();
+									$("#saveUploadAdditionalFile").show();
+									$("#submitCompany").show();
+									$("#showCompanyDiv").show();
+									$("#CompanyFileUploadAccused").show();
+									$("#showCompanyDivAndaccused").hide();
+									$("#accusedDIV").show();
+									var companyName = document
+											.getElementById("selectCompany").selectedOptions[0].value;
+
+									//alert(companyName);
+									if (companyName == 99999) {
+										//@@ show here no company name input box
+										$("#noCompanyInput").show();
+									} else {
+										//@@ here remove no company name input box
+										$("#noCompanyInput").hide();
+									}
+
+									var companyName1 = document
+											.getElementById("selectAccused").selectedOptions[0].value;
+									//alert(companyName);
+									if (companyName1 == 0) {
+										//@@ show here no company name input box
+										$("#accusedforFile").show();
+									} else {
+										//@@ here remove no company name input box
+										$("#accusedforFile").hide();
+									}
+
+								} else {
+								}
+
+							});
+		</script> -->
+		<script type="text/javascript">
+			function countWords1() {
+				const textField = document.getElementById('accDesc');
+				const wordCountDisplay = document.getElementById('wordCount1');
+				const words = textField.value.split(' ').filter(Boolean);
+				const wordCount = words.length;
+				wordCountDisplay.innerHTML = wordCount;
+
+				if (wordCount > 101) {
+					var wordCount1 = document.getElementById("accDesc");
+					var characters = wordCount1.value.split('');
+					var lenth = characters.length;
+					// alert(lenth);
+					document.getElementById("accDesc").maxLength = lenth;
+				}
+
+			}
+		</script>
+		<script type="text/javascript">
+			$("#courtType")
+				.change(
+					function () {
+						var selectedText = $(this).find(
+							"option:selected").text();
+						var courtType = $(this).val();
+						//alert(courtType);
+
+						$
+							.ajax({
+								type: "GET",
+								url: "getState?courtType="
+									+ courtType,
+								data: courtType,
+								success: function (data) {
+									var html = '';
+									var len = data.length;
+									/* alert(len); */
+
+									if (len > 0) {
+										for (var i = 0; i < len; i++) {
+											html += '<option value="' + data[i].id + '">'
+												+ data[i].state
+												+ '</option>';
+										}
+										$("#stateid").html(html);
+									} else {
+										html += '<option value="0">-- Select --</option>';
+										html += '<option value="0">-- Select --</option>';
+										$("#stateid").html(html);
+										$("#stateid").prop(
+											"disabled", true);
+									}
+								}
+							});
+
+						$
+							.ajax({
+								type: "GET",
+								url: "getcity?courtType="
+									+ courtType,
+								data: courtType,
+								success: function (data) {
+									var html = '';
+									var len = data.length;
+									/* alert(len); */
+
+									if (len > 0) {
+										for (var i = 0; i < len; i++) {
+											html += '<option value="' + data[i].id + '">'
+												+ data[i].districtName
+												+ '</option>';
+										}
+										$("#citylst").html(html);
+									} else {
+
+										html += '<option value="0">-- Select --</option>';
+										$("#citylst").html(html);
+										$("#citylst").prop(
+											"readonly", true);
+									}
+								}
+							});
+
+					});
+
+			$('#stateid')
+				.on(
+					'change',
+					function () {
+						var stateid = $('#stateid').val();
+						//alert(stateid)
+						$
+							.ajax({
+								//crossDomain: true,
+								type: "GET",
+								url: "showsDistrictList?stateid="
+									+ stateid,
+								//contentType : "application/json; charset=utf-8",
+								cache: false,
+								timeout: 600000,
+								success: function (data) {
+									$('#citylst').html('');
+									var options = '';
+									options += '<option value="0">Select</option>';
+									for (var i = 0; i < data.length; i++) {
+										options += '<option value="' + data[i].id + '">'
+											+ data[i].districtName
+											+ '</option>';
+									}
+									$('#citylst').append(options);
+								}
+
+							});
+
+					});
+		</script>
+		<script type="text/javascript">
+			$('#actid')
+				.on(
+					'change',
+					function () {
+						var stateid = $('#actid').val();
+						var typeOfCase = $('#typeOfCase').val();
+						//alert(typeOfCase);
+
+						//alert(stateid)
+						debugger
+						$
+							.ajax({
+								//crossDomain: true,
+								type: "GET",
+								//url : "getsection?stateid="+ stateid,
+								url: "getsection2?stateid="
+									+ stateid + "&typeOfCase="
+									+ typeOfCase,
+								//contentType : "application/json; charset=utf-8",
+								cache: false,
+								timeout: 600000,
+								success: function (data) {
+									//alert(data.lenth)
+									$('#seclst').html('');
+									var options = '';
+									options += '<option value="0">Select</option>';
+									for (var i = 0; i < data.length; i++) {
+										options += '<option value="' + data[i].id + '">'
+											+ data[i].section
+											+ '</option>';
+									}
+									$('#seclst').append(options);
+									$('#seclst1').html('');
+								}
+
+							});
+
+					});
+
+			$('#seclst')
+				.on(
+					'change',
+					function () {
+						var stateid = $('#seclst').val();
+						//alert(stateid)
+						debugger
+						$
+							.ajax({
+								//crossDomain: true,
+								type: "GET",
+								url: "getsection1?stateid="
+									+ stateid,
+								//contentType : "application/json; charset=utf-8",
+								cache: false,
+								timeout: 600000,
+								success: function (data) {
+									//alert(data.lenth)
+									$('#seclst1').html('');
+									var options = '';
+									options += '<option value="0">Select</option>';
+									for (var i = 0; i < data.length; i++) {
+										options += '<option value="' + data[i].id + '">'
+											+ data[i].subSection
+											+ '</option>';
+									}
+									$('#seclst1').append(options);
+								}
+
+							});
+
+					});
+		</script>
+		<script type="text/javascript">
+			$(document)
+				.ready(
+					function () {
+						var stateid = $('#actid').val();
+						var subSection = $('#seclst').val();
+						//alert(stateid)
+						debugger
+						$
+							.ajax({
+								//crossDomain: true,
+								type: "GET",
+								url: "getsection?stateid="
+									+ stateid,
+								//contentType : "application/json; charset=utf-8",
+								cache: false,
+								timeout: 600000,
+								success: function (data) {
+									//alert(data.lenth)
+									$('#seclst').html('');
+									var options = '';
+									/* options += '<option value="0">Select</option>'; */
+									for (var i = 0; i < data.length; i++) {
+										options += '<option value="' + data[i].id + '">'
+											+ data[i].section
+											+ '</option>';
+									}
+									$('#seclst').append(options);
+									$('#seclst').val(subSection);
+								}
+
+							});
+					});
+		</script>
+		<script type="text/javascript">
+			function myPPCompany() {
+
+				var typeofOrder = $("#typeofOrder1").val();
+
+				if (typeofOrder == 1) {
+					$('#myPPCompanyDiv').show();
+					$('#myPPAccusedDiv').hide();
+
+				}
+
+			}
+			function myPPAccused() {
+
+				var typeofOrder = $("#typeofOrder2").val();
+
+				if (typeofOrder == 2) {
+					$('#myPPCompanyDiv').hide();
+					$('#myPPAccusedDiv').show();
+
+				}
+
+			}
+
+			function SavePerformaParty() {
+				$('#addCriminalDtl1').attr('action', 'savePerformaParty');
+
+				$('#addCriminalDtl1').submit();
+			}
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function () {
+				var typeofOrder = $("#typeofOrder2").val();
+				//alert("ok check "+typeofOrder)
+				var ele = document.getElementsByName('typeofOrder');
+				//alert("ok check length "+ele.length)
+				for (i = 1; i < ele.length; i++) {
+					if (ele[i].checked)
+
+						var ele1 = ele[i].value;
+					if (ele1 == 2) {
+						$('#myPPCompanyDiv').hide();
+						$('#myPPAccusedDiv').show();
+					} else {
+						$('#myPPCompanyDiv').show();
+						$('#myPPAccusedDiv').hide();
+					}
+				}
+
+			})
+		</script>
+		<script>
+			$(document).ready(function () {
+				$("#accPan").keyup(function () {
+					let pan = $(this).val().toUpperCase();
+					$(this).val(pan); // Always keep uppercase
+
+					let regex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
+					if (pan.length === 10) {
+						if (!regex.test(pan)) {
+							swal("Required!", "Invalid PAN format. Use: 5 letters, 4 digits, 1 letter (e.g., ABCDE1234F)Please Select Act",
+								"error");
+							return;
+
+
+							//$("#panError").text("Invalid PAN format. Use: 5 letters, 4 digits, 1 letter (e.g., ABCDE1234F)");
+						} else {
+							$("#panError").text("");
+						}
+					} else {
+						$("#panError").text("Incorrect Pan Number please check it.");
+					}
+				});
+
+				$("#pp2").keyup(function () {
+					let pp22 = $(this).val();
+					$(this).val(pp22);
+					
+				
+
+					let regex = /^[\w\d\s.,_()\/-]{0,30}$/;
+
+					if (!regex.test(pp22)) {
+						swal("Required!", "Invalid Respondent Number. Only alphanumeric and '.,_()/-' characters allowed", "error");
+						$("#pp2Error").text("Invalid format");
+						return;
+					} else {
+						$("#pp2Error").text("");
+					}
+
+				});
+			});
+		</script>
+
+
+		<script type="text/javascript">
+			$("#saveUploadFile").click(
+				function () {
+
+					//alert($('#actid').val());
+
+					/* if ($('#accusedIdtest').val() == '0') {
+						swal("Required!", "Please Select Respondent",
+								"error");
+						return;
+					} */
+					$('#addCriminalDtl1').attr('action',
+						'saveUploadAdditionalFile');
+
+					$('#addCriminalDtl1').submit();
+
+				});
+		</script>
+		<script type="text/javascript">
+			$("#saveUploadFile3").click(
+				function () {
+
+					$('#addCriminalDtl1').attr('action',
+						'saveSfioFile');
+
+					$('#addCriminalDtl1').submit();
+
+				});
+		</script>
+		<script type="text/javascript">
+			$("#addActSection")
+				.click(
+					function () {
+						if ($('#actid').val() == '0') {
+							swal("Required!", "Please Select Act",
+								"error");
+							return;
+						}
+						if ($('#seclst').val() == '0') {
+							swal("Required!", "Please Select Section",
+								"error");
+							return;
+						}
+						if ($('#subsection').val() == '0') {
+							swal("Required!",
+								"Please Select subsection", "error");
+							return;
+						}
+						/* 	if ($('#punishmentID').val() == '0') {
+								alert('test');
+								swal("Required!",
+										"Please Select punishment", "error");
+								return;
+							}
+							if ($('#compoundabilityID').val() == '0') {
+								swal("Required!",
+										"Please Select Compoundability",
+										"error");
+								return;
+							} */
+
+						$('#actSectionDiv').show();
+
+						var table = $('#actSectionTAble');
+						var rowCount = $('#actSectionTAble tr').length;
+						var actID = $('#actid').val();
+						var act = jQuery("#actid option:selected")
+							.text();
+						var sectionID = $('#seclst').val();
+						var section = jQuery("#seclst option:selected")
+							.text();
+						var subSectionID = $('#subsection').val();
+						var subsection = jQuery(
+							"#subsection option:selected").text();
+						var clause = jQuery("#clauseID option:selected")
+							.text();
+						var clauseID = $('#clauseID').val();
+						/* var punishmentID = $('#punishmentID').val();
+						var punishment = jQuery(
+								"#punishmentID option:selected").text();
+						var punishmentID = $('#punishmentID').val(); */
+						var accDesc = $('#accDesc').val();
+						/* var compoundability = $('#compoundabilityID')
+								.val(); */
+
+						var markup = "";
+						markup = [
+							'<tr th:object="*{actSectLIST}" >',
+							'<td class="index" th:field="*{actSectLIST.setId()}">',
+							rowCount + 1,
+							'</td>',
+							'<td class="text-wrap"  th:field="*{actSectLIST.setAct()}">'
+							+ act + '</td>',
+							'<td style="display: none;" class="text-wrap" th:field="*{actSectLIST.setActID()}">'
+							+ actID + '</td>',
+							'<td class="text-wrap" th:field="*{actSectLIST.setSection()}">'
+							+ section + '</td>',
+							'<td style="display: none;" class="text-wrap" th:field="*{actSectLIST.setSectionID()}">'
+							+ sectionID + '</td>',
+							'<td class="text-wrap" th:field="*{actSectLIST.setSubsection()}">'
+							+ subsection + '</td>',
+							'<td style="display: none;" class="text-wrap" th:field="*{actSectLIST.setSubSectionID()}">'
+							+ subSectionID + '</td>',
+							'<td class="text-wrap" th:field="*{actSectLIST.setClause()}">'
+							+ clause + '</td>',
+							/* '<td class="text-wrap" th:field="*{actSectLIST.setPunishment()}">'
+									+ punishment + '</td>',
+							'<td style="display: none;" class="text-wrap" th:field="*{actSectLIST.setPunishmentID()}">'
+									+ punishmentID + '</td>',
+							'<td class="text-wrap" th:field="*{actSectLIST.setCompoundability()}">'
+									+ compoundability + '</td>', */
+							'<td class="text-wrap" th:field="*{actSectLIST.setAccDesc()}">'
+							+ accDesc + '</td>',
+							'<td style="display: none;" class="text-wrap" th:field="*{actSectLIST.setClauseID()}">'
+							+ clauseID + '</td>',
+							'<td> <button class="btn btn-warning btn-round m-1 editBtn">Edit</button> <button class="btn btn-danger btn-round m-1 deleteBtn">Delete</button> </td>',
+							'</tr>'];
+
+						table.append(markup.join(''));
+						$('#actid').val(0);
+						$('#seclst').val(0);
+						$('#subsection').val(0);
+						$('#clauseID').val(0);
+						/* 	$('#punishmentID').val(0);
+							$('#compoundabilityID').val(0); */
+
+						$('#accDesc').val('');
+					});
+
+			//Delete option Work
+
+			$("#actSectionTAble").on(
+				'click',
+				'.deleteBtn',
+				function () {
+
+					var currentRow = $(this).closest("tr");
+					currentRow.remove();
+					$('#companyTable').find('tr').find('td:first').each(
+						function (index) {
+							$(this).text(index + 1);
+						});
+				});
+
+			//Edit Botton Work
+			$("#actSectionTAble").on(
+				'click',
+				'.editBtn',
+				function () {
+					var currentRow = $(this).closest("tr");
+					var actID = currentRow.find("td:eq(2)").text();
+					var sectionID = currentRow.find("td:eq(4)").text();
+					var subsection = currentRow.find("td:eq(6)").text();
+					alert(sectionID);
+
+					var clouse = currentRow.find("td:eq(7)").text();
+					alert(clouse);
+					//var punishment = currentRow.find("td:eq(9)").text();
+					//var compound = currentRow.find("td:eq(10)").text();
+					var discription = currentRow.find("td:eq(8)").text();
+
+					$('#actid').val(actID);
+					$('#seclst').val(sectionID);
+					$('#subsection').val(subsection);
+					//$('#clauseID').val(clouse);
+					$("#clauseID option:contains(" + clouse + ")").attr(
+						'selected', 'selected');
+					//$('#punishmentID').val(punishment);
+					//$('#compoundabilityID').val(compound);
+
+					$('#accDesc').val(discription);
+
+					$('#exampleModalCenter').modal('show');
+
+					currentRow.remove();
+
+					$('#actSectionTAble').find('tr').find('td:first').each(
+						function (index) {
+							$(this).text(index + 1);
+						});
+				});
+		</script>
+
+
+		<script type="text/javascript">
+			function SaveAccusedDetails() {
+
+				var regExp = /[A-z]{5}\d{4}[A-Z]{1}/;
+				var txtpan = $('#accPan').val();
+				var performaPartyRespondent = $('#performaPartyRespondent').val();
+				var accusedType = $('#accusedType').val();
+				var rNumber = $('#respondentNumber').val();
+
+				if (performaPartyRespondent === 'Respondent') {
+					if (rNumber == "") {
+						swal("Required!", "Please Enter Respondent Number", "error");
+						return;
+					}
+				}
+
+
+				if (accusedType == 'Choose') {
+					swal("Required!", "Please select Respondent type", "error");
+					return;
+				}
+
+				if (accusedType != 'Company') {
+
+					var accusedName = $('#accusedName').val();
+					//	alert(accusedName);
+					if (accusedName == '') {
+						swal("Required!", "Please enter name", "error");
+						return;
+					}
+
+				}
+
+				if (txtpan != '') {
+
+					if (txtpan.match(regExp)) {
+						//swal("Required!", "Please Enter Accused Name1", "error");	
+
+					} else {
+
+						swal("Required!", "Please Enter Correct PAN Number",
+							"error");
+						return;
+					}
+				}
+
+				$
+					.confirm({
+						title: '',
+						content: 'Sure ! Want to save? If saved cannot be edited ',
+						type: 'green',
+						typeAnimated: true,
+						buttons: {
+							tryAgain: {
+								text: 'Yes',
+								btnClass: 'btn-Success',
+								action: function () {
+
+									var act = "";
+									$('#myTable tbody tr td:nth-child(3)')
+										.each(
+											function (i, v) {
+												act = act
+													+ $(this)
+														.text()
+													+ ",";
+											});
+									act = act.substring(0, act
+										.lastIndexOf(','));
+									console.log(act);
+									//alert(act);
+									$('#accusedACT').val(act);
+									var act = "";
+									$('#myTable tbody tr td:nth-child(5)')
+										.each(
+											function (i, v) {
+												act = act
+													+ $(this)
+														.text()
+													+ ",";
+											});
+									act = act.substring(0, act
+										.lastIndexOf(','));
+									console.log(act);
+									//alert(act);
+									$('#accusedSection').val(act);
+									var act = "";
+									$('#myTable tbody tr td:nth-child(7)')
+										.each(
+											function (i, v) {
+												act = act
+													+ $(this)
+														.text()
+													+ ",";
+											});
+									act = act.substring(0, act
+										.lastIndexOf(','));
+									console.log(act);
+									//alert(act);
+									$('#accusedSubSection').val(act);
+									var act = "";
+									$('#myTable tbody tr td:nth-child(8)')
+										.each(
+											function (i, v) {
+												act = act
+													+ $(this)
+														.text()
+													+ ",";
+											});
+									act = act.substring(0, act
+										.lastIndexOf(','));
+									console.log(act);
+									$('#accusedClause').val(act);
+									/* 	var act = "";
+										$('#myTable tbody tr td:nth-child(10)')
+												.each(
+														function(i, v) {
+															act = act
+																	+ $(this)
+																			.text()
+																	+ ",";
+														});
+										act = act.substring(0, act
+												.lastIndexOf(','));
+										console.log(act);
+										$('#aaccusedPunishment').val(act);
+										var act = "";
+										$('#myTable tbody tr td:nth-child(11)')
+												.each(
+														function(i, v) {
+															act = act
+																	+ $(this)
+																			.text()
+																	+ ",";
+														});
+										act = act.substring(0, act
+												.lastIndexOf(','));
+										console.log(act);
+										$('#accusedCompoundability').val(act); */
+									var act = "";
+									$('#myTable tbody tr td:nth-child(9)')
+										.each(
+											function (i, v) {
+												act = act
+													+ $(this)
+														.text()
+													+ "~";
+											});
+									act = act.substring(0, act
+										.lastIndexOf('~'));
+									//alert(act);
+									console.log(act);
+									$('#accusedDescription').val(act);
+
+									$('#addCriminalDtl1').attr('action',
+										'SaveAccusedDetailsNCLT');
+
+									$('#addCriminalDtl1').submit();
+								}
+							},
+							No: function () {
+							}
+						}
+					});
+
+			}
+
+			function SaveAccusedDetails1() {
+				$('#addCriminalDtl1').attr('action', 'SaveAccusedDetailsNCLT');
+
+				$('#addCriminalDtl1').submit();
+			}
+		</script>
+
+
+
+		<script type="text/javascript">
+			$(document)
+				.ready(
+					function () {
+						var id1 = $('#accusedIdEdit').val();
+
+						var test1A = $('#accusedACT').val();
+						testArray11 = test1A.split(',');
+
+						if (id1 != "" && testArray11 != "") {
+
+							/* if (id1 != "") { */
+							var myArray = $('#accusedACT').val();
+							separatedArray = myArray.split(',');
+							var myArray1 = $('#accusedSection').val();
+							separatedArray1 = myArray1.split(',');
+							var myArray2 = $('#accusedSubSection')
+								.val();
+							separatedArray2 = myArray2.split(',');
+							var myArray3 = $('#accusedClause').val();
+							separatedArray3 = myArray3.split(',');
+
+							var myArray4 = $('#accusedDescription')
+								.val();
+							separatedArray4 = myArray4.split('~');
+							var myArray5 = $('#actName').val();
+
+							separatedArray5 = myArray5.split('~');
+							var myArray6 = $('#sectionName').val();
+							separatedArray6 = myArray6.split('~');
+							var myArray7 = $('#subsectionName').val();
+							separatedArray7 = myArray7.split('~');
+
+							for (var i = 0; i < separatedArray.length; i++) {
+
+								$('#actSectionDiv').show();
+								var table = $('#actSectionTAble');
+								var rowCount = $('#actSectionTAble tr').length;
+
+								var actID = separatedArray[i];
+								var act = separatedArray5[i];
+								//alert(act);
+								var section = separatedArray6[i];
+								var subsection = separatedArray7[i];
+								var sectionID = separatedArray1[i];
+								var subsectionID = separatedArray2[i];
+								var clause = separatedArray3[i];
+								var discription = separatedArray4[i];
+
+								var markup = "";
+
+								markup = [
+									'<tr th:object="*{actSectLIST}" >',
+									'<td class="index" th:field="*{actSectLIST.setId()}">',
+									rowCount + 1,
+									'</td>',
+									'<td class="text-wrap"  th:field="*{actSectLIST.setAct()}">'
+									+ act + '</td>',
+									'<td style="display: none;" class="text-wrap" th:field="*{actSectLIST.setActID()}">'
+									+ actID + '</td>',
+									'<td class="text-wrap" th:field="*{actSectLIST.setSection()}">'
+									+ section + '</td>',
+									'<td style="display: none;" class="text-wrap" th:field="*{actSectLIST.setSectionID()}">'
+									+ sectionID + '</td>',
+									'<td class="text-wrap" th:field="*{actSectLIST.setSubsection()}">'
+									+ subsection + '</td>',
+									'<td style="display: none;" class="text-wrap" th:field="*{actSectLIST.setSubSectionID()}">'
+									+ subsectionID
+									+ '</td>',
+									'<td class="text-wrap" th:field="*{actSectLIST.setClause()}">'
+									+ clause + '</td>',
+									'<td class="text-wrap" th:field="*{actSectLIST.setClause()}">'
+									+ discription + '</td>',
+									'<td> <button class="btn btn-warning btn-round m-1 editBtn">Edit</button> <button class="btn btn-danger btn-round m-1 deleteBtn">Delete</button> </td>',
+									'</tr>'];
+								table.append(markup.join(''));
+
+							}
+							separatedArray1.splice(0,
+								separatedArray.length);
+							separatedArray2.splice(0,
+								separatedArray.length);
+							separatedArray.splice(0,
+								separatedArray.length);
+							separatedArray3.splice(0,
+								separatedArray.length);
+							separatedArray4.splice(0,
+								separatedArray.length);
+							separatedArray5.splice(0,
+								separatedArray.length);
+							separatedArray6.splice(0,
+								separatedArray.length);
+							separatedArray7.splice(0,
+								separatedArray.length);
+
+						}
+						$('#accusedACT').val("");
+						$('#accusedSection').val("");
+						$('#accusedSubSection').val("");
+						$('#accusedClause').val("");
+						$('#accusedDescription').val("");
+					});
+		</script>
+
+
+
+		<script src="js/jquery-confirm.min.js"></script>
+		<script src="js/jquery-confirm.js"></script>
+
+
+
+
+
+
+	</div>
+</body>
+
+</html>

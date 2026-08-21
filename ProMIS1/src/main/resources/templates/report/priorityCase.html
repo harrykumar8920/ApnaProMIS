@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+	<link href="css/bootstrap-datetimepicker-build.css" rel="stylesheet" />
+	<title>Cause title</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-8">
+				<h5 class="page-title">Priority Case List</h5>
+			</div>
+			<div class="col-sm-4">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="puhHome">Home</a></li>
+
+
+				</ol>
+			</div>
+		</div>
+		<form th:action="@{/findCaseOnPriority}" th:object="${reportWeeklyInput}" method="post">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						
+						<div class="card-body">
+							<h4> Report of High Priority Case</h4>
+						</div>
+						
+						<div class="card-body">
+
+							<div class="form-group row pl-3">
+								<label class="control-label">Case priority</label>
+								<div class="col-sm-2">
+									<select class="form-control" th:field="*{casePriority}">
+										<option value="0">select </option>
+										<option value="1">Routine Case</option>
+										<option value="2">Advance stage of trial case</option>
+										<option value="3">High Priority case</option>
+									</select>
+								</div>
+								<label class="control-label">Prosecutor</label>
+								<div class="col-sm-2">
+									<select class="form-control" th:field="*{userId}">
+										<option value="0">select </option>
+										<option th:each="stlst: ${all}"
+										th:value="${stlst.id}" th:utext="${stlst.salutation +' ' + stlst.firstName +' ' + stlst.middleName +' ' + stlst.lastName}" />
+										
+									</select>
+								</div>
+								<label class="control-label">Location</label>
+									<div class="col-sm-2">
+										<select class="form-control" th:field="*{stateId}">
+											<option value="0">select </option>
+											<option th:each="stlst: ${all2}"
+											th:value="${stlst.id}" th:utext="${stlst.state}" />
+											
+										</select>
+									</div>
+								<!--<label class="control-label" id="fromDate">From Date</label>
+								<div class="col-sm-2">
+									<input class="form-control" type="text" th:field="*{date}" placehoder="Start Date"
+										id="startdate" required="required" />
+
+								</div>
+
+
+								<label class="control-label" id="toDate">To Date </label>
+								<div class="col-sm-2">
+									<input class="form-control" th:field="*{toDate}" type="text" placehoder="End Date"
+										id="enddate" required="required" />
+								</div>-->
+								<div class="col-sm-4">
+
+									<Button class="btn btn-success" type="submit">
+										<i class="ace-icon fa fa-check bigger-110"></i> Submit
+									</Button>
+									
+									&nbsp; &nbsp; &nbsp; <a th:if="${userRole=='ROLE_PROSECUTORUNITHEAD'}"
+										href="puhHome"><i
+											class="ace-icon fa fa-arrow-left bigger-110 btn btn-danger ">Back</i></a>
+
+									<a th:if="${userRole=='ROLE_PUH_STAFF'}" href="puhStaffhome"><i
+											class="ace-icon fa fa-arrow-left bigger-110 btn btn-danger ">Back</i></a>
+
+
+								</div>
+
+
+							</div>
+
+							<h4>
+								<span th:text="${message}"></span>
+							</h4>
+
+							<div class="table-responsive">
+								<table class="table table-bordered" id="assignedTable">
+									<thead class="bg-info">
+										<tr>
+											<th class="text-wrap" align="center">S.No.</th>
+
+											<th class="text-wrap">Name of the company under investigation</th>
+										
+											<th class="text-wrap">Prosecutor name</th>
+											<th class="text-wrap">Priority Case</th>
+											<th class="text-wrap">Court Jurisdiction</th>
+
+											<th class="text-wrap">Case Title</th>
+
+											<!--<th class="text-wrap">Sections of the Companies Act 1956</th>
+
+											<th class="text-wrap">Sections of the Companies Act 2013</th>
+
+											<th class="text-wrap">Other Act(s)</th>-->
+
+											<th class="text-wrap">Brief of the case</th>
+
+											<th class="text-wrap">Case Status</th>
+
+											<th class="text-wrap">Case No.</th>
+
+											<th class="text-wrap">Name of the Pairavi officer</th>
+
+											<th class="text-wrap">Name of the Counsel & Contact no.</th>
+
+											<th class="text-wrap">Concerned officer from Prosecution</th>
+
+											<th class="text-wrap">Last Date of hearing</th>
+
+											<th class="text-wrap">Next Date of hearing</th>
+
+											<th class="text-wrap">Remarks</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="p, stat : ${caseList}">
+											<td th:text="${stat.count}"></td>
+											<td th:text="${p.companyName}"></td>
+											<td th:text="${p.name}"></td>
+											<td>
+												<span th:if="${p.status == 1}" 
+												      class="bg-success p-2 rounded-pill text-white">
+												      Routine Case
+												</span>
+												<span th:if="${p.status == 2}" 
+												      class="bg-warning p-2 rounded-pill text-white">
+												      Advance stage of trial case
+												</span>
+												<span th:if="${p.status == 3}" 
+												      class="bg-danger p-2 rounded-pill text-white">
+												      High Priority case
+												</span>
+											</td>
+											<td th:text="${p.courtJurisdiction}"></td>
+											
+											
+											<td>
+											   
+											    <span class="text-wrap" th:text="${p.caseTitle}"></span>
+											    
+											</td>
+											
+											<!--<td
+												th:text="${p.companyAct == 'Companies Act, 1956' ? p.sec : 'NA'}">
+											</td>
+											<td
+												th:text="${p.companyAct == 'Companies Act, 2013' ? p.sec : 'NA'}">
+											</td>
+											<td th:text="${p.companyAct != 'Companies Act, 1956' 
+											              and p.companyAct != 'Companies Act, 2013' 
+											              ? p.companyAct : 'NA'}"></td>-->
+											  <td>
+											      <!-- Visible Short Text -->
+											      <span class="d-none full-text" th:text="${p.briefOfTheCase}"></span>
+											      
+											      <!-- Short Text for UI -->
+											      <span th:text="${#strings.abbreviate(p.briefOfTheCase, 50)}"></span>
+											  </td>
+											<td th:text="${p.caseStatus}"></td>
+											<td th:text="${p.caseNo}"></td>
+											<td th:text="${p.pairaviOfficer}"></td>
+											<td>
+												<span
+													th:text="${p.counsel != null and !#strings.isEmpty(p.counsel) ? p.counsel : ''}"></span>
+												<span th:if="${p.counsel != null and p.counselNumber != null}"> -
+												</span>
+												<span
+													th:text="${p.counselNumber != null and !#strings.isEmpty(p.counselNumber) ? p.counselNumber : ''}"></span>
+											</td>
+											<td th:text="${p.officerFromProsecution}"></td>
+
+											<td th:text="${p.date}"></td>
+											<td th:text="${p.toDate}"></td>
+											<td th:text="${p.remerks != null  ? p.remerks : ' '}">
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+			<script
+				src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+			<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+			<script src="plugins/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+			<script src="plugins/bootstrap-datatable/js/jszip.min.js"></script>
+			<script src="plugins/bootstrap-datatable/js/pdfmake.min.js"></script>
+			<script src="plugins/bootstrap-datatable/js/vfs_fonts.js"></script>
+			<script src="plugins/bootstrap-datatable/js/buttons.html5.min.js"></script>
+			<script src="plugins/bootstrap-datatable/js/buttons.print.min.js"></script>
+			<script src="plugins/bootstrap-datatable/js/buttons.colVis.min.js"></script>
+		<script type="text/javascript">
+					$(document).ready(function() {
+
+						var table = $('#assignedTable').DataTable({
+							
+																				dom : 'Bfrtip',
+																				
+																				buttons : {
+																					buttons : [
+																							{
+																								extend : 'excel',
+																								text : '<i class="fa fa-print"></i> Excel',
+																								title : $(
+																										'h4')
+																										.text(),
+
+																								exportOptions : {
+																									columns : ':not(.no-print)'
+																								},
+																								footer : true,
+																								autoPrint : false
+																							},
+																							{
+																								
+
+																								extend : 'pdfHtml5',
+																								orientation : 'landscape',
+																								pageSize : 'A3',
+
+																								text : '<i class="fa fa-file-pdf-o"></i> PDF',
+																								title : $(
+																										'h4')
+																										.text(),
+
+																								exportOptions : {
+																									columns : ':not(.no-print)'
+																								},
+																								footer : true
+																							} ],
+
+																					dom : {
+																						container : {
+																							className : 'dt-buttons'
+																						},
+																						button : {
+																							className : 'btn btn-default'
+																						}
+																					}
+																				}
+																			});
+					});
+				</script>
+		<script type="text/javascript">
+			$(document)
+				.ready(
+					function () {
+						$("#startdate")
+							.datepicker({
+
+								format: 'dd-mm-yyyy',
+								endDate: new Date(),
+								// autoclose: true,
+							})
+							.on(
+								'changeDate',
+								function (selected) {
+									var minDate = new Date(
+										selected.date
+											.valueOf());
+									var seven_date = minDate
+										.getDate() + 7;
+									var curr_month = minDate
+										.getMonth();
+
+									var curr_year = minDate
+										.getFullYear();
+									var sevenDate = (seven_date
+										+ "/" + curr_month
+										+ "/" + curr_year);
+									$('#enddate').datepicker(
+										'setStartDate',
+										minDate);
+								});
+
+						
+						$("#enddate").datepicker({
+							format: 'dd-mm-yyyy',
+							//endDate : new Date(),
+
+						}).on(
+							'changeDate',
+							function (selected) {
+								var minDate = new Date(
+									selected.date.valueOf());
+
+								$('#startdate').datepicker(
+									'setEndDate', minDate);
+							});
+							
+							
+							
+					});
+		</script>
+
+
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,444 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<title>ADD Details</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="userHome">Home</a></li>
+					<!-- <li class="breadcrumb-item active" aria-current="page"><span th:if="${accusedResponse.typeOfCase}!=NCLT">Add Accused Response
+															</span> <span th:if="${accusedResponse.typeOfCase}==NCLT">Add Respondent Response
+															</span></li> -->
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+		<form th:action="@{/saveResponseOfRespond}" method="post"
+			autocomplete="off" th:object="${responseOfRespondent}"
+			id="saveResponseOfRespond" enctype="multipart/form-data">
+
+			<input type="hidden" th:field=*{assignedTask}> <input
+				type="hidden" th:field=*{Procourtdtl}> <input type="hidden"
+				th:field=*{id}> <input type="hidden" th:field=*{fileName}>
+
+
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+
+
+
+
+							<div class="form-header ">
+								<h4>Response of The Respondent</h4>
+
+
+								<div class="form-group row">
+									<label for="input-16" class="col-sm-2 col-form-label">
+										Cause Title</label>
+									<div class="col-sm-4">
+										<span class="text-primary"
+											style="font-size: 13px; text-align: left;"
+											th:text="*{procourtdtl.causeTitle}"> </span>
+									</div>
+
+
+
+									<label for="input-16" class="col-sm-2 col-form-label">
+										Court Case No</label> <span class="col-sm-4 text-primary"
+										style="font-size: 13px" th:text="*{procourtdtl.courtCaseNo}">
+									</span>
+								</div>
+
+
+							</div>
+
+
+
+
+							<div class="form-group row">
+								<!--<label for="input-16" class="col-sm-3 col-form-label">
+									Type of Response<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<select class="form-control" th:field="*{responseType}">
+										<option value="Select">Select</option>
+										<option value="Application">Application</option>
+										<option value="Counter affidavit">Counter affidavit</option>
+										<option value="Defreezer Application">Defreezer
+											Application</option>
+										<option value="Impleadment Application">Impleadment
+											Application</option>
+										<option value="Interlocatory Application">Interlocatory
+											Application</option>
+										<option value="Miscellaneous Application">Miscellaneous
+											Application</option>
+										<option value="Name Deletion application">Name
+											Deletion application</option>
+										<option value="Rejoinder">Rejoinder</option>
+										<option value="Sur-rejoinder">Sur-rejoinder</option>
+
+
+
+
+									</select> <span class="text-danger"
+										th:if="${#fields.hasErrors('responseType')}"
+										th:errors="*{responseType}"></span>
+								</div>-->
+								<label for="input-16" class="col-sm-3 col-form-label">Name
+									of the Respondent<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<select class="form-control" th:field="*{addResponse}"
+										id="addResponse">
+										<option value="0">Select</option>
+										<option th:each="court:${allRespondentList}"
+											th:value="${court.id}" th:utext="${court.accusedName}" />
+									</select> <span class="text-danger"
+										th:if="${#fields.hasErrors('addResponse')}"
+										th:errors="*{addResponse}"></span>
+								</div>
+								<label for="input-16" class="col-sm-3 col-form-label">
+									Reply filed<span class="text-danger">*</span>
+								</label>
+								
+								<div class="col-sm-3">
+									<select class="form-control" th:field="*{replyFiled}" onchange="replyFiledcheck();">
+										<option th:value="false">NO</option>
+											<option th:value="true">YES</option>
+										
+									</select>
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('replyFiled')}"
+										th:errors="*{replyFiled}"></span>
+								</div>
+							</div>
+							<div class="form-group row" id="receiptDateRemark">
+								
+								<label for="input-16" class="col-sm-3 col-form-label">Date of receipt
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control"
+										placeholder="Enter Date of Receipt Here"
+										th:field="*{dateRecept}">
+									
+									 <span class="text-danger"
+										th:if="${#fields.hasErrors('dateRecept')}"
+										th:errors="*{dateRecept}"></span>
+								</div>
+
+								<label for="input-16" class="col-sm-3 col-form-label">
+									Remarks<!--<span class="text-danger">*</span>-->
+								</label>
+								<div class="col-sm-3">
+									<textarea class="form-control" rows="3" placeholder="Enter Application Type"
+										th:field="*{remarks}"></textarea>
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('remarks')}"
+										th:errors="*{remarks}"></span>
+										<span class="text-danger" id="remarks1"></span>
+								</div>
+							</div>
+
+
+							<!-- hello new fields five Starts here-->
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-3 col-form-label">Type
+									of application <span class="text-danger"></span>
+								</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control"
+										placeholder="Enter Application Type"
+										th:field="*{applicationType}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('applicationType')}"
+										th:errors="*{applicationType}"></span>
+
+								</div>
+								<label for="input-16" class="col-sm-3 col-form-label">Date
+									of application <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control"
+										placeholder="Enter Date of application"
+										th:field="*{dateOfApplication}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('dateOfApplication')}"
+										th:errors="*{dateOfApplication}"></span>
+
+								</div>
+							</div>
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-3 col-form-label">Date
+									of receipt of the application by SFIO <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control"
+										placeholder="Enter Date of receipt of the application"
+										th:field="*{dateOfRecieptApp}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('dateOfRecieptApp')}"
+										th:errors="*{dateOfRecieptApp}"></span>
+
+								</div>
+								<label for="input-16" class="col-sm-3 col-form-label">Date
+									of reply filed by SFIO <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control"
+										placeholder="Enter DATE OF REPLY FILED"
+										th:field="*{dateOfReply}"> <span class="text-danger"
+										th:if="${#fields.hasErrors('dateOfReply')}"
+										th:errors="*{dateOfReply}"></span>
+
+								</div>
+							</div>
+							<!-- hello new fields five Starts here-->
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									File Upload<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-1">
+									<label th:unless="*{fileName==null}"> <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=*{fileName}|}"> <span
+											th:unless="*{fileName==''}"> <span>View</span> <i
+												class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></span></a></label>
+								</div>
+								<div class="col-sm-3">
+									<input type="file" th:field="*{rRFileName1}"
+										class="form-control"> <span class="text-danger"
+										th:if="${#fields.hasErrors('rRFileName1')}"
+										th:errors="*{rRFileName1}"></span>
+								</div>
+
+
+							</div>
+
+
+						</div>
+
+
+
+						<div class="form-footer d-flex justify-content-between px-3 py-3">
+
+							<div>
+								<button type="button" class="btn btn-primary" id="addIPC"
+									onclick="saveIPC();">Back</button>
+							</div>
+							<div>
+								<button type="submit" th:if="*{id==null}"
+									class="btn btn-success btn-round m-1">
+									<i class="fa fa-check-square-o"></i> SAVE
+								</button>
+								<button type="submit" th:if="*{id!=null}"
+									class="btn btn-success btn-round m-1"
+									th:name="updateResponseOfRespond">
+									<i class="fa fa-check-square-o"></i> Update
+								</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="container-fluid">
+			<div class="form-group row">
+				<div class="table-responsive">
+					<table id="CompTable1" class="table table-bordered">
+						<thead>
+							<tr class="bg-info">
+								<th>S.No</th>
+								<!--<th>TYPE OF RESPONSE</th>-->
+								<th>NAME OF THE RESPONDENT</th>
+								<th>TYPE OF APPLICATION</th>
+								<th>DATE OF APPLICATION</th>
+								<th>FILE</th>
+								<th>ACTION</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="p,stats: ${responselist}">
+								<td th:text="${stats.count}"></td>
+								<!--<td th:text="${p.responseType}"></td>-->
+								<td th:text="${p.addResponse.accusedName}"></td>
+								<td th:text="${p.applicationType}"></td>
+
+								<td class="text-wrap"
+									th:text="${#dates.format(p.dateOfApplication, 'dd/MM/yyyy')}"></td>
+
+
+								<td><label class=" col-form-label text-primary"> <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=${p.fileName}|}"> <!-- <span
+											th:text="${p.proSanctionFileName}"></span> --> <span>View</span>
+											<span th:unless="${p.fileName==null}"><i
+												class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></span>
+									</a></label></td>
+
+								<td><th:block
+										th:if="${p.approvalStatus==0 || p.approvalStatus==3}">
+										<form action="editResponcOfRespondent">
+											<button class="btn btn-success text-wrap mb-1" type="submit"
+												th:name="editResponcOfRespondent" th:value="${p.Id}">Edit</button>
+										</form>
+									</th:block> <th:block th:if="${p.approvalStatus==0}">
+										<form action="forwardResponcOfRespondent">
+											<button class="btn btn-info text-wrap" type="submit"
+												th:name="forwardResponcOfRespondent" th:value="${p.Id}">Confirm</button>
+										</form>
+									</th:block> <th:block th:if="${p.approvalStatus==1}">
+										<button type="" disabled="disabled"
+											class="btn btn-info text-wrap" th:value="${p.Id}">approval
+											is in Process</button>
+									</th:block> <th:block th:if="${p.approvalStatus==2}">
+										<button type="" disabled="disabled"
+											class="btn btn-info text-wrap" th:value="${p.Id}">Confirmed</button>
+									</th:block> <th:block th:if="${p.approvalStatus==3}">
+										<button type="" disabled="disabled"
+											class="btn btn-info text-wrap" th:value="${p.Id}">Send
+											Back</button>
+									</th:block></td>
+							</tr>
+						</tbody>
+
+
+
+					</table>
+				</div>
+			</div>
+		</div>
+		<script src="plugins/bootstrap-datatable/js/jquery.d.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+
+		<script type="text/javascript">
+			function saveIPC() {
+
+				$('#saveResponseOfRespond').attr("action", "backToMainPage");
+				$('#saveResponseOfRespond').submit();
+
+			}
+		</script>
+		<script type="text/javascript">
+				    $(document).ready(function () {
+				        $("#remarks").on("keyup", function () {
+				            var value = this.value;
+				            var regex = /^[\w\d\s,.'_:()\/-]{3,1000}$/;
+
+				            if (!regex.test(value)) {
+				                $("#remarks1").html("Only alphanumeric and , . ' _ : ( ) / - characters are allowed (3-1000 characters).");
+				                // Remove invalid characters (keeping allowed ones only)
+				                this.value = value.replace(/[^\w\d\s,.'_:()\/-]/g, '');
+				            } else if (value.trim().split(/\s+/).length > 200) {
+				                $("#remarks1").html("Maximum 200 words allowed.");
+				            } else {
+				                $("#remarks1").html(""); // Clear error
+				            }
+				        });
+				    });
+				</script>
+<script>
+			$(document).ready(function () {
+				// Call function on page load
+				replyFiledcheck();
+
+				// Optional: bind change event also for reliability
+				$('#replyFiled').change(function () {
+					replyFiledcheck();
+				});
+			});
+
+			function replyFiledcheck() {
+				var value = $('#replyFiled').val();
+				//alert(value);
+				if (value === 'true') {
+					$('#receiptDateRemark').show();
+				} else {
+					$('#receiptDateRemark').hide();
+				}
+			}
+		</script>
+
+
+		<script type="text/javascript">
+			$("#dateOfRecieptApp").datepicker({
+
+				format : 'dd/mm/yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			})
+
+$("#dateRecept").datepicker({
+
+				format : 'dd/mm/yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			})
+
+
+			$("#dateOfReply").datepicker({
+
+				format : 'dd/mm/yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			})
+
+			$("#dateOfApplication").datepicker({
+
+				format : 'dd/mm/yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			})
+		</script>
+
+
+
+	</div>
+</body>
+</html>

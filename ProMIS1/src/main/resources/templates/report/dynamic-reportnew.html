@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Dynamic Case Report</title>
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<!-- Header -->
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-8">
+				<h5 class="page-title">Dynamic Case Report</h5>
+			</div>
+		</div>
+
+		<!-- ================= FORM ================= -->
+		<form th:action="@{/dynamic-report}" method="post" th:object="${dynamicReportRequestDTO}">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+
+							<div class="form-group row align-items-center">
+
+							    <!-- Court Location -->
+							    <label class="control-label col-md-1">Court Location</label>
+							    <div class="col-md-2">
+							        <select class="form-control" th:field="*{stateID}">
+							            <option value="0">Choose</option>
+							            <option th:each="s : ${statel}" th:value="${s.id}" th:text="${s.state}"></option>
+							        </select>
+							    </div>
+
+							    <!-- Act -->
+							    <label class="control-label col-md-1">Act</label>
+							    <div class="col-md-2">
+							        <select class="form-control" th:field="*{actId}">
+							            <option value="0">Choose</option>
+							            <option th:each="s : ${allact}" th:value="${s.id}" th:text="${s.act}"></option>
+							        </select>
+							    </div>
+
+							    <!-- Compoundability -->
+							    <label class="control-label col-md-1">Compoundability</label>
+							    <div class="col-md-2">
+							        <select class="form-control" th:field="*{compoundability}">
+							            <option value="0">Choose</option>
+							            <option value="Compoundable">Compoundable</option>
+							            <option value="Non-Compoundable">Non-Compoundable</option>
+							            <option value="Both">Both</option>
+							        </select>
+							    </div>
+
+							    <!-- Case Stage -->
+							    <label class="control-label col-md-1">Case Stage</label>
+							    <div class="col-md-2">
+							        <select class="form-control" th:field="*{status}">
+							            <option value="0">Choose</option>
+							            <option th:each="s : ${statusLst1}" th:value="${s.id}" th:text="${s.statusName}"></option>
+							        </select>
+							    </div>
+								
+								<br><br><br><br>
+								<label class="control-label col-md-1">Prosecutor</label>
+								<div class="col-md-2">
+								    <select class="form-control" th:field="*{createdBy}">
+								        <option value="0">Choose</option>
+								        <option th:each="s : ${prosecuter}" 
+								                th:value="${s.id}" 
+								                th:text="${s.firstName + ' ' + (s.middleName != null ? s.middleName + ' ' : '') + s.lastName}">
+								        </option>
+								    </select>
+								</div>
+
+							</div>
+
+							<br>
+
+							<!-- Buttons -->
+							<div class="text-center">
+								<button class="btn btn-success" type="submit">
+									Submit
+								</button>
+
+								<button class="btn btn-warning" type="reset">
+									Reset
+								</button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+
+		<!-- ================= TABLE ================= -->
+		<div class="row mt-3">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+
+						<div class="table-responsive">
+
+							<table class="table table-bordered" id="dynamicReportTable">
+
+								<thead class="bg-info">
+									<tr>
+										<th>S.No.</th>
+										<th>Court Location</th>
+										<th>Court</th>
+										<th>Company Name</th>
+										<th>Case Title</th>
+										<th>Case No</th>
+										<th>Next Hearing Date</th>
+										<th>Act</th>
+										<th>Compoundability</th>
+										<th>Case Stage</th>
+										<th>Prosecutor</th>
+										<th>Pairavi Officer</th>
+										<!--<th>Inspector</th>-->
+										
+										<th>CNR Number</th>
+
+										<th>Brief</th>
+									</tr>
+								</thead>
+
+								<tbody>
+
+									<tr th:if="${#lists.isEmpty(reportList)}">
+										<td colspan="11" class="text-center text-danger">No Data Found</td>
+									</tr>
+
+									<tr th:each="row,iStat : ${reportList}">
+										<td th:text="${iStat.count}"></td>
+										<td th:text="${row[13]}"></td>
+										<td th:text="${row[5]}"></td>
+										<td th:text="${row[10]}"></td>
+										<td th:text="${row[7]}"></td>
+										<td th:text="${row[8]}"></td>
+										<td th:text="${row[12] != null ? #strings.substring(row[12],8,10) + '/' + #strings.substring(row[12],5,7) + '/' + #strings.substring(row[12],0,4) : ''}"></td>
+										<td th:text="${row[1]}"></td>
+										<td th:text="${row[0]}"></td>
+										<td th:text="${row[2]}"></td>
+										
+										<td th:text="${row[11]}"></td>
+										<td th:text="${row[3]}"></td>
+										<!--<td th:text="${row[4]}"></td>-->
+									
+										<td th:text="${row[6]}"></td>
+
+										<td th:text="${row[9]}"></td>
+									</tr>
+
+								</tbody>
+
+							</table>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jszip.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/pdfmake.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/vfs_fonts.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.html5.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.print.min.js"></script>
+
+		<script>
+			$(document).ready(function () {
+
+				var table = $('#dynamicReportTable').DataTable({
+
+					dom: 'Bfrtip',
+
+					buttons: {
+						buttons: [
+							{
+								extend: 'excel',
+								text: 'Excel',
+								title: 'Dynamic Case Report'
+							},
+							{
+								extend: 'pdfHtml5',
+								orientation: 'landscape',
+								pageSize: 'A3',
+								text: 'PDF',
+								title: 'Dynamic Case Report'
+							}
+						],
+						dom: {
+							button: {
+								className: 'btn btn-success'
+							}
+						}
+					}
+				});
+
+			});
+		</script>
+
+	</div>
+
+
+</body>
+
+</html>

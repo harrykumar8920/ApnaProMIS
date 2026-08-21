@@ -1,0 +1,256 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Add New Status</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="home">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Add Case/Accused
+						Status</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<form th:action="@{/addNewstatus}" method="post"
+			class="needs-validation" th:object="${addstaus}">
+			<input type="hidden" th:field="*{id}">
+			<div th:if="${message}" class="alert alert-success alert-dismissible"
+				role="alert">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<div class="alert-icon">
+					<i class="fa fa-check"></i>
+				</div>
+				<div class="alert-message">
+					<span th:text="${message}"></span>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-sitemap"></i> Add Case/Accused Status
+							</h4>
+
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">Status
+									Of <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{type}" id="type">
+									<!-- 	<option value="0">Choose</option> -->
+										<option value="C">Case Status of Criminal</option>
+										<option value="A">Accused</option>
+										<option value="nclt">Case Status of NCLT</option>
+								
+									</select> <span class="text-danger" th:errors="*{type}"></span>
+
+								</div>
+
+
+								<label for="input-10" class="col-sm-2 col-form-label">Status
+									Name <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="inputTxt form-control"
+										autocomplete="off" id="statusName" name="statusName"
+										th:field="*{statusName}" placeholder="Status Name"
+										required="required" maxlength="100" /> <span class="text-danger" th:errors="*{statusName}"></span>
+								</div>
+							</div>
+
+							<div class="col-sm-4">
+								<th:block th:if="${addstaus.editstatus != true}">
+									<button type="submit" class="btn btn-success">
+										<i class="fa fa-plus"></i> Add
+									</button>
+								</th:block>
+
+								<th:block th:if="${addstaus.editstatus == true}">
+									<button type="submit" class="btn btn-success">
+										<i class="fa fa-plus"></i> UPDATE
+									</button>
+								</th:block>
+								<button type="reset" class="btn btn-danger">
+									<i class="fa fa-times"></i> Reset
+								</button>
+							</div>
+
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header text-uppercase">
+							<i class="fa fa-user"></i> Status Details
+						</h4>
+
+						<div class="form-group row">
+							<table class="table table-striped table-bordered" id="desigTable">
+								<thead class="bg-info text-white">
+									<tr>
+										<th>S.No.</th>
+										<th>Status Name</th>
+										<th>Status Of</th>
+										<th>Action</th> 
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="p,stats: ${liststatus}">
+										<td th:text="${stats.count}"></td>
+										<td th:text="${p.statusName}"></td>
+										<td><th:block th:if="${p.type=='A'}">
+												<span>Accused</span>
+											</th:block> <th:block th:if="${p.type=='C'}">
+												<span>Case status of Crimal</span>
+											</th:block>	
+											</th:block> <th:block th:if="${p.type=='nclt'}">
+																							<span>Case status of NCLT</span>
+																						</th:block>												
+											
+											</td>
+											<td>
+											<th:block th:if="${p.isActive==true}">
+												<span><a th:href="@{/status/deactivate/{id}(id=${p.id})}"
+                       class="btn btn-primary btn-sm"
+                       onclick="return confirm('Deactivate this status?')">
+                        Deactivate
+                    </a></span><span><button type="button"
+        class="btn btn-success btn-sm editBtn"
+        data-toggle="modal"
+        data-target="#editModal"
+        th:data-id="${p.id}"
+        th:data-name="${p.statusName}"
+        th:data-type="${p.type}"
+        th:data-active="${p.isActive}">
+    Edit</button></span>
+											</th:block> <th:block th:if="${p.isActive==false}">
+												<span> <a th:href="@{/status/activate/{id}(id=${p.id})}"
+                       class="btn btn-warning btn-sm"
+                       onclick="return confirm('Activate this status?')">
+                        Activate
+                    </a></span>
+												</th:block> <th:block th:if="${p.isActive==null}">
+												<span>0</span>
+											</th:block>
+											</td>
+											
+									</tr>
+								</tbody>
+
+							</table>
+						</div>
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form th:action="@{/addNewstatus}" method="post">
+
+                <div class="modal-header bg-info text-white">
+                    <h5>Edit Status</h5>
+                    <button type="button" class="close"
+                            data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" name="id" id="editId">
+
+                    <div class="form-group">
+                        <label>Status Name</label>
+                        <input type="text" class="form-control"
+                               name="statusName" id="editName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status Of</label>
+                        <select class="form-control" name="type" id="editType">
+                            <option value="A">Accused</option>
+                            <option value="C">Case</option>
+                        </select>
+                    </div>
+
+                    
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit"
+                            class="btn btn-success">Update</button>
+
+                    <button type="button"
+                            class="btn btn-danger"
+                            data-dismiss="modal">Close</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+
+    $('.editBtn').click(function(){
+
+        $('#editId').val($(this).data('id'));
+        $('#editName').val($(this).data('name'));
+        $('#editType').val($(this).data('type'));
+        $('#editActive').val($(this).data('active').toString());
+
+    });
+
+});
+</script>
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			
+			 var table = $('#desigTable').DataTable( {
+//		 	        lengthChange: false,
+			        buttons: [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+			      } );
+		});
+		
+		</script>
+
+	</div>
+
+</body>
+</html>

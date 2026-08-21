@@ -1,0 +1,95 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css"
+	rel="stylesheet" type="text/css">
+<title>Assign Cases</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-5">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Total Assigned Cases As Respondent</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header text-uppercase">
+							<i class="fa fa-address-book-o"></i> Assigned Cases As Respondent
+						</h4>
+
+						<form th:action="@{/ResAdditionalInfo}" method="post"
+							class="needs-validation" th:object="${caseDetails}">
+                             
+							<div class="form-group row" th:if="${errorCaseID}">
+							<span th:text="${errorCaseID}" class="text-danger "></span>
+							</div>
+							<div class="form-group row">
+								<table class="table table-respnsive" id="assignTable">
+									<thead class="bg-info text-white">
+										<tr>
+											<th>S.No.</th>
+										
+											<th>Case Title</th>
+											<th>Court Oder No </th>
+											<th>NCLT Case  No </th>
+										    <th>CLB Case No </th>
+											<th>Add Additional Information</th>
+											
+											
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1</td>
+											
+											<td>testCase28062021</td>
+											<td>court456</td>
+											<td>Nclt456</td>
+											<td>CLB456</td>
+											<!-- <td>Legacy</td> -->
+											<td><button type="submit" class="btn btn-info" th:name="moreInfo"> Add Additional Information</button></td>
+										</tr>
+
+
+									</tbody>
+
+								</table>
+							</div>
+						</form>                            
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+
+$(document).ready(function(){
+	
+	 var table = $('#assignTable').DataTable();
+
+	  
+	   
+});
+
+</script>
+	</div>
+
+</body>
+</html>

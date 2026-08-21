@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Insert title here</title>
+
+</head>
+
+<body>
+
+	<!--Start sidebar-wrapper-->
+	<div id="sidebar-wrapper" th:fragment="sidebar" sec:authorize="isAuthenticated()">
+
+		<div class="brand-logo">
+
+			<img src="images/SfioImg.png" class="logo-icon" alt="logo icon">
+
+			<span sec:authorize="hasRole('ROLE_ADMIN')">ProMIS<a href="home" class="logo-text"
+					style="font-size: 29px; font-weight: bolder;"></a></span> <span
+				sec:authorize="hasRole('ROLE_OFFICER')">ProMIS<a href="#" class="logo-text"
+					style="font-size: 29px; font-weight: bolder;"></a></span>
+
+			<span sec:authorize="hasRole('ROLE_PROSECUTORUNITHEAD')">ProMIS<a href="#" class="logo-text"
+					style="font-size: 29px; font-weight: bolder;"></a></span>
+
+
+
+
+		</div>
+		<div class="user-details">
+			<div class="media align-items-center user-pointer collapsed" data-toggle="collapse"
+				data-target="#user-dropdown">
+				<div class="avatar">
+					<img class="mr-3 side-user-img" src="images/avatars/profilepic.jpg" alt="user avatar">
+				</div>
+				<div class="media-body">
+					<h6 class="side-user-name">
+						<!-- <span sec:authentication="name"></span> -->
+						<span th:text="${session.userfname}"></span>
+
+					</h6>
+				</div>
+			</div>
+			<div id="user-dropdown" class="collapse">
+				<ul class="user-setting-menu">
+					<!-- <li><a href="#"><i class="icon-user"></i> My
+							Profile</a></li> -->
+					<li><a href="logout"><i class="icon-power"></i> Logout</a></li>
+				</ul>
+			</div>
+		</div>
+		<th:block th:if="${session.menu == true}">
+			<div class="mainu_right_scroll" style="overflow:scroll; height:80%">
+				<ul class="sidebar-menu">
+
+
+
+					<li class="sidebar-header">MAIN NAVIGATION</li>
+					<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="home" class="waves-effect" style="color: blue;">
+							<i class="zmdi zmdi-view-dashboard"></i>
+							<span>DASHBOARD</span><i class="fa fa-angle-left pull-right"></i>
+						</a></li>
+
+
+					<li sec:authorize="hasRole('ROLE_PROSECUTORUNITHEAD')"><a href="puhHome" class="waves-effect"> <i
+								class="zmdi zmdi-view-dashboard" style="color: blue;"></i> <span>DASHBOARD</span><i
+								class="fa fa-angle-left pull-right"></i>
+						</a></li>
+
+					<li sec:authorize="hasRole('ROLE_NODAL_OFFICER')"><a href="nodalHome" class="waves-effect"> <i
+								class="zmdi zmdi-view-dashboard" style="color: blue;"></i> <span>DASHBOARD</span><i
+								class="fa fa-angle-left pull-right"></i>
+						</a></li>
+					<li sec:authorize="hasRole('ROLE_DIRECTOR')"><a href="directorhome" class="waves-effect"> <i
+								class="zmdi zmdi-view-dashboard" style="color: blue;"></i> <span>DASHBOARD</span><i
+								class="fa fa-angle-left pull-right"></i>
+						</a></li>
+					<li sec:authorize="hasRole('ROLE_PUH_STAFF')"><a href="puhStaffhome" class="waves-effect"> <i
+								class="zmdi zmdi-view-dashboard" style="color: blue;"></i> <span>DASHBOARD</span><i
+								class="fa fa-angle-left pull-right"></i>
+						</a></li>
+
+
+
+
+
+					<li sec:authorize="hasRole('ROLE_OFFICER')"><a href="userHome" class="waves-effect"> <i
+								class="zmdi zmdi-view-dashboard" style="color: blue;"></i>
+							<span>DASHBOARD</span><i class="fa fa-angle-left pull-right"></i>
+						</a>
+
+
+
+
+
+
+
+
+					</li>
+					<li sec:authorize="hasRole('ROLE_OFFICER')">
+						<a href="AddNewCase" class="waves-effect"> <i class="zmdi zmdi-layers" style="color: aqua;"></i>
+							<span>Add Sanction Order /Court Notice Details</span> <i
+								class="fa fa-angle-left pull-right"></i>
+						</a>
+						
+						
+					</li>
+
+					<li sec:authorize="hasRole('ROLE_OFFICER')"><a href="dynamic-reportnew"><i class="zmdi zmdi-dot-circle-alt"></i>Dynamic report New</a></li>
+					<!-- 		<li sec:authorize="hasAnyRole('ROLE_OFFICER')"><a href="#"
+					class="waves-effect"> <i class="zmdi zmdi-layers"></i> <span>Prosecution
+							Cases</span> <i class="fa fa-angle-left pull-right"></i>
+				</a>
+					<ul class="sidebar-submenu">
+
+							<li sec:authorize="hasRole('ROLE_OFFICER')"><a
+							href="AddcaseAppel"><i class="zmdi zmdi-dot-circle-alt"></i>Add
+								New Court Case  </a></li>
+
+						<li sec:authorize="hasRole('ROLE_OFFICER')"><a
+							href="getCaseList"><i class="zmdi zmdi-dot-circle-alt"></i>Added
+								Cases</a></li>
+
+					</ul></li> -->
+
+					<!-- 
+		<li sec:authorize="hasRole('ROLE_OFFICER')"><a
+							href="getCaseList"><i class="zmdi zmdi-dot-circle-alt"></i>Added
+								Cases</a></li>
+				<li sec:authorize="hasAnyRole('ROLE_OFFICER')"><a href="#"
+					class="waves-effect"> <i class="zmdi zmdi-layers"></i> <span>
+							Add Hearing Details </span> <i class="fa fa-angle-left pull-right"></i>
+				</a>
+					<ul class="sidebar-submenu">
+
+						<li sec:authorize="hasRole('ROLE_OFFICER')"><a
+							href="AssignedHearingCase"><i
+								class="zmdi zmdi-dot-circle-alt"></i>Assigned Cases </a></li>
+
+
+
+					</ul></li>
+ -->
+
+
+
+					<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="javaScript:void();" class="waves-effect"> <i
+								class="zmdi zmdi-widgets"></i> <span>User Management</span> <i
+								class="fa fa-angle-left pull-right"></i>
+						</a>
+						<ul class="sidebar-submenu">
+							<li><a href="basisofinvestigation"><i class="zmdi zmdi-dot-circle-alt"></i> Basis of
+									Investigation Order </a></li>
+
+							<li><a href="addUser"><i class="zmdi zmdi-dot-circle-alt"></i>
+									Add New User</a></li>
+
+							<li><a href="addDesignation"><i class="zmdi zmdi-dot-circle-alt"></i> Add New
+									Designation</a></li>
+
+							<li><a href="addRole"><i class="zmdi zmdi-dot-circle-alt"></i>
+									Add New Role</a></li>
+							<li><a href="dischargep"><i class="zmdi zmdi-dot-circle-alt"></i> Discharge</a></li>
+
+							<li><a href="addUnit"><i class="zmdi zmdi-dot-circle-alt"></i>
+									Add New Unit</a></li>
+
+							<li><a href="addlocation"><i class="zmdi zmdi-dot-circle-alt"></i> Add New Unit Location
+								</a></li>
+							<li><a href="addCourt"><i class="zmdi zmdi-dot-circle-alt"></i>Add
+									Court </a></li>
+							<li><a href="addCourtCaseName"><i class="zmdi zmdi-dot-circle-alt"></i>Add
+									Court Case Name</a></li>
+							<li><a href="pofficer"><i class="zmdi zmdi-dot-circle-alt"></i> Officer</a></li>
+							<li><a href="type"><i class="zmdi zmdi-dot-circle-alt"></i> Type</a></li>
+							<li><a href="typeCase"><i class="zmdi zmdi-dot-circle-alt"></i> Type of Case</a></li>
+							<li><a href="categoriesofCompany"><i class="zmdi zmdi-dot-circle-alt"></i> Categories of
+									Company</a></li>
+							<li><a href="clauses"><i class="zmdi zmdi-dot-circle-alt"></i> Clause</a></li>
+							<li><a href="punishment"><i class="zmdi zmdi-dot-circle-alt"></i> Punishment</a></li>
+							<li><a href="adddCharge"><i class="zmdi zmdi-dot-circle-alt"></i>Add
+									Charges </a></li>
+							<li><a href="addInstance"><i class="zmdi zmdi-dot-circle-alt"></i>Add
+									Instances </a></li>
+
+
+							<li><a href="addStatus"><i class="zmdi zmdi-dot-circle-alt"></i> Add Case/Accused Status</a>
+							</li>
+							<li><a href="typebench"><i class="zmdi zmdi-dot-circle-alt"></i>
+									Type of Bench</a></li>
+
+							<li><a href="typeofResponse"><i class="zmdi zmdi-dot-circle-alt"></i> Type of Response by
+									Respondent</a></li>
+
+
+							<!-- <li><a href="addDisposal"><i
+								class="zmdi zmdi-dot-circle-alt"></i> Add New Disposal State</a></li> -->
+
+							<li><a href="addActPage"><i class="zmdi zmdi-dot-circle-alt"></i>Add
+									Act</a></li>
+
+							<li><a href="addActSec"><i class="zmdi zmdi-dot-circle-alt"></i>Add
+									Sections </a></li>
+
+							<li><a href="addSubSection"><i class="zmdi zmdi-dot-circle-alt"></i>Add
+									Sub Sections </a></li>
+
+							<li><a href="showAuditTrail"><i class="zmdi zmdi-dot-circle-alt"></i> Audit Trails</a></li>
+							<!-- <li><a href="financeYear"><i class="zmdi zmdi-dot-circle-alt"></i>
+								Create New Financial Year</a></li>		 -->
+
+						</ul>
+					</li>
+
+
+					<!-- ********* Saurabh Changes *********** -->
+					<li sec:authorize="hasRole('ROLE_ADMIN')"><a href="javaScript:void();" class="waves-effect"> <i
+								class="zmdi zmdi-widgets"></i> <span>Add Task</span> <i
+								class="fa fa-angle-left pull-right"></i>
+						</a>
+						<ul class="sidebar-submenu">
+
+							<li><a href="addTask"><i class="zmdi zmdi-dot-circle-alt"></i>
+									Add Task</a></li>
+
+
+							<li><a href="addSubTask"><i class="zmdi zmdi-dot-circle-alt"></i> Add Sub Task</a></li>
+
+
+						</ul>
+					</li>
+
+					<li sec:authorize="hasRole('ROLE_PUH_STAFF')">
+						<a href="AddNewCase" class="waves-effect"> <i class="zmdi zmdi-layers" style="color: aqua;"></i>
+							<span>Add Sanction Order /Court Notice Details</span> <i
+								class="fa fa-angle-left pull-right"></i>
+						</a>
+
+
+						<!-- <ul class="sidebar-submenu">
+						<li><a href="AddNewCase"><i
+								class="zmdi zmdi-dot-circle-alt"></i>Add New Court Case </a></li>
+					</ul> -->
+
+
+						<a href="javaScript:void();" class="waves-effect"> <i class="fa fa-tasks"
+								style="color: green;"></i> <span>Reports</span> <i
+								class="fa fa-angle-left pull-right"></i>
+						</a>
+						<ul class="sidebar-submenu">
+
+
+
+							<li><a href="reportOfCourtCase"><i class="zmdi zmdi-dot-circle-alt"></i> Weekly Cause List
+								</a></li>
+								
+
+								<li><a href="fillingReport"><i class="zmdi zmdi-dot-circle-alt"></i> Filing Report
+									</a></li>
+								
+							<!-- 
+						<li><a href=assignTask><i
+								class="zmdi zmdi-dot-circle-alt"></i> Assign Task</a></li> -->
+
+
+						</ul>
+						<ul class="sidebar-submenu">
+
+
+
+							<li><a href="weeklyListOfCasesWhereMCAIsParty"><i class="zmdi zmdi-dot-circle-alt"></i>
+									Weekly List of Cases where MCA is party </a></li>
+
+
+
+						</ul>
+						<ul class="sidebar-submenu">
+
+
+
+							<li><a href="monthlyProgressiiveReport"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report </a></li>
+
+							<li><a href="monthlyProgressiiveReport16"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report Point 16 </a></li>
+
+							<li><a href="monthlyProgressiiveReport9"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report Point 9 </a></li>
+							<li><a href="monthlyProgressiiveReport8"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report Point 8</a></li>
+							<li><a href="monthlyProgressiiveReport7"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report Point 7</a></li>
+							<li><a href="monthlyProgressiiveReport6"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report Point 6</a></li>
+							<li><a href="monthlyProgressiiveReport5"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report Point 5</a></li>
+							<li><a href="monthlyProgressiiveReport4"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report Point 4</a></li>
+
+
+							<li><a href="monthlyProgressiiveReport3"><i class="zmdi zmdi-dot-circle-alt"></i>Monthly
+									Progressive Report Point 3</a></li>
+
+
+
+						</ul>
+
+
+
+
+
+
+
+
+
+
+					</li>
+
+					<li sec:authorize="hasRole('ROLE_PROSECUTORUNITHEAD')"><!-- <a
+					href="javaScript:void();" class="waves-effect"> <i
+						class="zmdi zmdi-layers" style="color: aqua;"></i> <span>Add Cases</span> <i
+						class="fa fa-angle-left pull-right"></i>
+				</a> -->
+						<!-- <ul class="sidebar-submenu">
+						<li><a href="AddNewCase"><i
+								class="zmdi zmdi-dot-circle-alt"></i>Add New Court Case </a></li>
+					</ul>
+					
+					<ul class="sidebar-submenu">
+						<li><a href="addNewLegacyCase"><i
+								class="zmdi zmdi-dot-circle-alt"></i>Add Legacy Court Case </a></li>
+					</ul> -->
+
+
+
+
+					</li>
+
+					<li sec:authorize="hasRole('ROLE_PROSECUTORUNITHEAD')"><a href="javaScript:void();"
+							class="waves-effect"> <i class="fa fa-tasks" style="color: green;"></i> <span>Assign
+								Task</span> <i class="fa fa-angle-left pull-right"></i>
+						</a>
+						<ul class="sidebar-submenu">
+
+
+
+							<li><a href="ListOfCourtCase1"><i class="zmdi zmdi-dot-circle-alt"></i> Assign task After Sanction Order </a></li>
+							<li><a href="ListOfCourtCase2"><i class="zmdi zmdi-dot-circle-alt"></i> Assign task after Court Case Details </a></li>
+							<!--<li><a href="ListOfCourtCase"><i class="zmdi zmdi-dot-circle-alt"></i> List Of Sanction
+									Orders Details </a></li>-->
+							<!-- <li><a href="ListOfCourtCasePuh"><i
+								class="zmdi zmdi-dot-circle-alt"></i> List Of Court Cases which created by PUH</a></li> -->
+
+							<!-- 
+						<li><a href=assignTask><i
+								class="zmdi zmdi-dot-circle-alt"></i> Assign Task</a></li> -->
+
+
+						</ul>
+					</li>
+					
+					<li sec:authorize="hasRole('ROLE_PROSECUTORUNITHEAD')">
+						<a href="totalListOfCourtCase"><i class="zmdi zmdi-dot-circle-alt"></i> Case forward to other Prosecutor </a></li>
+						
+								</li>
+
+
+					<!-- By keyraj Shrama
+					 -->
+					<li sec:authorize="hasRole('ROLE_PROSECUTORUNITHEAD')"><a href="javaScript:void();"
+							class="waves-effect"> <i class="fa fa-tasks" style="color: green;"></i> <span>Reports</span>
+							<i class="fa fa-angle-left pull-right"></i>
+						</a>
+						<ul class="sidebar-submenu">
+
+
+
+							<li><a href="reportOfCourtCase"><i class="zmdi zmdi-dot-circle-alt"></i> Weekly Cause List
+								</a></li>
+							
+								<li><a href="fillingReport"><i class="zmdi zmdi-dot-circle-alt"></i> Filing Report
+																	</a></li>
+								<!-- 
+						<li><a href=assignTask><i
+								class="zmdi zmdi-dot-circle-alt"></i> Assign Task</a></li> -->
+
+
+						</ul>
+						<ul class="sidebar-submenu">
+
+
+
+							<li><a href="weeklyListOfCasesWhereMCAIsParty"><i class="zmdi zmdi-dot-circle-alt"></i>
+									Weekly List of Cases where MCA is party </a></li>
+
+									<li><a href="reportByCIN"><i class="zmdi zmdi-dot-circle-alt"></i>CIN wise detail report</a></li>
+								<li><a href="dynamic-report"><i class="zmdi zmdi-dot-circle-alt"></i>Dynamic report</a></li>
+								<li><a href="dynamic-reportnew"><i class="zmdi zmdi-dot-circle-alt"></i>Dynamic report New</a></li>
+								
+							
+																			
+																		
+
+
+						</ul>
+						
+						<ul class="sidebar-submenu">
+													<li><a href="priorityCaseReport"><i class="zmdi zmdi-dot-circle-alt"></i> Priority case Report
+														</a></li>
+												</ul>
+						<ul class="sidebar-submenu">
+
+
+
+							<li><a href="monthlyProgressiiveReport"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report </a></li>
+
+							<li><a href="monthlyProgressiiveReport16"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report Point 16 </a></li>
+
+							<li><a href="monthlyProgressiiveReport9"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report Point 9 </a></li>
+							<li><a href="monthlyProgressiiveReport8"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report Point 8</a></li>
+							<li><a href="monthlyProgressiiveReport7"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report Point 7</a></li>
+							<li><a href="monthlyProgressiiveReport6"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report Point 6</a></li>
+							<li><a href="monthlyProgressiiveReport5"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report Point 5</a></li>
+							<li><a href="monthlyProgressiiveReport4"><i class="zmdi zmdi-dot-circle-alt"></i> Monthly
+									Progressive Report Point 4</a></li>
+
+
+							<li><a href="monthlyProgressiiveReport3"><i class="zmdi zmdi-dot-circle-alt"></i>Monthly
+									Progressive Report Point 3</a></li>
+
+
+
+						</ul>
+
+					</li>
+
+
+
+
+
+
+				</ul>
+			</div>
+		</th:block>
+	</div>
+
+</body>
+
+</html>

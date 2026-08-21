@@ -1,0 +1,169 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Add New Respondent</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Case
+						Status</li>
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<form th:action="@{/AddCourtcaseStatus}" method="post"
+			class="needs-validation" autocomplete="off" th:object="${caseStatus}"
+			id="proCaseStatus">
+			<input type="hidden" th:field="*{procourtdtl}"> <input
+				type="hidden" th:field="*{id}"> <input type="hidden"
+				th:id="courtId" name="courtId">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-address-book-o"></i> Court Case Status
+							</h4>
+
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">Date
+									of Case Status Update <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-2">
+									<input type="text" class="form-control" id="uiDob" name="uiDob" th:field="*{caseStatusDate}"
+										placeholder="DD/MM/YYYY">
+								</div>
+
+								<label for="input-16" class="col-sm-2 col-form-label">Case
+									Status <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<select class="custom-select" 	th:field="*{caseStatus}" id="status"  onchange="statusValue(this)">
+
+										<option th:each="s : ${statusLst}" th:value="${s.id}"
+											th:text="${s.statusName}"></option>
+
+									</select> <span id="chooseCompErr" style="color: red;"
+										th:errors="*{caseStatus}"></span>
+								</div>
+							</div>
+
+
+							<div class="form-group row" style="display: none;" id="disposal">
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">Disposal
+									State <span class="text-danger">*</span>
+								</label>
+									<div class="col-sm-4">
+									<select class="custom-select"
+										th:field="*{disposed}" id="chooseDisposed">
+
+										<option th:each="s : ${disposedLst}" th:value="${s.id}"
+											th:text="${s.disposalState}"></option>
+
+									</select> <span id="chooseCompErr" style="color: red;"
+										th:errors="*{disposed}"></span>
+								</div>
+
+							</div>
+
+
+
+							<div class="form-group row"></div>
+
+
+							<div class="form-footer">
+								<button type="reset" class="btn btn-danger">
+									<i class="fa fa-times"></i> Reset
+								</button>
+								<button type="submit" class="btn btn-success" id="update_btn">
+									<i class="fa fa-check-square-o"></i> SAVE
+								</button>
+								<button type="button" class="btn btn-dark"
+									th:onclick="'backPage(\'' + ${courtdtl} +'\');'">
+									<i class="fa fa-check-square-o"></i> Back
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var table = $('#userTable').DataTable({});
+			});
+
+			$('#uiDob').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+
+			$('#uiJoiningDate').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+			function backPage(courtID) {
+				
+				
+
+    			$('#proCaseStatus').attr('action', 'AdditionalInfo');
+    			$("#courtId").val(courtID)
+    			$('#proCaseStatus').submit();
+		}
+			function statusValue(status) {
+				var status = $("#status").val()
+				if (status == 4) {
+					$("#disposal").show();
+				} else {
+					$("#disposal").hide();
+				}
+			}
+		</script>
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+
+
+
+
+	</div>
+
+</body>
+</html>

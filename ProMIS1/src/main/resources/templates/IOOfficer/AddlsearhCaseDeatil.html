@@ -1,0 +1,158 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Add New User</title>
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+<link href="css/bootstrap-datetimepicker-build.css" rel="stylesheet" />
+</head>
+
+<body>
+
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">
+						Petitioner Case ID</li>
+				</ol>
+			</div>
+		</div>
+
+
+
+
+		<form th:action="@{/}" method="post" class="needs-validation"
+			id="CaseDeatilsform" autocomplete="off">
+
+			<div th:if="${message}" class="alert alert-success alert-dismissible"
+				role="alert">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<div class="alert-icon">
+					<i class="fa fa-check"></i>
+				</div>
+				<div class="alert-message">
+					<span th:text="${message}"></span>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-address-book-o"></i> Get Data from Central Database/SNMS
+							</h4>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Select search Type  <span
+									class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control">
+									    <option value="Mr">Choose One</option>
+										<option value="Mr">Company/Case Title</option>
+										<option value="Ms">Case Id</option>
+										<option value="Mrs">MCA Order No</option>
+										<option value="Mrs">Court Order No</option>
+										<option value="Mrs">Din</option>
+									</select>
+									</div>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="case" name="number" placeholder="Enter" maxlength="50">
+									<span class="text-danger"></span>
+								</div>
+                             <div class="col-sm-2">
+								<button type="button" class="btn btn-success" id="updatecomp" onClick="SearchAction()">
+									<i class="fa fa-check-square-o"></i> Search
+								</button>
+								
+							</div>
+							
+							
+							</div>
+							
+							<table class="table table-bordered table-responsive-lg" id="casedetailTable" style="display: none;" >
+										<thead class="bg-success text-white">
+										
+										
+											<tr class="bg-info">
+											<th>S.No.</th>
+											<th>Case Id</th>
+											<th> Case Title </th>
+											<th> View </th>
+										
+											</tr>
+										</thead>
+										
+										<tbody>
+										<tr>
+								   	    <td>1</td>
+								   	    <td><input type="text" th:id="caseId" style="border: none;"></td>
+								   	    <td>Calcom Cement India Ltd</td>
+								   	    <td><button class="btn btn-success" onClick="ViewDeatil();" > Details</button></td>
+								   	    </tr>
+								   	    </tbody>
+								   	    </table>
+								   	    
+								   	    
+								   	    <a class="btn btn-dark" href="AdditionalInfo"> <i
+									class="fa fa-check-square-o"></i> Back
+								</a>
+								   	    
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="js/moment.min.js"></script>
+		<script src="js/bootstrap-datetimepicker.min.js"></script>
+		<script type="text/javascript">
+		
+	function SearchAction() {
+		var caseId=  	$("#case").val();
+		
+		if(caseId==""){
+			alert("Enter the Text Field");
+		}else{
+			$("#caseId").val(caseId);
+		$("#casedetailTable").show();
+		}
+	}
+	 
+	function ViewDeatil() {
+
+			$('#CaseDeatilsform').attr('action', 'AddlCaseDeatils');
+			
+			$('#CaseDeatilsform').submit();
+	}
+	
+		</script>
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+
+
+
+
+
+
+	</div>
+
+</body>
+</html>

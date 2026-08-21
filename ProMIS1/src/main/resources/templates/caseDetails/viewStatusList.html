@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+	<link href="css/bootstrap-datetimepicker-build.css" rel="stylesheet" />
+	<title>Cause title</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-8">
+				<h5 class="page-title">List of <span th:text="${selectedStatus}"></span></h5>
+			</div>
+			<div class="col-sm-4">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="puhHome">Home</a></li>
+
+				</ol>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4>
+							<span th:text="${message}"></span>
+						</h4>
+
+						<div class="table-responsive">
+							<table class="table table-bordered" id="weaklyReport">
+								<thead class="bg-info">
+									<tr>
+										<th class="text-wrap" align="center" style="align-content: flex-start;">S.No.
+										</th>
+										<th class="text-wrap" align="justify">Court Case Number</th>
+										<!--<th class="text-wrap" align="justify">Case Number</th>-->
+										<th class="text-wrap" align="justify">Company Name</th>
+										<th class="text-wrap" align="justify">CNR Number</th>
+										<th class="text-wrap" align="justify">Case Title</th>
+										<th class="text-wrap" align="justify">Officer Name</th>
+										<th class="text-wrap">Last Hearing Date</th>
+										<th class="text-wrap">Next Hearing Date</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="detail,iStat :${statusList}">
+										<td th:text="${iStat.count}"></td>
+										<td th:text="${detail.procourtdtl.courtCaseNo}"></td>
+										<td th:text="${detail.procourtdtl.addCase.caseTitle}"></td>
+										<td th:text="${detail.procourtdtl.cnrNumber}"></td>
+										<td th:text="${detail.procourtdtl.causeTitle}"></td>
+										<td th:text="${
+										    (detail.user.salutation != null ? detail.user.salutation : '') + ' ' +
+										    (detail.user.firstName != null ? detail.user.firstName : '') + ' ' +
+										    (detail.user.middleName != null ? detail.user.middleName : '') + ' ' +
+										    (detail.user.lastName != null ? detail.user.lastName : '')
+										}">
+										</td>
+										<td th:text="${detail.lastHearingDate}"></td>
+										<td th:text="${detail.nextHearingDate}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jszip.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/pdfmake.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/vfs_fonts.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.html5.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.print.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.colVis.min.js"></script>
+		<script type="text/javascript">
+			$(document)
+				.ready(
+					function () {
+						var table = $('#weaklyReport')
+							.DataTable(
+								{
+									dom: 'Bfrtip',
+									buttons: {
+										buttons: [
+											{
+												extend: 'excel',
+												text: '<i class="fa fa-print"></i> Excel',
+												title: $(
+													'h4')
+													.text(),
+
+												exportOptions: {
+													columns: ':not(.no-print)'
+												},
+												footer: true,
+												autoPrint: false
+											},
+											{
+												extend: 'pdfHtml5',
+												orientation: 'landscape',
+												pageSize: 'A3',
+
+												text: '<i class="fa fa-file-pdf-o"></i> PDF',
+												title: $(
+													'h4')
+													.text(),
+
+												exportOptions: {
+													columns: ':not(.no-print)'
+												},
+												footer: true
+											}],
+
+										dom: {
+											container: {
+												className: 'dt-buttons'
+											},
+											button: {
+												className: 'btn btn-default'
+											}
+										}
+									}
+								});
+					});
+		</script>
+	</div>
+</body>
+
+</html>

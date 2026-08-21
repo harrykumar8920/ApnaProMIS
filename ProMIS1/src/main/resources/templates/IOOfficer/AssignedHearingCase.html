@@ -1,0 +1,225 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css"
+	rel="stylesheet" type="text/css">
+<link href="plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css"
+	rel="stylesheet" type="text/css">
+<title>All Created Cases</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">
+						Details</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header text-uppercase">
+							<i class="fa fa-address-book-o"></i> Details
+
+						</h4>
+
+
+						<form th:action="@{/caseAndOffOrdDetail}" method="post"
+							class="needs-validation">
+
+							<div class="form-group row">
+								<table class="table table-striped" id="userTable">
+									<thead>
+										<tr style="background-color: blueviolet; color: white;">
+											<th>Sr No</th>
+											<th>Court Name</th>
+											<th>Case Title</th>
+											<th>SFIO As</th>
+											<th>Filling Date</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td class="text-wrap">District And Session Court Delhi</td>
+											<td>CALCOM CEMENT INDIA LTD</td>
+											<td>Petitioner</td>
+											<td>12/02/2022</td>
+											<td><button type="button" class="btn btn-primary"
+													data-toggle="modal" data-target=".bd-example-modal-lg"
+													data-whatever="@mdo">Proceed</button></td>
+										</tr>
+
+
+									</tbody>
+
+								</table>
+							</div>
+
+
+
+							<div class="modal fade bd-example-modal-lg " id="exampleModal"
+								tabindex="1" role="dialog" aria-labelledby="exampleModalLabel"
+								aria-hidden="true">
+								<div class="modal-dialog modal-lg" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Case
+												Proceeding</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<form>
+												<div class="form-group row">
+													<label class="col-sm-2 col-form-label">Court Name:</label>
+													<label
+														class=" col-sm-4 col-form-label text-primary text-wrap">
+														<span>District And Session Court Delhi</span>
+													</label> <label class="col-sm-2 col-form-label">Case Title:</label>
+													<label
+														class=" col-sm-4 col-form-label text-primary text-wrap">
+														<span>CALCOM CEMENT INDIA LTD</span>
+													</label>
+
+												</div>
+												<div class="form-group row">
+													<label class="col-sm-2 col-form-label">SFIO As:</label> <label
+														class=" col-sm-4 col-form-label text-primary text-wrap">
+														<span>Petitioner</span>
+													</label> <label class="col-sm-2 col-form-label">Filling
+														Date:</label> <label
+														class=" col-sm-4 col-form-label text-primary text-wrap">
+														<span>12/02/2022</span>
+													</label>
+
+												</div>
+
+												<div class="form-group row">
+
+													<label for="input-10" class="col-sm-2 col-form-label">Remark<span
+														class="text-danger"></span>
+													</label>
+
+													<div class="col-sm-4">
+														<input type="text" class="form-control">
+													</div>
+
+													<label for="input-16" class="col-sm-2 col-form-label">
+														Date Hearing <span class="text-danger">*</span>
+													</label>
+													<div class="col-sm-4">
+														<input type="Date" class="form-control" id="uiDob">
+													</div>
+												</div>
+
+												<div class="form-group row">
+
+
+													<label for="input-16" class="col-sm-2 col-form-label">
+														Brief Of Hearing Proceeds Today<span class="text-danger">*</span>
+													</label>
+													<div class="col-sm-4">
+														<textarea class="inputTxt form-control" cols="2" rows="3"
+															th:id="brief" name="brief" placeholder="Enter gist"
+															maxlength="500"></textarea>
+														<span id="wordCount">0</span> Characters <span
+															class="text-danger"> Maximum character limit is
+															500</span> <span class="text-danger"></span>
+													</div>
+
+													<label for="input-16" class="col-sm-2 col-form-label">
+														Next Hearing Date <span class="text-danger">*</span>
+													</label>
+													<div class="col-sm-4">
+														<input type="Date" class="form-control" id="uiDob">
+													</div>
+												</div>
+
+												<div class="form-group row">
+
+													<label for="input-10" class="col-sm-2 col-form-label">
+														Action to Be Taken if Any <span class="text-danger"></span>
+													</label>
+
+													<div class="col-sm-4">
+														<input type="text" class="form-control">
+													</div>
+
+													<label for="input-16" class="col-sm-2 col-form-label">
+														Purpose Of Next Hearing Date <span class="text-danger"></span>
+													</label>
+													<div class="col-sm-4">
+														<input type="text" class="form-control">
+													</div>
+												</div>
+												
+												<div class="form-group row">
+
+
+													<label for="input-16" class="col-sm-2 col-form-label">
+														Any Supporting Document <span class="text-danger"></span>
+													</label>
+													<div class="col-sm-4">
+														<input type="file" class="form-control" id="uiDob">
+													</div>
+												</div>
+											</form>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-dismiss="modal">Close</button>
+											<button type="button" class="btn btn-primary">Submit
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+
+
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				var table = $('#userTable').DataTable({
+					//		 	        lengthChange: false,
+					buttons : [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+				});
+			});
+		</script>
+
+	</div>
+
+</body>
+</html>

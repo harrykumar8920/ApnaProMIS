@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	 xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+<link href="css/bootstrap-datetimepicker-build.css" rel="stylesheet" />
+<title>Monthly Progressive Report</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		
+
+		
+		
+			
+			<h4 style="font-weight: bold; font-size: 20px; text-align: center;">
+				<span th:text="${message}"></span>
+			</h4>				
+
+<div class="table-responsive">
+							<table >
+									<thead class="bg-info">
+										<tr cellpadding="15"  cellspacing="5" bgcolor="#757abf" style="color: white;">
+											<th class="text-wrap">S.No.</th>
+											<th class="text-wrap">Name of Company</th>
+											<th class="text-wrap">Date of Instructions</th>
+												<th class="text-wrap">PROVISION OF COMPANIES ACT, 2013</th>
+												<th class="text-wrap">NCLT Bench</th>
+												
+											<th class="text-wrap">Remarks</th>
+											
+											
+
+
+										</tr>
+									</thead>
+									<tbody>
+									
+									
+										
+									
+									
+									 <tr th:each="detail,iStat :${courtCasedtl}" >
+											<td th:text="${iStat.count}"></td>
+												
+												
+										 <td class="text-wrap" th:text="${detail.procourtdtl.causeTitle}"></td>
+											<td class="text-wrap" th:text="${#dates.format(detail.nextHearingDate, 'dd/MM/yyyy')}"></td>
+											
+											
+											
+											 <td class="text-wrap">
+											
+											<span th:each="sumType ,xyz321z : ${detail.actSecDetailsInfo}">
+											
+											 <span th:text="${sumType.Section.section} + ${!xyz321z.last ? ', ' : ''}"></span>
+												</span>
+												</td> 
+												<td class="text-wrap" th:text="${detail.procourtdtl.state.state}"></td>
+												
+												
+													<td class="text-wrap" th:text="${#dates.format(detail.procourtdtl.fillingDate, 'dd/MM/yyyy')}"></td>
+												
+												
+												
+											
+
+
+
+										</tr> 
+
+
+									</tbody>
+
+								</table>
+
+
+									
+							
+							</div>
+
+
+
+						</div>
+
+
+
+
+	
+</body>
+</html>

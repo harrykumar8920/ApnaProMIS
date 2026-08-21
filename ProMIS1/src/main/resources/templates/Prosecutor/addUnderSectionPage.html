@@ -1,0 +1,302 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<title>INSPECTOR</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="userHome">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Add
+						Section</li>
+
+				</ol>
+			</div>
+		</div>
+		<div th:if="${message}" class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+		<form th:action="@{/ncltActSave}" method="post" autocomplete="off" th:object="${nCLTActofRespondantDTO}"
+			id="saveResponseOfRespond" enctype="multipart/form-data">
+			<input type="hidden" th:field=*{assignedTask}>
+			<input type="hidden" th:field=*{procourtdtl}>
+			<input type="hidden" th:field=*{id}>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="form-header ">
+								<h5 class="modal-header bg-info">Add Section</h5>
+								<div class="form-group row">
+									<label for="input-16" class="col-sm-3 col-form-label">
+										Cause Title</label>
+									<div class="col-sm-3">
+										<span class="text-primary" style="font-size: 13px; text-align: left;"
+											th:text="*{procourtdtl.causeTitle}"> </span>
+									</div>
+									<label for="input-16" class="col-sm-3 col-form-label">
+										Court Case No</label> <span class="col-sm-3 text-primary"
+										style="font-size: 13px" th:text="*{procourtdtl.courtCaseNo}">
+									</span>
+								</div>
+							</div>
+
+							<div class="modal-body">
+
+								<div class="form-group row">
+
+
+									<label for="input-10" class="col-sm-2 col-form-label">Accused
+										<span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-4">
+										<select class="form-control" id="accuseName" th:field="*{accuseName}"
+											multiple="multiple">
+
+											<option th:each="court:${accusedList}" th:value="${court.id}"
+												th:utext="${court.accusedName}" />
+										</select> 
+										<span class="text-danger">Multiple Accused select if needed</span>
+										<span class="text-danger" th:errors="*{accuseName}"></span>
+										<span class="text-danger" id="accuseNameError"></span>
+									</div>
+
+									<label for="input-10" class="col-sm-2 col-form-label">Act
+										<span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-4">
+										<select class="form-control" id="act" th:field="*{act}">
+											<option th:each="court:${act}" th:value="${court.id}"
+												th:utext="${court.act}" />
+										</select>
+										<span class="text-danger" id="actError"></span>
+
+									</div>
+
+
+								</div>
+								<div class="form-group row">
+
+									<label for="input-10" class="col-sm-2 col-form-label">Section
+										<span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-4">
+										<select class="form-control" multiple="multiple" th:field="*{section}">
+											<option th:each="court:${section}" th:value="${court.id}"
+												th:utext="${court.section}" />
+										</select>
+										<span class="text-danger">Multiple Section select if needed</span>
+										<span class="text-danger" id="sectionError"></span>
+									</div>
+
+
+									<label for="input-10" class="col-sm-2 col-form-label">Remarks<!--<span
+											class="text-danger">*</span>-->
+									</label>
+									<div class="col-sm-4">
+										<textarea class="form-control" th:field="*{description}"
+											id="remarksDescription1" onkeyup="countWords22()"></textarea>
+										<span id="wordCount7">0</span> Words <span class="text-danger">
+											Maximum Words limit is 100</span>
+
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+
+
+						<div class="form-footer d-flex justify-content-between px-3 py-3">
+							<div>
+								<button type="button" class="btn btn-primary" onclick="saveIPC();">Back</button>
+							</div>
+							<div>
+
+
+								<!--<button type="submit" class="btn btn-success btn-round m-1">Save</button>-->
+								<button type="submit" class="btn btn-success btn-round m-1"
+								        onclick="return validateNCLTForm();">Save</button>
+
+
+
+
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+
+		<div class="form-group row" th:if="${not #lists.isEmpty(allsaveAct)}">
+
+			<div class="table-responsive">
+				<table id="CompTable1" class="table table-bordered">
+					<thead>
+						<tr class="bg-info">
+							<th>S.No</th>
+							<th>Respondant</th>
+							<th>Act</th>
+							<th>Section</th>
+							<th>Remarks</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="p,stats: ${allsaveAct}">
+							<td th:text="${stats.count}"></td>
+
+							<td>
+								<table>
+
+									<tr th:each="subItem,stats : ${p.accuseName1}" style="border: none;"
+										class="m-0 p-0">
+										<td style="border: none;" class="m-0 p-0" th:text="${stats.count} + . "></td>
+										<td style="border: none;" class=" p-1"></td>
+										<td style="border: none;" class="m-0 p-0" th:text="${subItem.accusedName}"></td>
+									</tr>
+								</table>
+							</td>
+
+
+
+
+							<td class="text-wrap" th:text="${p.act.act}"></td>
+
+							<td>
+								<table>
+
+									<tr th:each="subItem,stats : ${p.section}" style="border: none;" class="m-0 p-0">
+										<td style="border: none;" class="m-0 p-0" th:text="${stats.count} + . "></td>
+										<td style="border: none;" class=" p-1"></td>
+										<td style="border: none;" class="m-0 p-0" th:text="${subItem.section}"></td>
+									</tr>
+								</table>
+							</td>
+
+							<td class="text-wrap" th:text="${p.description}"></td>
+
+
+							<td>
+
+								<button class="btn btn-success" th:if="${p.approvalStatus == 2}">
+									<span>Confirmed</span>
+								</button>
+
+
+								<form th:action="@{/confirmNCTAct}" method="post" th:if="${p.approvalStatus != 2}">
+									<input type="hidden" name="id" th:value="${p.id}" />
+									<button type="submit" class="btn btn-primary">Confirm</button>
+								</form>
+							</td>
+
+
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<script src="plugins/bootstrap-datatable/js/jquery.d.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="js/customValidation.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+		<script src="js/jquery-confirm.js"></script>
+
+		
+		<script type="text/javascript">
+			function validateNCLTForm() {
+				let isValid = true;
+
+				// Clear old error messages
+				$('#accuseNameError').text('');
+				$('#actError').text('');
+				$('#sectionError').text('');
+
+				// Validate accused
+				let accused = $('#accuseName').val();
+				if (!accused || accused.length === 0) {
+					$('#accuseNameError').text('At least one Accused must be selected.');
+					isValid = false;
+				}
+
+				// Validate act
+				let act = $('#act').val();
+				if (!act || act.trim() === '') {
+					$('#actError').text('Act must be selected.');
+					isValid = false;
+				}
+
+				// Validate section
+				let section = $('[name="section"]').val();
+				if (!section || section.length === 0) {
+					$('#sectionError').text('At least one Section must be selected.');
+					isValid = false;
+				}
+
+				return isValid;
+			}
+		</script>
+		<script type="text/javascript">
+					function countWords22() {
+						const textField = document
+							.getElementById('remarksDescription1');
+							//alert(textField);
+						const wordCountDisplay = document.getElementById('wordCount7');
+						const words = textField.value.split(' ').filter(Boolean);
+						const wordCount = words.length;
+						wordCountDisplay.innerHTML = wordCount;
+						if (wordCount > 101) {
+							var wordCount1 = document
+								.getElementById("remarksDescription1");
+							var characters = wordCount1.value.split(' ');
+							var lenth = characters.length;
+							document.getElementById("remarksDescription1").maxLength = lenth;
+							//alert("xdcxc xdc xc xc");
+						} else {
+							document.getElementById("remarksDescription1").maxLength = 5000;
+						}
+					}
+				</script>
+		<script type="text/javascript">
+			function saveIPC() {
+
+				$('#saveResponseOfRespond').attr("action", "backToMain");
+				$('#saveResponseOfRespond').submit();
+
+			}
+		</script>
+
+
+	</div>
+
+</body>
+
+</html>

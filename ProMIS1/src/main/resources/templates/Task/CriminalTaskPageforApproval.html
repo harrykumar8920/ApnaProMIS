@@ -1,0 +1,1474 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<title>Add New Respondent</title>
+</head>
+<body>
+
+
+
+	<div layout:fragment="content">
+		<!-- <h6 class="text-uppercase" style="font-size: 18px">Criminal
+			Complaint Details and Related Information</h6>
+ -->
+
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-12">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="puhHome">Home</a></li>
+					<li class="breadcrumb-item"><a href="puhApproveproTaskList">TOTAL
+							PENDING FOR APPROVAL</a></li>
+
+					<li class="breadcrumb-item active" aria-current="page">Criminal
+						Complaint Details and Related Information</li>
+				</ol>
+			</div>
+		</div>
+
+
+
+
+		<hr>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+
+
+
+						<form th:action="@{/addNewUser}" method="post"
+							class="needs-validation" th:object="${assignedDtl}"
+							autocomplete="off">
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label"
+									style="font-size: medium;"> Cause Title <span
+									class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-sm-12 col-form-label text-primary"> <span
+										style="font-size: medium;" th:text="${assignedDtl.causeTitle}"></span>
+									</label>
+
+								</div>
+
+								<label for="input-16" class="col-sm-2 col-form-label"
+									style="font-size: medium;">Court Case No <span
+									class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-sm-12 col-form-label text-primary"
+										id="CourtNo"> <span th:id="CourtNo"
+										style="font-size: medium;"
+										th:text="${assignedDtl.courtCaseNo}"></span></label>
+								</div>
+
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<form th:action="@{/addCriminalDtl11}" method="post"
+							class="needs-validation" th:object="${criminalTaskDto}"
+							th:id="viewGeneratedComplaint" autocomplete="off"
+							enctype="multipart/form-data" target="_blank">
+							<input type="hidden" th:field="*{assignedTask}">
+						</form>
+
+						<form th:action="@{/addCriminalDtl}" method="post"
+							class="needs-validation" th:object="${criminalTaskDto}"
+							th:id="addCriminalDtl1" autocomplete="off"
+							enctype="multipart/form-data">
+
+
+							<input type="hidden" th:field="*{hearingID}"> <input
+								type="hidden" th:id="accCIN" th:value="${accCIN}"
+								th:field="*{accCIN}"> <input type="hidden"
+								th:id="accusedAddress" th:value="${accusedAddress}"
+								th:field="*{accusedAddress}"> <input type="hidden"
+								th:id="accDesination" th:value="${accDesination}"
+								th:field="*{accDesination}"> <input type="hidden"
+								id="pairaviId" th:field="*{pairaviId}"
+								th:value="${criminalTaskDto.pairaviId}"> <input
+								type="hidden" th:field="*{caseproseingID}"
+								th:value="${criminalTaskDto.caseproseingID}"> <input
+								type="hidden" th:field="*{courtCaseID}"> <input
+								type="hidden"  th:field="*{accusedIDforDelete}"
+								th:value="${criminalTaskDto.accusedIDforDelete}"> <input
+								type="hidden" th:field="*{proCourtDtl}" id="procourtdtlIDD">
+							<input type="hidden" th:field="*{assignedTask}"> <input
+								type="hidden" th:id="companyId" th:value="companyId"
+								th:field="*{companyId}"> <input type="hidden"
+								th:field="*{companyId}" th:value="${criminalTaskDto.companyId}">
+							<input type="hidden" th:id="accusedCompId"
+								th:field="*{accusedCompId}"> <input type="hidden"
+								th:field="*{tabId}" th:id="tabId"> <input type="hidden"
+								th:field="*{rejectuploadID}">
+
+							<h6 class="text-uppercase">Criminal Task Details</h6>
+							<hr>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="row">
+
+												<div class="col-md-3">
+
+													<ul class="nav nav-pills nav-pills-warning flex-column"
+														id="myTab" role="tablist" style="align-items: flex-start;">
+														<li class="nav-item"><a class="nav-link py-2 active"
+															data-toggle="pill" href="#piil-21"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px"><span
+																	th:if="${criminalTaskDto.typeOfCase}!=NCLT">Complainant</span>
+																	<span th:if="${criminalTaskDto.typeOfCase}==NCLT">Respondent</span>
+															</span></a></li>
+
+														<li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-23"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px">Pairavi officer/IO </span></a></li>
+
+														<li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-25"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px"
+																th:if="${criminalTaskDto.typeOfCase}!=NCLT">Update
+																	Court Case Number </span> <span class="hidden-xs"
+																style="font-size: 15px"
+																th:if="${criminalTaskDto.typeOfCase}==NCLT">Update
+																	NCLT/NCLAT Case Number </span></a></li>
+
+
+														<li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-24"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px">Case processing dates </span></a></li>
+
+
+
+
+														<li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-26"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px"
+																th:if="${criminalTaskDto.typeOfCase}!=NCLT">Accused
+															</span> <span class="hidden-xs" style="font-size: 15px"
+																th:if="${criminalTaskDto.typeOfCase}==NCLT">Respondent
+															</span></a></li>
+
+														<li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-27"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px">Hearing Details </span></a></li>
+
+														<li class="nav-item"><a class="nav-link py-2"
+															style="text-align: left;" data-toggle="pill"
+															href="#piil-30"><i class="zmdi zmdi-circle mb-1">
+															</i> <span class="hidden-xs" style="font-size: 15px">Filing
+																	details and Related Information </span></a></li>
+
+
+														<li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-28"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px">Action taken</span></a></li>
+													</ul>
+												</div>
+
+												<div class="col-md-9">
+
+													<!-- Tab panes -->
+													<div class="tab-content">
+														<div id="piil-21" class="container tab-pane active">
+															<th:block
+																th:if="${criminalTaskDto.approve_status==1 or criminalTaskDto.approve_status==2 or criminalTaskDto.approve_status==3}">
+
+																<!-- <th:block th:if="${criminalTaskDto.complanitId!=null}"> -->
+																<div class="form-group row">
+																	<label for="input-10" class="col-sm-2 col-form-label">
+																		Investigation Officer <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span th:text="${criminalTaskDto.IOName}"></span>
+																		</label>
+
+
+																	</div>
+																	<label for="input-10" class="col-sm-2 col-form-label">
+																		Investigation Case No <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span
+																			th:text="${#strings.capitalize(criminalTaskDto.InvCaseNo)}"></span>
+																		</label>
+
+																	</div>
+																</div>
+																<div class="form-group row">
+																	<label for="input-10" class="col-sm-2 col-form-label">
+																		Complainant Name <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span th:text="${criminalTaskDto.complanitName}"></span>
+																		</label>
+
+																	</div>
+
+
+																	<label for="input-10" class="col-sm-2 col-form-label">Email
+																		<span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span th:text="${criminalTaskDto.complanitEmail}"></span>
+																		</label>
+
+																	</div>
+																</div>
+																<div class="form-group row">
+
+
+																	<label for="input-16" class="col-sm-2 col-form-label">Designation</label>
+
+																	<div class="col-sm-4">
+
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span
+																			th:text="${criminalTaskDto.complanitdesignation.designation}"></span>
+																		</label>
+
+																	</div>
+																	<label for="input-16" class="col-sm-2 col-form-label">Mobile
+																		Number <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span th:text="${criminalTaskDto.complaintMobile}"></span>
+																		</label>
+
+
+																	</div>
+																</div>
+
+																<div class="form-group row">
+
+
+																	<label for="input-10" class="col-sm-2 col-form-label">Petition
+																		Number <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span th:text="${criminalTaskDto.complaintPetinoner}"></span>
+																		</label>
+																	</div>
+																</div>
+
+
+																<th:block th:if="${criminalTaskDto.approve_status==1}">
+																	<button type="submit"
+																		class="btn btn-success btn-round m-1"
+																		th:name="approveCriminalDtl">
+																		<i class="fa fa-check-square-o"></i> Approve
+																	</button>
+																	<div id="rejectdiv1">
+																		<button type="button"
+																			class="btn btn-success btn-round m-1"
+																			id="rejectCriminalDtlq"
+																			th:onclick="rejectCriminalDtl12();">Send
+																			Back</button>
+																	</div>
+
+
+																	<div id="rejectdiv" style="display: none"
+																		class="input-group">
+																		<label for="input-10" class="col-sm-2 col-form-label">Remarks
+																		</label> <input type="text" class="col-sm-4 form-control "
+																			maxlength="100" th:field="*{rejectRemark}">
+																		&nbsp;&nbsp;&nbsp;
+																		<button class="btn btn-success text-wrap"
+																			type="submit" th:name="rejectCriminalDtl"
+																			id="rejectCriminalDtl">Send Back</button>
+
+																	</div>
+
+
+
+
+																</th:block>
+
+																<th:block th:if="${criminalTaskDto.approve_status==2}">
+																	<button type="" disabled="disabled"
+																		class="btn btn-success btn-round m-1">Approved
+
+																	</button>
+
+
+																</th:block>
+																<th:block th:if="${criminalTaskDto.approve_status==3}">
+																	<button type="" disabled="disabled"
+																		class="btn btn-success btn-round m-1">Sent
+																		Back</button>
+																	<label class="col-sm-6 col-form-label text-danger">
+																		<span th:text="${criminalTaskDto.rejectRemark}"></span>
+																	</label>
+
+
+																</th:block>
+
+															</th:block>
+
+
+														</div>
+
+
+
+
+
+														<div id="piil-23" class="container tab-pane fade">
+
+
+															<div class="form-group row">
+																<div class="table-responsive">
+																	<table id="PairaviDtl" class="table table-bordered">
+
+																		<thead>
+																			<tr>
+																				<th>S.No</th>
+																				<th>Name</th>
+																				<th>Email</th>
+																				<th>Designation</th>
+																				<th>Mobile Number</th>
+																				<th>From Date</th>
+																				<th>To Date</th>
+																				<th>Action</th>
+																				<th>Remarks</th>
+
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="p,stats: ${pairvidtl}">
+																				<!-- <th:block th:if="${p.approveStatus==2 & p.approveStatus==3}"> -->
+																				<td th:text="${stats.count}"></td>
+																				<td th:text="${p.pairaviOfficer.name}"></td>
+																				<td th:text="${p.pairaviOfficer.email}"></td>
+																				<td
+																					th:text="${p.pairaviOfficer.designation.designation}"></td>
+																				<td th:text="${p.pairaviOfficer.mobile}"></td>
+
+																				<td
+																					th:text="${#dates.format(p.fromDate, 'dd/MM/yyyy')}"></td>
+																				<td
+																					th:text="${#dates.format(p.toDate, 'dd/MM/yyyy')}"></td>
+																				<!-- <td th:text="${p.toDate}"></td> -->
+																				<!-- <td th:text="${p.id}"></td> -->
+																				<td><th:block th:if="${p.approveStatus==1}">
+																						<button class="btn btn-success text-wrap"
+																							id="rejectforpairavi12" type="submit"
+																							th:name="approvedbyPUH" th:value="${p.Id}">Approve</button>
+																						<button type="button"
+																							class="btn btn-success text-wrap"
+																							id="rejectforpairavi" th:value="${p.Id}"
+																							th:onclick="rejectPairaviOfficer();">
+																							Send Back</button>
+																					</th:block> <th:block th:if="${p.approveStatus==2}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVED</button>
+
+																					</th:block> <th:block th:if="${p.approveStatus==3}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">Sent Back</button>
+																						<td th:text="${p.rejectRemark}"></td>
+
+																					</th:block></td>
+
+																			</tr>
+																		</tbody>
+
+
+
+																	</table>
+																</div>
+															</div>
+															<div id="rejectdivforpairavi" style="display: none"
+																class="input-group">
+																<label for="input-10" class="col-sm-2 col-form-label">Remarks
+																</label> <input type="text" class="col-sm-4 form-control "
+																	maxlength="100" th:field="*{rejectRemarkforPairavi}">
+																&nbsp;&nbsp;&nbsp;
+																<button class="btn btn-success text-wrap" type="submit"
+																	th:name="rejectBYPUH">Send Back</button>
+
+															</div>
+														</div>
+														<div id="piil-24" class="container tab-pane fade">
+															<div class="form-group row">
+																<div class="table-responsive">
+																	<h3>Case Processing Dates</h3>
+																	<table id="CompTable1" class="table table-bordered">
+
+																		<thead>
+																		<thead>
+																			<tr style="text-align: center;">
+
+																				<th class="text-wrap">S.No</th>
+																				<th class="text-wrap">Date of order of
+																					Investigation</th>
+																				<th class="text-wrap">Date of Order of
+																					Supplementary Investigation</th>
+																				<th class="text-wrap">Date of submission of
+																					Investigation Report</th>
+																				<th class="text-wrap">Date of submission of
+																					Supplementary Investigation Report</th>
+
+																				<th class="text-wrap">Date of issuance of
+																					Instruction by MCA for filing of prosecution</th>
+																				<th class="text-wrap">Action</th>
+																				<th class="text-wrap">Reject Remarks</th>
+
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="p,stats: ${caseproseingdates}">
+																				<td th:text="${stats.count}"></td>
+																				<td
+																					th:text="${#dates.format(p.orderOfInv, 'dd/MM/yyyy')}"></td>
+																				<td
+																					th:text="${#dates.format(p.orderOfSupplyInv, 'dd/MM/yyyy')}"></td>
+
+																				<td
+																					th:text="${#dates.format(p.submissionOfInvReport, 'dd/MM/yyyy')}"></td>
+																				<td
+																					th:text="${#dates.format(p.submissionOfSupplyInvReport, 'dd/MM/yyyy')}"></td>
+																				<td
+																					th:text="${#dates.format(p.insuranceOFInvByMCA, 'dd/MM/yyyy')}"></td>
+
+																				<td><th:block th:if="${p.approveStatus==1}">
+																						<button class="btn btn-success text-wrap"
+																							id="approveforCaseProcessingDate" type="submit"
+																							th:name="approveCaseProseingDates"
+																							th:value="${p.Id}">Approve</button>
+
+																						<button type="button"
+																							class="btn btn-success text-wrap"
+																							id="rejectforCaseProcessingDate"
+																							th:value="${p.Id}"
+																							th:onclick="rejectCaseProcessingDates();">Send
+																							Back</button>
+
+
+																					</th:block> <th:block th:if="${p.approveStatus==2}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVED</button>
+
+																					</th:block> <th:block th:if="${p.approveStatus==3}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">Sent Back</button>
+
+																					</th:block></td>
+
+																				<td th:text="${p.rejectRemark}"></td>
+
+																			</tr>
+
+																		</tbody>
+
+
+
+																	</table>
+																</div>
+															</div>
+
+															<div id="processingDateforReject" style="display: none"
+																class="input-group">
+																<label for="input-10" class="col-sm-2 col-form-label">Remarks
+																</label> <input type="text" class="col-sm-4 form-control "
+																	maxlength="100"
+																	th:field="*{rejectRemarkforcaseProseing}">
+																&nbsp;&nbsp;&nbsp;
+																<button class="btn btn-success text-wrap" type="submit"
+																	th:name="rejectCaseProcessingDate">Send Back</button>
+
+															</div>
+
+														</div>
+
+														<div id="piil-25" class="container tab-pane fade">
+															<th:block
+																th:if="${assignedDtl.courtCaseNo!=null && (assignedDtl.approveStatus==2 or assignedDtl.approveStatus==4 or assignedDtl.approveStatus==5)}">
+																<div class="form-group row">
+																	<label for="input-16" class="col-sm-2 col-form-label"
+																		th:if="${criminalTaskDto.typeOfCase}!=NCLT">
+																		COURT CASE NO<span class="text-danger">*</span>
+																	</label> <label for="input-16" class="col-sm-2 col-form-label"
+																		th:if="${criminalTaskDto.typeOfCase}==NCLT">
+																		NCLT/NCLAT CASE Number<span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span th:text="${assignedDtl.courtCaseNo}"></span>
+																		</label>
+
+																	</div>
+
+
+																	<label
+																		th:if="${assignedDtl.courtCaseNo!=null && assignedDtl.approveStatus!=2}"
+																		for="input-10" class="col-sm-2 col-form-label">UPLOAD
+																		File </label>
+																	<div class="col-sm-4"
+																		th:if="${assignedDtl.courtCaseNo!=null && assignedDtl.approveStatus!=2}">
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span> <a th:target="_blank"
+																				th:href="@{|/downloadFiles?fileName=${assignedDtl?.CourtCaseDtlFile}|}">
+																					<button type="button"
+																						class="btn btn-success btn-round m-1">View
+																						Uploaded File</button>
+																			</a>
+																		</span>
+																		</label>
+
+																	</div>
+																</div>
+
+
+
+
+																<th:block
+																	th:if="${assignedDtl.courtCaseNo!=null && assignedDtl.approveStatus==4}">
+																	<button type="submit"
+																		class="btn btn-success btn-round m-1"
+																		id="rejectforcourtcase1" th:value="${assignedDtl.Id}"
+																		th:name="approveUpdateCourtcaseDetails">
+																		<i class="fa fa-check-square-o"></i> Approve
+																	</button>
+																	<button type="button" class="btn btn-success text-wrap"
+																		id="rejectforcourtcase" th:value="${assignedDtl.Id}"
+																		th:onclick="rejectcourtcase();">Send Back</button>
+
+
+																</th:block>
+
+																<th:block
+																	th:if="${assignedDtl.courtCaseNo!=null && assignedDtl.approveStatus==2}">
+																	<button type="" disabled="disabled"
+																		class="btn btn-success btn-round m-1">Approved
+																	</button>
+
+
+																</th:block>
+																<th:block th:if="${assignedDtl.approveStatus==5}">
+
+																	<button type="" disabled="disabled"
+																		class="btn btn-success btn-round m-1">Sent
+																		Back</button>
+																	<label class="col-sm-6 col-form-label text-danger">
+																		<span th:text="${assignedDtl.sendBackRemarks}"></span>
+
+																	</label>
+
+
+																</th:block>
+
+																<div id="rejectdivcourtcase" style="display: none"
+																	class="input-group">
+																	<label for="input-10" class="col-sm-2 col-form-label">Remarks
+																	</label> <input type="text" class="col-sm-4 form-control "
+																		maxlength="100" th:field="*{rejectRemarkforCourtcase}">
+																	&nbsp;&nbsp;&nbsp;
+																	<button class="btn btn-success text-wrap" type="submit"
+																		th:name="rejectdUpdateCourtcaseDetails">Send
+																		Back</button>
+
+																</div>
+															</th:block>
+														</div>
+
+
+
+
+														<div id="piil-26" class="container tab-pane fade">
+														
+															<div class="form-group row">
+																<div class="table-responsive">
+																	<table id="CompTable1" class="table table-bordered">
+
+																		<thead>
+																			<tr>
+
+																				<th>S.No</th>
+																				<th>Accused Type</th>
+																				<th>Name</th>
+																				<th>Designation</th>
+																				<th>Pan Number</th>
+																				<th>CIN</th>
+																				<th>Address</th>
+
+
+																				<th>Action</th>
+																				<th>Status</th>
+																				<th>Remarks</th>
+
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="p,stats: ${personList}">
+																				<td th:text="${stats.count}"></td>
+																				<td th:text="${p.accusedType}"></td>
+
+																				<td th:text="${p.accusedName}"></td>
+																				<td ><span th:if="${p.designation.id!=0}">
+																				<span th:text="${p.designation.designation}"></span></span>
+																				
+																				</td>
+
+																				<td th:text="${p.panNumber}"></td>
+																				<td th:text="${p.cinNumber}"></td>
+																				<td th:text="${p.address}"></td>
+																				<td class="text-wrap">
+																					<!-- Button to trigger the modal -->
+
+																					<div class="dropdown">
+																						<button class="btn btn-success dropdown-toggle"
+																							type="button" id="dropdownMenu2"
+																							data-toggle="dropdown" aria-haspopup="true"
+																							aria-expanded="false">Action</button>
+																						<div class="dropdown-menu"
+																							aria-labelledby="dropdownMenu2">
+
+
+																							<!-- <button type="button" class=" dropdown-item"
+																								data-toggle="modal"
+																								th:data-target="'#modal' + ${p.id}">View
+																								Act&Section</button> -->
+																						
+																							<th:block th:if="${p.approveStatus==1}">
+
+																								<button class="dropdown-item" type="submit"
+																									th:name="ApprovedAccused"
+																									th:value="${p.Id}">Approve</button>
+																									<button class="dropdown-item" type="button" 
+																		id="accused1Id4" th:value="${p.Id}"
+																		th:onclick="rejectAccused();">Send Back</button>
+																								</th:block>
+
+																						</div>
+																					</div> <!-- The Modal -->
+																					<div th:id="'modal' + ${p.id}" class="modal fade ">
+																						<div class="modal-dialog" role="document">
+																							<div class="modal-content">
+																								<!-- Modal Header -->
+																								<div class="modal-header bg-info">
+																									<h4 class="modal-title">Act & Section
+																										Details</h4>
+																									<button type="button" class="close"
+																										data-dismiss="modal">&times;</button>
+																								</div>
+
+																								<!-- Modal body -->
+																								<!-- <div class="modal-body">
+																									<h5>Addresses:</h5>
+																									<table class="table">
+																										<thead>
+																											<tr>
+
+																												<th>S.No</th>
+																												<th>ACT</th>
+																												<th>Section</th>
+																												<th>SubSection</th>
+																												<th>Punishment</th>
+																												<th>Compoundabilty</th>
+																												<th>Discription</th>
+
+																											</tr>
+																										</thead>
+
+																										<tr th:each="p,stats: ${p.actSection}">
+																											<td th:text="${stats.count}"></td>
+																											<td th:text="${p.act.act}"></td>
+																											<td th:text="${p.section.section}"></td>
+																											<td th:text="${p.subSection.subSection}"></td>
+																											<td th:text="${p.punishment.punishment1}"></td>
+																											<td th:text="${p.compatability}"></td>
+																											<td th:text="${p.description}"></td>
+
+																										</tr>
+
+																									</table>
+
+																								</div> -->
+																								<!-- Modal footer -->
+																								<div class="modal-footer">
+																									<button type="button" class="btn btn-secondary"
+																										data-dismiss="modal">Close</button>
+																								</div>
+																							</div>
+																						</div>
+																				</td>
+
+
+																				<td><th:block th:if="${p.approveStatus==1}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVAL IS IN
+																							PROCESS</button>
+
+																					</th:block> <th:block th:if="${p.approveStatus==2}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVED</button>
+
+																					</th:block>
+																					<th:block th:if="${p.approveStatus==3}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">Rejected</button>
+
+																					</th:block>
+																					
+																					</td>
+																					<td th:text="${p.rejectRemark}"></td>
+</tr>
+																		</tbody>
+
+																	</table>
+																</div>
+															</div>
+
+
+
+
+															<div id="rejectdivAccused" style="display: none"
+																class="input-group">
+																<label for="input-10" class="col-sm-2 col-form-label">Remarks
+																</label> <input type="text" class="col-sm-4 form-control "
+																	maxlength="100" th:field="*{rejectRemarkforAccused}">
+																&nbsp;&nbsp;&nbsp;
+																<button class="btn btn-success text-wrap" type="submit"
+																	th:name="rejectBYPUH1">Send Back</button>
+
+															</div>
+
+														</div>
+
+														
+
+														<div id="piil-27" class="container tab-pane fade">
+
+															<h3>Hearing Details</h3>
+
+
+															<div class="form-group row" id="PairaviDtl">
+																<div class="table-responsive">
+																	<table id="CompTable1" class="table table-bordered">
+
+																		<thead>
+																			<tr>
+																				<th style="font-size: 15px">S.No</th>
+																				<th style="font-size: 15px">Counsel Details</th>
+
+																				<th style="font-size: 15px">Officer from
+																					Prosecution</th>
+																				<th style="font-size: 15px">Accused & Status</th>
+
+																				<th style="font-size: 15px">Last Hearing Date &<span><br>Next
+																						Hearing Date</span>
+
+																				</th>
+																				<th style="font-size: 15px">Additional <br>Document
+
+																				</th>
+																				<th style="font-size: 15px">Case Status<span><br>Case
+																						Status Date</span>
+
+
+																				</th>
+																				<th style="font-size: 15px">Order Copy<span><br>Order
+																						Date</span>
+
+
+																				</th>
+																				<th style="font-size: 15px">Transfer/WithDraw
+																					Date</th>
+																				<th style="font-size: 15px">Reason of Stay</th>
+																				<th style="font-size: 15px">Remarks</th>
+																				<th style="font-size: 15px">Brief</th>
+																				<th style="font-size: 15px">Action</th>
+																				<th style="font-size: 15px">Remarks of Action</th>
+
+																				<!-- <th>Action</th> -->
+
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="h,stats: ${hearinglist}">
+																				<td th:text="${stats.count}"></td>
+																				<td>
+																						<table class="table-responsive">
+
+																							<tr>
+																								<td style="border: 0px"><b>Name:</b></td>
+																								<td style="border: 0px"
+																									th:text="${h.counselName.name}"></td>
+																							</tr>
+																							<tr>
+																								<td style="border: 0px"><b>Designation:</b>
+																								</td>
+																								<td style="border: 0px"
+																									th:text="${h.counselName.designation.designation}"></td>
+																							</tr>
+																							<tr>
+																								<td style="border: 0px"><b>MobileNo:</b></td>
+																								<td style="border: 0px"
+																									th:text="${h.counselName.mobile}"></td>
+																							</tr>
+																							<tr>
+																								<td style="border: 0px"><b>Email:</b></td>
+																								<td style="border: 0px"
+																									th:text="${h.counselName.email}"></td>
+																							</tr>
+
+																						</table>
+
+
+																					</td>
+
+																				<td>
+																						<table class="table-responsive">
+
+																							<tr>
+																								<td style="border: 0px"><b>Name:</b></td>
+																								<td style="border: 0px"
+																									th:text="${h.officer.name}"></td>
+																							</tr>
+																							<tr>
+																								<td style="border: 0px"><b>Designation:</b>
+																								</td>
+																								<td style="border: 0px"
+																									th:text="${h.officer.designation.designation}"></td>
+																							</tr>
+																							<tr>
+																								<td style="border: 0px"><b>MobileNo:</b></td>
+																								<td style="border: 0px"
+																									th:text="${h.officer.mobile}"></td>
+																							</tr>
+																							<tr>
+																								<td style="border: 0px"><b>Email:</b></td>
+																								<td style="border: 0px"
+																									th:text="${h.officer.email}"></td>
+																							</tr>
+
+																						</table>
+
+																					</td>
+																				<td><span
+																					th:each="sumType,xyz321z: ${h.accusedwithStatus}">
+																						<span
+																						th:text="${sumType.addAccused.accusedName   +  ' -- '  +sumType.caseStatus.statusName} + ${!xyz321z.last ? ', ' : ''}"></span>
+																						<br>
+																				</span></td>
+
+																				<td>
+																					<table class="table-responsive">
+
+																						<tr>
+																							<td td style="border: 0px"
+																								th:text="${#dates.format(h.lastHearingDate, 'dd/MM/yyyy')}">
+																							</td>
+																						</tr>
+																						<tr>
+																							<td style="border: 0px"
+																								th:text="${#dates.format(h.nextHearingDate, 'dd/MM/yyyy')}"></td>
+																						</tr>
+
+
+																					</table>
+
+																				</td>
+
+																				<td><label
+																					th:if="${h.additionalDocFileName !=null}"
+																					class="col-form-label text-primary"> <a
+																						th:target="_blank"
+																						th:href="@{|/downloadFiles?fileName=${h.additionalDocFileName}|}">
+																							<span>View</span><i class="fa fa-file-pdf-o"
+																							style="font-size: 24px; color: red"></i>
+																					</a></label></td>
+																				<td>
+																					<table class="table-responsive">
+
+																						<tr>
+																							<td td style="border: 0px"
+																								th:text="${h.status.statusName}"></td>
+																						</tr>
+																						<tr>
+																							<td style="border: 0px"
+																								th:text="${#dates.format(h.dateofCaseStatusUpdate, 'dd/MM/yyyy')}"></td>
+																						</tr>
+
+
+																					</table>
+
+																				</td>
+																				<td>
+																					<table class="table-responsive">
+																						<tr th:if="${h.orderCopyFN !=null}">
+
+																							<td style="border: 0px"><label
+																								class="col-form-label text-primary"> <a
+																									th:target="_blank"
+																									th:href="@{|/downloadFiles?fileName=${h.orderCopyFN}|}"><span
+																										th:text="${h.orderCopyFN}"></span><i
+																										class="fa fa-file-pdf-o"
+																										style="font-size: 24px; color: red"></i></a></label></td>
+																						</tr>
+																						<tr>
+																							<td style="border: 0px"
+																								th:text="${#dates.format(h.dateOfOrder, 'dd/MM/yyyy')}"></td>
+																						</tr>
+
+
+																					</table>
+
+																				</td>
+
+																				<td
+																					th:text="${#dates.format(h.dateOfTransferWithdrawClosing, 'dd/MM/yyyy')}"></td>
+																				<td th:text="${h.reasonofStay}"></td>
+																				<td th:text="${h.remarks}"></td>
+																				<td th:text="${h.briefHD}"></td>
+
+																				<td><th:block th:if="${h.approveStatus==1}">
+
+																						<button class="btn btn-success text-wrap"
+																							id="rejectHearing1234" type="submit"
+																							th:name="approveHearingDetails"
+																							th:value="${h.Id}">Approve</button>
+																						<button type="button"
+																							class="btn btn-success text-wrap"
+																							id="rejectHearing1" th:value="${h.Id}"
+																							th:onclick="rejectHearing();">Send Back</button>
+
+
+
+																					</th:block> <th:block th:if="${h.approveStatus==2}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVED</button>
+
+																					</th:block> <th:block th:if="${h.approveStatus==3}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">Sent Back</button>
+
+
+																						<td th:text="${h.rejectRemark}"></td>
+																					</th:block></td>
+
+																			</tr>
+																		</tbody>
+
+
+
+																	</table>
+																</div>
+															</div>
+
+															<div id="rejectdivforHearing" style="display: none"
+																class="input-group">
+																<label for="input-10" class="col-sm-2 col-form-label">Remarks
+																</label> <input type="text" class="col-sm-4 form-control "
+																	maxlength="100" th:field="*{rejectRemarkforHearing}">
+																&nbsp;&nbsp;&nbsp;
+																<button class="btn btn-success text-wrap" type="submit"
+																	th:name="rejectHearingDetails">Send Back</button>
+
+															</div>
+
+
+
+														</div>
+
+
+
+
+														<div id="piil-30" class="container tab-pane fade">
+															<div class="form-group row"
+																id="showAditionaAcuusedNCompanyData">
+																<div class="table-responsive">
+																	<table class="table table-bordered">
+																		<thead>
+																			<tr>
+																				<th>S.No</th>
+
+																				<th>Accused Name</th>
+																				<th>File</th>
+																				<th>Action</th>
+																				<th>Remarks</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="h,stats: ${uploadadditionalfile}">
+
+																				<td th:text="${stats.count}"></td>
+
+
+
+
+																				 <td th:text="${h.accusedId.accusedName}" /> 
+
+
+
+
+
+																				<td><label class="col-form-label text-primary">
+																						<a th:target="_blank"
+																						th:href="@{|/downloadFiles?fileName=${h.fileName}|}"><span
+																							th:text="${h.fileName}"></span><i
+																							class="fa fa-file-pdf-o"
+																							style="font-size: 24px; color: red"></i></a>
+																				</label></td>
+
+
+
+																				<td><th:block th:if="${h.approveStatus==1}">
+																						<button class="btn btn-success text-wrap"
+																							type="submit" th:name="approveUploadFile"
+																							id="rejectAddUploadFile1" th:value="${h.Id}">Approve</button>
+
+
+																						<!-- <button class="btn btn-success text-wrap"
+																							type="submit" th:name="rejectUploadFile"
+																							th:value="${h.Id}">Reject</button> -->
+
+
+																						<button type="button"
+																							class="btn btn-success text-wrap"
+																							id="rejectUploadFile" th:value="${h.Id}"
+																							th:onclick="rejectUploadFile88();">Send
+																							Back</button>
+
+																					</th:block> <th:block th:if="${h.approveStatus==2}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVED</button>
+
+																					</th:block> <th:block th:if="${h.approveStatus==3}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">Sent Back</button>
+
+																					</th:block></td>
+
+																				<td th:text="${h.rejectRemark}" />
+
+
+																			</tr>
+
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+															<div id="rejectAddUploadFile" style="display: none">
+																<label for="input-10" class="col-sm-2 col-form-label">Remarks
+																</label> <input type="text"
+																	th:field="*{rejectRemarkforAddUploadFile}">
+																<button class="btn btn-success text-wrap" type="submit"
+																	th:name="rejectUploadFile">Send Back</button>
+
+															</div>
+
+
+
+
+														</div>
+
+
+														<div id="piil-28" class="container tab-pane fade">
+															<th:block
+																th:if="*{(typeofreport==2||typeofreport==1)&& (approveStatusGenReport==1 or approveStatusGenReport==2 or approveStatusGenReport==3)}">
+
+																<input type="hidden" th:field="*{typeofreport}">
+																<input type="hidden"
+																	th:field="*{approveStatusGenReport}">
+																<input type="hidden" th:field="*{genreportID}">
+																<div class="col-sm-4 col-form-label">
+																	<span th:if="*{typeofreport==1}"> <a
+																		th:target="_blank"
+																		th:href="@{|/downloadFiles?fileName=${genreport?.complaintReportUpload}|}">
+																			<button type="button"
+																				class="btn btn-success btn-round m-1">View
+																				Uploaded complainant</button>
+																	</a>
+																	</span>
+
+																</div>
+
+
+																<div class="col-sm-4 col-form-label">
+																	<span th:if="*{typeofreport==2}"> <a href="#"
+																		th:onclick="'javascript:pdfFView();'"><button
+																				type="button" class="btn btn-success btn-round m-1">View
+																				Generated complainant</button></a>
+																	</span>
+
+
+																</div>
+																<div class="col-sm-4 col-form-label">
+																	<span
+																		th:if="*{(typeofreport==2||typeofreport==1)&&approveStatusGenReport==1}"
+																		id="uploadfileAction">
+																		<button class="btn btn-success text-wrap"
+																			type="submit" th:name="approveUploadFile1"
+																			th:value="${criminalTaskDto.genreportID}">Approve</button>
+																		<button type="button"
+																			class="btn btn-success text-wrap"
+																			th:value="${criminalTaskDto.genreportID}"
+																			id="rejectUploadFile12300"
+																			th:onclick="rejectuploadedfile();">Send Back</button>
+
+
+																	</span>
+																</div>
+																<div class="col-sm-4 col-form-label">
+																	<span
+																		th:if="*{(typeofreport==2||typeofreport==1)&&approveStatusGenReport==2}">
+																		<button class="btn btn-success text-wrap"
+																			type="submit" th:name="approveUploadFile1"
+																			th:value="${criminalTaskDto.genreportID}"
+																			disabled="disabled">Approved</button>
+
+
+																	</span>
+																</div>
+																<div class="col-sm-4 col-form-label">
+																	<span
+																		th:if="*{(typeofreport==2||typeofreport==1)&&approveStatusGenReport==3}">
+																		<button class="btn btn-success text-wrap"
+																			type="submit" th:name="approveUploadFile1"
+																			th:value="${criminalTaskDto.genreportID}"
+																			disabled="disabled">Sent Back</button> <label
+																		class="col-sm-12 col-form-label"
+																		style="font-size: medium;"> <span
+																			class="text-danger">Send Back Remarks</span> <span
+																			th:text="${criminalTaskDto.rejectRemarkGenReport}"></span>
+																	</label>
+																	</span>
+																</div>
+
+																<div id="rejectdivforUploadFIle" style="display: none"
+																	class="input-group">
+																	<label for="input-10" class="col-sm-2 col-form-label">Remarks
+																	</label> <input type="text" class="col-sm-4 form-control "
+																		maxlength="100" th:field="*{rejectRemarkGenReport}">
+																	&nbsp;&nbsp;&nbsp;
+																	<button class="btn btn-success text-wrap" type="submit"
+																		th:name="rejectUploadFile1">Send Back</button>
+
+																</div>
+															</th:block>
+														</div>
+
+
+													</div>
+												</div>
+											</div>
+											<!--End row-->
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+						</form>
+
+
+
+
+
+
+						<!--end overlay-->
+					</div>
+
+
+				</div>
+
+			</div>
+
+
+		</div>
+		<!--Form Wizard-->
+		<script src="plugins/jquery.steps/js/jquery.steps.min.js"></script>
+		<script src="plugins/jquery-validation/js/jquery.validate.min.js"></script>
+		<!--wizard initialization-->
+		<script src="plugins/jquery.steps/js/jquery.wizard-init.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+
+
+		<script type="text/javascript">
+			$(document)
+					.ready(
+
+							function() {
+
+							
+
+								var tabId = $("#tabId").val();
+
+								if (tabId == 21) {
+									$("#myTab li:eq(0) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[0].classList.add("active");
+
+								}
+
+								if (tabId == 22) {
+									$("#myTab li:eq(1) a").tab("show");
+
+									var listItems = $(".nav-item");
+									listItems[1].classList.add("active");
+
+								}
+
+								if (tabId == 23) {
+									$("#myTab li:eq(2) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[2].classList.add("active");
+								}
+
+								if (tabId == 24) {
+									$("#myTab li:eq(3) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[3].classList.add("active");
+								}
+
+								if (tabId == 25) {
+									$("#myTab li:eq(4) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[4].classList.add("active");
+								}
+
+								if (tabId == 25) {
+									$("#myTab li:eq(4) a").tab("show");
+									//alert('25');
+
+									var listItems = $(".nav-item");
+
+									listItems[4].classList.add("active");
+								}
+								if (tabId == 266) {
+									$("#myTab li:eq(5) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[5].classList.add("active");
+								}
+								if (tabId == 26) {
+									$("#myTab li:eq(6) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[6].classList.add("active");
+								}
+								if (tabId == 27) {
+									$("#myTab li:eq(7) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[7].classList.add("active");
+								}
+
+								if (tabId == 28) {
+									$("#myTab li:eq(9) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[9].classList.add("active");
+								}
+
+								
+							});
+		</script>
+
+
+
+
+
+		<script type="text/javascript">
+			function rejectcourtcase() {
+				//alert('Test11');
+
+				$("#rejectdivcourtcase").show();
+				var rejectforpairaviID = $('#rejectcourtcaseID').val();
+
+				$('#courtCaseID').val(rejectforpairaviID);
+
+				$("#rejectforcourtcase").hide();
+				$("#rejectforcourtcase1").hide();
+				window.scrollTo(1000, document.body.scrollHeight);
+
+			}
+
+			function rejectAccused() {
+				
+
+				$("#rejectdivAccused").show();
+				var rejectforpairaviID = $('#accused1Id4').val();
+				//alert(rejectforpairaviID);
+				$('#accusedIDforDelete').val(rejectforpairaviID);
+
+				$("#rejectforAccused").hide();
+				$("#approveAccused1").hide();
+				window.scrollTo(1000, document.body.scrollHeight);
+
+			}
+
+		</script>
+		<script type="text/javascript">
+			function rejectuploadedfile() {
+
+				//alert("test file");
+				$("#rejectdivforUploadFIle").show();
+				var rejectHearingID = $('#rejectUploadFile12300').val();
+
+				$('#genreportID').val(rejectHearingID);
+
+				$("#uploadfileAction").hide();
+
+				window.scrollTo(1000, document.body.scrollHeight);
+			}
+		</script>
+
+
+
+		<script type="text/javascript">
+			function rejectHearing() {
+
+				$("#rejectdivforHearing").show();
+				var rejectHearingID = $('#rejectHearing1').val();
+
+				$('#hearingID').val(rejectHearingID);
+
+				$("#rejectHearing1").hide();
+				$("#rejectHearing1234").hide();
+				window.scrollTo(1000, document.body.scrollHeight);
+
+			}
+		</script>
+
+		<script type="text/javascript">
+			function rejectPairaviOfficer() {
+
+				$("#rejectdivforpairavi").show();
+				var rejectforpairaviID = $('#rejectforpairavi').val();
+
+				$('#pairaviId').val(rejectforpairaviID);
+
+				$("#rejectforpairavi").hide();
+				$("#rejectforpairavi12").hide();
+				window.scrollTo(1000, document.body.scrollHeight);
+
+			}
+
+			function rejectCriminalDtl12() {
+
+				$("#rejectdiv").show();
+				$("#rejectdiv1").hide();
+
+			}
+
+			function rejectCompany() {
+
+				//alert('tsettttt');
+
+				$("#rejectdivforCompany").show();
+				var rejectforpairaviID = $('#rejectforCompany').val();
+
+				$('#companyId').val(rejectforpairaviID);
+
+				$("#rejectforCompany").hide();
+				$("#CompanyApprovee").hide();
+				window.scrollTo(1000, document.body.scrollHeight);
+
+			}
+		</script>
+		<script type="text/javascript">
+			function rejectCaseProcessingDates() {
+
+				$("#processingDateforReject").show();
+				var rejectforpairaviID = $('#rejectforCaseProcessingDate')
+						.val();
+
+				$('#caseproseingID').val(rejectforpairaviID);
+
+				$("#approveforCaseProcessingDate").hide();
+				$("#rejectforCaseProcessingDate").hide();
+
+				window.scrollTo(1000, document.body.scrollHeight);
+
+			}
+		</script>
+
+		<script type="text/javascript">
+			function rejectUploadFile88() {
+
+				var rejectforpairaviID = $('#rejectUploadFile').val();
+
+				$('#rejectuploadID').val(rejectforpairaviID);
+				$("#rejectAddUploadFile").show();
+				$("#rejectAddUploadFile1").hide();
+				$("#rejectUploadFile").hide();
+				window.scrollTo(1000, document.body.scrollHeight);
+
+			}
+		</script>
+	</div>
+</body>
+</html>

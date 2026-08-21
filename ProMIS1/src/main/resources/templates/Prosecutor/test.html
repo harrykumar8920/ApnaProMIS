@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+ <div >
+
+															<input type="hidden" th:field="*{accusedACT}"> <input
+																type="hidden" th:field="*{accusedSection}"> <input
+																type="hidden" th:field="*{accusedSubSection}"> <input
+																type="hidden" th:field="*{accusedClause}"> <input
+																type="hidden" th:field="*{aaccusedPunishment}">
+															<input type="hidden" th:field="*{accusedCompoundability}">
+															<input type="hidden" th:field="*{accusedDescription}">
+															<h4>Accused</h4>
+
+
+
+
+															<div id="newAccused">
+																<div class="form-group row">
+																	<label for="input-16" class="col-sm-2 col-form-label">
+																		Type</label>
+																	<div class="col-sm-4">
+																		<select class="form-control" th:field="*{accusedType}"
+																			onchange="selectaccusedType();">
+
+																			<option value="Choose">Choose</option>
+																			<option value="Company">Company</option>
+																			<option value="Individual">Individual</option>
+																			<option value="LLP">LLP</option>
+																			<option value="CA Firm">CA Firm</option>
+																			<option value="Sol Proprietor">Sol
+																				Proprietor</option>
+																		</select> <span class="text-danger"
+																			th:if="${#fields.hasErrors('accusedType')}"
+																			th:errors="*{accusedType}"></span>
+
+																	</div>
+
+
+
+																	<label for="input-16" class="col-sm-2 col-form-label"
+																		id="r1">Company</label>
+																	<div class="col-sm-4" id="r2">
+																		<select class="form-control"
+																			th:field="*{individualRelateTo}">
+
+																			<option value="Individual">Individual</option>
+																			<option th:each="design: ${addaccusedList}"
+																				th:value="${design.accusedName}+', ' +${design.accusedType}"
+																				th:utext="${design.accusedName}+', ' +${design.accusedType}" />
+																		</select> <span class="text-danger"
+																			th:if="${#fields.hasErrors('caseCompanyForaccusedStatus')}"
+																			th:errors="*{caseCompanyForaccusedStatus}"></span>
+
+																	</div>
+
+
+
+
+
+																	<div class="col-sm-4" style="display: none" id="2">
+																		<input type="text" class="form-control" maxlength="50"
+																			th:field="*{accComp}" th:id="accComp">
+
+																	</div>
+
+
+
+
+
+																</div>
+
+																<div class="form-group row">
+
+
+																	<label for="input-10" class="col-sm-2 col-form-label">Name
+																		<span class="text-danger">*</span>
+																	</label>
+
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			th:field="*{accusedName}"> <span
+																			class="text-danger"
+																			th:if="${#fields.hasErrors('accusedName')}"
+																			th:errors="*{accusedName}"></span>
+
+																	</div>
+																	<label for="input-16" class="col-sm-2 col-form-label">
+																		Pan Number <span class="text-danger"></span>
+																	</label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control" maxlength="10"
+																			th:field="*{accPan}" th:id="accPan"> <span
+																			class="text-danger"
+																			th:if="${#fields.hasErrors('accPan')}"
+																			th:errors="*{accPan}"></span>
+																	</div>
+																</div>
+
+
+
+
+																<div class="form-group row">
+
+
+
+																	<label for="input-10" class="col-sm-2 col-form-label"
+																		id="r5">CIN Number <span class="text-danger"></span>
+																	</label>
+
+																	<div class="col-sm-4" id="r6">
+																		<input type="text" class="form-control"
+																			th:field="*{cinRespondent}" max="21"> <span
+																			class="text-danger"
+																			th:if="${#fields.hasErrors('cinRespondent')}"
+																			th:errors="*{cinRespondent}"></span>
+
+																	</div>
+
+
+
+
+
+
+																	<label for="input-10" class="col-sm-2 col-form-label"
+																		id="r3">DESIGNATION <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4" id="r4">
+																		<select class="form-control"
+																			th:field="*{accDesination2}">
+																			<option value="0">Choose</option>
+																			<option th:each="design: ${desilstE}"
+																				th:value="${design.id}"
+																				th:utext="${design.designation}" />
+																		</select> <span class="text-danger"
+																			th:errors="*{accDesination}"></span>
+																	</div>
+
+																	<label for="input-10" class="col-sm-2 col-form-label">ADDRESS
+
+																	</label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			th:field="*{addAccusedAddress}"
+																			th:id="addAccusedAddress"
+																			placeholder="Please Enter Accused Address Here"
+																			maxlength="200">
+
+																	</div>
+
+
+																</div>
+
+																<div class="form-group row" style="display: none;"
+																	id="actSectionDiv">
+																	<div class="table-responsive">
+																		<table class="table table-bordered" id="myTable">
+
+																			<thead class="bg-info">
+																				<tr>
+
+																					<th>S.No</th>
+																					<th>Act</th>
+																					<th style="display: none;">ActID</th>
+																					<th>Section</th>
+																					<th style="display: none;">SectionID</th>
+																					<th>Sub Section</th>
+																					<th style="display: none;">Sub SectionID</th>
+																					<th>Clause</th>
+																					<th>Punishment</th>
+																					<th style="display: none;">PunishmentID</th>
+																					<th>Compoundability</th>
+																					<th>Description</th>
+																					<th style="display: none;">ClauseID</th>
+																					<th>Action</th>
+
+
+																				</tr>
+																			</thead>
+																			<tbody id="actSectionTAble">
+
+																			</tbody>
+																		</table>
+																	</div>
+																</div>
+
+																<button type="button" class="btn btn-primary"
+																	data-toggle="modal" data-target="#exampleModalCenter">
+																	Add Act&Section</button>
+																<div class="modal fade" id="exampleModalCenter"
+																	tabindex="-1" role="dialog"
+																	aria-labelledby="exampleModalCenterTitle"
+																	aria-hidden="true">
+																		<div class="modal-dialog modal-dialog-centered" role="document"	style="width: 1200px;">
+																	<div class="modal-dialog" role="document"
+																		style="width: 1200px;">
+																		<div class="modal-content">
+																			<div class="modal-header bg-info">
+																				<h5 class="modal-title " id="exampleModalLongTitle">
+																					Add Act&Section</h5>
+																				<button type="button" class="close"
+																					data-dismiss="modal" aria-label="Close">
+																					<span aria-hidden="true">&times;</span>
+																				</button>
+																			</div>
+																			<div class="modal-body">
+
+
+																				<div class="form-group row">
+
+
+																					<label for="input-10"
+																						class="col-sm-2 col-form-label">ACT <span
+																						class="text-danger">*</span>
+																					</label>
+																					<div class="col-sm-4">
+																						<select class="form-control" id="actid">
+																							<option th:value="0" th:utext="Choose" />
+																							<option th:each="court:${addActList}"
+																								th:value="${court.id}" th:utext="${court.act}" />
+																						</select> <span class="text-danger" th:errors="*{act}"></span>
+																					</div>
+																					<label for="input-10"
+																						class="col-sm-2 col-form-label">Section <span
+																						class="text-danger">*</span>
+																					</label>
+																					<div class="col-sm-4">
+																						<select class="form-control" th:field="*{section}"
+																							id="seclst">
+																							<option th:value="0" th:utext="Choose" />
+
+																							<option th:each="court:${seclst}"
+																								th:value="${court.id}"
+																								th:utext="${court.section}" />
+
+
+
+
+																						</select> <span class="text-danger" th:errors="*{section}"></span>
+																					</div>
+
+																				</div>
+																				<div class="form-group row">
+																					<label for="input-10"
+																						class="col-sm-2 col-form-label">Sub
+																						Section <span class="text-danger"></span>
+																					</label>
+																					<div class="col-sm-4">
+																						<select class="form-control" th:field="*{subsection}"
+																			id="seclst1">
+																						<select class="form-control"
+																							th:field="*{subsection}">
+																								<option th:value="0" th:utext="Choose" />
+																							<option th:each="court:${subseclst}"
+																								th:value="${court.id}"
+																								th:utext="${court.subSection}" />
+																						</select> <span class="text-danger"
+																							th:errors="*{subsection}"></span>
+																					</div>
+																					<label for="input-10"
+																						class="col-sm-2 col-form-label">Clause <span
+																						class="text-danger"></span>
+																					</label>
+																					<div class="col-sm-4">
+
+																						<select class="form-control" th:field="*{clause}"
+																							id="clauseID">
+																							<option th:value="0" th:utext="Choose" />
+																							<option th:each="court:${clauselist}"
+																								th:value="${court.id}"
+																								th:utext="${court.clause}" />
+																						</select> <span class="text-danger" th:errors="*{clause}"></span>
+																					</div>
+
+																				</div>
+																				<div class="form-group row">
+																					<label for="input-10"
+																						class="col-sm-2 col-form-label">Punishment
+																						<span class="text-danger"></span>
+																					</label>
+																					<div class="col-sm-4">
+																						<select class="form-control" th:field="*{subsection}"
+																			id="seclst1">
+																						<select class="form-control"
+																							th:field="*{punishment1}" id="punishmentID">
+																							<option th:value="0" th:utext="Choose" />
+																							<option th:each="court:${punishmentlist}"
+																								th:value="${court.id}"
+																								th:utext="${court.punishment1}" />
+																						</select> <span class="text-danger"
+																							th:errors="*{punishment1}"></span>
+																					</div>
+																					<label for="input-10"
+																						class="col-sm-2 col-form-label">Compoundability
+																						<span class="text-danger"></span>
+																					</label>
+																					<div class="col-sm-4">
+
+																						<select class="form-control"
+																							th:field="*{compoundability}"
+																							id="compoundabilityID">
+																							<option th:value="0" th:utext="Choose" />
+																							<option th:value="Compoundable"
+																								th:utext="Compoundable" />
+																							<option th:value="Non-Compoundable"
+																								th:utext="Non-Compoundable" />
+																							<option th:value="Both" th:utext="Both" />
+
+
+																						</select> <span class="text-danger" th:errors="*{clause}"></span>
+																					</div>
+
+																				</div>
+
+
+
+																				<div class="form-group row">
+
+
+																					<label for="input-10"
+																						class="col-sm-2 col-form-label">Description
+																						<span class="text-danger">*</span>
+																					</label>
+
+																					<div class="col-sm-6">
+																						<textarea class="form-control"
+																							th:field="*{accDesc}" th:id="accDesc"
+																							onkeyup="countWords1()"></textarea>
+																						<span id="wordCount1">0</span> Words <span
+																							class="text-danger"> Maximum Words limit
+																							is 100</span>
+
+
+																					</div>
+
+																					<div class="col-sm-2">
+																						<button type="button" th:name="addActSection"
+																							th:id="addActSection" class="btn btn-success">
+																							<i class="fa fa-plus"></i>Add Act&Section
+																						</button>
+
+
+																					</div>
+																					<div class="col-sm-1">
+																						<button type="button" class="btn btn-secondary"
+																							data-dismiss="modal">Close</button>
+																					</div>
+
+
+
+
+
+
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+
+
+																<th:block th:if="*{accusedIdEdit==null}">
+																	<button type="button"
+																		class="btn btn-success btn-round m-1"
+																		id="NewCompanyDetailsd"
+																		th:onclick="SaveAccusedDetails();">
+																		<i class="fa fa-check-square-o"></i> SAVE
+																	</button>
+
+
+
+
+
+
+																</th:block>
+																<th:block th:if="*{accusedIdEdit!=null}">
+
+																	<button type="button"
+																		class="btn btn-success btn-round m-1"
+																		id="NewCompanyDetailsd"
+																		th:onclick="SaveAccusedDetails1();">
+																		<i class="fa fa-check-square-o"></i> Update
+																	</button>
+																</th:block>
+
+																<br>
+
+
+															</div>
+
+															<div class="form-group row">
+																<div class="table-responsive">
+																	<table id="CompTable1" class="table table-bordered">
+
+																		<thead>
+																			<tr>
+
+																				<th>S.No</th>
+																				<th>Accused Type</th>
+																				<th>Name</th>
+																				<th>Designation</th>
+																				<th>Pan Number</th>
+																				<th>CIN</th>
+																				<th>Address</th>
+
+
+																				<th>Action</th>
+																				<th>Remarks</th>
+
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="p,stats: ${personList}">
+																				<td th:text="${stats.count}"></td>
+																				<td th:text="${p.accusedType}"></td>
+
+																				<td th:text="${p.accusedName}"></td>
+																				<td th:text="${p.designation.designation}"></td>
+																				<td ><span th:if="${p.designation.id!=0}">
+																				<span th:text="${p.designation.designation}"></span></span>
+																				
+																				</td>
+																				
+																				
+																				
+																				
+
+																				<td th:text="${p.panNumber}"></td>
+																				<td th:text="${p.cinNumber}"></td>
+																				<td th:text="${p.address}"></td>
+																				<td class="text-wrap">
+																					Button to trigger the modal
+
+																					<div class="dropdown">
+																						<button class="btn btn-success dropdown-toggle"
+																							type="button" id="dropdownMenu2"
+																							data-toggle="dropdown" aria-haspopup="true"
+																							aria-expanded="false">Action</button>
+																						<div class="dropdown-menu"
+																							aria-labelledby="dropdownMenu2">
+
+
+																							<button type="button" class=" dropdown-item"
+																								data-toggle="modal"
+																								th:data-target="'#modal' + ${p.id}">View
+																								Act&Section</button>
+																							<button class="dropdown-item" type="submit"
+																								th:name="addAccusedResponse" th:value="${p.Id}">Add
+																								& View Response</button>
+																							<th:block th:if="${p.approveStatus==0}">
+
+																								<button class="dropdown-item" type="submit"
+																									th:name="forwardToApprovalAccused"
+																									th:value="${p.Id}">FORWARD</button>
+																								<button class="dropdown-item" type="submit"
+																									th:name="editAccused" th:value="${p.Id}">Edit</button>
+
+
+																							</th:block>
+
+
+
+
+
+																						</div>
+																					</div> The Modal
+																					<div th:id="'modal' + ${p.id}" class="modal fade ">
+																						<div class="modal-dialog" role="document">
+																							<div class="modal-content">
+																								Modal Header
+																								<div class="modal-header bg-info">
+																									<h4 class="modal-title">Act & Section
+																										Details</h4>
+																									<button type="button" class="close"
+																										data-dismiss="modal">&times;</button>
+																								</div>
+
+																								Modal body
+																								<div class="modal-body">
+																									<h5>Addresses:</h5>
+																									<table class="table">
+																										<thead>
+																											<tr>
+
+																												<th>S.No</th>
+																												<th>ACT</th>
+																												<th>Section</th>
+																												<th>SubSection</th>
+																												<th>Punishment</th>
+																												<th>Compoundabilty</th>
+																												<th>Discription</th>
+
+
+
+																											</tr>
+																										</thead>
+
+																										<tr th:each="p,stats: ${p.actSection}">
+																											<td th:text="${stats.count}"></td>
+																											<td th:text="${p.act.act}"></td>
+																											<td th:text="${p.section.section}"></td>
+																											<td th:text="${p.subSection.subSection}"></td>
+																											<td th:text="${p.punishment.punishment1}"></td>
+																											<td th:text="${p.compatability}"></td>
+																											<td th:text="${p.description}"></td>
+
+																										</tr>
+
+
+
+
+
+																									</table>
+
+																								</div>
+																								Modal footer
+																								<div class="modal-footer">
+																									<button type="button" class="btn btn-secondary"
+																										data-dismiss="modal">Close</button>
+																								</div>
+																							</div>
+																						</div>
+																				</td>
+
+
+																				<td><th:block th:if="${p.approveStatus==1}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVAL IS IN
+																							PROCESS</button>
+
+																					</th:block> <th:block th:if="${p.approveStatus==2}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVED</button>
+
+																					</th:block></td>
+
+
+
+
+
+
+
+
+
+																			</tr>
+																		</tbody>
+
+
+
+																	</table>
+																</div>
+															</div>
+														</div>
+
+
+
+</body>
+</html>

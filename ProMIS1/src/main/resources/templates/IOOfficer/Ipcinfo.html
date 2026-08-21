@@ -1,0 +1,209 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Add New Respondent</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">IPC
+						Details</li>
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<form th:action="@{/addNewUser}" method="post"
+			class="needs-validation" autocomplete="off">
+
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="form-group row">
+
+								<label class="col-sm-2 col-form-label"> Case No : </label> <label
+									class="col-sm-4 col-form-label text-primary"> <span>SFIO/INV/CCIL/1201-1207/2019/</span>
+								</label> <label class="col-sm-2 col-form-label">Case Title :</label> <label
+									class="col-sm-4 col-form-label text-primary"> <span>CALCOM
+										CEMENT INDIA LTD</span>
+								</label>
+
+
+							</div>
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-address-book-o"></i>IPC Details
+							</h4>
+
+
+
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label">Is IPC 1860 <span
+									class="text-danger">*</span></label>
+								<div class="col-sm-4">
+									<div class="icheck-inline">
+										<input type="radio" id="cinY" name="ifIPC" value="Y" /> <label
+											for="inline-radio-primary">Yes</label>
+									</div>
+									<div class="icheck-inline">
+										<input type="radio" id="cinN" name="ifIPC" value="N" /> <label
+											for="inline-radio-info">No</label>
+									</div>
+
+									<span id="isCinErr" class="text-danger"></span>
+								</div>
+							</div>
+                               <div id="displayBlock" style="display: none;">
+							<div class="form-group row">
+								<label for="input-10" class="col-sm-2 col-form-label">Section
+									Details<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="firstName" name="firstName" placeholder="Enter "
+										maxlength="50">
+								</div>
+
+								<label for="input-10" class="col-sm-2 col-form-label">Title
+									of provision as per India Portal code 1860 <span
+									class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="firstName" name="firstName" placeholder="Enter "
+										maxlength="50">
+								</div>
+
+
+							</div>
+							
+							</div>
+
+
+
+							<div class="form-footer">
+								<button type="reset" class="btn btn-danger">
+									<i class="fa fa-times"></i> Reset
+								</button>
+								<button type="submit" class="btn btn-success" id="update_btn">
+									<i class="fa fa-check-square-o"></i> SAVE
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!-- <div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header text-uppercase">
+							<i class="fa fa-user"></i> Pairavi Officer's List
+						</h4>
+						<div class="form-group row">
+							<table class="table table-responsive" id="userTable">
+								<thead class="bg-info text-white">
+									<tr>
+										<th>S.No.</th>
+										<th>Name</th>
+										<th>Pairavi Status</th>
+										<th>Designation</th>
+										<th>Mobile No.<br></th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1</td>
+										<td>Swaroop</td>
+										<td>Current</td>
+										<td>CEO</td>
+										<td>8956235898</td>
+										<td><button type="submit" th:name="edituser"
+												class="btn btn-success text-wrap">Edit</button></td>
+									</tr>
+								</tbody>
+
+							</table>
+						</div>
+
+
+					</div>
+
+				</div>
+			</div>
+		</div> -->
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+		
+		
+		$(document).ready(function(){
+			 $("input[name='ifIPC']").change(function() {$('#ifIPC').val($('input:radio[name=ifIPC]:checked').val());});
+		});
+			$(document).ready(function() {
+				var table = $('#userTable').DataTable({});
+			});
+
+			$('#uiDob').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+
+			$('#uiJoiningDate').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+			
+			$("input[name='ifIPC']").change(function() { 
+				 //$('#aisCin').val($('input:radio[name=aifcin]:checked').val());
+			
+			if($(this).attr('id')=='cinY' )
+				$('#displayBlock').show();
+			
+			
+			else if($(this).attr('id')=='cinN')
+				$('#displayBlock').hide();
+			
+		 });
+		</script>
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+
+
+
+
+	</div>
+
+</body>
+</html>

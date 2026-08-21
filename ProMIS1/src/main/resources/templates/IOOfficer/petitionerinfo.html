@@ -1,0 +1,223 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Add New Respondent</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Add  Complainant /
+						Petitioner</li>
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<form th:action="@{/savePetioner}" method="post"
+			class="needs-validation" autocomplete="off" th:object="${petRespDetail}" th:id="petRespDetail">
+                
+                
+               
+                <input type="hidden" th:field="*{procourtdtl}">
+                <input type ="hidden" th:id="courtId" name ="courtId">
+                 <input type="hidden" th:field="*{id}">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-address-book-o"></i>  Complainant / Petitioner Information
+							</h4>
+							<div class="form-group row">
+
+
+
+
+								<label for="input-10" class="col-sm-2 col-form-label"> 
+									Name <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="name"  th:field ="*{name}" name="firstName" placeholder="Enter  Name"
+										maxlength="50" required="required">
+								</div>
+								
+								
+								<label for="input-10" class="col-sm-2 col-form-label">Email
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="email" th:field ="*{email}" placeholder="Enter Email"
+										maxlength="50" required="required">
+								</div>
+							</div>
+						
+
+							<div class="form-group row">
+
+								
+								<label for="input-16" class="col-sm-2 col-form-label">Designation</label>
+								
+									<div class="col-sm-4">
+										<select class="form-control" th:field="*{designation}">
+									<option value="0">Choose Designation</option>
+										<option th:each="design: ${desilst}"
+											th:value="${design.id}" th:utext="${design.designation}" />
+									</select> <span class="text-danger"
+										th:if="${#fields.hasErrors('designation')}"
+										th:errors="*{designation}"></span>
+									</div>
+								<label for="input-16" class="col-sm-2 col-form-label">Mobile
+									Number <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="contactnumber"
+										id="mobileNo" th:field="*{mobile}" placeholder="Enter Mobile No" maxlength="10"
+										onblur="checkMobile()" required="required">
+								</div>
+							</div>
+
+							<div class="form-group row">
+								
+								
+								<label for="input-10" class="col-sm-2 col-form-label">Petition Number
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" name="contactnumber"
+										id="petitionNumber" th:field="*{petitionNumber}" placeholder="Enter Petition Number"
+										maxlength="10" required="required">
+								</div>
+							</div>
+
+
+
+
+							<div class="form-footer">
+								<button type="reset" class="btn btn-danger">
+									<i class="fa fa-times"></i> Reset
+								</button>
+								<th:block  th:if="${id==null}">
+								<button type="submit" class="btn btn-success" id="update_btn">
+									<i class="fa fa-check-square-o"></i> SAVE
+								</button>
+								</th:block>
+								
+									<th:block  th:if="${id!=null}">
+								<button type="submit" class="btn btn-success" id="update_btn">
+									<i class="fa fa-check-square-o"></i> update
+								</button>
+								</th:block>
+								 <button type="button" class="btn btn-dark" id="update_btn" th:onclick="'backPage(\'' + ${courtdtl} +'\');'">
+							  		<i class="fa fa-check-square-o"></i> Back
+							  </button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<!-- <div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header text-uppercase">
+							<i class="fa fa-user"></i> Respondent Details
+						</h4>
+						<div class="form-group row">
+							<table class="table table-responsive" id="userTable">
+								<thead class="bg-info text-white">
+									<tr>
+										<th>S.No.</th>
+										<th>Name</th>
+										<th>Email Id</th>
+										<th>Mobile No.<br>Alternate No.
+										</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1</td>
+										<td>Swaroop</td>
+										<td>swr@gmail.com</td>
+										<td>8956235659898</td>
+										<td><button type="submit" th:name="edituser"
+												class="btn btn-success text-wrap">Edit</button></td>
+									</tr>
+								</tbody>
+
+							</table>
+						</div>
+
+
+					</div>
+
+				</div>
+			</div>
+		</div> -->
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var table = $('#userTable').DataTable({
+				});
+			});
+
+			$('#uiDob').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+
+			$('#uiJoiningDate').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+			
+			
+function backPage(courtID) {
+				
+				
+
+    			$('#petRespDetail').attr('action', 'AdditionalInfo');
+    			$("#courtId").val(courtID)
+    			$('#petRespDetail').submit();
+		}
+		
+		</script>
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,125 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+	<link href="plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css">
+	<title>Total Number of Task Assigned</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<th:block th:if="${userRole=='ROLE_DIRECTOR'}">
+						<li class="breadcrumb-item"><a href="directorhome">Home</a></li>
+					</th:block>
+					<th:block th:unless="${userRole=='ROLE_DIRECTOR'}">
+						<li class="breadcrumb-item"><a href="puhHome">Home</a></li>
+					</th:block>
+
+
+
+					<li class="breadcrumb-item active" aria-current="page">Total Number of Task Assigned
+					</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header ">
+							<i class="fa fa-address-book-o"></i> Total Number of Task Assigned
+
+						</h4>
+
+
+						<form th:action="@{/}" method="post" class="needs-validation">
+
+							<div class="form-group row">
+								<table class="table table-striped table-bordered" id="assignedTable">
+									<thead class="bg-info text-white">
+										<tr>
+											<th>S.No.</th>
+											<th> FILE NO. OF SANCTION ORDER NO</th>
+											<th>Sanction Order Date</th>
+											<th>Sanction Order File</th>
+											<th>Task</th>
+											<th>Unit</th>
+											<th>Name of Prosecutor</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="p,stats: ${lstCourtCase}">
+											<td th:text="${stats.count}"></td>
+											<td th:text="${p.addCase.proSectionOrderNumber}">
+											</td>
+											<td th:text="${#dates.format(p.addCase.proSanctionDate, 'dd/MM/yyyy')}">
+											</td>
+											<td>
+												<label class=" col-form-label text-primary"> <a th:target="_blank"
+														th:href="@{|/downloadFiles?fileName=${p.addCase.proSanctionFileName}|}"><span
+															th:text="${p.addCase.proSanctionFileName}"></span>
+														<span th:unless="${p.addCase.proSanctionFileName==null}"><i
+																class="fa fa-file-pdf-o"
+																style="font-size: 24px; color: red"></i></span></a></label>
+
+											</td>
+											<td th:text="${p.createTask.task}"></td>
+											<td th:text="${p.unit.unitName}"></td>
+											<td><span class="text-wrap" th:text="${p.user.firstName}"></span>
+												</th:block>
+												<th:block th:if="${p.user.middleName != null}">
+													<span class="text-wrap" th:text="${p.user.middleName}"></span>
+												</th:block>
+												<th:block th:if="${p.user.lastName != null}">
+													<span class="text-wrap" th:text="${p.user.lastName}"></span>
+												</th:block>
+											</td>
+										</tr>
+
+
+									</tbody>
+
+								</table>
+							</div>
+						</form>
+
+
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function () {
+
+				var table = $('#assignedTable').DataTable({
+					//		 	        lengthChange: false,
+					buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+				});
+			});
+
+		</script>
+
+	</div>
+
+</body>
+
+</html>

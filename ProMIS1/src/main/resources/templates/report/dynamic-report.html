@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<title>Dynamic Case Report</title>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+	<style>
+		.report-box {
+			border: 1px solid #ccc;
+			padding: 20px;
+			border-radius: 6px;
+			background: #f9f9f9;
+		}
+
+		.field-group {
+			column-count: 2;
+		}
+
+		.field-group label {
+			display: block;
+			margin-bottom: 6px;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<h4 class="mb-3">Dynamic Case Report</h4>
+
+		<form th:action="@{/dynamic-report}" method="post" th:object="${dynamicReportRequestDTO}">
+
+			<!-- Date Filters -->
+			<div class="row">
+
+				<div class="col-md-3">
+				    <label class="form-label text-nowrap">Date Type</label>
+				    <select th:field="*{dateType}" class="form-select" required>
+				        <option value="">-- Select --</option>
+				        <option value="HEARING_DATE">Hearing Date</option>
+				        <option value="FILING_DATE">Filing Date</option>
+				        <option value="SANCTION_ORDER_DATE">Sanction Order Date</option>
+				    </select>
+					<span id="chooseCompErr" style="color:red;" th:errors="*{status}"></span>
+				</div>
+
+			    <div class="col-md-3">
+			        <label>Case Stage <span class="text-danger">*</span></label>
+			        <select class="form-select" th:field="*{status}" id="status">
+			            <option value="0">Choose</option>
+			            <option th:each="s : ${statusLst1}" 
+			                    th:value="${s.id}" 
+			                    th:text="${s.statusName}">
+			            </option>
+			        </select>
+			        <span id="chooseCompErr" style="color:red;" th:errors="*{status}"></span>
+			    </div>
+
+			    <div class="col-md-3">
+			        <label>From Date</label>
+			        <input type="date" th:field="*{fromDate}" class="form-control" required>
+			    </div>
+
+			    <div class="col-md-3">
+			        <label>To Date</label>
+			        <input type="date" th:field="*{toDate}" class="form-control" required>
+			    </div>
+
+			</div>
+
+			
+			
+			
+			
+
+			<!-- Column Selection -->
+			<div class="report-box mb-3">
+
+				<h6>Select Report Fields</h6>
+
+				<div class="field-group mt-2">
+
+					<label>
+						<input type="checkbox" th:field="*{selectedFields}" value="CASE_NO">
+						Case No
+					</label>
+
+					<label>
+						<input type="checkbox" th:field="*{selectedFields}" value="HEARING_DETAILS">
+						Hearing Details
+					</label>
+
+					<label>
+						<input type="checkbox" th:field="*{selectedFields}" value="COUNSEL_DETAILS">
+						Counsel Details
+					</label>
+
+				<!--	<label>
+						<input type="checkbox" th:field="*{selectedFields}" value="ACCUSED_DETAILS">
+						Accused Details
+					</label>-->
+
+					<label>
+						<input type="checkbox" th:field="*{selectedFields}" value="PROSECUTOR_NAME">
+						Prosecutor Name
+					</label>
+
+					<label>
+						<input type="checkbox" th:field="*{selectedFields}" value="INVESTIGATION_NAME">
+						Investigation Name
+					</label>
+
+					<label>
+						<input type="checkbox" th:field="*{selectedFields}" value="PAIRAVI_OFFICER_NAME">
+						Pairavi Officer Name
+					</label>
+
+					<label>
+						<input type="checkbox" th:field="*{selectedFields}" value="COMPLAINANT_DETAILS">
+						Complainant Details
+					</label>
+
+					<label>
+						<input type="checkbox" th:field="*{selectedFields}" value="COURT_NO">
+						Court No
+					</label>
+
+					<label>
+						<input type="checkbox" th:field="*{selectedFields}" value="COMPANY_ACT">
+						Company Act
+					</label>
+
+					<label>
+						<input type="checkbox" th:field="*{selectedFields}" value="FILING_DATE">
+						Date of Filing
+					</label>
+
+					<label>
+						<input type="checkbox" th:field="*{selectedFields}" value="CNR_NO">
+						CNR No
+					</label>
+
+				</div>
+			</div>
+
+			<!-- Submit Button -->
+			<div class="text-center">
+				<button type="submit" class="btn btn-primary px-4">
+					Generate Report
+				</button>
+			</div>
+
+		</form>
+
+	</div>
+
+</body>
+
+</html>

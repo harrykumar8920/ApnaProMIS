@@ -1,0 +1,168 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Add New Respondent</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Update
+						Accuse Status</li>
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<form th:action="@{/addNewUser}" method="post"
+			class="needs-validation" autocomplete="off">
+
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+
+
+							<div class="form-group row">
+
+								<label class="col-sm-2 col-form-label"> Case No : </label> <label
+									class="col-sm-4 col-form-label text-primary"> <span>SFIO/INV/CCIL/1201-1207/2019/</span>
+								</label> <label class="col-sm-2 col-form-label">Case Title :</label> <label
+									class="col-sm-4 col-form-label text-primary"> <span>CALCOM
+										CEMENT INDIA LTD</span>
+								</label>
+
+
+							</div>
+
+
+
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-address-book-o"></i> Update Accuse Status
+							</h4>
+
+
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">Accused
+									Name <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-sm-10 col-form-label text-primary"> <span
+										th:text="Ankit"></span>
+									</label>
+								</div>
+								<label for="input-10" class="col-sm-2 col-form-label">Pan
+									Number <span class="text-danger">*</span>
+								</label>
+
+								<div class="col-sm-4">
+									<label class="col-sm-10 col-form-label text-primary"> <span
+										th:text="BLGPV9497Y"></span>
+									</label>
+								</div>
+
+
+							</div>
+
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">Date
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="uiDob" name="uiDob"
+										placeholder="DD/MM/YYYY" maxlength="10">
+								</div>
+								<label for="input-10" class="col-sm-2 col-form-label">Status
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control">
+										<option value="Mr">under prosecution</option>
+										<option value="Ms">Convicted</option>
+										<option value="Mrs">Acquitted</option>
+										<option value="Mrs">Bail</option>
+									</select>
+								</div>
+
+
+
+							</div>
+
+
+
+
+
+
+
+							<div class="form-footer">
+								<button type="reset" class="btn btn-danger">
+									<i class="fa fa-times"></i> Reset
+								</button>
+								<button type="submit" class="btn btn-success" id="update_btn">
+									<i class="fa fa-check-square-o"></i> SAVE
+								</button>
+								
+								<a class ="btn btn-dark" href="AdditionalInfo"> <i class="fa fa-check-square-o"></i> Back</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var table = $('#userTable').DataTable({
+				});
+			});
+
+			$('#uiDob').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+
+			$('#uiJoiningDate').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+		</script>
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+
+
+
+
+	</div>
+
+</body>
+</html>

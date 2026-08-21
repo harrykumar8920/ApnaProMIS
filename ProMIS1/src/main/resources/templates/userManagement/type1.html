@@ -1,0 +1,170 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Add Type </title>
+</head>
+
+<body>
+	<div>
+		<div layout:fragment="content">
+			<div class="row pt-2 pb-2">
+				<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			<---</div> -->
+				<div class="col-sm-3">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="home">Home</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Add
+							 Type </li>
+					</ol>
+				</div>
+			</div>
+
+
+			<form th:action="@{/addnewtype}"
+			 th:object="${typeobject}" method="post">
+				<input type="hidden" th:field="*{id}">
+				<div th:if="${massage}"
+					class="alert alert-success alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<div class="alert-icon">
+						<i class="fa fa-check"></i>
+					</div>
+					<div class="alert-message">
+						<span th:text="${massage}"></span>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-body">
+								<h4 class="form-header text-uppercase">
+									<i class="fa fa-sitemap"></i> Add Type 
+								</h4>
+
+								<div class="form-group row">
+
+									<label for="input-10" class="col-sm-2 col-form-label">
+										Type<span class="text-danger">*</span>
+									</label>
+									<div class="col-sm-4">
+										<input type="text" class="inputTxt form-control"
+											autocomplete="off" 
+											th:field="*{type}" placeholder="Type "
+											 maxlength="100" /> <span
+											class="text-danger" th:if="${#fields.hasErrors('type')}"
+											th:errors="*{type}">Response Error</span>
+									</div>
+
+									<div class="col-sm-4">
+
+										<th:block th:if="${typeobject.editType==false}">
+											<button type="submit" class="btn btn-success">
+												<i class="fa fa-plus"></i> SAVE
+											</button>
+										</th:block>
+										
+										<th:block th:if="${typeobject.editType==true}">
+											<button type="submit" class="btn btn-success">
+												<i class="fa fa-plus"></i> Update
+											</button>
+										</th:block>
+
+										<button type="reset" class="btn btn-danger">
+											<i class="fa fa-times"></i> RESET
+										</button>
+									</div>
+
+								</div>
+
+
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+
+			</form>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-header">
+							<i class="fa fa-table"></i> Type Details
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table id="desigTable" class="table table-bordered">
+
+									<thead>
+										<tr>
+											<th>S.No.</th>
+											<th>Type</th>
+											<th>Action</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="p,stats: ${listtype}">
+											<td th:text="${stats.count}"></td>
+											<td th:text="${p.type}"></td>
+											<td>
+												<div style="display: inline-block;">
+													<form th:action="@{/edittyp}">
+														<button class="btn btn-success" type="submit" th:name="typedit"
+															th:value="${p.id}">Edit</button>
+													</form>
+												</div>
+
+
+												<div style="display: inline-block;">
+													<form th:action="@{/deletetyp}" method="get">
+														<button class="btn btn-danger" type="submit"
+															th:name="typdelete" th:value="${p.id}">Delete</button>
+													</form>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+
+								</table>
+							</div>
+
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+			<script src="plugins/bootstrap-datatable/js/jquery.d.min.js"></script>
+			<script
+				src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+			<script src="plugins/bootstrap-datatable/js/jquery.d.min.js"></script>
+			<script
+				src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+			<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+			<script
+				src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+			<script
+				src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+
+			<script type="text/javascript">
+				$(document).ready(function() {
+
+					var table = $('#desigTable').DataTable({
+						//		 	        lengthChange: false,
+						buttons : [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+					});
+				});
+			</script>
+
+		</div>
+</body>
+</html>

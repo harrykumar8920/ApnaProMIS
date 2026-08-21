@@ -1,0 +1,77 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/layout" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	
+	<link th:href="@{/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Edit Type of Bench</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+
+    <div class="row pt-2 pb-2">
+        <div class="col-sm-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/typebench}">Type of Bench</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Type of Bench</li>
+            </ol>
+        </div>
+    </div>
+
+    <form th:action="@{/addTypeofResponse}" method="post" 
+          class="needs-validation" th:object="${typebench}">
+          
+        <input type="hidden" th:field="*{id}">
+
+        <div th:if="${massage}" class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <div class="alert-icon"><i class="fa fa-check"></i></div>
+            <div class="alert-message">
+                <span th:text="${massage}"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="form-header text-uppercase">
+                            <i class="fa fa-sitemap"></i> Edit Type of Bench
+                        </h4>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">
+                                Type of Bench <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control"
+                                       th:field="*{bench}"
+                                       placeholder="Type of Bench" required />
+                                <span class="text-danger" th:errors="*{bench}"></span>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa fa-save"></i> Update
+                                </button>
+                                
+                                <a th:href="@{/typebench}" class="btn btn-danger">
+                                    <i class="fa fa-times"></i> Cancel
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

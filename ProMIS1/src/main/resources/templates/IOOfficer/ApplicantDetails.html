@@ -1,0 +1,1198 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Add New User</title>
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+<link href="css/bootstrap-datetimepicker-build.css" rel="stylesheet"/>
+</head>
+
+<body>
+
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page"> Person Details</li>
+				</ol>
+			</div>
+		</div>
+
+		
+
+
+		<form th:action="@{/addNewApplicant}" method="post"
+			class="needs-validation" th:object="${applicantData}" id = "NewApplicantForm"
+			autocomplete="off">
+			
+<div th:if="${message}" class="alert alert-success alert-dismissible"
+				role="alert">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<div class="alert-icon">
+					<i class="fa fa-check"></i>
+				</div>
+				<div class="alert-message">
+					<span th:text="${message}"></span>
+				</div>
+			</div>
+			<input type="hidden" th:field="*{id}"> 
+				<input type="hidden" th:field="*{companydetDto.id}"> 
+			<input type="hidden" th:field="*{comperroraccur}" th:id="comperroraccur"/>
+				<input type="hidden" th:field="*{compedit}" th:id="compedit"/>
+	<input type ="hidden" name= "compId" id = "compId"/>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-address-book-o"></i> Personal Information1
+							</h4>
+							
+								<th:block th:if = "${applicantData.isApproved == true}">	
+							<div class="form-group row">
+					
+								<label for="input-10" class="col-sm-2 col-form-label">Salutation
+								</label>
+								<div class="col-sm-4">
+								 <label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.salutation}"></span>
+								</label>
+									
+								</div>
+								<label for="input-10" class="col-sm-2 col-form-label">Surname
+								</label>
+								<div class="col-sm-4">
+										 <label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.Surname}"></span>
+								</label>
+									
+								</div>
+							</div>
+
+
+						
+							<div class="form-group row">
+
+
+								<label for="input-10" class="col-sm-2 col-form-label">
+									First Name <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+								<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.givenName}"></span>
+								</label>
+								</div>
+
+
+								<label for="input-10" class="col-sm-2 col-form-label">Fathers
+									Name </label>
+								<div class="col-sm-4">
+							<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.fatherName}"></span>
+								</label>
+								</div>
+							</div>
+                                 
+                                 <div class="form-group row">
+                        <label for="input-10" class="col-sm-2 col-form-label"> Gender <span class="text-danger">*</span>
+								</label>
+							<div class="col-sm-4">
+							 <label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.Gender}"></span>
+								</label>
+								</div>
+                             <label for="input-16" class="col-sm-2 col-form-label">Date
+									of Birth of Birth <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+								<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.dob}"></span>
+								</label>
+								</div>
+								</div>
+					
+                      <div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Address <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+								<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.address}"></span>
+								</label>
+						
+								</div>
+
+								<label for="input-14" class="col-sm-2 col-form-label">Official
+									Email ID <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.email}"></span>
+								</label>
+								</div>
+							</div>
+
+
+
+							<div class="form-group row">
+								<label for="input-10" class="col-sm-2 col-form-label">
+									Mobile No <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.primaryMobile}"></span>
+								</label>
+								</div>
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">Phone
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.alternateNo}"></span>
+								</label>
+					
+								</div>
+							</div>
+
+                                 	<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">Pan
+									Number</label>
+								<div class="col-sm-4">
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.panNumber}"></span>
+								</label>
+										</div>
+                                 
+                         	<label for="input-16" class="col-sm-2 col-form-label">Passport Number
+									Number</label>
+								<div class="col-sm-4">
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.passportNumber}"></span>
+								</label>
+										</div>
+							</div>
+							
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">Voter Id Number </label>
+								<div class="col-sm-4">
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.voterId}"></span>
+								</label>
+										</div>
+                                 
+                         	<label for="input-16" class="col-sm-2 col-form-label">Aadhar Number
+									Number</label>
+								<div class="col-sm-4">
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.aadharNo}"></span>
+								</label>
+										</div>
+							</div>
+							
+							<div class="form-group row">
+								<div class="col-sm-4"></div><div class="col-sm-5">
+							   <th:block  th:if="${applicantData.id != 0}">
+									<button type="button" th:name="savecompdtl" th:id="addcompdtl"
+									class="btn btn-info">
+									<i class="fa fa-plus"></i> Add Company Details
+								</button>
+								</th:block>
+								</div>
+								<div class="col-sm-3">
+								
+								</div>
+						</div>
+							</th:block>
+							
+							<th:block th:unless = "${applicantData.compedit == true or applicantData.isApproved == true}">	
+							<div class="form-group row">
+					
+								<label for="input-10" class="col-sm-2 col-form-label">Salutation
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{salutation}">
+										<option value="Mr">Mr</option>
+										<option value="Ms">Ms</option>
+										<option value="Mrs">Mrs</option>
+											<option value="Mrs">DR</option>
+									</select> <span class="text-danger" th:errors="*{salutation}"></span>
+								</div>
+
+
+
+								<label for="input-10" class="col-sm-2 col-form-label">Surname
+									<span class="text-danger"></span>
+
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="Surname" name="Surname" th:field="*{Surname}" s
+										placeholder="Enter The Surname" maxlength="50"> <span
+										class="text-danger" th:errors="*{Surname}"></span>
+								</div>
+
+
+							</div>
+
+
+							<div class="form-group row">
+
+
+								<label for="input-10" class="col-sm-2 col-form-label">
+									First Name <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="givenName" name="givenName" th:field="*{givenName}"
+										placeholder="Enter First Name" maxlength="50"> <span
+										class="text-danger" th:errors="*{givenName}"></span>
+								</div>
+
+
+                                	<label for="input-10" class="col-sm-2 col-form-label">
+									Middle Name <span class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="middleName" name="middleName" th:field="*{middleName}"
+										placeholder="Enter middle  Name" maxlength="50"> <span
+										class="text-danger" th:errors="*{middleName}"></span>
+								</div>
+                                
+
+								
+							</div>
+
+
+							<div class="form-group row">
+								<label for="input-10" class="col-sm-2 col-form-label">
+									Gender <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{Gender}">
+										<option value="Male">Male</option>
+										<option value="Female">Female</option>
+										<option value="Other">Other</option>
+									</select> <span class="text-danger" th:errors="*{Gender}"></span>
+								</div>
+								
+								<label for="input-10" class="col-sm-2 col-form-label">Fathers
+									Name <span
+									class="text-danger">*</span></label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="fatherName" name="fatherName"
+										th:field="*{fatherName}" placeholder="Enter Father's Name"
+										maxlength="50"> <span class="text-danger"
+										th:errors="*{fatherName}"></span>
+								</div>
+								
+							</div>
+
+							<div class="form-group row">
+							<label for="input-16" class="col-sm-2 col-form-label">Date
+									of Birth<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" th:field="*{dob}"
+										id="dob" name="dob" placeholder="DD/MM/YYYY" maxlength="10">
+									<span class="text-danger" th:if="${#fields.hasErrors('dob')}"
+										th:errors="*{dob}"></span>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Address <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+
+									<textarea rows="4" cols="5" class="form-control"
+										th:field="*{address}" name="address" id="address"
+										placeholder="Enter address" maxlength="50"></textarea>
+
+
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('address')}"
+										th:errors="*{address}"></span> <span id="addressErr"
+										class="text-danger"></span>
+								</div>
+
+						
+							</div>
+
+
+
+							<div class="form-group row">
+									<label for="input-14" class="col-sm-2 col-form-label">Official
+									Email ID <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" th:field="*{email}"
+										id="email" name="email" placeholder="Enter Official Email ID">
+									<span class="text-danger" th:if="${#fields.hasErrors('email')}"
+										th:errors="*{email}" maxlegth="100"></span>
+								</div>
+								<label for="input-10" class="col-sm-2 col-form-label">
+									Mobile No <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="primaryMobile" name="primaryMobile"
+										th:field="*{primaryMobile}" placeholder="Enter Mobile Number"
+										maxlength="10"> <span class="text-danger"
+										th:errors="*{primaryMobile}"></span>
+								</div>
+
+
+							</div>
+
+							<div class="form-group row">
+                               
+								<label for="input-16" class="col-sm-2 col-form-label">Phone
+									<span class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="alternateNo" name="alternateNo"
+										th:field="*{alternateNo}" placeholder="Enter Permanant"
+										maxlength="10"> <span class="text-danger"
+										th:errors="*{alternateNo}"></span>
+								</div>
+								
+								<label for="input-16" class="col-sm-2 col-form-label">Pan
+									Number<span class="text-danger">*</span></label> 
+								<div class="col-sm-4">
+									<input type="text" class="form-control" th:field="*{panNumber}"
+										name="panNumber" id="panNumber" 
+										placeholder="Enter Pan Number " maxlength="10" > <span
+										class="text-danger" 
+										th:errors="*{panNumber}"></span>								
+										</div>
+
+							</div>
+                              	<div class="form-group row">
+								<label class="col-sm-2 col-form-label">If passport is
+									available?<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<div class="icheck-inline">
+										<input type="radio" id="ApassY" name="aifpass" value="Y" /> <label
+											for="inline-radio-primary">Yes</label>
+									</div>
+									<div class="icheck-inline">
+										<input type="radio" id="ApassN" name="aifpass" value="N" /> <label
+											for="inline-radio-info">No</label>
+									</div>
+									<input type="hidden" th:field="*{isApass}" th:id="aispass">
+									<span id="ispassErr" class="text-danger" th:errors="*{isApass}"></span>
+								</div>
+								</div>
+							<div class="form-group row" id="ApassBlock">
+								<label for="input-16" class="col-sm-2 col-form-label">Passport
+									No. <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control"
+										th:field="*{passportNumber}" name="passportNumber"
+										id="passportNumber" placeholder="Enter Passport Number"
+										maxlength="10"> <span class="text-danger"
+										th:if="${#fields.hasErrors('passportNumber')}"
+										th:errors="*{passportNumber}"></span> <span id="passportNoErr"
+										class="text-danger"></span>
+								</div>
+								<label for="input-10" class="col-sm-2 col-form-label">
+									Passport Date </label>
+								<div class="col-sm-4">
+
+									<input type="text" class="form-control"
+										th:field="*{passportDate}" id="passportDate"
+										name="PassportDate" placeholder="DD/MM/YYYY"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('passportDate')}"
+										th:errors="*{passportDate}"></span>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label">If Aadhaar is
+									available?<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<div class="icheck-inline">
+										<input type="radio" id="AadharY" name="aifadhar" value="Y" />
+										<label for="inline-radio-primary">Yes</label>
+									</div>
+									<div class="icheck-inline">
+										<input type="radio" id="AadharN" name="aifadhar" value="N" />
+										<label for="inline-radio-info">No</label>
+									</div>
+									<input type="hidden" th:field="*{isAadhar}" th:id="aisadhar">
+									<span id="isadharErr" class="text-danger"
+										th:errors="*{isAadhar}"></span>
+								</div>
+
+
+							</div>
+							<div class="form-group row" id="AadharBlock">
+								<label for="input-10" class="col-sm-2 col-form-label">
+									Aadhaar Number <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="aadharNo" name="aadharNo" th:field="*{aadharNo}"
+										placeholder="Enter Aadhaar Number" maxlength="12"> <span
+										class="text-danger" th:errors="*{aadharNo}"></span>
+								</div>
+							</div>
+
+
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label">If VoterID is
+									available?<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<div class="icheck-inline">
+										<input type="radio" id="AvoterY" name="aifvoter" value="Y" />
+										<label for="inline-radio-primary">Yes</label>
+									</div>
+									<div class="icheck-inline">
+										<input type="radio" id="AvoterN" name="aifvoter" value="N" />
+										<label for="inline-radio-info">No</label>
+									</div>
+									<input type="hidden" th:field="*{isAvoter}" th:id="aisavoter">
+									<span id="isvoterErr" class="text-danger"
+										th:errors="*{isAvoter}"></span>
+								</div>
+							</div>
+
+							<div class="form-group row" id="AvoterBlock">
+								<label for="input-10" class="col-sm-2 col-form-label">Voter
+									Id Number <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="voterId" name="voterId" th:field="*{voterId}"
+										placeholder="Enter Voter Id Number" maxlength="10"> <span
+										class="text-danger" th:errors="*{voterId}"></span>
+								</div>
+							</div>
+                
+                
+                          	<div class="form-group row">
+								<div class="col-sm-4"></div><div class="col-sm-5">
+								<button type="submit" th:name="saveperson" 
+									class="btn btn-success">
+									 save 
+								</button>
+							
+								<th:block  th:if="${applicantData.id != 0}">
+									<button type="button" th:name="savecompdtl" th:id="addcompdtl"
+									class="btn btn-info">
+									<i class="fa fa-plus"></i> Add Company Details
+								</button>
+								</th:block>
+								</div>
+								<div class="col-sm-3">
+								
+								</div>
+						</div>
+						</th:block>
+					
+                         <div id ="compnayBlock">
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-envelope-o"></i> Company Details
+							</h4>
+						
+							<th:block th:if="${applicantData.companydetDto.isApproved == false or applicantData.companydetDto.isApproved == null}">
+							<div class="form-group row">
+								<label for="input-10" class="col-sm-2 col-form-label">
+									CIN  <span class="text-danger">*</span></label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="din" name="din" th:field="*{companydetDto.cin}"
+										placeholder="Enter DIN Number"> <span
+										class="text-danger" th:errors="*{companydetDto.cin}"></span>
+								</div>
+								<label for="input-10" class="col-sm-2 col-form-label">Company
+									Name  <span class="text-danger">*</span></label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="companydetDto.compName" name="companydetDto.compName" th:field="*{companydetDto.compName}"
+										placeholder="Enter Company Name " maxlength="100"> <span
+										class="text-danger" th:errors="*{companydetDto.compName}"></span>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">Company
+									Type <span class="text-danger">*</span></label> 
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{companydetDto.companyType}">
+											<option th:each="ulist: ${compTypeList}" th:value="${ulist.id}"
+											th:utext="${ulist.name}" />
+										
+									</select> <span class="text-danger" th:errors="*{companydetDto.companyType}"></span>
+
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">Designation
+									Name </label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{companydetDto.designation}"
+										id="designation">
+										<option value="0">Choose Designation</option>
+										<option value="1">Director</option>
+										<option value="7">CEO</option>
+										<option value="8">CFO</option>
+										<option value="9">Company Secretary</option>
+										<option value="10">Auditor</option>
+										<option value="11">Others</option>
+
+									</select> <span class="text-danger" th:errors="*{companydetDto.designation}"></span>
+
+								</div>
+							</div>
+							<div class="form-group row" id="AdinBlock">
+								<label for="input-10" class="col-sm-2 col-form-label">
+									DIN </label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="din" name="din" th:field="*{companydetDto.din}"
+										placeholder="Enter DIN Number" maxlength="10"> <span
+										class="text-danger" th:errors="*{companydetDto.din}"></span>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="input-10" class="col-sm-2 col-form-label">FRN
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="gstin" name="gstin" th:field="*{companydetDto.frn}"
+										placeholder="Enter GSTIN Number" maxlength="10"> <span
+										class="text-danger" th:errors="*{companydetDto.frn}"></span>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">IEC
+									Number</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" th:field="*{companydetDto.Iec}"
+										name="Iec" id="Iec" placeholder="Enter Iec Number"> <span
+										id="passwordErr" class="text-danger"></span> <span
+										class="text-danger" th:if="${#fields.hasErrors('companydetDto.Iec')}"
+										th:errors="companydetDto.Iec"></span>
+								</div>
+							</div>
+
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Date of appointment <span class="text-danger">*</span> </label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" th:field="*{companydetDto.dateAppointment}"
+										id="dateAppoit" name="dateAppoit" placeholder="DD/MM/YYYY" maxlength="10">
+									<span class="text-danger" th:if="${#fields.hasErrors('companydetDto.dateAppointment')}"
+										th:errors="*{companydetDto.dateAppointment}"></span>
+								</div>
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Date of Cessation  <span class="text-danger">*</span></label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" th:field="*{companydetDto.dateCessation}"
+										id="dateCessa" name="dob" placeholder="DD/MM/YYYY" maxlength="10">
+									<span class="text-danger" th:if="${#fields.hasErrors('companydetDto.dateCessation')}"
+										th:errors="*{companydetDto.dateCessation}"></span>
+								</div>
+
+							</div>
+
+
+							<div class="form-group row">
+								<label for="input-15" class="col-sm-2 col-form-label">Investigation Status<span
+									class="text-danger">*</span></label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{companydetDto.status}">
+										<option th:each="ulist: ${statusLst}" th:value="${ulist.id}"
+											th:utext="${ulist.statusName}" />
+									</select> <span class="text-danger"
+										th:if="${#fields.hasErrors('companydetDto.status')}" th:errors="*{companydetDto.status}"></span>
+								</div>
+
+								<label for="input-15" class="col-sm-2 col-form-label">
+									Case Id <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control"
+										th:field="*{companydetDto.caseId}" id="caseId" name="caseId"
+										placeholder="Enter Case Id" maxlength="100"> <span
+										class="text-danger" th:if="${#fields.hasErrors('companydetDto.caseId')}"
+										th:errors="*{companydetDto.caseId}"></span>
+								</div>
+							</div>
+</th:block>
+
+<!-- <th:block th:if="${applicantData.companydetDto.isApproved != false}">
+							<div class="form-group row">
+								<label for="input-10" class="col-sm-2 col-form-label">
+									CIN </label>
+								<div class="col-sm-4">
+								
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.companydetDto.cin}"></span>
+								</label>
+									
+								</div>
+								<label for="input-10" class="col-sm-2 col-form-label">Company
+									Name </label>
+								<div class="col-sm-4">
+								
+								<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.companydetDto.compName}"></span>
+								</label>
+									
+										</div>
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">Company
+									Type</label>
+								<div class="col-sm-4">
+								<select class="form-control" th:field="*{companydetDto.companyType}" disabled="disabled">
+											<option th:each="ulist: ${compTypeList}" th:value="${ulist.id}"
+											th:utext="${ulist.name}"  />
+										
+									</select> <span class="text-danger" th:errors="*{companydetDto.companyType}"></span>
+								
+								<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.companydetDto.companyType.name}"></span>
+								</label>
+																	</div>
+								<label for="input-16" class="col-sm-2 col-form-label">Designation
+									Name </label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{companydetDto.designation}"
+										id="designation" disabled="disabled">
+										<option value="0">Choose Designation</option>
+										<option value="1">Director</option>
+										<option value="7">CEO</option>
+										<option value="8">CFO</option>
+										<option value="9">Company Secretary</option>
+										<option value="10">Auditor</option>
+										<option value="11">Others</option>
+
+									</select> <span class="text-danger" th:errors="*{companydetDto.designation}"></span>
+								
+								<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.companydetDto.designation.designation}"></span>
+								</label>
+																	</div>
+							</div>
+							<div class="form-group row" id="AdinBlock">
+								<label for="input-10" class="col-sm-2 col-form-label">
+									DIN </label>
+								<div class="col-sm-4">
+								
+								<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.companydetDto.din}"></span>
+								</label>
+										</div>
+							</div>
+							<div class="form-group row">
+								<label for="input-10" class="col-sm-2 col-form-label">FRN
+								</label>
+								<div class="col-sm-4">
+								
+								<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.companydetDto.frn}"></span>
+								</label>
+										</div>
+								<label for="input-16" class="col-sm-2 col-form-label">IEC
+									Number</label>
+								<div class="col-sm-4">
+								
+								
+								<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.companydetDto.iec}"></span>
+								</label>
+								</div>
+							</div>
+
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Date of appointment </label>
+								<div class="col-sm-4">
+								<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${	#dates.format(applicantData.companydetDto.dateAppointment,'dd/MM/YYYY ')}"></span>
+								</label>
+									
+								</div>
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Date of Cessation </label>
+								<div class="col-sm-4">
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${	#dates.format(applicantData.companydetDto.dateCessation,'dd/MM/YYYY ')}"></span>
+								</label>
+									
+								</div>
+
+							</div>
+
+
+							<div class="form-group row">
+								<label for="input-15" class="col-sm-2 col-form-label">Investigation Status<span
+									class="text-danger">*</span></label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{companydetDto.status}">
+										<option th:each="ulist: ${statusLst}" th:value="${ulist.id}"
+											th:utext="${ulist.statusName}" />
+									</select> <span class="text-danger"
+										th:if="${#fields.hasErrors('companydetDto.status')}" th:errors="*{companydetDto.status}"></span>
+								</div>
+
+								<label for="input-15" class="col-sm-2 col-form-label">
+									Case Id <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+								<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.companydetDto.caseId}"></span>
+								</label>
+									
+								</div>
+							</div>
+</th:block>
+ -->
+							<div class="form-footer">
+						
+								<button type="submit" class="btn btn-success" id="updatecomp">
+									<i class="fa fa-check-square-o"></i> SAVE
+								</button>
+								
+								
+								<span></span>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+		
+				<th:block th:if ="${	not #lists.isEmpty(compList)}">
+				<div class="col-md-12">
+									<table class="table table-bordered table-responsive-lg">
+										<thead class="bg-success text-white">
+										
+											<tr class="bg-success">
+												<th colspan="6">Company Details</th>
+											</tr>
+											
+											<tr class="bg-info">
+											<th>S.No.</th>
+											<th>Person Name</th>
+											<th> Person Details</th>
+											<th> Company Details</th>
+										
+											
+											<!-- <th>Edit/Delete <br> Company Details</th> -->
+											</tr>
+										</thead>
+										
+										<tbody>
+										<tr>
+								   	    <td>1</td>
+									   <td class="text-wrap"> <strong>Person name: </strong> 
+									   <th:block th:if="${applicantData.salutation != null}">
+														<span class="text-wrap"
+															th:text="${applicantData.salutation}"></span>
+													</th:block>
+											 <th:block th:if="${applicantData.givenName != null}">
+														<span class="text-wrap"
+															th:text="${applicantData.givenName}"></span>
+													</th:block> <th:block th:if="${applicantData.middleName != null}">
+														<span class="text-wrap"
+															th:text="${applicantData.middleName}"></span>
+													</th:block><th:block th:if="${applicantData.Surname != null}">
+														<span class="text-wrap"
+															th:text="${applicantData.Surname}"></span>
+													</th:block>
+									   </td>
+									   	<td class="text-wrap">
+									  <strong>Father's Name : </strong> <span th:text="${applicantData. fatherName}"></span><br>
+									  	  <strong>Pan Number  : </strong> <span th:text="${applicantData. panNumber}"></span><br>
+									  	  	<strong>Aadhar  Number  : </strong> <span th:text="${applicantData. aadharNo}"></span><br>
+									  	  	 <strong>Mobile  Number  : </strong> <span th:text="${applicantData. primaryMobile}"></span><br>
+									  	  	 <strong>Email Id: </strong> <span th:text="${applicantData. email}"></span><br>
+										</td>
+									<td class="text-wrap">
+									<table >    
+							     <tr>
+							     <th>S.No</th>
+							     <th> Company Name </th>
+							     <th>Details </th>
+							     <th>Action </th>
+							     </tr>	
+							     
+							     <tbody>
+							     
+							     	   <tr th:each="companylist,stats : ${compList}" th:if="${companylist.isDeleted != true}" >
+							     <td th:text="${stats.count}"></td>  
+							      <td> <span th:text="${companylist.compName}"></span></td>
+							      <td class="text-wrap" >
+							                   <th:block  th:if = " ${companylist.din !=''}">
+							               <strong>DIN : </strong> <span th:text="${companylist.din}"></span><br>
+							           </th:block>
+							             <th:block  th:if = " ${companylist.frn !=''}">
+										 <strong>FRN : </strong> <span th:text="${companylist.frn}"></span><br>
+										 </th:block>
+									       <th:block  th:if = " ${companylist.Iec !=''}">
+										 <strong>IEC: </strong> <span th:text="${companylist.Iec}"></span><br>
+										 </th:block>
+										 <strong>CIN : </strong> <span th:text="${companylist.cin}"></span><br>
+										 <strong>Type  : </strong> <span th:text="${companylist.companyType.name}"></span><br>
+							             <strong>Designation   : </strong> <span th:text="${companylist.designation.designation}"></span><br>
+							             <strong>Date Of Appointment :</strong> <span th:text="${#dates.format(companylist.dateAppointment,'dd/MM/yyyy')}"></span><br>
+										 <strong>Status : </strong> <span th:text="${companylist.status.statusName}"></span><br>
+										 	 
+							      </td>
+							      <td>
+	                  	<a class="text-info" href="#" title="Edit" th:onclick="'editcomp(\'' + ${companylist.id} +'\');'"> <i class="ace-icon fa fa-pencil bigger-130"  ></i></a>
+						<a class="text-danger" href="#" title="Delete" th:onclick="'deletcomp(\'' + ${companylist.id} +'\');'"> <i class="ace-icon fa fa-trash-o bigger-130"  ></i></a>										
+											<br>							
+									
+							      </td>
+							     </tr>
+							     
+							     </tbody>
+							     
+									 </table>
+          					</td>
+          					
+											
+										
+									
+		                           				
+								
+							
+										</tr>
+										</tbody>
+										</table>
+									
+			</div>
+			</th:block>
+			</div>
+		</form>
+
+		<!-- 	<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header text-uppercase">
+							<i class="fa fa-user"></i> Applicant Details
+						</h4>
+						<div class="form-group row">
+							<table class="table table-responsive" id="userTable">
+								<thead class="bg-info text-white">
+									<tr>
+										<th>S.No.</th>
+										<th>Applicant Name</th>
+										<th>Application Date</th>
+										<th>Passport No.</th>
+										<th>Pan Number</th>
+										<th>Date of Birth</th>
+										<th>Status</th>
+										<th>Action</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="p,stats: ${applicantList}">
+										<td th:text="${stats.count}"></td>
+										<td><th:block th:if="${p.applicantName != null}">
+												<span class="text-wrap" th:text="${p.applicantName}"></span>
+											</th:block></td>
+
+										<td class="text-wrap"
+											th:text="${#dates.format(p.applicationDate,'dd/MM/YYYY')}"></td>
+										<td><span th:text="${p.passportNo}"></span></td>
+										<td class="text-wrap" th:text="${p.panNumber}"></td>
+										<td class="text-wrap"
+											th:text="${#dates.format(p.dob,'dd/MM/yyyy')}"></td>
+										<td class="text-wrap" th:text="${p.status.statusName}"></td>
+
+										<td>
+											<form th:action="@{/editApplicant}" method="post"
+												autocomplete="off">
+
+
+												<button type="submit" th:name="editapplicant"
+													class="btn btn-success text-wrap" th:value="${p.id}">Edit</button>
+											</form>
+										</td>
+												<td><a th:href="@{/edit/{id}(id=${p.id})}">Edit</a></td>
+
+									</tr>
+								</tbody>
+
+							</table>
+						</div>
+
+
+					</div>
+
+				</div>
+			</div>
+		</div> -->
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+			<script src="js/moment.min.js"></script>
+<script src="js/bootstrap-datetimepicker.min.js"></script>
+		<script type="text/javascript">
+		
+		$(document).ready(function(){
+			$('#AvoterBlock').hide();
+			$('#ApassBlock').hide();
+			$('#AadharBlock').hide();
+			$('#AdinBlock').hide();
+			$('#compnayBlock').hide();
+		var  error =  $('#comperroraccur').val() ;
+			if(error == 'true'){
+				$('#compnayBlock').show();
+			}
+			
+			 
+		
+
+			if($('#aisadhar').val()=='Y'){
+				 $("input[name=aifadhar][value=" + $('#aisadhar').val() + "]").prop('checked', true);
+				$('#AadharBlock').show();
+				
+			}else{
+				var value = "N"
+				 $("input[name=aifadhar][value=" +value+ "]").prop('checked', true);
+			}
+			
+			if($('#aifpass').val()=='Y'){
+				 $("input[name=aifpass][value=" + $('#aifpass').val() + "]").prop('checked', true);
+					$('#ApassBlock').show();
+               }else{
+				var value = "N"
+				 $("input[name=aifpass][value=" +value+ "]").prop('checked', true);
+			}
+			
+			if($('#aisavoter').val()=='Y'){
+				 $("input[name=aifvoter][value=" + $('#aisadhar').val() + "]").prop('checked', true);
+					$('#AvoterBlock').show();
+				
+			}else{
+				var value = "N"
+				 $("input[name=aifvoter][value=" +value+ "]").prop('checked', true);
+			}
+			if( $('#compedit').val() == 'true'){
+				$('#compnayBlock').show();
+			}
+			 var table = $('#userTable').DataTable( {
+//		 	        lengthChange: false,
+			        buttons: [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+			      } );
+		});
+		
+			$('#dob').datepicker({
+				format : 'dd/mm/yyyy',
+				 minDate :new Date()
+			
+			});
+
+			$('#applicationDate').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+			
+			$('#dateAppoit').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+			
+			
+			$('#dateCessa').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+				 minDate: 0
+
+			});
+			
+
+			$('#passportDate').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+				
+			});
+			
+			
+			$("input[name='aifpass']").change(function() { 
+				 $('#aispass').val($('input:radio[name=aifpass]:checked').val());
+
+			if($(this).attr('id')=='ApassY' )
+				$('#ApassBlock').show();
+
+
+			else if($(this).attr('id')=='ApassN')
+				$('#ApassBlock').hide();
+
+			$('#vendorName').val('');
+
+			});
+     
+
+			 $("input[name='aifadhar']").change(function() { 
+				 $('#aisadhar').val($('input:radio[name=aifadhar]:checked').val());
+			
+			if($(this).attr('id')=='AadharY' )
+				$('#AadharBlock').show();
+			
+			
+			else if($(this).attr('id')=='AadharN')
+				$('#AadharBlock').hide();
+			 
+			 });
+   
+			 $('#designation').on('change', function() {
+				
+			      if ( this.value == '1')
+			  
+			      {
+			        $("#AdinBlock").show();
+			      }
+			      else
+			      {
+			        $("#AdinBlock").hide();
+			      }
+			    });
+			 
+			 $("input[name='aifvoter']").change(function() { 
+				 
+			
+				 $('#aisavoter').val($('input:radio[name=aifvoter]:checked').val());
+			
+			if($(this).attr('id')=='AvoterY' )
+			
+				$('#AvoterBlock').show();
+			
+			
+			else if($(this).attr('id')=='AvoterN')
+				$('#AvoterBlock').hide();
+			 
+			 });
+
+			 
+			$('#uploadDate').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+			
+			
+			
+
+			$('#statusDate').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+			$('#lastPassportDate').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+			
+	$('#addcompdtl').click(function(){
+		$('#compnayBlock').show();
+	});
+	
+	
+	
+	 $('#savedetail').click(function(){
+		
+		 		$('#NewApplicantForm').attr('action', 'saveapplicantdetails');
+		 	
+				$('#NewApplicantForm').submit();
+		 
+	 });
+	 
+	 
+	
+function editcomp(compid) {
+
+	$('#NewApplicantForm').attr('action', 'editcompDetails');
+	$('#compId').val(compid);
+	$('#NewApplicantForm').submit();
+
+}
+
+function deletcomp(compid) {
+
+	$('#NewApplicantForm').attr('action', 'deletecompDetails');
+	$('#compId').val(compid);
+	$('#NewApplicantForm').submit();
+
+}
+	 
+	 $('#updatecomp').click(function(){
+			
+	 		$('#NewApplicantForm').attr('action', 'savecompdetails');
+			$('#NewApplicantForm').submit();
+	 
+});
+	 
+		</script>
+  
+		<script type="text/javascript" src="js/customValidation.js"></script>
+
+
+
+
+
+
+	</div>
+
+</body>
+</html>

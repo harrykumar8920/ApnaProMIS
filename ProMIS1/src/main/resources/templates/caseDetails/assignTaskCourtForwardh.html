@@ -1,0 +1,498 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>All Designation</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-5">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="puhHome">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Assign
+						Task</li>
+				</ol>
+			</div>
+
+
+		</div>
+
+		<form th:action="@{/assignedToOtherProsecutor}" method="post" class="needs-validation" th:object="${assignedTaskPuhAfterCOurt}">
+
+
+
+			<div th:if="${message}" class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<div class="alert-icon">
+					<i class="fa fa-check"></i>
+				</div>
+				<div class="alert-message">
+					<span th:text="${message}"></span>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-sitemap"></i> Forward to 
+							</h4>
+							
+<input type="hidden"  th:field="*{proCourtCaseDetails}">
+
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Prosecution Sanction Order No <span class="text-danger">*
+									</span>
+								</label>
+								<div class="col-sm-4">
+
+
+									<label class="col-form-label text-primary" id="CourtNo">
+										<span th:id="CourtNo" th:text="${pcrtdtls.addCase.proSectionOrderNumber}"></span>
+									</label>
+
+
+
+
+								</div>
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Prosecution Sanction Date <span class="text-danger">* </span>
+								</label>
+								<div class="col-sm-4">
+
+
+									<label class="col-form-label text-primary" id="CourtNo">
+										<span th:id="CourtNo"
+											th:text="${#dates.format(pcrtdtls.addCase.proSanctionDate, 'dd/MM/yyyy')}"></span>
+									</label>
+
+
+
+								</div>
+
+
+							</div>
+
+							<div class="form-group row" id="prosecutionSFile">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Prosecution Sanction Order File <span class="text-danger">
+										* </span>
+								</label>
+
+								<div class="col-sm-4">
+									<label class=" col-form-label text-primary"> <a th:target="_blank"
+											th:href="@{|/downloadFiles?fileName=${pcrtdtls.addCase.proSanctionFileName}|}"><span
+												th:text="${pcrtdtls.addCase.proSanctionFileName}"></span> <span
+												th:if="${pcrtdtls.addCase.proSanctionFileName}"><i class="fa fa-file-pdf-o"
+													style="font-size: 24px; color: red"></i></span></a></label>
+
+
+								</div>
+
+
+
+
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									File Number </label>
+								<div class="col-sm-4">
+
+									<label class="col-form-label text-primary" id="CourtNo">
+										<span th:id="CourtNo" th:text="${pcrtdtls.addCase.fileNumber}"></span>
+									</label>
+
+								</div>
+
+
+
+
+							</div>
+
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Type of case <span class="text-danger">*</span>
+
+								</label>
+								<div class="col-sm-4">
+
+
+									<label class="col-form-label text-primary" id="CourtNo">
+										<span th:id="typeOfCase" th:text="${pcrtdtls.typeOfCase.typeOfCase}"></span>
+									</label>
+
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Investigation Order No.<span class="text-danger">*</span>
+
+								</label>
+								<div class="col-sm-4">
+
+
+									<label class="col-form-label text-primary" id="CourtNo">
+										<span th:id="investigationOrderNo" th:text="${pcrtdtls.addCase.investigationOrderNo}"></span>
+									</label>
+
+								</div>
+							</div>
+
+							<div class="form-group row">
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Case Title /Company Name <span class="text-danger">*</span>
+
+								</label>
+								<div class="col-sm-4">
+
+
+									<label class="col-form-label text-primary" id="CourtNo">
+										<span th:id="CourtNo" th:text="${pcrtdtls.addCase.caseTitle}"></span>
+									</label>
+
+								</div>
+							</div>
+
+
+
+
+
+
+
+							
+
+
+
+							<div class="form-group row">
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">Unit
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{unit}" id="udetails"
+										onchange="getLinkinspectorList(this);">
+										<option th:value="0" th:utext="Choose" />
+										<option th:each="udtls:${udetails}" th:value="${udtls.unitId}"
+											th:utext="${udtls.unitName}" />
+									</select> <span class="text-danger" th:errors="*{unit}"></span>
+								</div>
+
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">Officer
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{forwardedTo}" id="pofficer">
+										<option th:value="0" th:utext="Choose" />
+										<option th:each="pofc:${pofficer}" th:value="${pofc.id}"
+											th:utext="${pofc.name}" />
+									</select>
+									
+									<span class="text-danger"
+									          th:if="${#fields.hasErrors('forwardedTo')}"
+									          th:errors="*{forwardedTo}">
+									    </span>
+								</div>
+
+							</div>
+
+
+				
+
+							<div class="col-sm-4">
+								<a href="totalListOfCourtCase" class="btn btn-dark">Back</a>
+								<button id="submitButton" type="submit" class="btn btn-success">
+									<i class="fa fa-check-square-o"></i> Save
+								</button>
+								<button type="reset" class="btn btn-danger">
+									<i class="fa fa-times"></i> Reset
+								</button>
+							</div>
+
+
+
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				//alert("omm namah sivay");
+				var table44 = document.getElementById("createTask");
+				//alert("omm namah sivay table44: -"+table44);
+				var selectedValue = table44.value;
+				//alert("omm namah sivay selectedValue :- "+selectedValue);
+				var submitBtn = document.getElementById("submitButton");
+				//alert("omm namah sivay submitBtn : -"+submitBtn);
+				if (!selectedValue || selectedValue === "0") {
+					// alert("Not OK");
+					submitBtn.style.display = "none"; // Hide the button
+				} else {
+					//  alert("Selected Value: " + selectedValue);
+					submitBtn.style.display = "inline-block"; // Show the button if valid
+				}
+				var table = $('#desigTable').DataTable({
+					//		 	        lengthChange: false,
+					buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+				});
+
+
+				if ($('#udetails').val() != null) {
+					var unitid = $('#udetails').val();
+
+					var token = $("input[name=_csrf]").val();
+					var header = 'X-CSRF-TOKEN';
+					$(document).ajaxSend(function (e, xhr, options) {
+						xhr.setRequestHeader(header, token);
+					}), $.ajax({
+						crossDomain: true,
+						type: "GET",
+						url: "getInspectorListReportByUnitId?unitId=" + unitid,
+
+						/* 	url : "showsSectionList?actId="
+								+ 1, */
+						contentType: "application/json; charset=utf-8",
+						/* data:{caseId:caseId
+						}, */
+						cache: false,
+						timeout: 600000,
+						success: function (data) {
+
+							var html = '';
+							var len = data.length;
+							$("#pofficer").empty();
+							$("#pofficer").append(
+
+								"<option value='0'>Choose</option>");
+							for (var i = 0; i < len; i++) {
+								var id = data[i]['id'];
+								var name = data[i]['fullName']
+									+ data[i]['designation2'];
+
+								$("#pofficer")
+
+									.append(
+
+										"<option value='" + id + "'>" + name + "</option>");
+
+							}
+						},
+						error: function (xhr, status, error) {
+							alert('error in getting count');
+						}
+					});
+
+				}
+
+
+
+				if ($('#createTask').val() != null) {
+
+						
+
+					//if( $('#Subtask').val()==null){ 
+
+
+
+					var taskId = $('#createTask').val();
+					//alert("createtask taskId : -"+taskId)
+					var token = $("input[name=_csrf]").val();
+					var header = 'X-CSRF-TOKEN';
+					$(document).ajaxSend(function (e, xhr, options) {
+						xhr.setRequestHeader(header, token);
+					}), $.ajax({
+						crossDomain: true,
+						type: "GET",
+						url: "showsSubList?taskId=" + taskId,
+
+						/* 	url : "showsSectionList?actId="
+								+ 1, */
+						contentType: "application/json; charset=utf-8",
+						/* data:{caseId:caseId
+						}, */
+						cache: false,
+						timeout: 600000,
+						success: function (data) {
+
+							var html = '';
+							var len = data.length;
+
+							if (len === 0) {
+								//			alert("create empty");
+								$("#Subtask").hide();
+								$("#sublb").hide();
+
+							}
+
+
+
+
+
+							/* 	$("#Subtask").empty();
+								$("#Subtask").append(
+	
+								"<option value='0'>Select</option>");
+								for (var i = 0; i < len; i++) {
+									var id = data[i]['id'];
+									var subTask = data[i]['subTaskName'];
+	
+									$("#Subtask")
+	
+									.append(
+	
+									"<option value='"+id+"'>" + subTask + "</option>");
+	
+								} */
+						},
+						error: function (xhr, status, error) {
+							alert('error in getting count');
+						}
+					});
+				}
+			});
+
+			function geSubTask(taskID) {
+
+
+				//	alert('get sub task');
+
+
+				var taskId = $('#createTask').val();
+
+
+				var token = $("input[name=_csrf]").val();
+				var header = 'X-CSRF-TOKEN';
+				$(document).ajaxSend(function (e, xhr, options) {
+					xhr.setRequestHeader(header, token);
+				}), $.ajax({
+					crossDomain: true,
+					type: "GET",
+					url: "showsSubList?taskId=" + taskId,
+
+					/* 	url : "showsSectionList?actId="
+							+ 1, */
+					contentType: "application/json; charset=utf-8",
+					/* data:{caseId:caseId
+					}, */
+					cache: false,
+					timeout: 600000,
+					success: function (data) {
+
+						var html = '';
+						var len = data.length;
+
+						if (len === 0) {
+							//			alert("empty");
+							$("#Subtask").hide();
+							$("#sublb").hide();
+
+						}
+
+						if (len > 0) {
+							//	alert("emptyrrrrrrrrrrrrrr");
+							$("#Subtask").show();
+							$("#sublb").show();
+
+
+
+							$("#Subtask").empty();
+							//	$("#Subtask").append(
+
+							//"<option value='0'>Select</option>"); 
+							for (var i = 0; i < len; i++) {
+								var id = data[i]['id'];
+								var subTask = data[i]['subTaskName'];
+
+								$("#Subtask")
+
+									.append(
+
+										"<option value='" + id + "'>" + subTask + "</option>");
+
+							}
+						}
+					},
+					error: function (xhr, status, error) {
+						alert('error in getting count');
+					}
+				});
+
+			}
+
+			function getLinkinspectorList(udetails) {
+
+				//	alert('get unit details')
+
+				var unitid = $('#udetails').val();
+
+				var token = $("input[name=_csrf]").val();
+				var header = 'X-CSRF-TOKEN';
+				$(document).ajaxSend(function (e, xhr, options) {
+					xhr.setRequestHeader(header, token);
+				}), $.ajax({
+					crossDomain: true,
+					type: "GET",
+					url: "getInspectorListReportByUnitId?unitId=" + unitid,
+
+					/* 	url : "showsSectionList?actId="
+							+ 1, */
+					contentType: "application/json; charset=utf-8",
+					/* data:{caseId:caseId
+					}, */
+					cache: false,
+					timeout: 600000,
+					success: function (data) {
+
+						var html = '';
+						var len = data.length;
+						$("#pofficer").empty();
+						$("#pofficer").append(
+
+							"<option value='0'>Choose</option>");
+						for (var i = 0; i < len; i++) {
+							var id = data[i]['id'];
+							var name = data[i]['fullName']
+								+ data[i]['designation2'];
+
+							$("#pofficer")
+
+								.append(
+
+									"<option value='" + id + "'>" + name + "</option>");
+
+						}
+					},
+					error: function (xhr, status, error) {
+						alert('error in getting count');
+					}
+				});
+
+			}
+		</script>
+	</div>
+
+</body>
+
+</html>

@@ -1,0 +1,273 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+<link href="css/bootstrap-datetimepicker-build.css" rel="stylesheet" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Add New Respondent</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Add
+						Hearing Details</li>
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<form th:action="@{/saveHearingDetail}" method="post"
+			class="needs-validation" autocomplete="off" id="hearingDts"
+			th:object="${hearingDetails}" enctype="multipart/form-data">
+			
+			<input type="hidden" th:field="*{procourtdtl}"> 
+			<input	type="hidden" th:field="*{id}">
+            <input type ="hidden" th:id="courtId" name ="courtId">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+
+
+
+
+
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-address-book-o"></i> Hearing Details
+							</h4>
+
+
+							<div class="form-group row">
+								<label for="input-10" class="col-sm-2 col-form-label">Judge
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" th:field="*{judgename}"
+									  onkeypress="return Validate(event);"  >
+									
+									 <span class="text-danger"
+										th:if="${#fields.hasErrors('judgename')}"
+										th:errors="*{judgename}"></span>
+									
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Hearing Date <span class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="hDate"
+										th:field="*{hearingDate}">
+								</div>
+							</div>
+							<div class="form-group row">
+
+								<label for="input-10" class="col-sm-2 col-form-label">Purpose
+									of Next Hearing <span class="text-danger">*</span>
+								</label>
+
+								<div class="col-sm-4">
+									<input type="text" class="form-control"
+										th:field="*{purposeHearing}"  onkeypress="return Validate(event);">
+										
+										 <span class="text-danger"
+										th:if="${#fields.hasErrors('purposeHearing')}"
+										th:errors="*{purposeHearing}"></span>
+										
+								</div>
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Next Hearing Date <span class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="nhDob"
+										th:field="*{nextHearingDate}">
+								</div>
+							</div>
+
+							<div class="form-group row">
+
+								<label for="input-10" class="col-sm-2 col-form-label">Action To Be Taken (If Any)
+									 <span class="text-danger"></span>
+								</label>
+
+								<div class="col-sm-4">
+									<input type="text" class="form-control"
+										th:field="*{nextAction}"  onkeypress="return Validate(event);">
+										
+										<span class="text-danger"
+										th:if="${#fields.hasErrors('nextAction')}"
+										th:errors="*{nextAction}"></span>
+								</div>
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Any Supporting Document <span class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<input type="file" class="form-control" id="file"
+										th:field="*{hearingFile}">
+								</div>
+								
+								 <div th:if="${hearingDetails.hearingFile != null}">
+                                 <a th:target="_blank" th:href="@{|/downloadFiles?fileName=${hearingDetails.SupportDoc}|}" >
+                                 <span th:text="${hearingDetails.SupportDoc}"></span>
+                                 </a>
+                                </div> 
+								
+							</div>
+
+
+							<div class="form-group row">
+
+								<label for="input-10" class="col-sm-2 col-form-label">Remark
+									 <span class="text-danger"></span>
+								</label>
+
+								<div class="col-sm-4">
+									<input type="text" class="form-control"
+										th:field="*{remark}">
+										
+										 <span class="text-danger"
+										th:if="${#fields.hasErrors('remark')}"
+										th:errors="*{remark}"></span>
+								</div>
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Brief of Hearing Proceeds Today<span class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<textarea class="inputTxt form-control" cols="2" rows="3"
+										th:id="brief" th:field="*{briefOfHearing}" name="brief" 
+										placeholder="Enter gist" maxlength="500"></textarea>
+										<span id="wordCount">0</span> Characters
+										<span class="text-danger"> Max character limit is 500</span>
+										
+										<span class="text-danger" th:errors="*{briefOfHearing}"></span>
+								</div>
+							</div>
+
+
+						</div>
+
+
+
+						<div class="form-footer">
+							<button type="reset" class="btn btn-danger">
+								<i class="fa fa-times"></i> Reset
+							</button>
+							<button type="submit" class="btn btn-success" id="update_btn">
+								<i class="fa fa-check-square-o"></i> SAVE
+							</button>
+							  <button type="button" class="btn btn-dark" id="update_btn" th:onclick="'backPage(\'' + ${courtdtl} +'\');'">
+							  		<i class="fa fa-check-square-o"></i> Back
+							  </button> 
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				$('#hDate').datepicker({
+					autoclose : true,
+					todayHighlight : true,
+					format : 'dd/mm/yyyy',
+					endDate : new Date(),
+				});
+				$('#nhDob').datepicker({
+					autoclose : true,
+					todayHighlight : true,
+					format : 'dd/mm/yyyy',
+					startDate : new Date(),
+				});
+
+				var table = $('#userTable').DataTable({});
+
+				$('input[type="radio"]').click(function() {
+					var inputValue = $(this).attr("value");
+
+					if (inputValue == "option2") {
+						$("#individual").show();
+						$("#Companydtl").hide();
+
+					} else {
+						$("#Companydtl").show();
+						$("#individual").hide();
+					}
+				});
+			});
+          var myText = document.getElementById("brief");
+			 
+			 var wordCount = document.getElementById("wordCount");
+
+			 myText.addEventListener("keyup",function(){
+			 	var characters = myText.value.split('');
+			   wordCount.innerText = characters.length;
+			 });
+			 
+			 
+			 function backPage(courtID) {
+				
+	    			$('#hearingDts').attr('action', 'AdditionalInfo');
+	    			$("#courtId").val(courtID)
+	    			$('#hearingDts').submit();
+			}
+		</script>
+		
+		<script type="text/javascript">
+    function Validate(e) {
+        var keyCode = e.keyCode || e.which;
+      
+        //Regex for Valid Characters i.e Words
+        var regex = /^[A-Za-z]+$/;
+        
+        //Regex for Valid Characters i.e Numbers & Alphabets.
+       // var regex = /^[A-Za-z0-9]+$/;
+ 
+        //Validate TextBox value against the Regex.
+        var isValid = regex.test(String.fromCharCode(keyCode));
+        if (!isValid) {
+            alert( "Only Alphabets allowed.");
+        }
+ 
+        return isValid;
+    }
+</script>
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+
+
+
+
+	</div>
+
+</body>
+</html>

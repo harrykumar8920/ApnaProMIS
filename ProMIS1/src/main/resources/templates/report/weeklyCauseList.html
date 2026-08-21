@@ -1,0 +1,285 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css"
+	rel="stylesheet" type="text/css">
+<title>Assign Cases</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-5">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">WEEKLY
+						CAUSE LIST</li>
+				</ol>
+			</div>
+		</div>
+
+		<form action="reportOfCourtCase1" th:action="@{/reportOfCourtCase1}"
+			th:object="${auditDto}" method="post">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+
+							<div class="form-group row">
+								<label class="control-label" id="fromDate">From Date</label>
+								<div class="col-sm-2">
+									<input class="form-control" type="text" th:field="*{date}"
+										placehoder="Start Date" id="startdate" required="required" />
+
+								</div>
+
+
+								<label class="control-label" id="toDate">To Date </label>
+								<div class="col-sm-2">
+									<input class="form-control" th:field="*{toDate}" type="text"
+										placehoder="End Date" id="enddate" required="required" />
+								</div>
+							</div>
+							<div class="clearfix form-actions">
+								<div class="col-md-offset-3 col-md-9">
+
+									<Button class="btn btn-success" type="submit" id="audit-submit">
+										<i class="ace-icon fa fa-check bigger-110"></i> Submit
+									</Button>
+									&nbsp; &nbsp; &nbsp;
+									<button class="btn btn-warning" type="reset">
+										<i class="ace-icon fa fa-undo bigger-110"></i> Reset
+									</button>
+
+
+									&nbsp; &nbsp; &nbsp;
+									<button class="btn btn-danger" type="button"
+										onclick="window.history.back();">
+										<i class="ace-icon fa fa-arrow-left bigger-110 "></i> Back
+									</button>
+								</div>
+							</div>
+
+
+
+
+
+
+
+
+
+
+
+
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="card">
+										<div class="card-body">
+											<h4 class="form-header text-uppercase">
+												<i class="fa fa-address-book-o"></i> Weekly Cause List
+											</h4>
+											<div th:if="${message}"
+												class="alert alert-success alert-dismissible" role="alert">
+												<button type="button" class="close" data-dismiss="alert">&times;</button>
+												<div class="alert-icon">
+													<i class="fa fa-check"></i>
+												</div>
+												<div class="alert-message">
+													<span th:text="${message}"></span>
+												</div>
+											</div>
+
+											<div class="table-responsive">
+												<table class="table table-bordered" id="assignTable">
+													<thead class="bg-info">
+														<tr>
+															<th class="text-wrap" align="center"
+																style="align-content: flex-start;">S.No.</th>
+															<th class="text-wrap" align="justify">Name of the
+																company under investigation</th>
+															<th class="text-wrap" align="justify">Court</th>
+															<th class="text-wrap" align="justify">Jurisdiction</th>
+															<th class="text-wrap" align="justify">Cause Title</th>
+															<th class="text-wrap" align="justify">Section of the
+																company Act 1956</th>
+															<th class="text-wrap" align="justify">Section of the
+																company Act 2013</th>
+															<th class="text-wrap" align="justify">Other Act(s)</th>
+															<th class="text-wrap">Strategy of the case</th>
+															<th class="text-wrap">Case Status</th>
+															<th class="text-wrap">Officer from Prosecution
+																Division</th>
+															<th class="text-wrap">Name of the Pairavi officer</th>
+															<th class="text-wrap">Name of the Counsel & Contact
+																No.</th>
+															<th class="text-wrap">Last Date of hearing
+															<th class="text-wrap">Case attended on <br>
+																LDOH by
+															</th>
+															<th class="text-wrap">Case update as per LDOH</th>
+
+
+
+
+
+														</tr>
+													</thead>
+													<tbody>
+
+
+														<tr th:each="detail,iStat :${courtCasedtl}">
+															<td th:text="${iStat.count}"></td>
+															<td class="text-wrap"
+																th:text="${detail.procourtdtl.addCase.caseTitle}"></td>
+															<td class="text-wrap"
+																th:text="${detail.procourtdtl.courtType.courtName}"></td>
+															<td class="text-wrap"
+																th:text="${detail.procourtdtl.state.state}"></td>
+															<td class="text-wrap"
+																th:text="${detail.procourtdtl.causeTitle}"></td>
+
+
+
+
+															<td class="text-wrap"><span
+																th:each="sumType: ${detail.sec}"> <span
+																	th:if="${sumType.Act.act == 'Companies Act, 2013'}">Act
+																		1956</span> <span th:unless="${sumType.Act.act == 'Act1'}"></span>
+
+															</span></td>
+															<td class="text-wrap"><span
+																th:each="sumType,rowStat : ${detail.sec}"> <span
+																	th:if="${sumType.Act.act == 'Companies Act, 1956'}">Act
+																		2013</span> <span th:unless="${sumType.Act.act == 'Act1'}"></span>
+
+															</span></td>
+															<td class="text-wrap"><span
+																th:each="sumType,rowStat : ${detail.sec}"> <span
+																	th:if="${sumType.Act.act == 'SECTION OF THE COMPANY ACT 2013'}">Act
+																		2013</span> <span th:unless="${sumType.Act.act == 'Act1'}"></span>
+
+															</span></td>
+
+
+
+
+
+															<td class="text-wrap"
+																th:text="${detail.procourtdtl.brief}"></td>
+															<td class="text-wrap" th:text="${detail.caseStatus}"></td>
+															<td class="text-wrap" th:text="${detail.prosecutorname}">
+															</td>
+															<td class="text-wrap" th:text="${detail.pairaviName}"></td>
+
+															<td>
+																<table class="table-responsive" style="margin: 0px;">
+
+
+																	<tr>
+
+																		<td style="border: 0px"
+																			th:text="${detail.counselname}"></td>
+
+																		<td style="border: 0px" th:text="${detail.counselmob}"></td>
+																	</tr>
+																	<tr>
+
+																		<td style="border: 0px"
+																			th:text="${detail.counselname1}"></td>
+																		<td style="border: 0px"
+																			th:text="${detail.counselmob1}"></td>
+																	</tr>
+
+
+																</table>
+
+															</td>
+															<td class="text-wrap"
+																th:text="${#dates.format(detail.lastHearingDetails, 'dd/MM/yyyy')}"></td>
+															<td>
+																<table class="table-responsive p-0 m-0">
+
+																	<tr>
+
+																		<td style="border: 0px"
+																			th:text="${detail.counselname}"></td>
+																	<tr>
+
+																		<td style="border: 0px"
+																			th:text="${detail.counselname1}"></td>
+
+																	</tr>
+
+
+																</table>
+
+															</td>
+
+
+
+
+
+
+
+
+
+
+
+														</tr>
+
+													</tbody>
+
+												</table>
+											</div>
+		</form>
+
+	</div>
+
+
+
+
+
+	<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+	<script
+		src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#startdate").datepicker({
+
+				format : 'dd-mm-yyyy',
+
+			})
+
+			$("#startdate1").datepicker({
+
+				format : 'dd-mm-yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			}).on('changeDate', function(selected) {
+				var minDate = new Date(selected.date.valueOf());
+				$('#enddate').datepicker('setStartDate', minDate);
+			});
+
+			$("#enddate").datepicker({
+				format : 'dd-mm-yyyy',
+				endDate : new Date(),
+
+			}).on('changeDate', function(selected) {
+				var minDate = new Date(selected.date.valueOf());
+				$('#startdate').datepicker('setEndDate', minDate);
+			});
+			var table = $('#roleTable').DataTable({
+				//	 	        lengthChange: false,
+				buttons : [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+			});
+		});
+	</script>
+	<script type="text/javascript" src="js/customValidation.js"></script>
+</body>
+</html>

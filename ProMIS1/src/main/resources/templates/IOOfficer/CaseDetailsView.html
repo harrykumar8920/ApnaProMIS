@@ -1,0 +1,639 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Case Details</title>
+</head>
+<style type="text/css">
+.formFieldError {
+	color: red;
+}
+
+.loading {
+	color: red;
+}
+</style>
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Case,
+						Company and KMP Details</li>
+				</ol>
+			</div>
+		</div>
+<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<form th:action="@{/Savedetails}" method="post"
+			th:id="caseaccuseddetails" class="needs-validation"
+			th:object="${accusedCompCaseDtl}" enctype="multipart/form-data">
+			<input type ="hidden" th:id="courtId" name ="courtId">
+			<input type="hidden" th:id="incvaseId"
+				th:value="${invCasedtl.invcaseDetailsId}"> <input
+				type="hidden" th:field="*{proCourtId}"> <input type="hidden"
+				th:field="*{id}"> <input type="hidden" th:field="*{CaseId}">
+			<input type="hidden" th:name="compId" th:id="compId"> <input
+				type="hidden" th:name="compCin" th:id="compCin"> 
+				<input type="hidden" th:name="compName" th:id="compName">
+				
+				<input type="hidden" th:name="accusedName" th:id="accusedName">
+				<input type="hidden" th:name="accDesgi" th:id="accDesgi">
+				<input type="hidden" th:name="accpan" th:id="accpan">
+			   <input type="hidden" th:name="accId" th:id="accId">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-briefcase"></i> Case Details
+							</h4>
+
+
+							<div class="form-group row">
+
+								<label class="col-sm-2 col-form-label"> Case No : </label> <label
+									class="col-sm-4 col-form-label text-primary"> <span
+									th:text="${invCasedtl.caseId}"></span>
+								</label> <label class="col-sm-2 col-form-label">Financial Year :</label>
+								<label class="col-sm-4 col-form-label text-primary"> <span
+									th:text="${invCasedtl.fy}"></span>
+								</label>
+
+
+							</div>
+							<div class="form-group row">
+
+								<label for="input-13" class="col-sm-2 col-form-label">
+									Case Title : </label> <label
+									class="col-sm-4 col-form-label text-primary"> <span
+									th:text="${invCasedtl.caseTitle}"> </span>
+								</label> <label for="input-10" class="col-sm-2 col-form-label">MCA
+									Order: </label> <label class="col-sm-4 col-form-label text-primary">
+									<span th:text="${invCasedtl.mcaOrder}"></span>
+								</label>
+
+							</div>
+
+
+
+							<!-- <div class="form-group row" id="mcaDiv">
+
+								<label class="col-sm-2 col-form-label">MCA Order No : </label> <label
+									class="col-sm-4 col-form-label text-primary"> <span>NO.
+										01/77/2017-CL II (SR)</span>
+								</label> <label class="col-sm-2 col-form-label">MCA Order Date :
+								</label> <label class="col-sm-4 col-form-label text-primary"> <span
+									>12/10/2020</span>
+								</label>
+
+							</div>
+
+ -->
+
+							<div class="form-group "></div>
+
+
+
+
+
+							<!-- 	<div class="form-group row" id="orderFileDiv">
+								<label for="input-10" class="col-sm-2 col-form-label">Office
+									Order(For Legacy case): </label> <label
+									class="col-sm-4 col-form-label text-primary"> <span
+									th:text="OFFICE_ORDER_35.PDF"></span>
+								</label>
+
+							</div>
+ -->
+							<!-- 	<div class="form-group row">
+
+								<label for="input-10" class="col-sm-2 col-form-label">
+									Investigation Unit</label>
+								<div class="col-sm-4 col-form-label text-primary">
+									<span th:text="Unit1"></span>
+								</div>
+
+							</div> -->
+
+
+
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-industry"></i> Companies Under
+								Investigation(CUI)
+							</h4>
+
+							<div class="form-group row">
+								<table class="table table-respnsive" id="CompTable">
+									<thead>
+										<tr>
+											<th>Sr. No.</th>
+
+											<th>Company Name</th>
+											<th>CIN</th>
+											<th>Action</th>
+
+										</tr>
+									</thead>
+									<tbody id="compData">
+
+
+									</tbody>
+
+
+								</table>
+
+							</div>
+
+
+							<div class="form-group row" id="compCin" style="display: none;">
+								<table>
+									<thead>
+										<tr>
+											<th>CIN</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="p,stats: ${CompanyList}">
+											<td th:text="${p.company.cin}" th:id="cinVal"></td>
+										</tr>
+									</tbody>
+
+
+
+								</table>
+							</div>
+
+
+
+							<div class="form-group row" id="personList" 	style="display: none;">
+								<table>
+									<thead>
+										<tr>
+											<th>pan</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="p,stats: ${personList}">
+											<td th:text="${p.invperId}" ></td>
+										</tr>
+									</tbody>
+
+
+
+								</table>
+							</div>
+
+
+							<div class="form-group row" id="accusedDiv"></div>
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-users"></i>Key Managerial Persons(KMP)
+							</h4>
+							<div class="form-group row">
+								<button type="submit" class="btn btn-primary"
+									id="addnewCompanycase" th:name="Newaccused">
+									<i class="fa fa-plus"></i> Add New Accused
+								</button>
+							</div>
+							<div class="form-group row">
+								<table class="table table-respnsive" id="KMPTable">
+									<thead>
+										<tr>
+											<th>Sr. No.</th>
+
+											<th>Name</th>
+											<th>Designation</th>
+											<th>Pan Number</th>
+											<th>Gender</th>
+											<th>Mobile No</th>
+											<th>Email</th>
+											<th>CIN</th>
+											<th>Company</th>
+											<th></th>
+											<th></th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody id="KMPData">
+
+									</tbody>
+
+
+								</table>
+
+
+							</div>
+
+
+
+
+
+							<div class="form-footer">
+								<button type="reset" class="btn btn-danger">
+									<i class="fa fa-times"></i> RESET
+								</button>
+									 <button type="button" class="btn btn-dark" id="update_btn" th:onclick="'backPage(\'' + ${courtdtl} +'\');'">
+							  		<i class="fa fa-check-square-o"></i> Back
+							  </button>
+								<!-- <button type="button" th:name="save" th:id="saveBtn"
+									class="btn btn-success">
+									<i class="fa fa-check-square-o"></i> Update Data
+								</button> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			function SavedCompany1(compName, compCin, compId) {
+				
+				$('#caseaccuseddetails').attr('action', 'AddCompanyDetails');
+				$('#compName').val(compName);
+				$('#compId').val(compId);
+				$('#compCin').val(compCin);
+				$('#caseaccuseddetails').submit();
+                 }
+			
+			function SavedAccused(Name,designation,pan,compName, compCin, compId,personId) {
+				$('#caseaccuseddetails').attr('action', 'AddAccusedDetails');
+				$('#compName').val(compName);
+				$('#compId').val(compId);
+				$('#compCin').val(compCin);
+				
+				$('#accusedName').val(Name);
+				$('#accDesgi').val(designation);
+				$('#accpan').val(pan);
+				$('#accId').val(personId);
+				
+				$('#caseaccuseddetails').submit();
+				
+			}
+
+			function backPage(courtID) {
+			   $('#caseaccuseddetails').attr('action', 'AdditionalInfo');
+    			$("#courtId").val(courtID)
+    			$('#caseaccuseddetails').submit();
+		}
+			
+			$(document)
+					.ready(
+							function() {
+
+								var invCaseId = $("#incvaseId").val();
+
+								$
+										.ajax({
+											//crossDomain: true,
+											type : "GET",
+											url : "getActiveCompany?invCaseId="
+													+ invCaseId,
+											//url : "getActiveKMP?invCaseId="+invCaseId,
+											//contentType : "application/json; charset=utf-8",
+											cache : false,
+											timeout : 600000,
+											success : function(data) {
+												debugger
+
+												var html = '';
+												var len = data.length;
+												//alert(len);
+												$('#CompData').empty();
+
+												table = $('#CompTable')
+														.dataTable(
+																{
+																	'bProcessing' : false,
+																	'bServerSide' : false,
+																	'bJQueryUI' : true,
+																	'destroy' : true,
+																	"autoWidth" : false,
+																	"buttons" : [
+																			'copy',
+																			'excel',
+																			'pdf',
+																			'print',
+																			'colvis' ],
+																	'language' : {
+																		'sLoadingRecords' : '<span style="width:100%;"><img src="resources/images/Spinner-1s-80px1.gif"></span>'
+																	},
+																
+																	
+																	
+																	'data' : data,
+																	'columns' : [
+																			{
+																				'sDefaultContent' : '',
+																				"mData" : function(
+																						mData,
+																						type,
+																						row,
+																						meta) {
+																					return meta.row
+																							+ meta.settings._iDisplayStart
+																							+ 1;
+																				}
+																			},
+
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return data[0];
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return data[1];
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					var isAdded=false;
+																					
+																						
+																					$('#compCin tr').each(function(j,v){ if($(this).children('td:eq(0)').text()==data[1]){
+																						isAdded=true };  }); 
+																					
+																				
+																					if(isAdded)
+																						return '<td><input type="button"  value = "Already Added" class = "btn btn-info" disabled="true"/></td></tr>';
+																					else
+																					return "<button type='button' class='btn btn-danger btn-round m-1' onclick=SavedCompany1('"
+																							+ encodeURIComponent(data[0])
+																							+ "','"
+																							+ data[1]
+																							+ "',"
+																							+ data[2]
+																							+ ")>"
+																							+ 'Add'
+																							+ "</button>";
+
+																					/* 	   return "<button type='button' class='btn btn-danger btn-round m-1' onclick=SavedCompany1('"
+																							+ encodeURIComponent (data[0])
+																							+ "',"
+																							   + data[1]
+																					        + "',"
+																							   + data[2]+
+																					             ")>"+'Add'+"</button>";  */
+
+																				}
+																			}, ],
+																});
+
+											},
+
+											error : function(xhr, status, error) {
+												alert('error in getting User List');
+											}
+										});
+								$
+										.ajax({
+											//crossDomain: true,
+											type : "GET",
+											url : "getActiveKMP?invCaseId="
+													+ invCaseId,
+											//contentType : "application/json; charset=utf-8",
+											cache : false,
+											timeout : 600000,
+											success : function(data) {
+												debugger
+
+												var html = '';
+												var len = data.length;
+												//alert(len);
+												$('#KMPData').empty();
+
+												table = $('#KMPTable')
+														.dataTable(
+																{
+																	'bProcessing' : false,
+																	'bServerSide' : false,
+																	'bJQueryUI' : true,
+																	'destroy' : true,
+																	"autoWidth" : false,
+																	"buttons" : [
+																			'copy',
+																			'excel',
+																			'pdf',
+																			'print',
+																			'colvis' ],
+																	'language' : {
+																		'sLoadingRecords' : '<span style="width:100%;"><img src="resources/images/Spinner-1s-80px1.gif"></span>'
+																	},
+
+																	'data' : data,
+																	'columns' : [
+																			{
+																				'sDefaultContent' : '',
+																				"mData" : function(
+																						mData,
+																						type,
+																						row,
+																						meta) {
+																					return meta.row
+																							+ meta.settings._iDisplayStart
+																							+ 1;
+																				}
+																			},
+
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return data[2];
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return data[7];
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return data[3];
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return data[4];
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return data[6];
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return data[5];
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return data[8];
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return data[9];
+																				}
+																			},
+																			
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return "<td  style='display: none;'> <input type='text' value='" +data[10] +" ' style='display: none;'>  </td> "
+																				/* 	return "<td  style='display: none;'>" + data[10]+"  </td> "; */
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return "<td  style='display: none;'> <input type='text' value='" +data[0] +" ' style='display: none;'>  </td> "
+																				/* 	return "<td  style='display: none;'>" + data[10]+"  </td> "; */
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					var isAdded=false;
+																					
+																					
+																					$('#personList tr').each(function(j,v){ if($(this).children('td:eq(0)').text()==data[0]){
+																						isAdded=true };  }); 
+																					
+																				
+																					if(isAdded)
+																						return '<td><input type="button"  value = "Already Added" class = "btn btn-info" disabled="true"/></td></tr>';
+																					else
+																					return "<button type='button' class='btn btn-danger btn-round m-1' onclick=SavedAccused('"
+																					+ encodeURIComponent(data[2])
+																					+ "','"
+																					+ data[7]
+																					+ "','"
+																					+ data[3]
+																					+ "','"
+																					+ data[8]
+																					+ "','"
+																					+ data[9]
+																					+ "','"
+																					+ data[10]
+																					+ "','"
+																					+ data[0]
+																					+ "')>"
+																					+ 'Add'
+																					+ "</button>";
+																				}
+																			}, ],
+																});
+
+											},
+
+											error : function(xhr, status, error) {
+												alert('error in getting User List');
+											}
+										});
+								// 	     });
+							});
+
+			/* 	var table = $('#KMPTable').DataTable();
+				$(function() {
+					debugger
+					$(document).on(
+							"click",
+							"#addInspector",
+							function() {
+								var getSelectedRows = $(".src-table input:checked")
+										.parents("tr");
+
+								$(".target-table tbody").append(getSelectedRows);
+							})
+				}) */
+		</script>
+
+
+
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+	</div>
+
+
+
+</body>
+</html>

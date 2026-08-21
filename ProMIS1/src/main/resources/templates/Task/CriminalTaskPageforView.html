@@ -1,0 +1,2477 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<title>Add New Respondent</title>
+</head>
+<body>
+
+
+
+	<div layout:fragment="content">
+		<h6 class="text-uppercase" style="font-size: 18px">Criminal
+			Complaint Details and Related Information</h6>
+
+
+		<hr>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+
+
+
+						<form th:action="@{/addNewUser}" method="post"
+							class="needs-validation" th:object="${assignedDtl}"
+							autocomplete="off">
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label"
+									style="font-size: medium;"> Cause Title <span
+									class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-sm-12 col-form-label text-primary"> <span
+										style="font-size: medium;"
+										th:text="${assignedDtl.proCourtCase.causeTitle}"></span>
+									</label>
+
+								</div>
+
+								<label for="input-16" class="col-sm-2 col-form-label"
+									style="font-size: medium;">Court Case No <span
+									class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-sm-12 col-form-label text-primary"
+										id="CourtNo"> <span th:id="CourtNo"
+										style="font-size: medium;"
+										th:text="${assignedDtl.proCourtCase.courtCaseNo}"></span></label>
+								</div>
+								<!-- <div class="col-sm-4">
+<a href="prosecutorPendingTaskList" class="text-white"><button type="button" class="btn btn-warning btn-round m-1 "
+									
+									>Back</button></a> 
+</div> -->
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<form th:action="@{/addCriminalDtl11}" method="post"
+							class="needs-validation" th:object="${criminalTaskDto}"
+							th:id="viewGeneratedComplaint" autocomplete="off"
+							enctype="multipart/form-data" target="_blank">
+							<input type="hidden" th:field="*{assignedTask}">
+						</form>
+
+						<form th:action="@{/addCriminalDtl}" method="post"
+							class="needs-validation" th:object="${criminalTaskDto}"
+							th:id="addCriminalDtl1" autocomplete="off"
+							enctype="multipart/form-data">
+
+
+							<input type="hidden" th:field="*{hearingID}"> <input
+								type="hidden" th:id="accCIN" th:value="${accCIN}"
+								th:field="*{accCIN}"> <input type="hidden"
+								th:id="accusedAddress" th:value="${accusedAddress}"
+								th:field="*{accusedAddress}"> <input type="hidden"
+								th:id="accDesination" th:value="${accDesination}"
+								th:field="*{accDesination}"> <input type="hidden"
+								th:id="incvaseId" th:value="${invCasedtl.invcaseDetailsId}">
+							<input type="hidden" id="pairaviId" th:field="*{pairaviId}"
+								th:value="${criminalTaskDto.pairaviId}"> <input
+								type="hidden" th:field="*{caseproseingID}"
+								th:value="${criminalTaskDto.caseproseingID}"> <input
+								type="hidden" id="accused1Id" th:field="*{accusedIDforDelete}"
+								th:value="${criminalTaskDto.accusedIDforDelete}"> <input
+								type="text" style="display: none;" th:id="invMcaOrder"
+								th:value="${invCasedtl.mcaOrder}"> <input type="hidden"
+								th:field="*{proCourtDtl}" id="procourtdtlIDD"> <input
+								type="hidden" th:field="*{assignedTask}"> <input
+								type="hidden" th:id="companyId" th:value="companyId"
+								th:field="*{companyId}"> <input type="hidden"
+								th:field="*{companyId}" th:value="${criminalTaskDto.companyId}">
+							<input type="hidden" th:id="accusedCompId"
+								th:field="*{accusedCompId}"> <input type="hidden"
+								th:field="*{tabId}" th:id="tabId"> <input type="hidden"
+								th:field="*{rejectuploadID}">
+
+							<h6 class="text-uppercase">Criminal Task Details</h6>
+							<hr>
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="card">
+										<div class="card-body">
+											<div class="row">
+
+												<div class="col-md-3">
+
+													<ul class="nav nav-pills nav-pills-warning flex-column"
+														id="myTab" role="tablist" style="align-items: flex-start;">
+														<li class="nav-item"><a class="nav-link py-2 active"
+															data-toggle="pill" href="#piil-21"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px">Complainant </span></a></li>
+														<li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-22"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px">Company </span></a></li>
+														<li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-23"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px">Pairavi officer/IO </span></a></li>
+														<li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-24"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px">Case processing dates </span></a></li>
+														<!-- <li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-25"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs" style="font-size: 15px">Financial
+																	Year </span></a></li> -->
+														<!-- <li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-26"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs">Case
+															</span></a></li> -->
+														<li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-26"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px">Accused </span></a></li>
+														<!-- <li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-28"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs">Hearing
+																	dates</span></a></li> -->
+														<!-- <li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-29"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs">Case
+																	status</span></a></li> -->
+														<li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-27"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px">Hearing Details </span></a></li>
+
+														<li class="nav-item"><a class="nav-link py-2"
+															style="text-align: left;" data-toggle="pill"
+															href="#piil-30"><i class="zmdi zmdi-circle mb-1">
+															</i> <span class="hidden-xs" style="font-size: 15px">Filing
+																	details and Related Information </span></a>
+
+
+															<ul class="nav flex-column sub-menu pl-5">
+																<li class="nav-item"><span
+																	onclick="getCompanyAccusedInfo();">Upload
+																		Additional Files</span></li>
+															</ul></li>
+
+
+														<li class="nav-item"><a class="nav-link py-2"
+															data-toggle="pill" href="#piil-28"><i
+																class="zmdi zmdi-circle"></i> <span class="hidden-xs"
+																style="font-size: 15px">Action taken</span></a></li>
+													</ul>
+												</div>
+												<div class="col-md-9">
+													<!-- Tab panes -->
+													<div class="tab-content">
+														<div id="piil-21" class="container tab-pane active">
+
+															<th:block th:if="${criminalTaskDto.complanitId!=null}">
+																<div class="form-group row">
+																	<label for="input-10" class="col-sm-2 col-form-label">
+																		Investigation Officer <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span th:text="${criminalTaskDto.IOName}"></span>
+																		</label>
+
+
+																	</div>
+																	<label for="input-10" class="col-sm-2 col-form-label">
+																		Investigation Case No <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span
+																			th:text="${#strings.capitalize(criminalTaskDto.InvCaseNo)}"></span>
+																		</label>
+
+																	</div>
+																</div>
+																<div class="form-group row">
+																	<label for="input-10" class="col-sm-2 col-form-label">
+																		Complainant Name <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span th:text="${criminalTaskDto.complanitName}"></span>
+																		</label>
+
+																	</div>
+
+
+																	<label for="input-10" class="col-sm-2 col-form-label">Email
+																		<span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span th:text="${criminalTaskDto.complanitEmail}"></span>
+																		</label>
+
+																	</div>
+																</div>
+																<div class="form-group row">
+
+
+																	<label for="input-16" class="col-sm-2 col-form-label">Designation</label>
+
+																	<div class="col-sm-4">
+
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span
+																			th:text="${criminalTaskDto.complanitdesignation.designation}"></span>
+																		</label>
+
+																	</div>
+																	<label for="input-16" class="col-sm-2 col-form-label">Mobile
+																		Number <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span th:text="${criminalTaskDto.complaintMobile}"></span>
+																		</label>
+
+
+																	</div>
+																</div>
+
+																<div class="form-group row">
+
+
+																	<label for="input-10" class="col-sm-2 col-form-label">Petition
+																		Number <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+																		<label class="col-sm-6 col-form-label text-primary">
+																			<span th:text="${criminalTaskDto.complaintPetinoner}"></span>
+																		</label>
+																	</div>
+																</div>
+
+
+
+
+
+
+
+																<th:block th:if="${criminalTaskDto.approve_status==1}">
+																	<button type="submit"
+																		class="btn btn-success btn-round m-1"
+																		th:name="approveCriminalDtl" disabled="disabled">
+																		Send for Approval by Prosecutor</button>
+
+
+
+
+
+
+																</th:block>
+
+																<th:block th:if="${criminalTaskDto.approve_status==2}">
+																	<button type="" disabled="disabled"
+																		class="btn btn-success btn-round m-1">Approved
+
+																	</button>
+
+
+																</th:block>
+																<th:block th:if="${criminalTaskDto.approve_status==3}">
+																	<button type="" disabled="disabled"
+																		class="btn btn-success btn-round m-1">Rejected
+
+																	</button>
+																	<label class="col-sm-6 col-form-label text-danger">
+																		<span th:text="${criminalTaskDto.rejectRemark}"></span>
+																	</label>
+
+
+																</th:block>
+
+															</th:block>
+
+
+														</div>
+
+
+
+
+														<div id="piil-22" class="container tab-pane fade">
+
+															<div class="form-group row" id="compCin">
+																<div class="table-responsive">
+																	<table id="CompTable1" class="table table-bordered">
+
+																		<thead>
+																			<tr>
+																				<th>S.No</th>
+																				<th>CIN</th>
+																				<th>Company</th>
+																				<th>Action</th>
+																				<th>Remarks</th>
+
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="p,stats: ${companyList}">
+																				<td th:text="${stats.count}"></td>
+																				<td th:text="${p.company.cin}" th:id="cinVal"></td>
+																				<td th:text="${p.company.companyName}"
+																					th:id="cinVal"></td>
+																				<td><th:block th:if="${p.approveStatus==2}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVED</button>
+																					</th:block> <th:block th:if="${p.approveStatus==3}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">REJECTED</button>
+
+
+																					</th:block> <th:block th:if="${p.approveStatus==1}">
+																						<button class="btn btn-success text-wrap"
+																							id="CompanyApprovee" type="submit">Approved</button>
+
+
+																						<button type="button"
+																							class="btn btn-success text-wrap"
+																							id="rejectforCompany" th:value="${p.Id}"
+																							th:onclick="rejectCompany();">Reject</button>
+
+
+																					</th:block></td>
+																				<td th:text="${p.rejectRemark}"></td>
+
+																			</tr>
+																		</tbody>
+
+
+
+																	</table>
+																</div>
+															</div>
+															<div id="rejectdivforCompany" style="display: none">
+																<label for="input-10" class="col-sm-2 col-form-label">Remarks
+																</label> <input type="text" th:field="*{rejectRemarkforCompany}">
+																<button class="btn btn-success text-wrap" type="submit"
+																	th:name="rejectCompanybyPUH">Reject</button>
+
+															</div>
+														</div>
+														<div id="piil-23" class="container tab-pane fade">
+
+
+
+
+
+
+															<div class="form-group row">
+																<div class="table-responsive">
+																	<table id="PairaviDtl" class="table table-bordered">
+
+																		<thead>
+																			<tr>
+																				<th>S.No</th>
+																				<th>Name</th>
+																				<th>Email</th>
+																				<th>Designation</th>
+																				<th>Mobile Number</th>
+																				<th>From Date</th>
+																				<th>To Date</th>
+																				<th>Action</th>
+																				<th>Remarks</th>
+
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="p,stats: ${pairvidtl}">
+																				<td th:text="${stats.count}"></td>
+																				<td th:text="${p.name}"></td>
+																				<td th:text="${p.email}"></td>
+																				<td th:text="${p.designation.designation}"></td>
+																				<td th:text="${p.mobile}"></td>
+																				<!-- <td th:text="${p.fromDate}"></td> -->
+																				<td
+																					th:text="${#dates.format(p.fromDate, 'dd/MM/yyyy')}"></td>
+																				<td
+																					th:text="${#dates.format(p.toDate, 'dd/MM/yyyy')}"></td>
+																				<!-- <td th:text="${p.toDate}"></td> -->
+																				<!-- <td th:text="${p.id}"></td> -->
+																				<td><th:block th:if="${p.approveStatus==1}">
+																						<button class="btn btn-success text-wrap"
+																							id="rejectforpairavi12" type="submit"
+																							th:name="approvedbyPUH" th:value="${p.Id}"
+																							disabled="disabled">Send for Approval by
+																							Prosecutor</button>
+
+																					</th:block> <th:block th:if="${p.approveStatus==2}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVED</button>
+
+																					</th:block> <th:block th:if="${p.approveStatus==3}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">Rejected</button>
+																						<td th:text="${p.rejectRemark}"></td>
+
+																					</th:block></td>
+
+																			</tr>
+																		</tbody>
+
+
+
+																	</table>
+																</div>
+															</div>
+
+														</div>
+														<div id="piil-24" class="container tab-pane fade">
+															<div class="form-group row">
+																<div class="table-responsive">
+																	<h3>Case Processing Dates</h3>
+																	<table id="CompTable1" class="table table-bordered">
+
+																		<thead>
+																		<thead>
+																			<tr style="text-align: center;">
+
+																				<th class="text-wrap">S.No</th>
+																				<th class="text-wrap">Date of order of
+																					Investigation</th>
+																				<th class="text-wrap">Date of Order of
+																					Supplementary Investigation</th>
+																				<th class="text-wrap">Date of submission of
+																					Investigation Report</th>
+																				<th class="text-wrap">Date of submission of
+																					Supplementary Investigation Report</th>
+
+																				<th class="text-wrap">Date of issuance of
+																					Instruction by MCA for filing of prosecution</th>
+																				<th class="text-wrap">Action</th>
+																				<th class="text-wrap">Reject Remarks</th>
+
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="p,stats: ${caseproseingdates}">
+																				<td th:text="${stats.count}"></td>
+																				<td
+																					th:text="${#dates.format(p.orderOfInv, 'dd/MM/yyyy')}"></td>
+																				<td
+																					th:text="${#dates.format(p.orderOfSupplyInv, 'dd/MM/yyyy')}"></td>
+
+																				<td
+																					th:text="${#dates.format(p.submissionOfInvReport, 'dd/MM/yyyy')}"></td>
+																				<td
+																					th:text="${#dates.format(p.submissionOfSupplyInvReport, 'dd/MM/yyyy')}"></td>
+																				<td
+																					th:text="${#dates.format(p.insuranceOFInvByMCA, 'dd/MM/yyyy')}"></td>
+
+																				<td><th:block th:if="${p.approveStatus==1}">
+																						<button class="btn btn-success text-wrap"
+																							id="approveforCaseProcessingDate" type="submit"
+																							disabled="disabled">Send for Approval by
+																							Prosecutor</button>
+
+																						<button type="button"
+																							class="btn btn-success text-wrap"
+																							id="rejectforCaseProcessingDate"
+																							th:value="${p.Id}"
+																							th:onclick="rejectCaseProcessingDates();">Reject</button>
+
+
+																					</th:block> <th:block th:if="${p.approveStatus==2}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVED</button>
+
+																					</th:block> <th:block th:if="${p.approveStatus==3}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">Rejected</button>
+
+																					</th:block></td>
+
+																				<td th:text="${p.rejectRemark}"></td>
+																		</tbody>
+
+
+
+																	</table>
+																</div>
+															</div>
+
+														</div>
+
+
+
+
+														<div id="piil-26" class="container tab-pane fade">
+
+
+															<div id="newAccused" style="display: none;">
+																<div class="form-group row">
+
+
+																	<label for="input-16" class="col-sm-2 col-form-label">
+																		Company Name <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control" maxlength="50"
+																			th:field="*{accComp}" th:id="accComp">
+
+																	</div>
+
+																	<label for="input-16" class="col-sm-2 col-form-label">
+																		Pan Number <span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control" maxlength="21"
+																			th:field="*{accPan}" th:id="accPan">
+
+																	</div>
+																</div>
+
+																<div class="form-group row">
+
+
+																	<label for="input-10" class="col-sm-2 col-form-label">Name
+																		<span class="text-danger">*</span>
+																	</label>
+
+																	<div class="col-sm-4">
+																		<input type="text" class="form-control"
+																			th:field="*{accusedName}" th:id="accusedName">
+
+																	</div>
+
+																	<label for="input-10" class="col-sm-2 col-form-label">Status
+																		<span class="text-danger">*</span>
+																	</label>
+																	<div class="col-sm-4">
+																		<select class="form-control"
+																			th:field="*{accusedstatus}">
+																			<option value="0">Choose status</option>
+																			<option th:each="stlst: ${statusLst}"
+																				th:value="${stlst.id}"
+																				th:utext="${stlst.statusName}" />
+																		</select>
+
+																	</div>
+
+
+																</div>
+
+																<div class="form-group row">
+
+
+																	<label for="input-10" class="col-sm-2 col-form-label">Description
+																		<span class="text-danger">*</span>
+																	</label>
+
+																	<div class="col-sm-6">
+																		<textarea class="form-control" th:field="*{accDesc}"
+																			th:id="accDesc"></textarea>
+
+																	</div>
+
+
+
+																</div>
+
+
+																<button type="button"
+																	class="btn btn-success btn-round m-1"
+																	id="NewCompanyDetailsd"
+																	th:onclick="SaveAccusedDetails();">
+																	<i class="fa fa-check-square-o"></i> SAVE
+																</button>
+
+
+																<br>
+
+
+															</div>
+
+															<div class="form-group row">
+																<div class="table-responsive">
+																	<table id="CompTable1" class="table table-bordered">
+
+																		<thead>
+																			<tr>
+
+																				<th>S.No</th>
+																				<th>Accused Name</th>
+																				<th>Pan Number</th>
+																				<th>Company</th>
+																				<th>status</th>
+																				<th>Action</th>
+																				<th>Remarks</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="p,stats: ${personList}">
+																				<td th:text="${stats.count}"></td>
+
+																				<td th:text="${p.accusedMaster.accusedName}"></td>
+																				<td th:text="${p.accusedMaster.panNumber}"></td>
+																				<td th:text="${p.company.company.companyName}"></td>
+																				<td th:text="${p.accusedstatus.statusName}"></td>
+																				<td><th:block th:if="${p.approveStatus==1}">
+																						<button class="btn btn-success text-wrap"
+																							id="approveAccused1" type="submit"
+																							disabled="disabled">Send for Approval by
+																							Prosecutor</button>
+																					</th:block> <th:block th:if="${p.approveStatus==2}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVED</button>
+
+																					</th:block> <th:block th:if="${p.approveStatus==3}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">Rejected</button>
+																						<td th:text="${p.rejectRemark}"></td>
+																					</th:block></td>
+
+																			</tr>
+																		</tbody>
+
+
+
+																	</table>
+																</div>
+
+
+															</div>
+
+														</div>
+
+
+
+														<div id="piil-29" class="container tab-pane fade">
+															<div class="form-group row">
+
+
+																<label for="input-16" class="col-sm-6col-form-label">
+																	Under Progress </label>
+															</div>
+														</div>
+
+
+														<div id="piil-27" class="container tab-pane fade">
+
+															<h3>Hearing Details</h3>
+
+
+															<div class="form-group row" id="PairaviDtl">
+																<div class="table-responsive">
+																	<table id="CompTable1" class="table table-bordered">
+
+																		<thead>
+																			<tr>
+																				<th style="font-size: 15px">S.No</th>
+																				<th style="font-size: 15px">Counsel Details</th>
+
+																				<th style="font-size: 15px">Officer from
+																					Prosecution</th>
+
+																				<th style="font-size: 15px">Hearing Date<span><br>Next
+																						Hearing Date</span>
+
+																				</th>
+																				<th style="font-size: 15px">Case Status<span><br>Case
+																						Status Date</span>
+
+
+																				</th>
+																				<th style="font-size: 15px">Order Copy<span><br>Order
+																						Date</span>
+
+
+																				</th>
+																				<th style="font-size: 15px">Transfer/WithDraw
+																					Date</th>
+																				<th style="font-size: 15px">Reason of Stay</th>
+																				<th style="font-size: 15px">Remarks</th>
+																				<th style="font-size: 15px">Action</th>
+																				<th style="font-size: 15px">Remarks of Action</th>
+
+																				<!-- <th>Action</th> -->
+
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="h,stats: ${hearinglist}">
+																				<td th:text="${stats.count}"></td>
+																				<td>
+																					<table class="table-responsive">
+
+																						<tr>
+																							<td style="border: 0px"><b>Name:</b></td>
+																							<td style="border: 0px"
+																								th:text="${h.counselName}"></td>
+																						</tr>
+																						<tr>
+																							<td style="border: 0px"><b>Designation:</b>
+																							</td>
+																							<td style="border: 0px"
+																								th:text="${h.counselDesignation.designation}"></td>
+																						</tr>
+																						<tr>
+																							<td style="border: 0px"><b>MobileNo:</b></td>
+																							<td style="border: 0px"
+																								th:text="${h.counselMobileNo}"></td>
+																						</tr>
+																						<tr>
+																							<td style="border: 0px"><b>Email:</b></td>
+																							<td style="border: 0px"
+																								th:text="${h.counselEmail}"></td>
+																						</tr>
+
+																					</table>
+
+																				</td>
+																				<td>
+																					<table class="table-responsive">
+
+																						<tr>
+																							<td style="border: 0px"><b>Name:</b></td>
+																							<td style="border: 0px"
+																								th:text="${h.counselName1}"></td>
+																						</tr>
+																						<tr>
+																							<td style="border: 0px"><b>Designation:</b>
+																							</td>
+																							<td style="border: 0px"
+																								th:text="${h.counselDesignation1.designation}"></td>
+																						</tr>
+																						<tr>
+																							<td style="border: 0px"><b>MobileNo:</b></td>
+																							<td style="border: 0px"
+																								th:text="${h.counselMobileNo1}"></td>
+																						</tr>
+																						<tr>
+																							<td style="border: 0px"><b>Email:</b></td>
+																							<td style="border: 0px"
+																								th:text="${h.counselEmail1}"></td>
+																						</tr>
+
+																					</table>
+
+																				</td>
+
+																				<td>
+																					<table class="table-responsive">
+
+																						<tr>
+																							<td td style="border: 0px"
+																								th:text="${#dates.format(h.lastHearingDate, 'dd/MM/yyyy')}">
+																							</td>
+																						</tr>
+																						<tr>
+																							<td style="border: 0px"
+																								th:text="${#dates.format(h.nextHearingDate, 'dd/MM/yyyy')}"></td>
+																						</tr>
+
+
+																					</table>
+
+																				</td>
+																				<td>
+																					<table class="table-responsive">
+
+																						<tr>
+																							<td td style="border: 0px"
+																								th:text="${h.status.statusName}"></td>
+																						</tr>
+																						<tr>
+																							<td style="border: 0px"
+																								th:text="${#dates.format(h.dateofCaseStatusUpdate, 'dd/MM/yyyy')}"></td>
+																						</tr>
+
+
+																					</table>
+
+																				</td>
+																				<td>
+																					<table class="table-responsive">
+																						<tr th:if="${h.orderCopyFN !=null}">
+
+																							<td style="border: 0px"><label
+																								class="col-form-label text-primary"> <a
+																									th:target="_blank"
+																									th:href="@{|/downloadFiles?fileName=${h.orderCopyFN}|}"><span
+																										th:text="${h.orderCopyFN}"></span><i
+																										class="fa fa-file-pdf-o"
+																										style="font-size: 24px; color: red"></i></a></label></td>
+																						</tr>
+																						<tr>
+																							<td style="border: 0px"
+																								th:text="${#dates.format(h.dateOfOrder, 'dd/MM/yyyy')}"></td>
+																						</tr>
+
+
+																					</table>
+
+																				</td>
+
+
+
+
+
+
+																				<!-- <td><label class="col-form-label text-primary"> <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=${h.orderCopyFN}|}"><span
+											th:text="${h.orderCopyFN}"></span><i class="fa fa-file-pdf-o" style="font-size:24px;color:red"></i></a></label></td> -->
+																				<!-- <td th:text="${h.orderCopyFN}" ></td> -->
+																				<td
+																					th:text="${#dates.format(h.dateOfTransferWithdrawClosing, 'dd/MM/yyyy')}"></td>
+																				<td th:text="${h.reasonofStay}"></td>
+																				<td th:text="${h.remarks}"></td>
+																				<!-- <td><label class="col-form-label text-primary"> <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=${h.orderCopyFN}|}"><span
+											th:text="${h.orderCopyFN}"></span><i class="fa fa-file-pdf-o" style="font-size:24px;color:red"></i></a></label></td> -->
+
+
+																				<!-- 	<td>
+																					<button class="btn btn-success text-wrap"
+																						type="submit" th:name="editHearingdetails"
+																						th:value="${h.Id}">Edit</button> 
+																				</td>  -->
+																				<td><th:block th:if="${h.approveStatus==1}">
+
+																						<button class="btn btn-success text-wrap"
+																							id="rejectHearing1234" type="submit"
+																							disabled="disabled">Send for Approval by
+																							Prosecutor</button>
+
+
+
+																					</th:block> <th:block th:if="${h.approveStatus==2}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVED</button>
+
+																					</th:block> <th:block th:if="${h.approveStatus==3}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">Rejected</button>
+
+
+																						<td th:text="${h.rejectRemark}"></td>
+																					</th:block></td>
+
+																			</tr>
+																		</tbody>
+
+
+
+																	</table>
+																</div>
+															</div>
+
+														</div>
+
+
+
+
+														<div id="piil-30" class="container tab-pane fade">
+															<div class="form-group row"
+																id="showAditionaAcuusedNCompanyData">
+																<div class="table-responsive">
+																	<table id="CompTable1" class="table table-bordered">
+																		<thead>
+																			<tr>
+																				<th>S.No</th>
+																				<th>Type</th>
+																				<th>Company Name</th>
+																				<th>Accused Name</th>
+																				<th>File</th>
+																				<th>Action</th>
+																				<th>Remarks</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr th:each="h,stats: ${uploadadditionalfile}">
+																				<td th:text="${stats.count}"></td>
+																				<!-- <td th:text="${h.type}"/> -->
+																				<td><span th:if="${h.type == 1}">Company</span>
+																					<span th:unless="${h.type == 1}">Accused</span></td>
+
+
+																				<td th:text="${h.companyName}" />
+																				<td style="text-align: center;"><span
+																					th:if="${h.accusedName == null}"
+																					style="font-size: 30px"></span> <span
+																					th:unless="${h.accusedName == null}"><span
+																						th:text="${h.accusedName}" /></span></span></td>
+																				<!-- <td th:text="${h.fileName}"/> -->
+																				<td><label class="col-form-label text-primary">
+																						<a th:target="_blank"
+																						th:href="@{|/downloadFiles?fileName=${h.fileName}|}"><span
+																							th:text="${h.fileName}"></span><i
+																							class="fa fa-file-pdf-o"
+																							style="font-size: 24px; color: red"></i></a>
+																				</label></td>
+
+																				<td><th:block th:if="${h.approveStatus==1}">
+																						<button class="btn btn-success text-wrap"
+																							type="submit" th:name="approveUploadFile">Send
+																							for Approval by Prosecutor</button>
+
+
+
+																					</th:block> <th:block th:if="${h.approveStatus==2}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">APPROVED</button>
+
+																					</th:block> <th:block th:if="${h.approveStatus==3}">
+																						<button class="btn btn-success text-wrap"
+																							disabled="disabled">Rejected</button>
+
+																					</th:block></td>
+
+																				<td th:text="${h.rejectRemark}" />
+
+																			</tr>
+
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+															<div id="rejectAddUploadFile" style="display: none">
+																<label for="input-10" class="col-sm-2 col-form-label">Remarks
+																</label> <input type="text"
+																	th:field="*{rejectRemarkforAddUploadFile}">
+																<button class="btn btn-success text-wrap" type="submit"
+																	th:name="rejectUploadFile">Reject</button>
+
+															</div>
+
+														</div>
+
+
+														<div id="piil-28" class="container tab-pane fade">
+
+															<input type="hidden" th:field="*{typeofreport}">
+															<input type="hidden" th:field="*{approveStatusGenReport}">
+															<input type="hidden" th:field="*{genreportID}">
+
+
+
+
+
+															<div class="col-sm-4 col-form-label">
+
+
+																<span th:if="*{typeofreport==1}"> <a
+																	th:target="_blank"
+																	th:href="@{|/downloadFiles?fileName=${genreport?.complaintReportUpload}|}">
+																		<button type="button"
+																			class="btn btn-success btn-round m-1">View
+																			Uploaded Complaint</button>
+																</a>
+																</span>
+
+															</div>
+
+
+															<div class="col-sm-4 col-form-label">
+																<span th:if="*{typeofreport==2}"> <a href="#"
+																	th:onclick="'javascript:pdfFView();'"><button
+																			type="button" class="btn btn-success btn-round m-1">View
+																			Generated Complaint</button></a>
+																</span>
+
+
+															</div>
+															<div class="col-sm-4 col-form-label">
+																<span
+																	th:if="*{(typeofreport==2||typeofreport==1) && approveStatusGenReport==1}"
+																	id="uploadfileAction">
+																	<button class="btn btn-success text-wrap" type="submit"
+																		disabled="disabled">Send for Approval by
+																		Prosecutor</button>
+
+
+																</span>
+															</div>
+															<div class="col-sm-4 col-form-label">
+																<span
+																	th:if="*{(typeofreport==2||typeofreport==1)&&approveStatusGenReport==2}">
+																	<button class="btn btn-success text-wrap" type="submit"
+																		th:name="approveUploadFile1"
+																		th:value="${criminalTaskDto.genreportID}"
+																		disabled="disabled">Approved</button>
+
+
+																</span>
+															</div>
+															<div class="col-sm-4 col-form-label">
+																<span
+																	th:if="*{(typeofreport==2||typeofreport==1)&&approveStatusGenReport==3}">
+																	<button class="btn btn-success text-wrap" type="submit"
+																		th:name="approveUploadFile1"
+																		th:value="${criminalTaskDto.genreportID}"
+																		disabled="disabled">Rejected</button> <label
+																	class="col-sm-12 col-form-label"
+																	style="font-size: medium;"> <span
+																		class="text-danger">Reject Remarks</span> <span
+																		th:text="${criminalTaskDto.rejectRemarkGenReport}"></span>
+																</label>
+
+
+
+																</span>
+															</div>
+
+														</div>
+
+
+													</div>
+												</div>
+											</div>
+											<!--End row-->
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+						</form>
+
+
+
+
+						<!--End Row-->
+						<!--start overlay-->
+						<div class="overlay toggle-menu"></div>
+						<!--end overlay-->
+					</div>
+					<!-- End container-fluid-->
+
+				</div>
+				<!--End content-wrapper-->
+				<!--Start Back To Top Button-->
+				<a href="javaScript:void();" class="back-to-top"><i
+					class="fa fa-angle-double-up"></i> </a>
+
+				<!--End row-->
+				<div class="modal fade" id="largesizemodal">
+					<div class="modal-dialog modal-xl modal-dialog-centered"
+						style="width: 100%;">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h5 class="modal-title text-white">ADD Person Details</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+
+								<h4 class="form-header text-uppercase">
+									<i class="fa fa-industry"></i> Companies Under
+									Investigation(CUI)
+								</h4>
+
+
+
+								<div class="table-responsive">
+									<table id="CompTable" class="table table-bordered">
+										<thead>
+											<tr>
+												<th>Sr. No.</th>
+
+												<th>Company Name</th>
+												<th>CIN</th>
+												<th>Address</th>
+												<th>Action</th>
+
+											</tr>
+										</thead>
+										<tbody id="compData">
+
+
+										</tbody>
+
+
+									</table>
+
+								</div>
+								<div id="msg"></div>
+							</div>
+							<div class="modal-footer">
+								<!-- <button type="button" class="btn btn-dark" data-dismiss="modal">
+							<i class="fa fa-times"></i> Close
+						</button> -->
+								<button type="button" class="btn btn-primary"
+									id="addnewCompanycase" onclick="addnewComp()">
+									<i class="fa fa-plus"></i> Add New Company
+								</button>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+
+
+
+
+				<div class="modal fade" id="largesizemodal1">
+					<div class="modal-dialog modal-xl modal-dialog-centered"
+						style="width: 100%;">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h5 class="modal-title text-white">ADD Person Details</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+
+								<h4 class="form-header text-uppercase">
+									<i class="fa fa-industry"></i> Accused added by Investigation
+									Unit
+								</h4>
+
+
+
+								<div class="table-responsive">
+									<table id="AccuseTable" class="table table-bordered">
+										<thead>
+											<tr>
+												<th>Sr. No.</th>
+
+												<th>Name</th>
+												<th>Designation</th>
+												<th>Pan Number</th>
+												<th>Gender</th>
+												<th>Mobile No</th>
+												<th>Email</th>
+												<th>CIN</th>
+												<th>Company</th>
+												<th>Add to prosecution database</th>
+											</tr>
+										</thead>
+										<tbody id="accuseData">
+
+
+										</tbody>
+
+
+									</table>
+
+								</div>
+								<div id="msg"></div>
+							</div>
+							<div class="modal-footer">
+								<!-- <button type="button" class="btn btn-dark" data-dismiss="modal">
+							<i class="fa fa-times"></i> Close
+						</button> -->
+								<!-- <button type="button" class="btn btn-primary"
+									id="addnewCompanycase" onclick="addnewComp()">
+									<i class="fa fa-plus"></i> Add New Person
+								</button> -->
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+
+		</div>
+		<!--Form Wizard-->
+		<script src="plugins/jquery.steps/js/jquery.steps.min.js"></script>
+		<script src="plugins/jquery-validation/js/jquery.validate.min.js"></script>
+		<!--wizard initialization-->
+		<script src="plugins/jquery.steps/js/jquery.wizard-init.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+
+		<script type="text/javascript">
+			$(document).ready(
+
+			function() {
+				$('#uploadFile').hide();
+			});
+
+			$('#editFile')
+					.click(
+							function() {
+
+								if ($('#typeofreport').val() == 2) {
+									swal(
+											"Required!",
+											"You have already genrated the report So you can not upload",
+											"error");
+									return;
+								}
+
+								$('#uploadFile').show();
+
+							});
+
+			$('#editFile1').click(
+					function() {
+
+						if ($('#typeofreport').val() == 0
+								|| $('#typeofreport').val() == 2) {
+							swal("Required!", "Please upload the report first",
+									"error");
+							return;
+						}
+
+						$('#uploadFile').show();
+
+					});
+		</script>
+
+		<script type="text/javascript">
+			$(document)
+					.ready(
+
+							function() {
+
+								
+
+								var table = $("#PairaviDtl").DataTable({
+
+								});
+
+								var pairaviType = $("#pairaviType").val();
+
+								if (pairaviType == 2) {
+									$("#enddate").prop('disabled', true);
+
+								} else {
+									$("#enddate").prop('disabled', false);
+								}
+
+								var tabId = $("#tabId").val();
+
+								if (tabId == 21) {
+									$("#myTab li:eq(0) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[0].classList.add("active");
+
+								}
+
+								if (tabId == 22) {
+									$("#myTab li:eq(1) a").tab("show");
+
+									var listItems = $(".nav-item");
+									listItems[1].classList.add("active");
+
+								}
+
+								if (tabId == 23) {
+									$("#myTab li:eq(2) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[2].classList.add("active");
+								}
+
+								if (tabId == 24) {
+									$("#myTab li:eq(3) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[3].classList.add("active");
+								}
+
+								if (tabId == 24) {
+									$("#myTab li:eq(3) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[3].classList.add("active");
+								}
+
+								if (tabId == 25) {
+									$("#myTab li:eq(4) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[4].classList.add("active");
+								}
+								if (tabId == 26) {
+									$("#myTab li:eq(5) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[5].classList.add("active");
+								}
+								if (tabId == 27) {
+									$("#myTab li:eq(6) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[6].classList.add("active");
+								}
+
+								if (tabId == 28) {
+									$("#myTab li:eq(7) a").tab("show");
+
+									var listItems = $(".nav-item");
+
+									listItems[7].classList.add("active");
+								}
+
+								$('#disposedoff').hide();
+
+								var status = $("#status").val();
+
+								if (status == 8) {
+
+									$('#transfer').show();
+									$('#withDraw').hide();
+									$('#stay').hide();
+									$('#windingup').hide();
+									$('#disposedoff').hide();
+
+								}
+
+								else if (status == 9) {
+
+									$('#transfer').hide();
+									$('#withDraw').show();
+									$('#stay').hide();
+									$('#windingup').hide();
+									$('#disposedoff').hide();
+
+								} else if (status == 10) {
+
+									$('#stay').show();
+									$('#transfer').hide();
+									$('#withDraw').hide();
+									$('#windingup').hide();
+									$('#disposedoff').hide();
+
+								} else if (status == 12) {
+
+									$('#stay').hide();
+									$('#transfer').hide();
+									$('#withDraw').hide();
+									$('#windingup').show();
+									$('#disposedoff').hide();
+
+								} else if (status == 4) {
+
+									$('#stay').hide();
+									$('#transfer').hide();
+									$('#withDraw').hide();
+									$('#windingup').hide();
+									$('#disposedoff').show();
+
+								}
+
+								else {
+									$('#transfer').hide();
+									$('#withDraw').hide();
+									$('#stay').hide();
+									$('#windingup').hide();
+
+								}
+
+								/* if (status==3)
+									{
+									$('#transfer').hide();
+									$('#withDraw').hide();
+									$('#stay').hide();
+									$('#windingup').hide();
+									} */
+
+								var invCaseId = $("#incvaseId").val();
+								var macorder = $("#invMcaOrder").val();
+								//	alert(macorder);
+								$('#InvCaseNo').val(macorder);
+
+								$
+										.ajax({
+											//crossDomain: true,
+											type : "GET",
+											url : "getActiveIo?invCaseId="
+													+ invCaseId,
+											//url : "getActiveKMP?invCaseId="+invCaseId,
+											//contentType : "application/json; charset=utf-8",
+											cache : false,
+											timeout : 600000,
+											success : function(data) {
+												debugger
+												//alert(data);
+												var html = '';
+												var len = data.length;
+												//alert(len);
+												var html = '';
+												var len = data.length;
+												$('#IOName').html('');
+												var options = '';
+												options += '<option value="0">Select</option>';
+												for (var i = 0; i < data.length; i++) {
+													options += '<option value="' + data[i].inspName + '">'
+															+ data[i].inspName
+															+ '</option>';
+												}
+												$('#IOName').append(options);
+
+											},
+
+											error : function(xhr, status, error) {
+												//alert('error in getting User List');
+											}
+										});
+
+								$("#invOrder").datepicker({
+
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+								// autoclose: true,
+								}).on(
+										'changeDate',
+										function(selected) {
+											var minDate = new Date(
+													selected.date.valueOf());
+											$('#suppInv').datepicker(
+													'setStartDate', minDate);
+										});
+
+								$("#suppInv").datepicker({
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+
+								}).on(
+										'changeDate',
+										function(selected) {
+											var minDate = new Date(
+													selected.date.valueOf());
+											$('#invOrder').datepicker(
+													'setEndDate', minDate);
+										});
+
+								$("#invReport").datepicker({
+
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+								// autoclose: true,
+								}).on(
+										'changeDate',
+										function(selected) {
+											var minDate = new Date(
+													selected.date.valueOf());
+											$('#suppInvReport').datepicker(
+													'setStartDate', minDate);
+										});
+
+								$("#suppInvReport").datepicker({
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+
+								}).on(
+										'changeDate',
+										function(selected) {
+											var minDate = new Date(
+													selected.date.valueOf());
+											$('#invReport').datepicker(
+													'setEndDate', minDate);
+										});
+
+								$("#startdate").datepicker({
+
+									format : 'dd/mm/yyyy',
+
+								// autoclose: true,
+								}).on(
+										'changeDate',
+										function(selected) {
+											var minDate = new Date(
+													selected.date.valueOf());
+											$('#enddate').datepicker(
+													'setStartDate', minDate);
+										});
+
+								$("#enddate").datepicker({
+									format : 'dd/mm/yyyy',
+								/* endDate : new Date(), */
+
+								}).on(
+										'changeDate',
+										function(selected) {
+											var minDate = new Date(
+													selected.date.valueOf());
+											$('#startdate').datepicker(
+													'setEndDate', minDate);
+										});
+
+								$("#nextHearingDate").datepicker({
+
+									format : 'dd/mm/yyyy',
+								/* 		endDate : new Date(), */
+								})
+
+								$("#lastHearingDate").datepicker({
+
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+								})
+								$("#dateofCaseStatusUpdate").datepicker({
+
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+								})
+
+								$("#dateOfDisposed").datepicker({
+
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+								})
+
+								$("#dateoforder").datepicker({
+
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+								})
+								$("#dateoftransfer").datepicker({
+
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+								})
+
+								$("#closingDateStay").datepicker({
+
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+								})
+
+								$("#stayDateOfOrder").datepicker({
+
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+								})
+
+								$("#transferDateOfOrder").datepicker({
+
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+								})
+								$("#withdrawDateOfWithdraw").datepicker({
+
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+								})
+
+								$("#windingUpClosingDate").datepicker({
+
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+								})
+
+								$("#withdrawDateOfOrder").datepicker({
+
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+								})
+
+								$("#transferDateOfTransfer").datepicker({
+
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+								})
+
+								$("#dateFilling").datepicker({
+
+									format : 'dd/mm/yyyy',
+									endDate : new Date(),
+								})
+
+							});
+		</script>
+
+		<script type="text/javascript">
+			$('#addAccused')
+					.click(
+							function() {
+								var invCaseId = $("#incvaseId").val();
+								//alert(invCaseId);
+								$
+										.ajax({
+											//crossDomain: true,
+											type : "GET",
+											url : "getActiveKMP?invCaseId="
+													+ invCaseId,
+											//contentType : "application/json; charset=utf-8",
+											cache : false,
+											timeout : 600000,
+											success : function(data) {
+												debugger
+												$("#largesizemodal1").modal(
+														"show");
+												var html = '';
+												var len = data.length;
+												//alert(len);
+												$('#accuseData').empty();
+
+												table = $('#AccuseTable')
+														.dataTable(
+																{
+																	'bProcessing' : false,
+																	'bServerSide' : false,
+																	'bJQueryUI' : true,
+																	'destroy' : true,
+																	"autoWidth" : false,
+																	"responsive" : true,
+																	'language' : {
+																		'sLoadingRecords' : '<span style="width:100%;"><img src="resources/images/Spinner-1s-80px1.gif"></span>'
+																	},
+
+																	'data' : data,
+																	'columns' : [
+																			{
+																				'sDefaultContent' : '',
+																				"mData" : function(
+																						mData,
+																						type,
+																						row,
+																						meta) {
+																					return meta.row
+																							+ meta.settings._iDisplayStart
+																							+ 1;
+																				}
+																			},
+
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+
+																					return "<td class='text-wrap'>"
+																							+ data[2]
+																							+ "</td>"
+																					/* return data[2]; */
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return "<td class='text-wrap'>"
+																							+ data[7]
+																							+ "</td>"
+																					/* return data[7]; */
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return "<td class='text-wrap'>"
+																							+ data[3]
+																							+ "</td>"
+																					/* return data[3]; */
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return "<td class='text-wrap'>"
+																							+ data[4]
+																							+ "</td>"
+																					/* return data[4]; */
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return "<td class='text-wrap'>"
+																							+ data[6]
+																							+ "</td>"
+																					/* return data[6]; */
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return "<td class='text-wrap'>"
+																							+ data[5]
+																							+ "</td>"
+																					/* return data[5]; */
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return "<td class='text-wrap'>"
+																							+ data[8]
+																							+ "</td>"
+																					/* return data[8]; */
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return "<td class='text-wrap'>"
+																							+ data[9]
+																							+ "</td>"
+																					/* return data[9]; */
+																				}
+																			},
+
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					var isAdded = false;
+
+																					$(
+																							'#personList tr')
+																							.each(
+																									function(
+																											j,
+																											v) {
+																										if ($(
+																												this)
+																												.children(
+																														'td:eq(2)')
+																												.text() == data[3]) {
+																											isAdded = true
+																										}
+																										;
+																									});
+
+																					if (isAdded)
+																						return '<td><input type="button"  value = "Already Added" class = "btn btn-info" disabled="true"/></td></tr>';
+																					else
+																						return "<button type='button' class='btn btn-danger btn-round m-1' onclick=SavedAccused('"
+																								+ encodeURIComponent(data[2])
+																								+ "','"
+																								+ data[3]
+																								+ "','"
+																								+ encodeURIComponent(data[7])
+																								+ "','"
+																								+ data[4]
+																								+ "','"
+																								+ data[5]
+																								+ "','"
+																								+ data[6]
+																								+ "','"
+																								+ data[9]
+																								+ "','"
+																								+ encodeURIComponent(data[8])
+																								+ "','"
+																								+ encodeURIComponent(data[11])
+																								+ "','"
+																								+ data[10]
+																								+ "','"
+																								+ data[0]
+																								+ "')>"
+																								+ 'Select'
+																								+ "</button>";
+																				}
+																			}, ],
+																});
+
+											},
+
+											error : function(xhr, status, error) {
+												//alert('error in getting User List');
+											}
+										});
+
+							})
+			function SavedAccused(accusedName, panNumber, accuseDesination,
+					gender, email, mobile, cin, company, accusedAddress,
+					companuSummonId, rpcId) {
+				
+
+				var res = accuseDesination.replace(/%20/g, " ");
+				
+
+				var accusedAddress1 = accusedAddress.replace("%20", " ");
+
+				var accName = accusedName.replace("%20", " ");
+				var cName = accusedName.replace("%20", " ");
+
+				$("#largesizemodal1").modal("hide");
+				$('#newAccused').show()
+				$('#companyId').val(companuSummonId);
+				$("#accusedName").attr("readonly", true);
+				$('#accusedName').val(accName)
+				$("#accCIN").attr("readonly", true);
+				$('#accCIN').val(cin)
+				//alert($('#accCIN').val())
+				$("#accComp").attr("readonly", true);
+				$('#accComp').val(company)
+				$("#accPan").attr("readonly", true);
+				$('#accPan').val(panNumber)
+				$("#accDesination").attr("readonly", true);
+				$('#accDesination').val(res)
+
+				$("#accusedAddress").attr("readonly", true);
+				$('#accusedAddress').val(accusedAddress1);
+
+				//alert(coyAddress2);
+
+			}
+			$('#selectComp')
+					.click(
+							function() {
+								var invCaseId = $("#incvaseId").val();
+								//alert(invCaseId);
+								var temp = "getActiveCompany?invCaseId="
+										+ invCaseId;
+								//	alert(temp);
+								debugger
+								$
+										.ajax({
+											//crossDomain: true,
+											type : "GET",
+											url : "getActiveCompany?invCaseId="
+													+ invCaseId,
+											//url : "getActiveKMP?invCaseId="+invCaseId,
+											//contentType : "application/json; charset=utf-8",
+											cache : false,
+											timeout : 600000,
+											success : function(data) {
+												debugger
+												$("#largesizemodal").modal(
+														"show");
+
+												var html = '';
+												var len = data.length;
+												//alert(len);
+												$('#CompData').empty();
+
+												table = $('#CompTable')
+														.dataTable(
+																{
+																	'bProcessing' : false,
+																	'bServerSide' : false,
+																	'bJQueryUI' : true,
+																	'destroy' : true,
+																	"autoWidth" : false,
+
+																	'language' : {
+																		'sLoadingRecords' : '<span style="width:100%;"><img src="resources/images/Spinner-1s-80px1.gif"></span>'
+																	},
+
+																	'data' : data,
+																	'columns' : [
+																			{
+																				'sDefaultContent' : '',
+																				"mData" : function(
+																						mData,
+																						type,
+																						row,
+																						meta) {
+																					return meta.row
+																							+ meta.settings._iDisplayStart
+																							+ 1;
+																				}
+																			},
+
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return data[0];
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return data[1];
+																				}
+																			},
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					return data[3];
+																				}
+																			},
+
+																			{
+																				'sDefaultContent' : '',
+																				'mData' : function(
+																						data,
+																						type,
+																						row) {
+																					var isAdded = false;
+
+																					$(
+																							'#compCin tr')
+																							.each(
+																									function(
+																											j,
+																											v) {
+																										if ($(
+																												this)
+																												.children(
+																														'td:eq(1)')
+																												.text() == data[1]) {
+																											isAdded = true
+																										}
+																										;
+																									});
+
+																					if (isAdded)
+																						return '<td><input type="button"  value = "Already Added" class = "btn btn-info" disabled="true"/></td></tr>';
+																					else
+																						return "<button type='button' class='btn btn-danger btn-round m-1' onclick=SavedCompany1('"
+																								+ encodeURIComponent(data[0])
+																								+ "','"
+																								+ data[1]
+																								+ "','"
+																								+ data[2]
+																								+ "','"
+																								+ encodeURIComponent(data[3])
+																								+ "'"
+
+																								+ ")>"
+																								+ 'Add'
+																								+ "</button>";
+
+																					/* 	   return "<button type='button' class='btn btn-danger btn-round m-1' onclick=SavedCompany1('"
+																							+ encodeURIComponent (data[0])
+																							+ "',"
+																							   + data[1]
+																					        + "',"
+																							   + data[2]+
+																					             ")>"+'Add'+"</button>";  */
+
+																				}
+																			}, ],
+																});
+
+											},
+
+											error : function(xhr, status, error) {
+												//alert('error in getting User List');
+											}
+										});
+
+							})
+
+			function SavedCompany1(compName, compCin, compId, compAddess) {
+				//alert(compName);
+
+				var compAddess1 = compAddess.replace("%20", " ");
+				var compName1 = compName.replace("%20", " ");
+
+				$('#addCriminalDtl1').attr('action', 'AddCompanyDetails');
+				$('#compName').val(compName1);
+				$('#companyId').val(compId);
+				$('#cin').val(compCin);
+				$('#compAddess').val(compAddess1);
+				$('#addCriminalDtl1').submit();
+			}
+
+			function NewCompanyDetails() {
+
+				$('#addCriminalDtl1').attr('action', 'AddCompanyDetails');
+				$('#addCriminalDtl1').submit();
+			}
+			function mySample() {
+
+				$('#addCriminalDtl1').attr('action', 'AddCompanyDetails');
+				//$('#addCriminalDtl1').submit();
+			}
+		</script>
+
+
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var table = $('#userTable').DataTable({});
+			});
+
+			$(document).ready(function() {
+
+				var table = $('#roleTable').DataTable({
+					//	 	        lengthChange: false,
+					buttons : [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+				});
+			});
+
+			$('#pairaviType').on('change', function() {
+
+				var pairaviType = this.value
+				if (pairaviType == 2) {
+					$("#enddate").prop('disabled', true);
+
+				} else {
+					$("#enddate").prop('disabled', false);
+				}
+
+			});
+
+			function addnewComp() {
+
+				$("#largesizemodal").modal("hide");
+
+				$("#compName").attr("readonly", false);
+				$('#compName').val('')
+				$("#cin").attr("readonly", false);
+				$('#cin').val('')
+
+				$('#newComp').show();
+
+			}
+
+			function SaveAccusedDetails() {
+				$('#addCriminalDtl1').attr('action', 'SaveAccusedDetails');
+
+				$('#addCriminalDtl1').submit();
+			}
+
+			function complaintReportUpload() {
+				//alert("hi---------");
+
+				if ($('#complaintReportUpload1').val() == '') {
+					swal("Required!", "Please Select the file", "error");
+					return;
+				}
+
+				$('#addCriminalDtl1').attr('action', 'complaintReportUpload1');
+
+				$('#addCriminalDtl1').submit();
+			}
+
+			function complaintReportUpload5() {
+				//	alert("hi5");
+
+				if ($('#complaintReportUpload1').val() == '') {
+					swal("Required!", "Please Select the file", "error");
+					return;
+				}
+
+				$('#addCriminalDtl1').attr('action', 'complaintReportUpload1');
+
+				$('#addCriminalDtl1').submit();
+			}
+
+			function pdfFView() {
+				if ($('#typeofreport').val() == 1
+						|| $('#typeofreport').val() == 0) {
+					swal("Required!", "Please generate the report first",
+							"error");
+					return;
+				}
+
+				$('#viewGeneratedComplaint').attr("action",
+						"genComplaintPdfPreviewnew");
+				$('#viewGeneratedComplaint').submit();
+				$('div').removeClass('loading');
+			}
+
+			function generateComplaintReport() {
+				if ($('#typeofreport').val() == 1) {
+					swal(
+							"Required!",
+							"You have already uploaded the report So you can not generate",
+							"error");
+					return;
+				}
+
+				$('#addCriminalDtl1').attr('action', 'generateComplaintReport');
+
+				$('#addCriminalDtl1').submit();
+			}
+			$('#status').on('change', function() {
+				//	alert('l');
+				var status = this.value
+
+				if (status == 8) {
+
+					$('#transfer').show();
+					$('#withDraw').hide();
+					$('#stay').hide();
+					$('#windingup').hide();
+					$('#disposedoff').hide();
+
+				}
+
+				else if (status == 9) {
+
+					$('#transfer').hide();
+					$('#withDraw').show();
+					$('#stay').hide();
+					$('#windingup').hide();
+					$('#disposedoff').hide();
+
+				} else if (status == 10) {
+
+					$('#stay').show();
+					$('#transfer').hide();
+					$('#withDraw').hide();
+					$('#windingup').hide();
+					$('#disposedoff').hide();
+
+				} else if (status == 12) {
+
+					$('#stay').hide();
+					$('#transfer').hide();
+					$('#withDraw').hide();
+					$('#windingup').show();
+					$('#disposedoff').hide();
+
+				} else if (status == 4) {
+
+					$('#stay').hide();
+					$('#transfer').hide();
+					$('#withDraw').hide();
+					$('#windingup').hide();
+					$('#disposedoff').show();
+
+				}
+
+				else {
+					$('#transfer').hide();
+					$('#withDraw').hide();
+					$('#stay').hide();
+					$('#windingup').hide();
+					$('#disposedoff').hide();
+
+				}
+
+			});
+		</script>
+		<script type="text/javascript">
+			//--------------------------------------
+			
+			function getCompanyAccusedInfo() {
+				//alert("helli bhai");
+				var span = document.getElementById("chosecompanyAndAccused");
+				if (span.style.display === "none") {
+					// $("#showUploadAdditional").hide();
+					span.style.display = "inline"; // show the span
+				} else {
+					span.style.display = "none"; // hide the span
+					// $("#CompanyFileUpload").hide();
+					$("#showUploadAdditional").hide();
+
+					$("#submitCompany").hide();
+					$("#showCompanyDiv").hide();
+					$("#CompanyFileUploadAccused").hide();
+					$("#noCompanyInput").hide();
+					$("#accusedDIV").hide();
+				}
+			}
+			//--------------------------------------
+
+			function getCompanyInfo() {
+				alert('test company');
+
+				$("#noCompanyInput").hide();
+				$("#submitCompany").show();
+				$("#CompanyFileUploadAccused").show();
+				$("#showCompanyDiv").show();
+
+				$("#accusedforFile").hide();
+				$("#accusedDIV").hide();
+			}
+			function getAccusedInfo() {
+				alert('test Accused');
+				$("#accusedforFile").hide();
+				$("#CompanyFileUpload").hide();
+				$("#submitCompany").show();
+				$("#showCompanyDiv").show();
+				$("#CompanyFileUploadAccused").show();
+				$("#showCompanyDivAndaccused").hide();
+				$("#accusedDIV").show();
+
+			}
+			/*  function selectCompany1(){
+			 var companyName = document.getElementById("selectCompany").selectedOptions[0].value;
+			 alert(companyName);
+			
+			 if(companyName=="Select"){
+			 //@@ show here no company name input box
+			 $("#noCompanyInput").show();
+			 }else{
+			 //@@ here remove no company name input box
+			 $("#noCompanyInput").hide();
+			 }
+			 }  */
+
+			function selectAccused1() {
+				//	alert("uuii");
+				var companyName = document.getElementById("selectAccused").selectedOptions[0].value;
+				//alert(companyName);
+				if (companyName == 0) {
+					//@@ show here no company name input box
+					$("#accusedforFile").show();
+				} else {
+					//@@ here remove no company name input box
+					$("#accusedforFile").hide();
+				}
+			}
+		</script>
+		<script type="text/javascript">
+			$("#selectCompany")
+					.change(
+							function() {
+								var selectedText = $(this).find(
+										"option:selected").text();
+								var company = $(this).val();
+								var procourtdtlIDD = $('#procourtdtlIDD').val();
+
+								$
+										.ajax({
+											type : "GET",
+											url : "getaccusedforfileupload?company="
+													+ company
+													+ "&procourtdtlIDD="
+													+ procourtdtlIDD,
+											// data : courtType,
+											data : {
+												'company' : company,
+												'procourtdtlIDD' : procourtdtlIDD
+											},
+											success : function(data) {
+												var html = '';
+												var len = data.length;
+												/* alert(len); */
+
+												if (len > 0) {
+													for (var i = 0; i < len; i++) {
+														if (i == 0) {
+															html += '<option value="-1"> Select</option>';
+															html += '<option value="0"> New Accused</option>';
+														}
+
+														html += '<option value="' + data[i].id + '">'
+																+ data[i].accusedMaster.accusedName
+																+ '</option>';
+													}
+													$("#selectAccused").html(
+															html);
+												} else {
+													html += '<option value="-1"> Select</option>';
+													html += '<option value="0">New Accused</option>';
+
+													$("#selectAccused").html(
+															html);
+
+													// $("#selectAccused").prop("disabled", true);
+												}
+											}
+										});
+
+								var companyName = document
+										.getElementById("selectCompany").selectedOptions[0].value;
+								//alert('tttttttttttttttttttttttttttttttttttt');
+
+								if (companyName == 1) {
+									//@@ show here no company name input box
+									$("#noCompanyInput").show();
+								} else {
+									//@@ here remove no company name input box
+									$("#noCompanyInput").hide();
+								}
+							});
+		</script>
+		<script type="text/javascript">
+			function rejectAccused() {
+				//alert('Test11');
+
+				$("#rejectdivAccused").show();
+				var rejectforpairaviID = $('#rejectforAccused').val();
+
+				$('#accused1Id').val(rejectforpairaviID);
+
+				$("#rejectforAccused").hide();
+				$("#approveAccused1").hide();
+				window.scrollTo(1000, document.body.scrollHeight);
+
+			}
+
+			/* function rejectCriminalDtl12(){
+
+
+
+			 $("#rejectdivAccused").hide();
+			 $("#rejectforAccused").show();
+			
+			 } */
+		</script>
+		<script type="text/javascript">
+			function rejectuploadedfile() {
+
+				alert("test file");
+				$("#rejectdivforUploadFIle").show();
+				var rejectHearingID = $('#rejectUploadFile12300').val();
+
+				$('#genreportID').val(rejectHearingID);
+
+				$("#uploadfileAction").hide();
+
+				window.scrollTo(1000, document.body.scrollHeight);
+			}
+		</script>
+
+
+
+		<script type="text/javascript">
+			function rejectHearing() {
+
+				$("#rejectdivforHearing").show();
+				var rejectHearingID = $('#rejectHearing1').val();
+
+				$('#hearingID').val(rejectHearingID);
+
+				$("#rejectHearing1").hide();
+				$("#rejectHearing1234").hide();
+				window.scrollTo(1000, document.body.scrollHeight);
+
+			}
+		</script>
+
+		<script type="text/javascript">
+			function rejectPairaviOfficer() {
+
+				$("#rejectdivforpairavi").show();
+				var rejectforpairaviID = $('#rejectforpairavi').val();
+
+				$('#pairaviId').val(rejectforpairaviID);
+
+				$("#rejectforpairavi").hide();
+				$("#rejectforpairavi12").hide();
+				window.scrollTo(1000, document.body.scrollHeight);
+
+			}
+
+			function rejectCriminalDtl12() {
+
+				$("#rejectdiv").show();
+				$("#rejectdiv1").hide();
+
+			}
+
+			function rejectCompany() {
+
+				//alert('tsettttt');
+
+				$("#rejectdivforCompany").show();
+				var rejectforpairaviID = $('#rejectforCompany').val();
+
+				$('#companyId').val(rejectforpairaviID);
+
+				$("#rejectforCompany").hide();
+				$("#CompanyApprovee").hide();
+				window.scrollTo(1000, document.body.scrollHeight);
+
+			}
+		</script>
+		<script type="text/javascript">
+			function rejectCaseProcessingDates() {
+
+				$("#processingDateforReject").show();
+				var rejectforpairaviID = $('#rejectforCaseProcessingDate')
+						.val();
+
+				$('#caseproseingID').val(rejectforpairaviID);
+
+				$("#approveforCaseProcessingDate").hide();
+				$("#rejectforCaseProcessingDate").hide();
+
+				window.scrollTo(1000, document.body.scrollHeight);
+
+			}
+		</script>
+
+		<script type="text/javascript">
+			function rejectUploadFile88() {
+
+				var rejectforpairaviID = $('#rejectUploadFile').val();
+
+				$('#rejectuploadID').val(rejectforpairaviID);
+				$("#rejectAddUploadFile").show();
+				$("#rejectAddUploadFile1").hide();
+				$("#rejectUploadFile").hide();
+				window.scrollTo(1000, document.body.scrollHeight);
+
+			}
+		</script>
+	</div>
+</body>
+</html>

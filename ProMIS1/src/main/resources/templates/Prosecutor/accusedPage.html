@@ -1,0 +1,306 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<title>ADD Details</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="userHome">Home</a></li>
+					<!-- <li class="breadcrumb-item active" aria-current="page"><span th:if="${accusedResponse.typeOfCase}!=NCLT">Add Accused Response
+															</span> <span th:if="${accusedResponse.typeOfCase}==NCLT">Add Respondent Response
+															</span></li> -->
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+		
+
+
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+
+
+
+
+							<div class="form-header ">
+							
+								<h4>Accused</h4>
+
+
+								<!-- <div class="form-group row">
+									<label for="input-16" class="col-sm-2 col-form-label">
+										Cause Title</label>
+									<div class="col-sm-4">
+										<span class="text-primary"
+											style="font-size: 13px; text-align: left;"
+											th:text="*{procourtdtl.causeTitle}"> </span>
+									</div>
+
+
+
+									<label for="input-16" class="col-sm-2 col-form-label">
+										Court Case No</label> <span class="col-sm-4 text-primary"
+										style="font-size: 13px" th:text="*{procourtdtl.courtCaseNo}">
+									</span>
+								</div> -->
+
+
+							</div>
+							<div>
+
+<form th:action="@{/saveUploadAdditionalFileAccuse}" method="post"
+			autocomplete="off" th:object="${responseOfRespondent}"
+			id="saveResponseOfRespond" enctype="multipart/form-data">
+			<input type="hidden" th:field=*{assignedTaskPuhdtl}><input
+				type="hidden" th:field=*{id}>
+
+								<div class="row pt-3">
+
+
+
+
+									<div class="col-sm-4">
+										<label class="form-label"> Accused</label> <select
+											class="form-control" th:field="*{accusedId}">
+
+											<option value="0">Choose</option>
+											<option th:each="design: ${personList}"
+												th:value="${design.id}" th:utext="${design.accusedName}" />
+										</select> <span class="text-danger"
+											th:if="${#fields.hasErrors('accusedId')}"
+											th:errors="*{accusedId}"></span>
+									</div>
+
+
+									<div class="col-sm-4 mb-3">
+										<label class="form-label">UPLOAD PDF File HERE</label> <input
+											type="file" class="form-control pl-2" th:field="*{file}"
+											multiple="multiple"> <span class="text-danger"
+											th:if="${#fields.hasErrors('file')}" th:errors="*{file}"></span>
+									</div>
+
+								</div>
+								<div class="row">
+									<div class="col-sm-4 mb-3">
+										<button type="submit" class="btn btn-success btn-round m-1">
+
+											<i class="fa fa-check-square-o"></i> SAVE
+										</button>
+										<!-- <th:block th:if="${criminalTaskDto.uploadID==null}">
+																		<button type="button" id="saveUploadFile"
+																			class="btn btn-success btn-round m-1"
+																			th:name="saveUploadAdditionalFile">
+																			<i class="fa fa-check-square-o"></i> SAVE
+																		</button>
+																	</th:block>
+																	<th:block th:if="${criminalTaskDto.uploadID!=null}">
+																		<button type="button" id="saveUploadFile"
+																			class="btn btn-success btn-round m-1"
+																			th:name="saveUploadAdditionalFile">
+																			<i class="fa fa-check-square-o"></i> Update
+																		</button>
+																	</th:block> -->
+
+									</div>
+
+								</div>
+								</form>
+								<div class="form-group row">
+									<div class="table-responsive">
+										<table id="CompTable1" class="table table-bordered">
+											<thead>
+												<tr>
+													<th>S.No</th>
+
+													<th>Accused Name</th>
+													<th>File</th>
+													<th>Action</th>
+													<th>Remarks</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="h,stats: ${uploadadditionalfile}">
+													<td th:text="${stats.count}"></td>
+
+
+
+
+													<td th:text="${h.accusedId.accusedName}" />
+
+
+
+
+
+													<td><label class="col-form-label text-primary">
+															<a th:target="_blank"
+															th:href="@{|/downloadFiles?fileName=${h.fileName}|}"><span
+																th:text="${h.fileName}"></span><i
+																class="fa fa-file-pdf-o"
+																style="font-size: 24px; color: red"></i></a>
+													</label></td>
+
+													<td>
+													<form th:action="@{/editTypeofCase1}" method="post"
+												autocomplete="off">
+												<button class="btn btn-success text-wrap" type="submit"
+													th:name="editCase" th:value="${h.id}">Edit</button>
+											</form>
+													
+													
+													
+															<!-- <th:block th:if="${h.approveStatus==0}">
+																<button class="btn btn-success text-wrap" type="submit"
+																	th:name="forwardUploadFileAccused" th:value="${h.Id}">Forward</button>
+
+																<button type="submit" class="btn btn-success text-wrap"
+																	th:value="${h.Id}" th:name="editUploadFileCriminal">Edit</button>
+
+
+															</th:block>
+															<th:block th:if="${h.approveStatus==1}">
+																<button class="btn btn-success text-wrap"
+																	disabled="disabled">Approval is in process</button>
+
+															</th:block>
+															<th:block th:if="${h.approveStatus==2}">
+																<button class="btn btn-success text-wrap"
+																	disabled="disabled">APPROVED</button>
+
+															</th:block>
+															<th:block th:if="${h.approveStatus==3}">
+																<button class="btn btn-success text-wrap"
+																	disabled="disabled">Sent Back</button>
+
+																<button type="submit" class="btn btn-success text-wrap"
+																	th:value="${h.Id}" th:name="editUploadFileCriminal">Edit</button>
+
+															</th:block> -->
+														</td>
+
+													<td th:text="${h.rejectRemark}" />
+
+												</tr>
+
+											</tbody>
+										</table>
+									</div>
+								</div>
+
+							</div>
+
+
+
+
+						</div>
+
+
+
+						<div class="form-footer d-flex justify-content-between px-3 py-3">
+
+							<div>
+								<button type="button" class="btn btn-primary" id="addIPC"
+									onclick="saveIPC();">Back</button>
+							</div>
+							<!-- <div>
+								<button type="submit" th:if="*{id==null}"
+									class="btn btn-success btn-round m-1">
+									<i class="fa fa-check-square-o"></i> SAVE
+								</button>
+								<button type="submit" th:if="*{id!=null}"
+									class="btn btn-success btn-round m-1"
+									th:name="updateResponseOfRespond">
+									<i class="fa fa-check-square-o"></i> Update
+								</button>
+							</div>
+ -->
+						</div>
+					</div>
+				</div>
+			</div>
+		
+
+		<script src="plugins/bootstrap-datatable/js/jquery.d.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+
+		<script type="text/javascript">
+			function saveIPC() {
+
+				$('#saveResponseOfRespond').attr("action", "backToMainPage");
+				$('#saveResponseOfRespond').submit();
+
+			}
+		</script>
+
+
+
+
+		<script type="text/javascript">
+			$("#dateOfRecieptApp").datepicker({
+
+				format : 'dd/mm/yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			})
+
+			$("#dateOfReply").datepicker({
+
+				format : 'dd/mm/yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			})
+
+			$("#dateOfApplication").datepicker({
+
+				format : 'dd/mm/yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			})
+		</script>
+
+
+
+	</div>
+</body>
+</html>

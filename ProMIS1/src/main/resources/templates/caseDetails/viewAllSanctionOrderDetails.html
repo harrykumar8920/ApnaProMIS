@@ -1,0 +1,152 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+	<link href="plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css">
+	<title>Total Number of Prosecution Sanction Orders</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-5">
+				<ol class="breadcrumb">
+
+					<li class="breadcrumb-item"><a href="directorhome">Home</a></li>
+
+
+
+					<li class="breadcrumb-item active" aria-current="page">Total Number of Prosecution
+						Sanction Orders</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header text-uppercase">
+							<i class="fa fa-address-book-o"></i> Total Number of Prosecution
+							Sanction Orders
+
+						</h4>
+
+
+						<form th:action="@{/}" method="post" class="needs-validation">
+
+							<div class="form-group row">
+								<div class="table-responsive">
+									<table class="table table-striped table-bordered" id="assignedTable">
+										<thead class="bg-info text-white">
+											<tr>
+												<th>S.No.</th>
+
+												<th>Case Title/Company Name</th>
+												<th>Sanction Order Date</th>
+												<th>FILE NO. OF SANCTION ORDER NO</th>
+												<th>Sanction File Number</th>
+												<th>Sanction File Name</th>
+												<th>Created Date</th>
+												<th>Created By</th>
+												<th>Finalized Date</th>
+												<th>Finalized By</th>
+
+
+
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="p,stats: ${viewAllSanctionOrderDetails}">
+												<td th:text="${stats.count}"></td>
+												<td th:text="${p.caseTitle}"></td>
+												<td th:text="${#dates.format(p.proSanctionDate, 'dd/MM/yyyy')}"></td>
+												<td th:text="${p.proSectionOrderNumber}"></td>
+												<td th:text="${p.fileNumber}"></td>
+												<td th:text="${p.proSanctionFileName}"></td>
+
+												<td th:text="${#dates.format(p.createdDate, 'dd/MM/yyyy')}"></td>
+
+
+												<th:block th:if="${p.createdBy.middleName==null}">
+													<td th:text="${p.createdBy.firstName +' '+ p.createdBy.lastName}">
+													</td>
+												</th:block>
+												<th:block th:unless="${p.createdBy.middleName==null}">
+													<td
+														th:text="${p.createdBy.firstName +' '+ p.createdBy.middleName +' '+ p.createdBy.lastName}">
+													</td>
+												</th:block>
+												<td th:text="${#dates.format(p.approvedDate, 'dd/MM/yyyy')}"></td>
+
+
+
+
+												<!-- 	<th:block th:if="${approvedBy==createdBy}">
+												
+												<td><span >Something else</span> </td>
+												</th:block>
+												<th:block th:if="${approvedBy!= 'createdBy'}">
+												<td th:text="${p.approvedBy.firstName}"></td>
+												</th:block> -->
+												<th:block th:if="${p.approvedBy.middleName==null}">
+													<td th:text="${p.approvedBy.firstName +' '+ p.approvedBy.lastName}">
+													</td>
+												</th:block>
+												<th:block th:unless="${p.approvedBy.middleName==null}">
+													<td
+														th:text="${p.approvedBy.firstName +' '+ p.approvedBy.middleName +' '+ p.approvedBy.lastName}">
+													</td>
+												</th:block>
+
+
+
+
+
+
+
+											</tr>
+
+
+										</tbody>
+
+									</table>
+								</div>
+							</div>
+						</form>
+
+
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function () {
+
+				var table = $('#assignedTable').DataTable({
+					//		 	        lengthChange: false,
+					buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+				});
+			});
+		</script>
+
+	</div>
+
+</body>
+
+</html>

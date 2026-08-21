@@ -1,0 +1,1035 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<title>Freezer Assets</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="userHome">Home</a></li>
+				</ol>
+			</div>
+		</div>
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+		<form th:action="@{/saveFreezerAssetOrder}" method="post"
+			autocomplete="off" th:object="${freezerAsset}"
+			id="saveResponseOfRespond" enctype="multipart/form-data">
+			<input type="hidden" th:field=*{assignedTask}> <input
+				type="hidden" th:field=*{freezerOrderFileName}> <input
+				type="hidden" th:field=*{complianceOrderFileName}> <input
+				type="hidden" th:field=*{issueNoticeFileName}> <input
+				type="hidden" th:field=*{accusedClause}> <input
+				type="hidden" th:field=*{filingAffidavitFileName}> <input
+				type="hidden" th:field=*{movableAssetsFileName}> <input
+				type="hidden" th:field=*{immovableAssetsFileName}> <input
+				type="hidden" th:field=*{Procourtdtl}> <input type="hidden"
+				th:field=*{freezerAssetsNameT}> <input type="hidden"
+				th:field=*{freezerAssetsTypeT}> <input type="hidden"
+				th:field=*{id}> <input type="hidden" th:field=*{tempID}>
+
+
+
+
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<div class="form-header ">
+								<h4>Freezer Assets Order</h4>
+								<div class="form-group row">
+									<label for="input-16" class="col-sm-2 col-form-label">
+										Cause Title</label>
+									<div class="col-sm-4">
+										<span class="text-primary"
+											style="font-size: 13px; text-align: left;"
+											th:text="*{procourtdtl.causeTitle}"> </span>
+									</div>
+									<label for="input-16" class="col-sm-2 col-form-label">
+										Court Case No</label> <span class="col-sm-4 text-primary"
+										style="font-size: 13px" th:text="*{procourtdtl.courtCaseNo}">
+									</span>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-3 col-form-label">
+									Respondent<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<select class="form-control" th:field="*{addResponse}"
+										id="addResponse">
+										<option value="0">Select</option>
+										<option th:each="court:${allRespondentList}"
+											th:value="${court.id}" th:utext="${court.accusedName}" />
+									</select> <span class="text-danger"
+										th:if="${#fields.hasErrors('addResponse')}"
+										th:errors="*{addResponse}"></span>
+								</div>
+								<!--<label for="input-16" class="col-sm-3 col-form-label">Type
+									of Respondent<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<select class="form-control" th:field="*{freezResponseType}">
+										<option value="Select">Select</option>
+										<option value="COMPANY RESPONDENTS">COMPANY
+											RESPONDENTS</option>
+										<option value="INDIVIDUAL RESPONDENTS">INDIVIDUAL
+											RESPONDENTS</option>
+										<option value="LLP RESPONDENTS">LLP RESPONDENTS</option>
+										<option value="STATUTORY AUDITOR FIRM RESPONDENT">STATUTORY
+											AUDITOR FIRM RESPONDENT</option>
+										 <option value="Select">Select</option>
+										<option value="Counter affidavit">Counter affidavit</option>
+										<option value="Application">Application</option>
+										<option value="Name Deletion application">Name
+											Deletion application</option>
+										<option value="Defreezer Application">Defreezer
+											Application</option> 
+									</select> <span class="text-danger"
+										th:if="${#fields.hasErrors('freezResponseType')}"
+										th:errors="*{freezResponseType}"></span>
+								</div>-->
+
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-3 col-form-label">Date
+									of freezing order <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control"
+										placeholder="Enter Freezing Order Date"
+										th:field="*{freezingOrderDate}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('freezingOrderDate')}"
+										th:errors="*{freezingOrderDate}"></span>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">Upload Freezing Order <span class="text-danger">*</span>
+								</label>
+
+								<div class="col-sm-1">
+									<label th:unless="*{freezerOrderFileName==null}"> <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=*{freezerOrderFileName}|}">
+											<span th:unless="*{freezerOrderFileName==''}"> <span>View</span>
+												<i class="fa fa-file-pdf-o"
+												style="font-size: 24px; color: red"></i></span>
+									</a></label>
+								</div>
+								<div class="col-sm-3">
+									<input type="file" class="form-control"
+										th:field="*{freezerOrderFile}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('freezerOrderFile')}"
+										th:errors="*{freezerOrderFile}"></span>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-3 col-form-label">Date
+									of Compliance of order<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control"
+										placeholder="Enter Compliance order Date"
+										th:field="*{ComplianceOrderDate}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('ComplianceOrderDate')}"
+										th:errors="*{ComplianceOrderDate}"></span>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">Upload
+									Compliance<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-1">
+									<label th:unless="*{complianceOrderFileName==null}"> <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=*{complianceOrderFileName}|}">
+											<span th:unless="*{complianceOrderFileName==''}"> <span>View</span>
+												<i class="fa fa-file-pdf-o"
+												style="font-size: 24px; color: red"></i></span>
+									</a></label>
+								</div>
+								<div class="col-sm-3">
+									<input type="file" class="form-control"
+										th:field="*{complianceOrderFile}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('complianceOrderFile')}"
+										th:errors="*{complianceOrderFile}"></span>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-3 col-form-label">Date
+									of issue of notice to the respondent intimating about the order<span
+									class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control"
+										placeholder="Enter issue of notice Date"
+										th:field="*{issueNoticeDate}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('issueNoticeDate')}"
+										th:errors="*{issueNoticeDate}"></span>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">Upload
+									issue Notice<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-1">
+									<label th:unless="*{issueNoticeFileName==null}"> <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=*{issueNoticeFileName}|}">
+											<span th:unless="*{issueNoticeFileName==''}"> <span>View</span>
+												<i class="fa fa-file-pdf-o"
+												style="font-size: 24px; color: red"></i></span>
+									</a></label>
+								</div>
+								<div class="col-sm-3">
+									<input type="file" class="form-control"
+										th:field="*{issueNoticeFile}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('issueNoticeFile')}"
+										th:errors="*{issueNoticeFile}"></span>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-3 col-form-label">Date
+									of filing of affidavit by the Respondent disclosing their
+									assets<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control"
+										placeholder="Enter Date of filing of affidavit"
+										th:field="*{filingAffidavitDate}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('filingAffidavitDate')}"
+										th:errors="*{filingAffidavitDate}"></span>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">UPLOAD  AFFIDAVIT <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-1">
+									<label th:unless="*{filingAffidavitFileName==null}"> <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=*{filingAffidavitFileName}|}">
+											<span th:unless="*{filingAffidavitFileName==''}"> <span>View</span>
+												<i class="fa fa-file-pdf-o"
+												style="font-size: 24px; color: red"></i></span>
+									</a></label>
+								</div>
+								<div class="col-sm-3">
+									<input type="file" class="form-control"
+										th:field="*{filingAffidavitFile}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('filingAffidavitFile')}"
+										th:errors="*{filingAffidavitFile}"></span>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-3 col-form-label">Movable
+									assets <!-- <span class="text-danger">*</span> -->
+								</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control"
+										placeholder="Enter Movable assets" th:field="*{movableAssets}">
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('movableAssets')}"
+										th:errors="*{movableAssets}"></span>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">Upload
+									Movable assets </label>
+								<div class="col-sm-1">
+									<label th:unless="*{movableAssetsFileName==null}"> <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=*{movableAssetsFileName}|}">
+											<span th:unless="*{movableAssetsFileName==''}"> <span>View</span>
+												<i class="fa fa-file-pdf-o"
+												style="font-size: 24px; color: red"></i></span>
+									</a></label>
+								</div>
+								<div class="col-sm-3">
+									<input type="file" class="form-control"
+										th:field="*{movableAssetsFile}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('movableAssetsFile')}"
+										th:errors="*{movableAssetsFile}"></span>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-3 col-form-label">Immovable
+									assets <!-- <span class="text-danger">*</span> -->
+								</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control"
+										placeholder="Enter Immovable assets"
+										th:field="*{immovableAssets}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('immovableAssets')}"
+										th:errors="*{immovableAssets}"></span>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">Upload
+									Immovable assets </label>
+								<div class="col-sm-1">
+									<label th:unless="*{immovableAssetsFileName==null}"> <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=*{immovableAssetsFileName}|}">
+											<span th:unless="*{immovableAssetsFileName==''}"> <span>View</span>
+												<i class="fa fa-file-pdf-o"
+												style="font-size: 24px; color: red"></i></span>
+									</a></label>
+								</div>
+								<div class="col-sm-3">
+									<input type="file" class="form-control"
+										th:field="*{immovableAssetsFile}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('immovableAssetsFile')}"
+										th:errors="*{immovableAssetsFile}"></span>
+								</div>
+							</div>
+							<div class="form-group row" style="display: none;"
+								id="actSectionDiv">
+								<div class="table-responsive">
+									<table class="table table-bordered" id="myTable">
+										<thead class="bg-info">
+											<tr>
+												<th>S.No</th>
+												<th>Assets Type</th>
+												<th>Assets Name</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody id="actSectionTAble">
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="form-group row">
+
+								<button type="button" class="btn btn-primary"
+									data-toggle="modal" data-target="#exampleModalCenter">
+									Add Freezer Assets</button>
+
+
+							</div>
+							<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+								role="dialog" aria-labelledby="exampleModalCenterTitle"
+								aria-hidden="true">
+								<!-- 	<div class="modal-dialog modal-dialog-centered" role="document"	style="width: 1200px;"> -->
+								<div class="modal-dialog" role="document" >
+									<div class="modal-content" style="width: 1000px;">
+										<div class="modal-header bg-info">
+											<h5 class="modal-title " id="exampleModalLongTitle">Add
+												Freezer Assets</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<div class="form-group row">
+												<label for="input-16" class="col-sm-3 col-form-label">
+													Freezer assets Type<span class="text-danger">*</span>
+												</label>
+												<div class="col-sm-3">
+													<select class="form-control" id="freezerAssetsType">
+														<option value="Select">Select</option>
+														<option value="MOVABLE ASSETS">MOVABLE ASSETS</option>
+														<option value="IMMOVABLE ASSETS">IMMOVABLE ASSETS</option>
+													</select>
+												</div>
+												<label for="input-16" class="col-sm-3 col-form-label">
+													Item Name<span class="text-danger">*</span>
+												</label>
+												<div class="col-sm-3">
+													<input type="text" class="form-control"
+														id="freezerAssetsName">
+
+												</div>
+											</div>
+
+											<div class="form-group row d-flex">
+												<div class="col-sm-2">
+													<button type="button" th:name="addActSection"
+														th:id="addActSection" class="btn btn-success">
+														<i class="fa fa-plus"></i>Add Item
+													</button>
+												</div>
+												<div class="col-sm-1">
+													<button type="button" class="btn btn-secondary"
+														data-dismiss="modal">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<div class="form-footer d-flex justify-content-between px-3 py-3">
+							<div>
+								<button type="button" class="btn btn-primary" id="addIPC"
+									onclick="saveIPC();">Back</button>
+							</div>
+							<div>
+								<button type="button" th:if="*{id==null}"
+									class="btn btn-success btn-round m-1"
+									th:onclick="SaveAccusedDetails();">
+									<i class="fa fa-check-square-o"></i> SAVE
+								</button>
+								<button type="button" th:if="*{id!=null}"
+									class="btn btn-success btn-round m-1"
+									th:onclick="SaveAccusedDetails();">
+									<i class="fa fa-check-square-o"></i> Update
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="form-group row">
+			<div class="table-responsive">
+				<table id="CompTable1" class="table table-bordered">
+					<thead>
+						<tr class="bg-info">
+							<th>S.No</th>
+							<th>Respondent Name</th>
+							<!--<th>TYPE OF RESPONDENT</th>-->
+							<th>DATE OF FREEZING ORDER /<br> FREEZING FILE
+							</th>
+							<th>DATE OF COMPLIANCE ORDER/ <br>COMPLIANCE ORDER FILE
+							</th>
+							<th>DATE OF ISSUE/ <br>ISSUE NOTICE FILE
+							</th>
+							<th>DATE OF FILING/ <br>FILING AFFIDAVIT FILE
+							</th>
+							<th>MOVABLE ASSETS/ <br>MOVABLE ASSETS FILE
+							</th>
+							<th>IMMOVABLE ASSETS/ <br>ImMOVABLE ASSETS FILE
+							</th>
+							<th>Action</th>
+							<th>Status</th>
+							<th>RAMARKS</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="p,stats: ${freezerAssetList}">
+							<td th:text="${stats.count}"></td>
+							<td th:text="${p.addResponse.accusedName}"></td>
+							<!--<td th:text="${p.freezResponseType}"></td>-->
+							<td><span
+								th:text="${#dates.format(p.freezingOrderDate, 'dd/MM/yyyy')}"></span><br>
+								<label class="col-form-label text-primary"
+								th:if="${p.freezerOrderFileName}!=''"> <a
+									th:target="_blank"
+									th:href="@{|/downloadFiles?fileName=${p.freezerOrderFileName}|}"><span>View</span><i
+										class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></a>
+							</label></td>
+							<td><span
+								th:text="${#dates.format(p.ComplianceOrderDate, 'dd/MM/yyyy')}"></span><br>
+								<label class="col-form-label text-primary"
+								th:if="${p.complianceOrderFileName}!=''"> <a
+									th:target="_blank"
+									th:href="@{|/downloadFiles?fileName=${p.complianceOrderFileName}|}"><span>View</span><i
+										class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></a>
+							</label></td>
+							<td><span
+								th:text="${#dates.format(p.issueNoticeDate, 'dd/MM/yyyy')}"></span><br>
+								<label class="col-form-label text-primary"
+								th:if="${p.issueNoticeFileName}!=''"> <a
+									th:target="_blank"
+									th:href="@{|/downloadFiles?fileName=${p.issueNoticeFileName}|}"><span>View</span><i
+										class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></a>
+							</label></td>
+							<td><span
+								th:text="${#dates.format(p.filingAffidavitDate, 'dd/MM/yyyy')}"></span><br>
+								<label class="col-form-label text-primary"
+								th:if="${p.filingAffidavitFileName}!=''"> <a
+									th:target="_blank"
+									th:href="@{|/downloadFiles?fileName=${p.filingAffidavitFileName}|}"><span>View</span><i
+										class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></a>
+							</label></td>
+							<td><span th:text="*{p.movableAssets}"></span><br> <label
+								class="col-form-label text-primary"
+								th:if="${p.movableAssetsFileName}!=''"> <a
+									th:target="_blank"
+									th:href="@{|/downloadFiles?fileName=${p.movableAssetsFileName}|}"><span>View</span><i
+										class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></a>
+							</label></td>
+							<td><span th:text="*{p.immovableAssets}"></span><br> <label
+								class="col-form-label text-primary"
+								th:if="${p.immovableAssetsFileName}!=''"> <a
+									th:target="_blank"
+									th:href="@{|/downloadFiles?fileName=${p.immovableAssetsFileName}|}"><span>View</span><i
+										class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></a>
+							</label></td>
+							<td>
+								<div class="dropdown">
+									<button class="btn btn-success dropdown-toggle" type="button"
+										id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">Action</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+
+
+										<button type="button" class=" dropdown-item"
+											data-toggle="modal" th:data-target="'#modal' + ${p.id}">View
+											Freezer Assets</button>
+										<th:block th:if="${p.approvalStatus==0}">
+											<form action="editFreeze">
+												<button class="dropdown-item text-wrap mb-1" type="submit"
+													th:name="editFreeze" th:value="${p.Id}">Edit</button>
+
+											</form>
+											<form action="editForward">
+												<button class="dropdown-item text-wrap mb-1" type="submit"
+													th:name="editForward" th:value="${p.Id}">Confirm</button>
+
+											</form>
+										</th:block>
+										<th:block th:if="${p.approvalStatus==3}">
+											<form action="editFreeze">
+												<button class="dropdown-item text-wrap mb-1" type="submit"
+													th:name="editFreeze" th:value="${p.Id}">Edit</button>
+
+											</form>
+										</th:block>
+
+									</div>
+								</div> <!-- The Modal -->
+								<div th:id="'modal' + ${p.id}" class="modal fade ">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<!-- Modal Header -->
+											<div class="modal-header bg-info">
+												<h4 class="modal-title">Freezer assets order / Status Quo</h4>
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+											</div>
+
+											<!-- Modal body -->
+											<div class="modal-body">
+												<!-- <h5>Addresses:</h5> -->
+												<table class="table">
+													<thead>
+														<tr>
+
+															<th>S.No</th>
+															<th>ASSETS TYPE</th>
+															<th>Name</th>
+															<th>Status</th>
+															<th>Remarks</th>
+															<th>UnFreeze & Deleted Date</th>
+															<th>Action</th>
+
+
+
+
+														</tr>
+													</thead>
+
+													<tr th:each="p,stats: ${p.freezerAssetsItem}">
+														<td th:text="${stats.count}"></td>
+														<td th:text="${p.freezerAssetsType}"></td>
+														<td th:text="${p.freezerAssetsName}"></td>
+														 <td><span th:if="${p.allStatus==1}">UnFreeze</span> <span
+															th:if="${p.allStatus==0}">Freeze</span>
+															<span
+															th:if="${p.allStatus==2}">Deleted</span>
+															</td>
+															 <td>
+															 <span th:text="${p.regionRemarks}"></span>
+															 <!-- <label class="col-form-label text-primary"
+								th:if="${p.uploadOrderFileNamee}!=''"> <a
+									th:target="_blank"
+									th:href="@{|/downloadFiles?fileName=${p.uploadOrderFileNamee}|}"><span>View</span><i
+										class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></a>
+							</label> -->
+															 
+															 
+															 </td>
+															 <td th:text="${#dates.format(p.orderDate, 'dd/MM/yyyy')}"></td>
+ 
+														<td class="d-flex">
+															<th:block th:if="${p.allStatus==0}">
+																<form action="unFreezerAssetOrder">
+																	<!-- <button class="btn btn-success text-wrap mr-2"
+																		type="submit" th:name="unFreezerAssetOrder"
+																		th:value="${p.Id}">UnFreeze</button> -->
+																</form>
+																<button type="button" id="deleteHideFreezerItems"
+																class="btn btn-success text-wrap" th:value="${p.Id}"
+																th:onclick="deletefreezerAssetsItem();">Delete
+															</button>
+															&nbsp;&nbsp;&nbsp;&nbsp;
+															<button type="button" id="deleteHideFreezerItems"
+																class="btn btn-success text-wrap" th:value="${p.Id}"
+																th:onclick="deletefreezerAssetsItem1();">Unfreeze
+															</button>
+															
+															
+															
+															</th:block>
+															
+															
+															
+															
+															
+															
+															
+<!-- 
+															<th:block th:if="${p.orderUploadFileName}!=''">
+																 <a
+									th:target="_blank"
+									th:href="@{|/downloadFiles?fileName=${p.freezerOrderFileName}|}"><span>View</span><i
+										class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></a> 
+							</th:block>
+										 -->					</td>
+
+													</tr>
+
+
+
+
+
+												</table>
+
+											</div>
+											<form action="deleteFreezerAssetOrder" method="post"
+												th:object="${freezerAsset}" enctype="multipart/form-data">
+												<input type="hidden"
+														th:field=*{deletedFreezerItemId}>
+														<input type="hidden"
+														th:field=*{tempid}>
+												<input type="hidden" th:name=${_csrf.parameterName} th:value=${_csrf.token}>
+												<div id="responseOfRespondentForReject"
+													style="display: none" class="px-2">
+													<div class="form-group row">
+													<label for="input-10" class="col-sm-2 col-form-label">Remarks </label> 
+														<div class="col-sm-4 ">
+														<input type="text" class=" form-control "
+														maxlength="100" th:field=*{deleteRemarks}></div>
+
+													 <input type="hidden"
+														th:field=*{deletedFreezerItemId}>
+													
+
+
+
+<label for="input-16" class="col-sm-2 col-form-label">Upload
+									Order File<span class="text-danger">*</span>
+								</label>
+								
+								<div class="col-sm-4 ">
+									<input type="file" class="form-control"
+										th:field="*{orderFile}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('orderFile')}"
+										th:errors="*{orderFile}"></span>
+								</div>
+								</div>
+								<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">Order Date<span class="text-danger">*</span>
+								</label>
+								
+								<div class="col-sm-4">
+									<input type="text" class="form-control"
+										th:field="*{deleteOrderDate}"> <span
+										class="text-danger"
+										th:if="${#fields.hasErrors('deleteOrderDate')}"
+										th:errors="*{deleteOrderDate}"></span>
+								</div>
+								
+								<div class="col-sm-6 " id="dID">
+								<button class="btn btn-danger" type="submit">Delete</button>
+								</div>
+								<div class="col-sm-6 " id="uID">
+								<button class="btn btn-danger" type="submit">Unfreeze</button>
+								</div>
+								
+								</div>
+								
+
+
+												</div>
+											</form>
+											<!-- Modal footer -->
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">Close</button>
+											</div>
+										</div>
+									</div>
+									</div>
+							</td>
+
+
+
+							<td><th:block th:if="${p.approvalStatus==1}">Approval is under process</th:block>
+								<th:block th:if="${p.approvalStatus==2}">Confirmed</th:block> <th:block
+									th:if="${p.approvalStatus==3}">Sent back by PUH</th:block></td>
+							<td th:text="${p.rejectRemarkFrezeAssets}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<script src="plugins/bootstrap-datatable/js/jquery.d.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+		<script type="text/javascript" src="js/customValidation.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			function saveIPC() {
+				$('#saveResponseOfRespond').attr("action", "backfromFreezer");
+				$('#saveResponseOfRespond').submit();
+			}
+		</script>
+		<script type="text/javascript">
+		
+		
+		$("#deleteOrderDate").datepicker({
+			format : 'dd/mm/yyyy',
+			endDate : new Date(),
+		// autoclose: true,
+		});
+			$("#filingAffidavitDate").datepicker({
+				format : 'dd/mm/yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			});
+			$("#freezingOrderDate").datepicker({
+				format : 'dd/mm/yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			});
+			$("#issueNoticeDate").datepicker({
+				format : 'dd/mm/yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			});
+			$("#ComplianceOrderDate").datepicker({
+				format : 'dd/mm/yyyy',
+				endDate : new Date(),
+			// autoclose: true,
+			});
+		</script>
+
+
+		<script type="text/javascript">
+			$(document)
+					.ready(
+							function() {
+								var id1 = $('#id').val();
+								if (id1 != "") {
+									var myArray = $('#freezerAssetsNameT')
+											.val();
+									var myArray1 = $('#freezerAssetsTypeT')
+											.val();
+									separatedArray1 = myArray1.split(',');
+									separatedArray = myArray.split(',');
+
+									for (var i = 0; i < separatedArray.length; i++) {
+
+										$('#actSectionDiv').show();
+										var table = $('#actSectionTAble');
+										var rowCount = $('#actSectionTAble tr').length;
+										var actID = $('#freezerAssetsType')
+												.val();
+										var act = separatedArray1[i];
+										//alert(act);
+										var accDesc = separatedArray[i];
+										//alert(accDesc);
+										var markup = "";
+
+										markup = [
+												'<tr th:object="*{actSectLIST}" >',
+												'<td class="index" th:field="*{actSectLIST.setId()}">',
+												rowCount + 1,
+												'</td>',
+												'<td class="text-wrap"  th:field="*{actSectLIST.setAct()}">'
+														+ act + '</td>',
+												'<td class="text-wrap" th:field="*{actSectLIST.setAccDesc()}">'
+														+ accDesc + '</td>',
+												'<td> <button class="btn btn-warning btn-round m-1 editBtn">Edit</button> <button class="btn btn-danger btn-round m-1 deleteBtn">Delete</button> </td>',
+												'</tr>' ];
+										table.append(markup.join(''));
+										$('#freezerAssetsType').val("Select");
+										$('#freezerAssetsName').val("");
+
+									}
+									separatedArray1.splice(0,
+											separatedArray.length);
+									separatedArray.splice(0,
+											separatedArray.length);
+									$('#freezerAssetsNameT')
+											.val(separatedArray);
+									$('#freezerAssetsTypeT').val(
+											separatedArray1);
+
+									//alert("test"+$('#freezerAssetsTypeT').val());
+								}
+							});
+		</script>
+		<script type="text/javascript">
+			$("#addActSection")
+					.click(
+							function() {
+
+								//alert($('#freezerAssetsType').val());
+								if ($('#freezerAssetsType').val() == 'Select') {
+									swal(
+											"Required!",
+											"PLEASE SELECT FREEZER ASSETS TYPE",
+											"error");
+									return;
+								}
+								if ($('#freezerAssetsType').val() == '') {
+									swal(
+											"Required!",
+											"PLEASE SELECT FREEZER ASSETS TYPE",
+											"error");
+									return;
+								}
+								if ($('#freezerAssetsName').val() == '') {
+									swal("Required!",
+											"Please Enter Assets ITEM NAME",
+											"error");
+									return;
+								}
+								if ($('#freezerAssetsName').val() == '0') {
+									swal("Required!",
+											"Please Enter Assets ITEM NAME",
+											"error");
+									return;
+								}
+								$('#actSectionDiv').show();
+								var table = $('#actSectionTAble');
+								var rowCount = $('#actSectionTAble tr').length;
+								var actID = $('#freezerAssetsType').val();
+								var act = jQuery(
+										"#freezerAssetsType option:selected")
+										.text();
+								//alert(act);
+								var accDesc = $('#freezerAssetsName').val();
+								//alert(accDesc);
+								var markup = "";
+
+								markup = [
+										'<tr th:object="*{actSectLIST}" >',
+										'<td class="index" th:field="*{actSectLIST.setId()}">',
+										rowCount + 1,
+										'</td>',
+										'<td class="text-wrap"  th:field="*{actSectLIST.setAct()}">'
+												+ act + '</td>',
+										'<td class="text-wrap" th:field="*{actSectLIST.setAccDesc()}">'
+												+ accDesc + '</td>',
+										'<td> <button class="btn btn-warning btn-round m-1 editBtn">Edit</button> <button class="btn btn-danger btn-round m-1 deleteBtn">Delete</button> </td>',
+										'</tr>' ];
+								table.append(markup.join(''));
+								$('#freezerAssetsType').val("Select");
+								$('#freezerAssetsName').val("");
+							});
+			$("#actSectionTAble").on(
+					'click',
+					'.deleteBtn',
+					function() {
+
+						var currentRow = $(this).closest("tr");
+						currentRow.remove();
+						$('#companyTable').find('tr').find('td:first').each(
+								function(index) {
+									$(this).text(index + 1);
+								});
+					});
+			$("#actSectionTAble").on(
+					'click',
+					'.editBtn',
+					function() {
+						var currentRow = $(this).closest("tr");
+						var actID = currentRow.find("td:eq(1)").text();
+						var discription = currentRow.find("td:eq(2)").text();
+						$('#freezerAssetsType').val(actID);
+						$('#freezerAssetsName').val(discription);
+						$('#exampleModalCenter').modal('show');
+
+						currentRow.remove();
+
+						$('#actSectionTAble').find('tr').find('td:first').each(
+								function(index) {
+									$(this).text(index + 1);
+								});
+					});
+		</script>
+		<script type="text/javascript">
+			function SaveAccusedDetails() {
+				//alert("tessss");
+
+				var addResponse1 = $('#addResponse').val();
+				var ida = $('#id').val();
+				var freezResponseType1 = $('#freezResponseType').val();
+				var freezingOrderDate1 = $('#freezingOrderDate').val();
+				var freezerOrderFile1 = $('#freezerOrderFile').val();
+				var ComplianceOrderDate1 = $('#ComplianceOrderDate').val();
+				var complianceOrderFile1 = $('#complianceOrderFile').val();
+				//alert(accusedType);
+
+				if (freezingOrderDate1 == '') {
+					swal("Required!", "PLEASE ADD DATE OF FREEZING ORDER",
+							"error");
+					return;
+				}
+				if (ComplianceOrderDate1 == '') {
+					swal("Required!", "PLEASE ADD DATE COMPLIANCE OF ORDER",
+							"error");
+					return;
+				}
+
+				if (id == null) {
+					if (addResponse1 == '0') {
+						swal("Required!", "PLEASE SELECT Respondent", "error");
+						return;
+					}
+					if (freezResponseType1 == 'Select') {
+						swal("Required!", "PLEASE SELECT TYPE OF RESPONDENT",
+								"error");
+						return;
+					}
+
+					if (freezerOrderFile1 == '') {
+						swal("Required!", "PLEASE UPLOAD FREEZING FILE",
+								"error");
+						return;
+					}
+
+					if (complianceOrderFile1 == '') {
+						swal("Required!", "PLEASE UPLOAD COMPLIANCE FILE",
+								"error");
+						return;
+					}
+				}
+				$
+						.confirm({
+							title : '',
+							content : 'Sure ! Want to save? If saved cannot be edited ',
+							type : 'green',
+							typeAnimated : true,
+							buttons : {
+								tryAgain : {
+									text : 'Yes',
+									btnClass : 'btn-Success',
+									action : function() {
+										var act = "";
+										$('#myTable tbody tr td:nth-child(2)')
+												.each(
+														function(i, v) {
+															act = act
+																	+ $(this)
+																			.text()
+																	+ ",";
+														});
+										act = act.substring(0, act
+												.lastIndexOf(','));
+										console.log(act);
+
+										$('#freezerAssetsTypeT').val(act);
+										var act = "";
+										$('#myTable tbody tr td:nth-child(3)')
+												.each(
+														function(i, v) {
+															act = act
+																	+ $(this)
+																			.text()
+																	+ ",";
+														});
+										act = act.substring(0, act
+												.lastIndexOf(','));
+										console.log(act);
+
+										var acttt = $('#freezerAssetsNameT')
+												.val(act);
+										//alert("test");
+										$('#saveResponseOfRespond').attr(
+												'action',
+												'saveFreezerAssetOrder');
+										$('#saveResponseOfRespond').submit();
+									}
+								},
+								No : function() {
+								}
+							}
+						});
+			}
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				// Get the value from an element with ID "tempID"
+				var string2 = $('#tempID').val();
+
+				// Define a string for the modal selector prefix
+				var string1 = "#modal";
+
+				// Combine the strings to create a selector
+				var combinedString = string1 + string2;
+
+				// Show the modal with the combined selector
+				$(combinedString).modal('show');
+
+			});
+		</script>
+		<script type="text/javascript">
+			function deletefreezerAssetsItem() {
+				$("#responseOfRespondentForReject").show();
+				var idForFreezerItems = $('#deleteHideFreezerItems').val();
+				//alert(idForFreezerItems);
+				//$('#deletedFreezerItemId').val(idForFreezerItems);
+				$('#deletedFreezerItemId').val(idForFreezerItems);
+				$('#tempid').val(0);
+				
+				$("#deleteHideFreezerItems").hide();
+				$("#uID").hide();
+				$("#dID").show();
+			}
+			
+			function deletefreezerAssetsItem1() {
+				$("#responseOfRespondentForReject").show();
+				var idForFreezerItems = $('#deleteHideFreezerItems').val();
+				//alert(idForFreezerItems);
+				//$('#deletedFreezerItemId').val(idForFreezerItems);
+				$('#deletedFreezerItemId').val(idForFreezerItems);
+				$("#deleteHideFreezerItems").hide();
+				$('#tempid').val(1);
+				$("#uID").show();
+				$("#dID").hide();
+			}
+		</script>
+		
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+		<script src="js/jquery-confirm.js"></script>
+	</div>
+
+</body>
+</html>

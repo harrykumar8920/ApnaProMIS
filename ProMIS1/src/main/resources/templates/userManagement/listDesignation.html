@@ -1,0 +1,153 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>All Designation</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-5">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="home">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Designation Details</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header text-uppercase">
+							<i class="fa fa-user"></i> Designation Details
+						</h4>
+
+							<div class="table-responsive">
+      <table id="desigTable" class="table table-bordered">
+									<thead >
+										<tr>
+											<th>S.No.</th>
+											<th>Designation Name</th>
+											<th>Type</th>
+											 <th>Action</th>
+											
+										</tr>
+									</thead>
+									<tbody>
+									 <tr th:each="p,stats: ${DesignationList}">
+									  <td th:text="${currentRow+stats.count-1}"></td>
+											<!--  <td th:text="${stats.count}"></td>  -->
+											<td th:text="${p.designation}"></td>
+											<td th:text="${p.deginationtype}"></td>
+											<td>
+											<form th:action="@{/editDesignation}" method="post"autocomplete="off">
+		<button class="btn btn-success text-wrap" type="submit"   th:name="editdesig" 
+													        th:value="${p.Id}" >Edit</button>
+		</form>
+		</td>
+										</tr> 
+									</tbody>
+
+								</table>
+								<div class="d-flex justify-content-between px-3">
+									<div th:if="${totalPages > 0}">Total Rows:
+										[[${totalItems}]]</div>
+											<div class="col-sm-4 text-center" th:if="${totalPages > 0}">
+										Showing [[${currentRow}]] to [[${lastRow}]] of [[${totalRow}]]
+									</div>
+									<div th:if="${totalPages > 0}">Page Number:
+										[[${currentPage}]]</div>
+								</div>
+								<br>
+								<div class=" row col-md-12  pagination justify-content-center"
+									th:if="${totalPages > 1}">
+									<div class="page-item">
+
+										<a class="page-link" th:if="${currentPage > 0}" href="#"
+											th:onclick="'DetailsforNCRBPending(\'' + ${currentPage - 1} +'\');'">Preview</a>
+										<span class="page-link" th:unless="${currentPage > 0}">Preview</span>
+									</div>
+
+									<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+
+										<a class="page-link" th:if="${currentPage != i}" href="#"
+										th:onclick="'DetailsforNCRBPending(\'' + ${i} +'\');'">[[${i}]]</a>
+										<span class="page-link" th:unless="${currentPage != i}">[[${i}]]</span>
+										&nbsp; &nbsp;
+									</span>
+
+									<div class="page-item">
+										<a class="page-link" th:if="${currentPage < totalPages}"
+											href="#"
+											th:onclick="'DetailsforNCRBPending(\'' + ${currentPage + 1} +'\');'">Next</a>
+										<span class="page-link"
+											th:unless="${currentPage < totalPages}">Next</span>
+									</div>
+
+									<div class="page-item">
+										<a class="page-link page-item"
+											th:if="${currentPage < totalPages}" href="#"
+											th:onclick="'DetailsforNCRBPending(\'' + ${totalPages} +'\');'">Last</a>
+
+										<span class="page-link"
+											th:unless="${currentPage < totalPages}">Last</span>
+									</div>
+
+
+
+								</div>
+							
+							
+							<form action="getDesignation" id="getDesignations" th:object="${pageNoDTO}" method="post">
+							
+							
+							<input type="hidden" th:field=*{pageno}>
+							<input type="hidden" th:name=${_csrf.parameterName} th:value=${_csrf.token}>
+							
+							
+							</form>
+							</div>
+					
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	<!-- 	
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			
+			 var table = $('#desigTable').DataTable( {
+//		 	        lengthChange: false,
+			        buttons: [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+			      } );
+		});
+		
+		</script> -->	
+		
+		
+		
+		<script type="text/javascript">
+
+function DetailsforNCRBPending(pageId) {
+	
+	$('#pageno').val(pageId);
+	$('#getDesignations').attr('action', 'getDesignation');
+	$('#getDesignations').submit();
+	
+}
+</script>
+		
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+	</div>
+
+</body>
+</html>

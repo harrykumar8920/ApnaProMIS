@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Case Details Report</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+	<style>
+	    #reportContent {
+	        width: 210mm;          /* A4 width */
+	        min-height: 297mm;     /* A4 height */
+	        padding: 10mm;
+	        background: white;
+	    }
+
+	    .card {
+	        page-break-inside: avoid;
+	    }
+
+	    table {
+	        page-break-inside: auto !important;
+	        width: 100%;
+	    }
+	</style>
+
+</head>
+<body>
+	
+	<div layout:fragment="content">
+	<div class="container mt-4" id="reportContent">
+
+    <h2 class="text-center mb-4">Case Details Report</h2>
+
+    <!-- Sanction Order Details -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">Sanction Order Details</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Type of Order:</strong> <span th:text="${reportByCINDTO.proCourtCaseDetails.assignedTask.addCase.typeofOrder}"></span></p>
+                    <p><strong>Investigation Order Name:</strong> <span th:text="${reportByCINDTO.proCourtCaseDetails.assignedTask.addCase.investigationOrderNo}"></span></p>
+                    <p><strong>Supplementary order No.:</strong> <span th:text="${reportByCINDTO.proCourtCaseDetails.assignedTask.addCase.supplimentoryOrderNo}"></span></p>
+                    <p><strong>CIN No.:</strong> <span th:text="${reportByCINDTO.proCourtCaseDetails.assignedTask.addCase.cinNumber}"></span></p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>File Number:</strong> <span th:text="${reportByCINDTO.proCourtCaseDetails.assignedTask.addCase.fileNumber}"></span></p>
+                    <p><strong>Investigation Order Date:</strong> <span th:text="${#dates.format(reportByCINDTO.proCourtCaseDetails.assignedTask.addCase.investigationOrderDate, 'dd/MM/yyyy')}"></span></p>
+					
+                    <p><strong>Supplementary order Date:</strong> <span th:text="${reportByCINDTO.proCourtCaseDetails.assignedTask.addCase.supplimentoryOrderDate}"></span></p>
+                    <p><strong>Company Name:</strong> <span th:text="${reportByCINDTO.proCourtCaseDetails.assignedTask.addCase.caseTitle}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Court Case Details -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">Court Case Details</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Role of SFIO:</strong> <span th:text="${reportByCINDTO.proCourtCaseDetails.sfioAs.sfioAs}"></span></p>
+                    <p><strong>Case Title:</strong> <span th:text="${reportByCINDTO.proCourtCaseDetails.causeTitle}"></span></p>
+                    <p><strong>Court Case No.:</strong> <span th:text="${reportByCINDTO.proCourtCaseDetails.courtCaseNo}"></span></p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Prosecutor Name:</strong> 
+                        <span th:text="${
+                            (reportByCINDTO.proCourtCaseDetails.createdBy.firstName ?: '') + ' ' +
+                            (reportByCINDTO.proCourtCaseDetails.createdBy.middleName ?: '') + ' ' +
+                            (reportByCINDTO.proCourtCaseDetails.createdBy.lastName ?: '')
+                        }"></span>
+                    </p>
+                    <p><strong>Whether MCA is party :</strong> <span th:text="${reportByCINDTO.proCourtCaseDetails.isMCAParty}"></span></p>
+                    <p><strong>Court Type:</strong> <span th:text="${reportByCINDTO.proCourtCaseDetails.courtType.courtName}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Complaintant Details -->
+    <div class="card mb-4" th:if="${reportByCINDTO.complaintdetl != null}">
+        <div class="card-header bg-primary text-white">Complaintant Details</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>IO Name:</strong> <span th:text="${reportByCINDTO.complaintdetl.IOName}"></span></p>
+                    <p><strong>Complainant Name:</strong> <span th:text="${reportByCINDTO.complaintdetl.complanitName}"></span></p>
+                    <p><strong>Complainant Mobile:</strong> <span th:text="${reportByCINDTO.complaintdetl.complaintMobile}"></span></p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Complainant Petitioner No.:</strong> <span th:text="${reportByCINDTO.complaintdetl.complaintPetinoner}"></span></p>
+                    <p><strong>Complainant Designation:</strong> <span th:text="${reportByCINDTO.complaintdetl.complanitdesignation.designation}"></span></p>
+                    <p><strong>Complainant Email:</strong> <span th:text="${reportByCINDTO.complaintdetl.complanitEmail}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add your Inspector, Pairavi, Accused, Hearing Details tables here similarly -->
+	<div class="card mb-4" th:if="${reportByCINDTO.inspector.size() > 0}">
+	   	       <div class="card-header bg-primary text-white">Inspector Details</div>
+	   	       <div class="card-body">
+	   	           <table class="table table-bordered table-striped">
+	   	               <thead>
+	   	                   <tr>
+	   	                       <th>S.No.</th>
+	   	                       <th>Name</th>
+	   	                       <th>Designation</th>
+	   	                   </tr>
+	   	               </thead>
+	   	               <tbody>
+	   	                   <tr th:each="insp, iStat : ${reportByCINDTO.inspector}">
+	   	                       <td th:text="${iStat.index + 1}"></td>
+	   	                       <td th:text="${insp.inspectorName.name}"></td>
+	   	                       <td th:text="${insp.inspectorName.designation.designation}"></td>
+	   	                   </tr>
+	   	               </tbody>
+	   	           </table>
+	   	       </div>
+	   	   </div>
+	   	
+	      <div class="card mb-4" th:if="${reportByCINDTO.pairaviDetails.size() > 0}">
+	   	      <div class="card-header bg-primary text-white">Pairavi Officer Details</div>
+	   	       <div class="card-body">
+	   	           <table class="table table-bordered table-striped">
+	   	               <thead>
+	   	                   <tr>
+	   	                       <th>S.No.</th>
+	   	                       <th>Name</th>
+	   	                       <th>Designation</th>
+							   <th>From Date</th>
+							   <th>To date</th>
+							   
+							   
+	   	                   </tr>
+	   	               </thead>
+	   	               <tbody>
+	   	                   <tr th:each="insp, iStat : ${reportByCINDTO.pairaviDetails}">
+	   	                       <td th:text="${iStat.index + 1}"></td>
+	   	                       <td th:text="${insp.pairaviOfficer.name}"></td>
+	   	                       <td th:text="${insp.pairaviOfficer.designation.designation}"></td>
+							   <td class="text-wrap"
+							   							       th:text="${#dates.format(insp.fromDate, 'dd/MM/yyyy')}">
+							   							   </td>														   <td class="text-wrap"
+														   							       th:text="${#dates.format(insp.toDate, 'dd/MM/yyyy')}">
+														   							   </td>
+							   
+							  
+	   	                   </tr>
+	   	               </tbody>
+	   	           </table>
+	   	       </div>
+	   	   </div>
+	   	
+		   <div class="card mb-4" th:if="${reportByCINDTO.addAccused.size() > 0}">
+		   	       <div class="card-header bg-primary text-white">Accused Details</div>
+		   	       <div class="card-body">
+		   	           <table class="table table-bordered table-striped">
+		   	               <thead>
+		   	                   <tr>
+		   	                       <th>S.No.</th>
+		   						   <th>Accused Name</th>
+		   						   <th>Pan No.</th>
+		   	                       <th>Address</th>
+		   						   <th>Designation</th>
+		   	                      <!-- <th>Company Name</th>-->
+		   	                     
+		   	                   </tr>
+		   	               </thead>
+		   	               <tbody>
+		   	                   <tr th:each="hearing, iStat : ${reportByCINDTO.addAccused}">
+		   	                       <td th:text="${iStat.index + 1}"></td>
+		   						   <td class="text-wrap" th:text="${hearing.accusedName}"></td>
+		   						   <td th:text="${hearing.panNumber}"></td>
+		   	                       <td class="text-wrap" th:text="${hearing.address}"></td>
+		   						   <td th:text="${hearing.designation.designation}"></td>
+		   	                      
+		   						   
+		   	                   </tr>
+		   	               </tbody>
+		   	           </table>
+		   	       </div>
+		   	   </div>
+		   <div class="card mb-4" th:if="${reportByCINDTO.hearingDetails.size() > 0}">
+		       <div class="card-header bg-primary text-white">Hearing Details</div>
+		       <div class="card-body">
+		           <table class="table table-bordered table-striped">
+		               <thead>
+		                   <tr>
+		                       <th>S.No.</th>
+							   <th>Counsel Name</th>
+							   <th>Officer from Prosecution</th>
+		                       <th>Last <br>Hearing Date</th>
+							   <th>Next  <br> Hearing Date</th>
+		                       <th>Case Status</th>
+		                       <th>Strategy of the case</th>
+							   <th>Remarks</th>
+		                   </tr>
+		               </thead>
+		               <tbody>
+		                   <tr th:each="hearing, iStat : ${reportByCINDTO.hearingDetails}">
+		                       <td th:text="${iStat.index + 1}"></td>
+							   <td th:text="${hearing.counselName.name}"></td>
+							   <td th:text="${hearing.officer.name}"></td>
+							   <td class="text-wrap"
+							       th:text="${#dates.format(hearing.lastHearingDate, 'dd/MM/yyyy')}">
+							   </td>
+
+							   <td class="text-wrap"
+							       th:text="${#dates.format(hearing.nextHearingDate, 'dd/MM/yyyy')}">
+							   </td>
+		                      
+		                       <td class="text-wrap" th:text="${hearing.Status.statusName}"></td>
+		                       <td class="text-wrap" th:text="${hearing.briefHD}"></td>
+							   <td class="text-wrap" th:text="${hearing.remarks}"></td>
+							   
+		                   </tr>
+		               </tbody>
+		           </table>
+		       </div>
+		   </div>
+
+</div>
+
+<!-- Download Button -->
+<div class="text-center mb-4">
+    <button class="btn btn-success" onclick="generatePDF()">Print</button>
+	<a href="puhApprovedAndRejectedTaskList" class="btn btn-primary">Back</a>
+
+</div>
+<script src="js/html2pdf.bundle.min.js"></script>
+<!-- Scripts -->
+
+<script>
+	function generatePDF() {
+		
+		window.print();
+		
+		
+/*	    const element = document.getElementById('reportContent');
+
+	    const opt = {
+	        margin: 0,
+	        filename: 'Case_Report.pdf',
+	        image: { type: 'jpeg', quality: 1 },
+	        html2canvas: {
+	            scale: 3,
+	            useCORS: true,
+	            scrollY: 0
+	        },
+	        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+	    };
+
+	    html2pdf().from(element).set(opt).save();
+		*/
+	}
+
+	
+
+
+
+</script>
+</div>
+</body>
+</html>

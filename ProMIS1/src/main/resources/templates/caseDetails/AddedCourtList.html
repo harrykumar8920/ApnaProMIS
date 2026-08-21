@@ -1,0 +1,222 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link
+	href="plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css"
+	rel="stylesheet" type="text/css">
+<link href="plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css"
+	rel="stylesheet" type="text/css">
+<title>Pending Sanction Orders for Finalization</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+	<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+
+
+					<li class="breadcrumb-item"><a href="puhHome">Home</a></li>
+
+
+
+					<li class="breadcrumb-item active" aria-current="page">Sanction Orders for Assign Task</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header ">Sanction Orders for Assign Task
+
+						</h4>
+
+
+						<form th:action="@{/assignTask}" method="post"
+							th:object="${assignedTaskPuh}" id="viewPendingTaskdtl1">
+
+
+
+							<div class="table-responsive">
+								<table class="table table-bordered" id="assignedTable">
+									<thead class="bg-info text-white">
+										<tr>
+											<th>S.No.</th>
+											<!-- <th hidden="">id</th>
+											<th hidden="">userid</th> -->
+
+
+											<th>PROSECUTION SANCTION ORDER NO</th>
+											<th>SANCTION DATE </th>
+
+
+											<th>ORDER FILE</th>
+											<th>Company Name</th>
+											<th>Court Case No</th>
+											<th>Court Type</th>
+											<th>Cause Title</th>
+
+
+
+									<!-- 	<th>sfioAs</th>
+									<th>Status</th>		
+ -->
+<!-- <th>Court Case Status</th> -->
+											<th>Action</th>
+											
+
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="p,stats: ${lstCourtCase}">
+											<td th:text="${stats.count}"></td>
+
+											<td th:text="${p.proSectionOrderNumber}">
+											</td>
+											
+											
+											<td th:text="${#dates.format(p.proSanctionDate, 'dd/MM/yyyy')}">
+																								</td>
+
+
+											<td >
+											
+											
+											<label class=" col-form-label text-primary"> <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=${p.proSanctionFileName}|}"><span
+											>View</span>
+											  <span th:unless="${p.proSanctionFileName==null}"><i
+											class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></span></a></label> 
+											
+											
+											
+											</td>
+											<td th:text="${p.caseTitle}"></td>
+											<td th:text="${p.courtCaseNo}"></td>
+											<td th:text="${p.courtType}"></td>
+											<td th:text="${p.causeTitle}"></td>
+<!--  <td><th:block th:if="${p.courtCaseApproveStatus==0}">
+
+													<span style="color: blue">Court Case Details Added</span>
+												</th:block> <th:block th:if="${p.courtCaseApproveStatus==1}">
+													<span style="color: blue">Forwarded to PUH</span>
+												</th:block>
+												
+												<th:block th:if="${p.courtCaseApproveStatus==2}">
+													<span style="color: blue">
+														Court Case Approved</span>
+												</th:block>
+												<th:block th:if="${p.courtCaseApproveStatus==3}">
+													<button type="submit" class="btn btn-warning"
+														disabled="disabled">Send back by PUH</button>
+												</th:block>
+												
+												
+												</td> -->
+
+											<td>
+											
+											<button type="submit" th:name="assignTask" class="btn btn-success"
+														th:value="${p.id}" >Assign
+														Task</button>
+
+													
+													
+												
+												
+												</td>
+											
+
+										</tr>
+
+
+									</tbody>
+
+								</table>
+							</div>
+
+
+						</form>
+
+
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				var table = $('#assignedTable').DataTable({
+					//		 	        lengthChange: false,
+					buttons : [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+				});
+			});
+		</script>
+
+		<script type="text/javascript">
+		$(document).ready(function(){
+
+		    // code to read selected table row cell data (values).
+		    $("#assignedTable").on('click','.btnSelect',function(){
+		         // get the current row
+		         var currentRow=$(this).closest("tr"); 
+		         
+		         
+		        var id=currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+		        var user=currentRow.find("td:eq(2)").text(); // get current row 2nd TD
+		     
+					$('#viewPendingTaskdtl1').attr('action', 'initiateApprove');
+					 $('#id').val(id);
+					 $('#user').val(user);
+				      
+				      alert($('#id').val());
+				      alert($('#user').val());
+				      
+				     
+					$('#viewPendingTaskdtl1').submit(); 
+				
+		    });
+		});
+		
+		
+		</script>
+
+	</div>
+
+
+
+
+</body>
+</html>

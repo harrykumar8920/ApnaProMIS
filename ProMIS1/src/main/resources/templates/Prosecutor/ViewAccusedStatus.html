@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+<link href="css/bootstrap-datetimepicker-build.css" rel="stylesheet" />
+<title>title</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+
+			<div class="col-sm-4">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="userHome">Home</a></li>
+					<!-- <li class="breadcrumb-item"><a href="#">Monthly
+							Progressive Report</a></li> -->
+
+				</ol>
+			</div>
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<div class="text-center col-sm-12">
+					<h4 class="page-title custom-heading-style"
+						style="border-color: red;">View Accused Status</h4>
+				</div>
+
+				<br>
+
+
+				<form th:action="@{/viewStatus1}" id="saveChargeInstance"
+					th:object="${viewAccusedStatusDTO}" method="post">
+					<div class="form-group row">
+						<label for="input-10" class="col-sm-2 col-form-label">Accused
+							<span class="text-danger">*</span>
+						</label>
+						<div class="col-sm-4">
+							<select class="form-control" th:field="*{accuseName}">
+								<option th:each="court : ${accusedList}" th:value="${court.id}"
+									th:utext="${court.accusedName}" />
+							</select>
+							<!-- <span class="text-danger" th:errors="*{}"></span> -->
+						</div>
+
+						<div class="col-sm-4">
+							<input type="hidden" th:field="*{assignedTask}">
+							<button type="submit" class="btn btn-info">View Accused
+								Status</button>
+						</div>
+
+					</div>
+
+					<div>
+						<button type="button" class="btn btn-primary" onclick="saveIPC();">Back</button>
+					</div>
+				</form>
+
+			</div>
+		</div>
+		<div class="card">
+
+			<div class="card-header">
+				<h4 class="page-title">Charge Against Accused</h4>
+			</div>
+			<div class="card-body py-0 my-0">
+				<table style="margin-top: 10px;"
+					class="table table-bordered table-respgonsive table-bordered">
+					<thead class="bg-info">
+						<tr>
+							<th class="text-wrap">S.No.</th>
+							<th class="text-wrap">Name of Accused</th>
+							<th class="text-wrap">Charge</th>
+							<th class="text-wrap">Nature of charge</th>
+							<th class="text-wrap">Relevent Section</th>
+							<th class="text-wrap">Act</th>
+							<th class="text-wrap">Compoundability</th>
+							<th class="text-wrap">Instance</th>
+							<th class="text-wrap">Punishment</th>
+							<th class="text-wrap">Instance Remarks</th>
+
+						</tr>
+					</thead>
+					<tbody th:if="${viewAccusedStatusDTO.liststatus}">
+						<tr th:each="detail, iStat : ${viewAccusedList}">
+							<td th:text="${iStat.count}"></td>
+							<td class="text-wrap" th:text="${detail.accusedName}"></td>
+							<td class="text-wrap" th:text="${detail.chargeName}"></td>
+							<td class="text-wrap" th:text="${detail.description}"></td>
+							<td class="text-wrap" th:text="${detail.relevantSection}"></td>
+							<td class="text-wrap" th:text="${detail.act}"></td>
+							<td class="text-wrap" th:text="${detail.compoundability}"></td>
+
+							<td class="text-wrap" th:text="${detail.instanceName}"></td>
+							<td class="text-wrap" th:text="${detail.punishment}"></td>
+							<td class="text-wrap" th:text="${detail.instanceRemarks}"></td>
+
+
+						</tr>
+					</tbody>
+
+
+
+				</table>
+
+
+
+
+
+
+
+			</div>
+
+
+
+
+			<div class="card-body py-0 my-0"
+				th:each="chakDeIndia : ${groupedByStatusCheck}">
+				<div th:if="${chakDeIndia.key == 3}" class="card-header">
+					<h4 class="page-title">Stay Details</h4>
+				</div>
+				<table style="margin-top: 10px;" th:if="${chakDeIndia.key == 3}"
+					class="table table-bordered table-respgonsive table-bordered">
+
+					<thead class="bg-info">
+						<tr>
+							<th>Sr. No.</th>
+							<th>Accused Name</th>
+							<th>Charged</th>
+							<!-- <th>Instance</th> -->
+						<!--	<th>Remark</th>-->
+							<th class="text-wrap">PUNISHMENT According to the Act</th>
+							<th>STAYED</th>
+							<th>STAY COURT LIST</th>
+							<th>STAYED Order</th>
+							<th>STAYED Date</th>
+							<th>Final Remarks</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="accused,count : ${chakDeIndia.value}">
+							<td th:text="${count.count}"></td>
+							<td th:text="${accused.accusedId.accusedName}"></td>
+							<td th:text="${accused.chargeName.chargeName}"></td>
+							<!-- <td th:text="${accused.instanceId.instance.instanseName}"></td> -->
+						<!--	<td th:text="${accused.instanceRemarks}"></td>-->
+							<td th:text="${accused.punishmentText}"></td>
+
+							<td><th:block th:if="*{accused.stayed==true}">
+									<i class="fa fa-check    " aria-hidden="true"></i>
+								</th:block> <th:block th:unless="*{accused.stayed==true}">
+									<i class="fa fa-times    " aria-hidden="true"></i>
+								</th:block></td>
+							<td
+								th:text="${accused.courtList.id!=0} ? ${accused.courtList.courtName} : 'NA'"></td>
+							<!-- <td th:text="${accused.courtList.courtName}"></td> -->
+							<td class="text-wrap" th:text="${accused.punishmentOrder}"></td>
+							<td class="text-wrap"
+								th:text="${#dates.format(accused.punishmentDate, 'dd/MM/yyyy')}"></td>
+							<td class="text-wrap" th:text="${accused.remarksCheck}"></td>
+
+						</tr>
+					</tbody>
+				</table>
+				<div class="card-header" th:if="${chakDeIndia.key == 2}">
+					<h4 class="page-title">Discharge Details</h4>
+				</div>
+				<table style="margin-top: 10px;" th:if="${chakDeIndia.key == 2}"
+					class="table table-bordered table-responpsive table-bordered">
+					<thead class="bg-info">
+						<tr>
+							<th>Sr. No.</th>
+							<th>Accused Name</th>
+							<th>Charged</th>
+							<!-- <th>Instance</th> -->
+						<!--	<th>Remark</th>-->
+							<th class="text-wrap">PUNISHMENT According to the Act </th>
+							<th>Discharge</th>
+							<th>Discharge COURT LIST</th>
+							<th>Discharge ORDER</th>
+							<th>Discharge Date</th>
+							<th>Final Remarks</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="accused,count : ${chakDeIndia.value}">
+							<td th:text="${count.count}"></td>
+							<td th:text="${accused.accusedId.accusedName}"></td>
+							<td th:text="${accused.chargeName.chargeName}"></td>
+							<!-- <td th:text="${accused.instanceId.instance.instanseName}"></td> -->
+							<!--<td th:text="${accused.instanceRemarks}"></td>-->
+							<td th:text="${accused.punishmentText}"></td>
+							<td th:text="${accused.discharge.dischargeName}"></td>
+							<td th:text="${accused.courtList.courtName}"></td>
+							<td class="text-wrap" th:text="${accused.punishmentOrder}"></td>
+							<td class="text-wrap"
+								th:text="${#dates.format(accused.punishmentDate, 'dd/MM/yyyy')}"></td>
+							<td class="text-wrap" th:text="${accused.remarksCheck}"></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="card-header" th:if="${chakDeIndia.key == 1}">
+					<h4 class="page-title">Punishment imposed on Accused</h4>
+				</div>
+				<table style="margin-top: 10px;" th:if="${chakDeIndia.key == 1}"
+					class="table table-bordered table-respgonsive table-bordered">
+					<thead class="bg-info">
+						<tr>
+							<th>Sr. No.</th>
+							<th>Accused Name</th>
+							<th>Charged</th>
+						<!-- 	<th>Instance</th> -->
+						<!--	<th>Remark</th>-->
+							<th class="text-wrap">PUNISHMENT According to the Act</th>
+							<th class="text-wrap">PUNISHMENT Given by court</th>
+							<th>PUNISHMENT COURT LIST</th>
+							<th>PUNISHMENT ORDER</th>
+							<th>PUNISHMENT Date</th>
+							<th>Final Remarks</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="accused,count : ${chakDeIndia.value}">
+							<td th:text="${count.count}"></td>
+							<td th:text="${accused.accusedId.accusedName}"></td>
+							<td th:text="${accused.chargeName.chargeName}"></td>
+							<!-- <td th:text="${accused.instanceId.instance.instanseName}"></td> -->
+							<!--<td th:text="${accused.instanceRemarks}"></td>-->
+							<td th:text="${accused.punishmentText}"></td>
+							<td th:text="${accused.punishmenttId.punishment1}"></td>
+							<td th:text="${accused.courtList.courtName}"></td>
+							<td th:text="${accused.punishmentOrder}"></td>
+							<td
+								th:text="${#dates.format(accused.punishmentDate, 'dd/MM/yyyy')}"></td>
+							<td th:text="${accused.remarksCheck}"></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+
+
+
+		</div>
+		
+			<script type="text/javascript">
+			function saveIPC() {
+				
+				
+
+				$('#saveChargeInstance').attr("action", "backFromView");
+				$('#saveChargeInstance').submit();
+
+			}
+		</script>
+	</div>
+	
+	
+
+</body>
+</html>

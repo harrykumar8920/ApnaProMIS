@@ -1,0 +1,393 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>>View Details</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">View 
+						Details </li>
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<form th:action="@{/addNewApplicant}" method="post"
+			class="needs-validation" th:object="${applicantData}"
+			autocomplete="off">
+			<input type="hidden" th:field="*{id}">
+a			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-address-book-o"></i> Personal  Information
+							</h4>
+					<div class="form-group row">
+					
+								<label for="input-10" class="col-sm-2 col-form-label">Salutation
+								</label>
+								<div class="col-sm-4">
+								 <label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.salutation}"></span>
+								</label>
+									
+								</div>
+								<label for="input-10" class="col-sm-2 col-form-label">Surname
+								</label>
+								<div class="col-sm-4">
+										 <label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.Surname}"></span>
+								</label>
+									
+								</div>
+							</div>
+
+
+						
+							<div class="form-group row">
+
+
+								<label for="input-10" class="col-sm-2 col-form-label">
+									First Name <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+								<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.givenName}"></span>
+								</label>
+								</div>
+
+
+								<label for="input-10" class="col-sm-2 col-form-label">Father's
+									Name </label>
+								<div class="col-sm-4">
+							<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.fatherName}"></span>
+								</label>
+								</div>
+							</div>
+                                 
+                                 <div class="form-group row">
+                        <label for="input-10" class="col-sm-2 col-form-label"> Gender <span class="text-danger">*</span>
+								</label>
+							<div class="col-sm-4">
+							 <label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.Gender}"></span>
+								</label>
+								</div>
+                             <label for="input-16" class="col-sm-2 col-form-label">Date
+									of Birth  <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+								<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${	#dates.format(applicantData.dob,'dd/MM/YYYY ')}"></span>
+								
+								</label>
+								</div>
+								</div>
+							
+                      <div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Address <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+								<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.address}"></span>
+								</label>
+						
+								</div>
+
+								<label for="input-14" class="col-sm-2 col-form-label">Official
+									Email ID <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.email}"></span>
+								</label>
+								</div>
+							</div>
+
+
+
+							<div class="form-group row">
+								<label for="input-10" class="col-sm-2 col-form-label">
+									Mobile No <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.primaryMobile}"></span>
+								</label>
+								</div>
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">Phone
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.alternateNo}"></span>
+								</label>
+					
+								</div>
+							</div>
+
+                                 	<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">Pan
+									Number</label>
+								<div class="col-sm-4">
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.panNumber}"></span>
+								</label>
+										</div>
+                                 
+                         	<label for="input-16" class="col-sm-2 col-form-label">Passport Number
+									</label>
+								<div class="col-sm-4">
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.passportNumber}"></span>
+								</label>
+										</div>
+							</div>
+							
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">Voter Id Number </label>
+								<div class="col-sm-4">
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.voterId}"></span>
+								</label>
+										</div>
+                                 
+                         	<label for="input-16" class="col-sm-2 col-form-label">Aadhar Number
+									</label>
+								<div class="col-sm-4">
+									<label
+									class="col-sm-10 col-form-label text-primary"> <span
+									th:text="${applicantData.aadharNo}"></span>
+								</label>
+										</div>
+							</div>
+							
+
+							<div class="form-footer">
+							  <div sec:authorize="hasRole('ROLE_OFFICER')">
+								<a href="getApplicant2"  class="btn btn-danger">Back</a>
+								</div>
+								
+								<div sec:authorize="hasRole('ROLE_APPROVAL')">
+									<a href="aprovHome"  class="btn btn-danger">Back</a>
+								</div>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+				<th:block th:if ="${	not #lists.isEmpty(compList)}">
+				<div class="col-md-12">
+										<table class="table table-bordered table-responsive-lg">
+										<thead class="bg-success text-white">
+										
+											<tr class="bg-success">
+												<th colspan="6">Company Details</th>
+											</tr>
+											
+											<tr class="bg-info">
+											<th>S.No.</th>
+											
+											<th> Person Details</th>
+											<th> Company Details</th>
+										
+											
+											<!-- <th>Edit/Delete <br> Company Details</th> -->
+											</tr>
+										</thead>
+										
+										<tbody>
+										<tr>
+								   	    <td>1</td>
+								   	     	<td class="text-wrap">
+									 <strong>Person name: </strong> 
+									 <th:block th:if="${applicantData.salutation != null}">
+														<span class="text-wrap"
+															th:text="${applicantData.salutation}"></span>
+													</th:block>
+											 <th:block th:if="${applicantData.givenName != null}">
+														<span class="text-wrap"
+															th:text="${applicantData.givenName}"></span>
+													</th:block> <th:block th:if="${applicantData.middleName != null}">
+														<span class="text-wrap"
+															th:text="${applicantData.middleName}"></span>
+													</th:block><th:block th:if="${applicantData.Surname != null}">
+														<span class="text-wrap"
+															th:text="${applicantData.Surname}"></span>
+													</th:block>
+									 <br>
+									  
+									  <strong>Father's Name : </strong> <span th:text="${applicantData. fatherName}"></span><br>
+									  	  <strong>Pan Number  : </strong> <span th:text="${applicantData. panNumber}"></span><br>
+									  	  	<strong>Aadhar  Number  : </strong> <span th:text="${applicantData. aadharNo}"></span><br>
+									  	  	 <strong>Mobile  Number  : </strong> <span th:text="${applicantData. primaryMobile}"></span><br>
+									  	  	 <strong>Email Id: </strong> <span th:text="${applicantData. email}"></span><br>
+										</td>
+									<td class="text-wrap">
+									<table >    
+							     <tr>
+							     <th>S.No</th>
+							     <th> Company Name </th>
+							     <th>Details </th>
+							     <th>Approval status</th>
+							  
+							     </tr>	
+							     
+							     <tbody>
+							     
+							     	   <tr th:each="companylist,stats : ${compList}" th:if="${companylist.isDeleted != true}" >
+							     <td th:text="${stats.count}"></td>  
+							      <td> <span th:text="${companylist.compName}"></span></td>
+							      <td class="text-wrap" >
+							                   <th:block  th:if = " ${companylist.din !=''}">
+							               <strong>DIN : </strong> <span th:text="${companylist.din}"></span><br>
+							           </th:block>
+							             <th:block  th:if = " ${companylist.frn !=''}">
+										 <strong>FRN : </strong> <span th:text="${companylist.frn}"></span><br>
+										 </th:block>
+									       <th:block  th:if = " ${companylist.Iec !=''}">
+										 <strong>IEC: </strong> <span th:text="${companylist.Iec}"></span><br>
+										 </th:block>
+										 <strong>CIN : </strong> <span th:text="${companylist.cin}"></span><br>
+										 <strong>Type  : </strong> <span th:text="${companylist.companyType.name}"></span><br>
+							             <strong>Designation   : </strong> <span th:text="${companylist.designation.designation}"></span><br>
+							             <strong>Date Of Appointment :</strong> <span th:text="${#dates.format(companylist.dateAppointment,'dd/MM/yyyy')}"></span><br>
+										 <strong>Status : </strong> <span th:text="${companylist.status.statusName}"></span><br>
+										 	 
+							      </td>
+							      
+							      <td>
+							       <th:block th:if = "${companylist.isApproved == False}">
+							      
+							      <button type="button" class="btn btn-danger btn-round m-1" > Pending For Approval</button>
+							      </th:block>
+							      <th:block th:if = "${companylist.isApproved == True}">
+							      
+							      <button type="button" class="btn btn-success btn-round m-1"> Approved</button>
+							      </th:block>
+							      </td>
+							
+							     </tr>
+							     
+							     </tbody>
+							     
+									 </table>
+          					</td>
+          					
+											
+										
+									
+		                           				
+								
+							
+										</tr>
+										</tbody>
+										</table>
+			</div>
+			</th:block>
+		</form>
+
+	
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+		
+		$(document).ready(function(){
+			 var table = $('#userTable').DataTable( {
+//		 	        lengthChange: false,
+			        buttons: [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+			      } );
+		});
+		
+			$('#dob').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+
+			$('#applicationDate').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+			
+			
+
+			$('#uploadDate').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+			
+			
+			
+
+			$('#statusDate').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+			$('#lastPassportDate').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+			
+			
+		</script>
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+
+
+
+
+	</div>
+
+</body>
+</html>

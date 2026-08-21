@@ -1,0 +1,118 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+	<link href="plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css" rel="stylesheet">
+	<title>Case report using CIN number</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+		<div th:if="${massage}" class="alert alert-warning" role="alert">
+		    <h3 th:text="${massage}"></h3>
+		</div>
+
+
+		<!-- ------------------------- CIN Search Box ------------------------- -->
+		<div class="container mt-4">
+			<h3 class="mb-3">CIN wise detail report</h3>
+
+			<td>
+				<form th:action="@{/searchCaseByCin}" th:object="${cinSearch}" method="post" class="form-inline mb-4">
+
+					<input type="text" th:field="*{cin}" class="form-control mr-2" placeholder="Enter CIN Number"
+						required />
+
+					<button type="submit" class="btn btn-primary">Search</button>
+				</form>
+			</td>
+			<a href="puhHome" class="btn btn-primary">Back</a>
+
+
+
+
+		</div>
+
+
+		<!-- --------------------- Show Case Details Table --------------------- -->
+		<div class="container mt-3" th:if="${caseListt != null}">
+
+			<table id="assignedTable" class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>S.No.</th>
+						<!-- <th hidden="">id</th>
+															<th hidden="">userid</th> -->
+
+
+					<!--	<th>Role of SFIO</th>-->
+						<th>Court Case No</th>
+					<!--	<th>Task Name</th>-->
+
+
+						<!-- <th>Company Name</th> -->
+						<th>Cause Title</th>
+
+						<th>Prosecutor</th>
+
+
+						<th>Action</th>
+
+
+						<!-- <th>Action</th> -->
+
+
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr th:each="p,stats: ${caseListt}">
+						<td th:text="${stats.count}"></td>
+						<!--<td th:text="${p.assignedTask.sfioAs.SfioAs}"></td>-->
+						<td th:text="${p.courtCaseNo}"></td>
+						<!--<td th:text="${p.assignedTask.createTask.task}"></td>-->
+
+
+						<td th:text="${p.causeTitle}"></td>
+						<td th:text="${p.assignedTask.user.firstName}"></td>
+						<td>
+						   <form th:action="@{/viewDetails}" th:object="${cinSearch}" method="post" class="form-inline mb-4">
+						        <input type="hidden" th:name="caseId" th:value="${p.id}">
+						        <button type="submit" class="btn btn-primary btn-sm">View All Details</button>
+						    </form>
+						</td>
+					</tr>
+				</tbody>
+
+			</table>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		</div>
+	</div>
+
+	<!-- ---------------------- JS Files ---------------------- -->
+	<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+	<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$('#assignedTable').DataTable({
+				buttons: ['copy', 'excel', 'pdf', 'print', 'colvis']
+			});
+		});
+	</script>
+
+</body>
+
+</html>

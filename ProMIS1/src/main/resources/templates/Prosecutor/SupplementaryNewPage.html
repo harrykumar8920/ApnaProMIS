@@ -1,0 +1,304 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+	<title>ADD SANCTION ORDER DETAILS</title>
+
+	<style type="text/css">
+		#main #faq .card {
+			margin-bottom: 30px;
+			border: 0;
+		}
+
+		#main #faq .card .card-header {
+			border: 0;
+			-webkit-box-shadow: 0 0 20px 0 rgba(213, 213, 213, 0.5);
+			box-shadow: 0 0 20px 0 rgba(213, 213, 213, 0.5);
+			border-radius: 2px;
+			padding: 0;
+		}
+
+		#main #faq .card .card-header .btn-header-link {
+			color: #fff;
+			display: block;
+			text-align: left;
+			background: #FFE472;
+			color: #222;
+			padding: 20px;
+		}
+
+		#main #faq .card .card-header .btn-header-link:after {
+			content: "\f107";
+			font-family: 'Font Awesome 5 Free';
+			font-weight: 900;
+			float: right;
+		}
+
+		#main #faq .card .card-header .btn-header-link.collapsed {
+			background: #A541BB;
+			color: #fff;
+		}
+
+		#main #faq .card .card-header .btn-header-link.collapsed:after {
+			content: "\f106";
+		}
+
+		#main #faq .card .collapsing {
+			background: #FFE472;
+			line-height: 30px;
+		}
+
+		#main #faq .card .collapse {
+			border: 0;
+		}
+
+		#main #faq .card .collapse.show {
+			background: #FFE472;
+			line-height: 30px;
+			color: #222;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+
+			<div class="col-sm-12">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="userHome">Home</a></li>
+					<li class="breadcrumb-item"><a href="ApproveproTaskList">Task
+							Details</a></li>
+					<li class="breadcrumb-item">
+						<a href="javascript:void(0);" onclick="saveIPC();">
+							Criminal Complainant Details and Related Information
+						</a>
+					</li>
+					<!--<li class="breadcrumb-item" ><a  onclick="saveIPC();"> Criminal Complainant Details and Related Information</a></li>
+							-->
+					<li class="breadcrumb-item active" aria-current="page">Supplimentory Details</li>
+
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+
+						<!--<div class="form-group row">
+							<label for="input-16" class="col-sm-2 col-form-label" style="font-size: medium;"> Cause
+								Title <span class="text-danger"></span>
+							</label>
+							<div class="col-sm-4">
+								<label class="col-sm-12 col-form-label text-primary"> <span style="font-size: medium;"
+										th:text="${assignedDtl.proCourtCaseDetails.causeTitle}"></span>
+								</label>
+
+							</div>
+
+							<label for="input-16" class="col-sm-2 col-form-label" style="font-size: medium;">Court
+								Case No <span class="text-danger"></span>
+							</label>
+							<div class="col-sm-4">
+								<label class="col-sm-12 col-form-label text-primary" id="CourtNo"> <span th:id="CourtNo"
+										style="font-size: medium;"
+										th:text="${assignedDtl.proCourtCaseDetails.courtCaseNo}"></span></label>
+							</div>
+						</div>-->
+						<form th:action="@{/saveSupplementary}" th:object="${supplementaryComplaint}"
+							id="saveSupplementary" method="post">
+							<input type="hidden" th:field="*{assignedTask}">
+							<input type="hidden" th:field="*{procourtdtl}">
+							<input type="hidden" th:field="*{id}">
+							<div class="card">
+								<div class="card-body">
+									<!-- Investigation Order No & Date -->
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">
+											Supplementary Investigation Order No <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control" placeholder="Enter Here Supplementary Investigation Order No"
+												th:field="*{supplementaryInvestigationOrderNo}" autocomplete="off" required/>
+										</div>
+
+										<label class="col-sm-3 col-form-label">
+											Order Date <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<input type="date" class="form-control"
+												th:field="*{supplementaryInvestigationOrderDate}" autocomplete="off" required/>
+										</div>
+									</div>
+									<!-- Submission Report Date & Sanction No -->
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">
+											Date of Submission <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<input type="date" class="form-control"
+												th:field="*{dateOfSubmissionOfSupplementaryInvestigationReport}" autocomplete="off" required/>
+										</div>
+										<label class="col-sm-3 col-form-label">
+											Sanction No <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control"
+												th:field="*{supplementaryInvestigationSanctionNo}" autocomplete="off" required/>
+										</div>
+									</div>
+									<!-- Sanction Date & Complaint Case No -->
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">
+											Sanction Date <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<input type="date" class="form-control"
+												th:field="*{supplementaryInvestigationSanctionDate}" autocomplete="off" required/>
+										</div>
+										<label class="col-sm-3 col-form-label">
+											Complaint Case Number <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control"
+												th:field="*{supplementaryComplaintCaseNumber}" autocomplete="off" required/>
+										</div>
+									</div>
+									<!-- Investigation Officer & Designation -->
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">
+											Investigation Officer <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control"
+												th:field="*{investigationOfficer}" autocomplete="off" required/>
+										</div>
+										<label class="col-sm-3 col-form-label">
+											Officer Designation <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control"
+												th:field="*{investigationOfficerDesignation}" autocomplete="off" required/>
+										</div>
+									</div>
+									<!-- Complainant & Designation -->
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">
+											Complainant <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control" th:field="*{complainant}" autocomplete="off" required/>
+										</div>
+										<label class="col-sm-3 col-form-label">
+											Complainant Designation <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<input type="text" class="form-control"
+												th:field="*{complainantDesignation}" autocomplete="off" required/>
+										</div>
+									</div>
+									<!-- Date of Filing & Accused -->
+									<div class="form-group row">
+										<label class="col-sm-3 col-form-label">
+											Date of Filing <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<input type="date" class="form-control" th:field="*{dateOfFiling}" autocomplete="off" required/>
+										</div>
+										<label class="col-sm-3 col-form-label">
+											Accused <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<select class="form-control" th:field="*{accusedList}" required multiple>
+												<option value="">Choose</option>
+												<option th:each="acc : ${accusedList1}" th:value="${acc.id}"
+													th:text="${acc.accusedName}">
+												</option>
+											</select>
+										</div>
+									</div>
+									<!-- Submit -->
+									<div class="form-group row mt-3">
+										<div>
+											<button type="button" class="btn btn-primary"
+												onclick="saveIPC();">Back</button>
+										</div>
+										<div class="col-sm-12 text-center">
+											<button type="submit" class="btn btn-primary">
+												Save Supplementary Complaint
+											</button>
+										</div>
+									</div>
+									</di>
+								</div>
+						</form>
+					</div>
+				</div>
+				<div class="card mt-5">
+					<div class="card-header">
+						<h4 class="page-title">Supplimentory Details List</h4>
+					</div>
+					<div class="card-body">
+						<table style="margin-top: 10px;" class="table table-bordered table-respgonsive table-bordered">
+							<thead class="bg-info">
+								<tr>
+									<th class="text-wrap">S.No.</th>
+									<th class="text-wrap">Sup. Order No</th>
+									<th class="text-wrap">Sup. Order Date</th>
+									<th class="text-wrap">Sanction No</th>
+									<th class="text-wrap">Sanction Date</th>
+									<th class="text-wrap">Date of Filing </th>
+									<th class="text-wrap">Accused</th>
+								</tr>
+							</thead>
+							<tbody>
+									<tr th:each="p,stats: ${byAssignedTask}">
+									<td th:text="${stats.count}"></td>
+									<td th:text="${p.supplementaryInvestigationOrderNo}"></td>
+									<td th:text="${p.supplementaryInvestigationOrderDate}"></td>
+									<td th:text="${p.supplementaryInvestigationSanctionNo}"></td>
+									<td th:text="${p.supplementaryInvestigationSanctionDate}"></td>	
+									<td th:text="${p.dateOfFiling}"></td>	
+									<td>
+									    <span th:each="a, stat : ${p.accusedList}">
+									        <span th:text="${a.accusedName}"></span>
+									        <span th:if="${!stat.last}">, </span>
+									    </span>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			function saveIPC() {
+				$('#saveSupplementary').attr("action", "backFromSupplimentory");
+				$('#saveSupplementary').submit();
+			}
+		</script>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

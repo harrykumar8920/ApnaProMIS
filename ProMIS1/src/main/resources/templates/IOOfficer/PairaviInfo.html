@@ -1,0 +1,258 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Add New Respondent</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Add
+						Pairavi officer's</li>
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<form th:action="@{/savePairavi}" method="post"
+			class="needs-validation" autocomplete="off" th:object="${pairaviDetails}" th:id="pairaviOfficer">
+<input type="hidden" th:field="*{procourtdtl}">
+ <input type="hidden" th:field="*{id}">
+ <input type ="hidden" th:id="courtId" name ="courtId">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-address-book-o"></i> Pairavi Officer's Details
+							</h4>
+							<div class="form-group row">
+
+								<label for="input-10" class="col-sm-2 col-form-label">Pairavi
+									Officer <span class="text-danger">*</span>
+								</label>
+								<th:block  th:if="${pairaviDetails.id == null}">
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{pairaviType}"  th:id="pairaviType">
+									<option value="0">Choose  Pairavi  Type</option>
+										<option th:each="pt :${ptypelst}"
+											th:value="${pt.id}" th:utext="${pt.pairaviType}" />
+									</select>
+									<span id="pairaviTypeErr" class="text-danger" th:errors="*{pairaviType}"></span>
+									
+								</div>
+								</th:block>
+								<th:block  th:if="${pairaviDetails.id != null}">
+								<div class="col-sm-4">
+								  <label class="text-primary "> <span th:text="${pairaviDetails.pairaviType.pairaviType}"></span></label>	
+								</div>
+								</th:block>
+							</div>
+							<div class="form-group row">
+
+
+
+
+								<label for="input-10" class="col-sm-2 col-form-label">
+									Name <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="name"  th:field ="*{name}" name="firstName" placeholder="Enter  Name"
+										maxlength="50" required="required">
+								</div>
+
+
+								<label for="input-10" class="col-sm-2 col-form-label">Email
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" autocomplete="off"
+										id="email" th:field ="*{email}" placeholder="Enter Email"
+										maxlength="50" required="required">
+								</div>
+							</div>
+
+
+							<div class="form-group row">
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">Designation <span class="text-danger">*</span> </label>
+								
+									<div class="col-sm-4">
+										<select class="form-control" th:field="*{designation}">
+									<option value="0">Choose Designation</option>
+										<option th:each="design: ${desilst}"
+											th:value="${design.id}" th:utext="${design.designation}" />
+									</select> <span class="text-danger"
+										th:if="${#fields.hasErrors('designation')}"
+										th:errors="*{designation}"></span>
+									</div>
+
+								
+
+								<label for="input-16" class="col-sm-2 col-form-label">Mobile
+									Number <span class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+										<input type="text" class="form-control" name="contactnumber"
+										id="mobileNo" th:field="*{mobile}" placeholder="Enter Mobile No" maxlength="10"
+										onblur="checkMobile()" required="required">
+								</div>
+							</div>
+
+							<div class="form-group row">
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">From
+									Date </label>
+								<div class="col-sm-4">
+								
+										
+											<input type="text" class="form-control"
+											placeholder="Enter To Date" th:field="*{fromDate}" th:id="startdate" >
+										
+									</div>
+
+								
+
+								<label for="input-16" class="col-sm-2 col-form-label">To
+									Date <span class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+										<input type="text" class="form-control"
+											placeholder="Enter To Date" th:field="*{toDate}" th:id="enddate" >
+								</div>
+							</div>
+
+
+
+
+							<div class="form-footer">
+								<button type="reset" class="btn btn-danger">
+									<i class="fa fa-times"></i> Reset
+								</button>
+								<button type="submit" class="btn btn-success" id="update_btn">
+									<i class="fa fa-check-square-o"></i> SAVE
+								</button>
+							 <button type="button" class="btn btn-dark" th:onclick="'backPage(\'' + ${courtdtl} +'\');'">
+							  		<i class="fa fa-check-square-o"></i> Back
+							  </button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var table = $('#userTable').DataTable({});
+			});
+
+			$(document).ready(function() {
+				$("#startdate")
+				.datepicker(
+						{
+
+							format : 'dd/mm/yyyy',
+							endDate : new Date(),
+						// autoclose: true,
+						})
+				.on(
+						'changeDate',
+						function(
+								selected) {
+							var minDate = new Date(
+									selected.date
+											.valueOf());
+							$(
+									'#enddate')
+									.datepicker(
+											'setStartDate',
+											minDate);
+						});
+
+		$("#enddate")
+				.datepicker(
+						{
+							format : 'dd/mm/yyyy',
+							endDate : new Date(),
+
+						})
+				.on(
+						'changeDate',
+						function(
+								selected) {
+							var minDate = new Date(
+									selected.date
+											.valueOf());
+							$(
+									'#startdate')
+									.datepicker(
+											'setEndDate',
+											minDate);
+						});
+				var table = $('#roleTable').DataTable({
+					//	 	        lengthChange: false,
+					buttons : [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+				});
+			});
+			
+			function backPage(courtID) {
+				
+				
+
+	    			$('#pairaviOfficer').attr('action', 'AdditionalInfo');
+	    			$("#courtId").val(courtID)
+	    			$('#pairaviOfficer').submit();
+			}
+			$('#pairaviType').on('change', function() {
+				
+				var pairaviType =  this.value
+				if(pairaviType == 2){
+					$("#enddate").prop('disabled', true);
+					
+				}else{
+					$("#enddate").prop('disabled', false);
+				}
+				
+				});
+		</script>
+
+		<script type="text/javascript" src="js/customValidation.js"></script>  
+
+
+
+	</div>
+
+</body>
+</html>

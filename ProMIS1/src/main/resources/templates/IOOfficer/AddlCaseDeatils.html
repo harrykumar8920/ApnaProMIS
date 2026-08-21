@@ -1,0 +1,318 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>Case Details</title>
+</head>
+<style type="text/css">
+.formFieldError {
+	color: red;
+}
+
+.loading {
+	color: red;
+}
+</style>
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Case,
+						Company and KMP Details</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<form th:action="@{/caseaccuseddetails}" method="post" th:id="caseaccuseddetails"
+			class="needs-validation" enctype="multipart/form-data">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-briefcase"></i> Case Details
+							</h4>
+
+
+							<div class="form-group row">
+
+								<label class="col-sm-2 col-form-label"> Case No : </label> <label
+									class="col-sm-4 col-form-label text-primary"> <span>SFIO/INV/CCIL/1201-1207/2019/</span>
+								</label> <label class="col-sm-2 col-form-label">Financial Year :</label>
+								<label class="col-sm-4 col-form-label text-primary"> <span>2020-2021</span>
+								</label>
+
+
+							</div>
+							<div class="form-group row">
+
+								<label for="input-13" class="col-sm-2 col-form-label">
+									Case Title : </label> <label
+									class="col-sm-4 col-form-label text-primary"> <span>CALCOM
+										CEMENT INDIA LTD</span>
+								</label>
+								
+									<label for="input-10" class="col-sm-2 col-form-label">MCA
+									Order: </label> <label class="col-sm-4 col-form-label text-primary">
+									<span th:text="MCA_35.PDF"></span>
+								</label>
+
+							</div>
+
+							<!-- <div class="form-group row">
+
+								<label class="col-sm-4 col-form-label">Investigation
+									Order Received From : </label> <label
+									class="col-sm-6 col-form-label text-primary"> <span>LEGACY</span>
+								</label>
+
+							</div> -->
+
+
+							<div class="form-group row" id="mcaDiv">
+
+								<label class="col-sm-2 col-form-label">MCA Order No : </label> <label
+									class="col-sm-4 col-form-label text-primary"> <span>NO.
+										01/77/2017-CL II (SR)</span>
+								</label> <label class="col-sm-2 col-form-label">MCA Order Date :
+								</label> <label class="col-sm-4 col-form-label text-primary"> <span
+									th:text="12/10/2020"></span>
+								</label>
+
+							</div>
+
+
+
+							<div class="form-group ">
+							
+
+							</div>
+
+
+
+
+
+							<div class="form-group row" id="orderFileDiv">
+								<label for="input-10" class="col-sm-2 col-form-label">Office
+									Order(For Legacy case): </label> <label
+									class="col-sm-4 col-form-label text-primary"> <span
+									th:text="OFFICE_ORDER_35.PDF"></span>
+								</label>
+
+							</div>
+
+						<!-- 	<div class="form-group row">
+
+								<label for="input-10" class="col-sm-2 col-form-label">
+									Investigation Unit</label>
+								<div class="col-sm-4 col-form-label text-primary">
+									<span th:text="Unit1"></span>
+								</div>
+
+							</div> -->
+
+
+
+							
+
+
+
+
+							<div class="form-footer">
+								<button type="reset" class="btn btn-danger">
+									<i class="fa fa-times"></i> RESET
+								</button>
+									<a class="btn btn-dark" href=AddlCaseDeatils> <i
+									class="fa fa-check-square-o"></i> Back
+								</a>
+								<button type="button" th:name="save" th:id="saveBtn"
+									class="btn btn-success">
+									<i class="fa fa-check-square-o"></i> Update Data
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+		<div class="modal fade" id="largesizemodal">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header bg-primary">
+						<h5 class="modal-title text-white">Key Managerial
+							Persons(KMP)</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Sr. No.</th>
+
+									<th>Name</th>
+									<th>Designation</th>
+									<th>Pan Number</th>
+									<th>Gender</th>
+									<th>Mobile No</th>
+									<th>Email</th>
+									<th>Select</th>
+								</tr>
+							</thead>
+							<tbody id="inspectorTable">
+
+								<tr>
+									<td>1</td>
+									<td>Jhon</td>
+									<td>Developer</td>
+									<td>BLGPS9465B</td>
+									<td>Male</td>
+									<td>8958235689</td>
+									<td>jhon@gmail.com</td>
+									<td><input type="checkbox"></td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>Krishna</td>
+									<td>CEO</td>
+									<td>BLHPS9465B</td>
+									<td>Male</td>
+									<td>8956235689</td>
+									<td>krishna@gmail.com</td>
+									<td><input type="checkbox"></td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>MANISH</td>
+									<td>Auditor</td>
+									<td>BLGPS9865B</td>
+									<td>Male</td>
+									<td>8956239089</td>
+									<td>manish@gmail.com</td>
+									<td><input type="checkbox"></td>
+								</tr>
+
+								<tr>
+							</tbody>
+
+
+						</table>
+
+
+						<div id="msg"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-dark" data-dismiss="modal">
+							<i class="fa fa-times"></i> Close
+						</button>
+						<button type="button" class="btn btn-primary" id="addInspector">
+							<i class="fa fa-plus"></i> Add
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="modal fade" id="companylargesizemodal">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header bg-primary">
+						<h5 class="modal-title text-white"></h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<!-- 		<table class="table">
+							<thead>
+								<tr>
+									<th>Sr. No.</th>
+
+									<th>Company Name</th>
+									<th>CIN</th>
+								    <th>Choose</th>
+								</tr>
+							</thead>
+							<tbody id="inspectorTable">
+
+								<tr>
+									<td>1</td>
+									<td>HCL</td>
+									<td>L74140DL1991PLC046369</td>
+									
+								<td><input type="checkbox"></td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>WIPRO</td>
+									<td>L74170DL1991PLC046369</td>
+									
+									<td><input type="checkbox"></td>
+								</tr>
+							
+							</tbody>
+
+
+						</table> -->
+
+
+						<div id="msg"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-dark" data-dismiss="modal">
+							<i class="fa fa-times"></i> Close
+						</button>
+						<button type="button" class="btn btn-primary" id="addInspector">
+							<i class="fa fa-plus"></i> Add
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			var table = $('#KMPTable').DataTable();
+			$(function() {
+				debugger
+				$(document).on(
+						"click",
+						"#addInspector",
+						function() {
+							var getSelectedRows = $(".src-table input:checked")
+									.parents("tr");
+
+							$(".target-table tbody").append(getSelectedRows);
+						})
+			})
+		</script>
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+	</div>
+
+
+
+</body>
+</html>

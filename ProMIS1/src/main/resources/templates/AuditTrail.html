@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Audit Trail</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+	
+	<div class="row pt-2 pb-2">
+			
+			<div >
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="home">Home</a></li>
+					<li class="breadcrumb-item"><a href="#">Audit Trail</a></li>
+					
+				</ol>
+			</div>
+		</div>
+	
+	  	<div class="card">
+			<!-- <div class="card-header bg-info text-white text-uppercase"></div>
+			 -->
+			  <div class="row pt-2 pl-4">
+				<h5 class="page-title">Audit Trail</h5>
+			</div>
+			 <div class="card-body">
+				<form action="auditTrailReport" th:action="@{/auditTrailReport}"
+					th:object="${auditDto}" method="post">
+
+					<div class="row">
+						 <div class="col-12 col-lg-6 col-xl-6">
+              <div class="form-group row">
+                	<label class="control-label"><b>Date :<span
+											class="red">*</span>
+									</b></label>
+                <div class="col-sm-8">
+              	<input  class="form-control datepicker" th:field="*{date}"
+										id="auditDate" placeholder="Enter date" maxlength="10"
+										autocomplete="off" required="required" />
+                </div>
+              </div>
+            </div>
+           
+						  </div>
+  	<div class="clearfix form-actions">
+								<div class="col-md-offset-3 col-md-9">
+
+									<Button class="btn btn-success" type="submit" id="audit-submit">
+										<i class="ace-icon fa fa-check bigger-110"></i> Submit
+									</Button>
+									&nbsp; &nbsp; &nbsp;
+									<button class="btn btn-warning" type="reset">
+										<i class="ace-icon fa fa-undo bigger-110"></i> Reset
+									</button>
+									
+									
+									 &nbsp; &nbsp; &nbsp;
+									<button class="btn btn-danger" type="button"
+										onclick="window.history.back();">
+										<i class="ace-icon fa fa-arrow-left bigger-110 "></i> Back
+									</button> 
+								</div>
+							</div>
+							
+							<th:block  th:if="${not #lists.isEmpty(auditList)}">
+							<div class="bg-aqua" style="font-size: 20px; font-weight: 300; margin-top:2%">
+								<p>	Audit trail report -  <span  th:text=" ${auditDto.date}"></span></p>
+							</div>
+							
+								<table id="doclistdt" class="table table-bordered table-striped"
+					style="margin-top: 10px">
+					<thead>
+						<tr>
+							<th>S.No.</th>
+							<th>ACTOR_NAME</th>
+							<th>ACTOR_IP</th>
+							<th>SCREEN</th>
+							<th>OPERATION_DESC</th>
+							<th>TIME(IST)</th>
+							<th>TARGETED_USER</th>
+						</tr>
+					</thead>
+					<th:block  th:if="${not #lists.isEmpty(auditList)}">
+						<tbody id="reviewer_tbl">
+						
+							<tr th:each="listValue , auditlist : ${auditList}">
+									<td class="txtRght"> <span th:text = " ${auditlist.count}"></span></td>
+									<td class="txtLft"> <span th:text = " ${listValue.actorName}"></span></td>
+									<td class="txtRght"> <span th:text = " ${listValue.actorIP}"></span></td>
+									<td class="txtLft"> <span th:text = " ${listValue.url}"></span></td>
+									<td class="txtLft"> <span th:text = " ${listValue.operationDesc}"></span></td>
+									
+									<td class="txtRght"> <span  th:text="${#dates.format(listValue.actionDate ,'dd/MM/yyyy')}"></span></td>
+									
+									
+									<td class="txtLft"> <span th:text = " ${listValue.domain}"></span></td>
+								</tr>
+							
+						</tbody>
+					 </th:block>
+				</table>
+							</th:block>
+	</form>
+			</div>
+			
+			<script src="bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+		    <script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		    <script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+			
+	<script type="text/javascript">
+	$(document).ready(function(){
+		
+		 var table = $('#doclistdt').DataTable( {
+//	 	        lengthChange: false,
+		        buttons: [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+		      } );
+	});
+	$(document).ready(
+			function() {
+				$(".datepicker").datepicker({
+					format : 'dd-mm-yyyy',
+					showOtherMonths : true,
+					selectOtherMonths : true,
+					changeMonth : true,
+					changeYear : true,
+					showButtonPanel : true,
+					maxDate : 0,
+					autoclose : true,
+					todayHighlight : true
+				});
+				
+			});
+	</script>
+		</div>
+		</div>
+		</body>
+		</html>

@@ -1,0 +1,519 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<title>Add New Respondent</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="puhHome">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Court
+						Case Details</li>
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<form th:action="@{/caseApprove}" method="post"
+			class="needs-validation" autocomplete="off" th:object="${pcrtdtls}"
+			id="proCourtCaseDetails" enctype="multipart/form-data">
+
+			<input type="hidden" id=caseId1 th:filed="*{caseId}"> <input
+				type="hidden" id="caseTitle12" th:filed="*{caseTitle}">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<i class="fa fa-address-book-o"></i> Court Case Details
+							<h4 class="form-header text-uppercase"></h4>
+
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">SFIO
+									As <span class="text-danger">:</span>
+								</label>
+								<div class="col-sm-8">
+									<label class="col-sm-8 col-form-label text-primary"
+										id="CourtNo"> <span th:id="CourtNo"
+										th:text="${pcrtdtls.sfioAs.SfioAs}"></span></label>
+
+								</div>
+
+
+							</div>
+							<div class="form-group row">
+							
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Investigation Order No.<span class="text-danger">*</span>
+
+								</label>
+								<div class="col-sm-4">
+
+
+									<label class="col-form-label text-primary" id="CourtNo">
+										 <span th:id="typeOfCase"
+										th:text="${pcrtdtls.addCase.investigationOrderNo}"></span> 
+									</label>
+
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">
+																Officer Name<span class="text-danger">*</span>
+
+															</label>
+															<div class="col-sm-4">
+															    <label class="col-form-label text-primary" id="CourtNo">
+															        <span th:id="typeOfCase"
+															              th:text="${pcrtdtls.createdBy.firstName 
+															              + (pcrtdtls.createdBy.middleName != null ? ' ' + pcrtdtls.createdBy.middleName : '') 
+															              + ' ' + pcrtdtls.createdBy.lastName}">
+															        </span>
+															    </label>
+															</div>
+
+								
+							</div>
+
+							<div class="form-group row">
+
+
+								<label for="input-10" class="col-sm-2 col-form-label">Court
+									Type <span class="text-danger">:</span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-form-label text-primary" id="CourtNo">
+										<span th:id="CourtNo"
+										th:text="${pcrtdtls.courtType.courtName}"></span>
+									</label>
+
+								</div>
+								
+								<label for="input-10" class="col-sm-2 col-form-label">State
+									<span class="text-danger">:</span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-form-label text-primary" id="CourtNo">
+										<span th:id="CourtNo" th:text="${pcrtdtls.state.state}"></span>
+									</label>
+
+								</div>
+								
+								<label for="input-10" class="col-sm-2 col-form-label">Bench Name
+									<span class="text-danger">:</span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-form-label text-primary" id="CourtNo">
+										<span th:id="CourtNo" th:text="${pcrtdtls.bench_Name.bench}"></span>
+									</label>
+
+								</div>
+
+							</div>
+						<div class="form-group row">
+										
+									<label for="input-10" class="col-sm-2 col-form-label">City
+										<span class="text-danger">:</span>
+									</label>
+									<div class="col-sm-4">
+										<label class="col-form-label text-primary" id="CourtNo">
+											<span th:id="CourtNo" th:text="${pcrtdtls.city.districtName}"></span>
+										</label>
+
+									</div>
+								
+								<label for="input-16" class="col-sm-2 col-form-label">Court
+									Case No <span class="text-danger">:</span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-form-label text-primary" id="CourtNo">
+										<span th:id="CourtNo" th:text="${pcrtdtls.courtCaseNo}"></span>
+									</label>
+								</div>
+
+
+							</div>
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Filling Date <span class="text-danger">:</span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-form-label text-primary"> <span
+										th:id="fillingDate"
+										th:text="${#dates.format(pcrtdtls.fillingDate, 'dd/MM/yyyy')}"></span></label>
+
+
+
+
+
+
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Cause Title <span class="text-danger">:</span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-form-label text-primary"> <span
+										th:text="${pcrtdtls.causeTitle}"></span></label>
+
+								</div>
+
+							</div>
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									CNR Number <span class="text-danger">:</span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-form-label text-primary"> <span
+										th:text="${pcrtdtls.cnrNumber}"></span></label>
+
+								</div>
+
+							</div>
+
+
+
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Prosecution Sanction Order No <span class="text-danger">:
+								</span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-form-label text-primary"> <span
+										th:text="${pcrtdtls.assignedTask.addCase.proSectionOrderNumber}"></span></label>
+
+								</div>
+
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Prosecution Sanction Order Date <span class="text-danger">
+										:</span>
+								</label>
+								<div class="col-sm-4">
+									<label class="col-form-label text-primary"> <span
+										th:text="${#dates.format(pcrtdtls.assignedTask.addCase.proSanctionDate, 'dd/MM/yyyy')}"></span></label>
+
+
+								</div>
+
+							</div>
+
+
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Prosecution Sanction Order File <span class="text-danger">:
+								</span>
+								</label>
+
+								<div class="col-sm-4">
+									<label class=" col-form-label text-primary"> <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=${pcrtdtls.assignedTask.addCase.proSanctionFileName}|}"><span>View</span><i
+											class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></a></label>
+								</div>
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									COMPLAINT <span class="text-danger">: </span>
+								</label>
+
+								<div class="col-sm-4">
+									<label class=" col-form-label text-primary" > <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=${pcrtdtls.gistFile}|}"><span>View</span><i
+											class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></a></label>
+								</div>
+
+							</div>
+
+
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label" th:if="${pcrtdtls.backgroundFileName}!=''">
+									INVESTIGATION REPORT <span class="text-danger">:
+								</span>
+								</label>
+
+								<div class="col-sm-4">
+									<label class=" col-form-label text-primary" th:if="${pcrtdtls.backgroundFileName}!=''"> <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=${pcrtdtls.backgroundFileName}|}"><span>View</span><i
+											class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></a></label>
+								</div>
+
+
+								<label for="input-16" class="col-sm-2 col-form-label" th:if="${pcrtdtls.briefFileName}!=''">
+									Brief File <span class="text-danger">: </span>
+								</label>
+
+								<div class="col-sm-4">
+									<label class=" col-form-label text-primary" th:if="${pcrtdtls.briefFileName}!=''"> <a
+										th:target="_blank"
+										th:href="@{|/downloadFiles?fileName=${pcrtdtls.briefFileName}|}"><span>View</span><i
+											class="fa fa-file-pdf-o" style="font-size: 24px; color: red"></i></a></label>
+								</div>
+
+
+
+
+							</div>
+							
+							
+							
+
+							<!-- <div class="col-sm-6">
+								<div class="table-responsive">
+									<h4 style="font-size: 16px">Act & Section</h4>
+									<table id="CompTable1" class="table table-bordered">
+										<thead class="bg-info text-white">
+
+
+											<tr style="font-size: 15px">
+												<th>S.No</th>
+												<th>ACT</th>
+												<th>Section</th>
+												<th>Sub Section</th>
+												<th>Description</th>
+
+
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="p,stats: ${seclist}">
+												<td th:text="${stats.count}"></td>
+												<td th:text="${p.Act.act}"></td>
+												<td th:text="${p.Section.section}"></td>
+
+												<td><span
+													th:if="${p.SubSection.subSection == 'Choose'}"></span> <span
+													th:if="${p.SubSection.subSection != 'Choose'}"><span
+														th:text="${p.SubSection.subSection}"></span></span></td>
+
+
+												<td th:text="${p.Description}"></td>
+
+											</tr>
+										</tbody>
+
+
+
+									</table>
+								</div>
+							</div> -->
+
+
+							<!--
+							<div class="form-group row" id="snmsCasedtl">
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Investigation MCA Order No <span class="text-danger">:</span>
+
+								</label>
+								<div class="col-sm-4">
+									<label class="col-form-label text-primary"> <span
+										th:text="${pcrtdtls.invCaseDetail.mcaOrder}"></span></label>
+
+
+								</div>
+
+								 <label for="input-16" class="col-sm-2 col-form-label">
+									Company Name <span class="text-danger">:</span>
+
+								</label>
+								<div class="col-sm-4">
+
+									<label class="col-form-label text-primary"> <span
+										th:text="${pcrtdtls.invCaseDetail.caseTitle}"></span></label>
+
+								</div 
+
+
+
+							</div>
+
+							<div class="form-group row">
+
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Case No<span class="text-danger">: </span>
+
+								</label>
+								<div class="col-sm-4">
+
+									<label class="col-form-label text-primary"> <span
+										th:text="${pcrtdtls.invCaseDetail.caseId}"></span></label>
+
+								</div>
+
+<div class="col-sm-6"></div>
+							</div>
+
+
+							<div class="form-group row">
+							
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Brief <span class="text-danger">:</span>
+								</label>
+								<div class="col-sm-4">
+
+									<label  class="col-sm-12 col-form-label"> <span
+										th:text="${pcrtdtls.brief}"></span></label>
+
+
+								</div>
+
+							</div>
+							-->
+
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Brief <span class="text-danger">:</span>
+								</label>
+								<div class="col-sm-10">
+
+									<label class="col-sm-12 col-form-label"> <span
+										th:text="${pcrtdtls.brief}"></span></label>
+
+
+								</div>
+							</div>
+
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									BACKGROUND OF THE CASE <span class="text-danger">:</span>
+								</label>
+								<div class="col-sm-10">
+
+									<label class="col-sm-12 col-form-label"> <span
+										th:text="${pcrtdtls.backgroundofcase}"></span></label>
+
+
+								</div>
+							</div>
+
+							<br> <br>
+
+
+
+
+
+							<th:block
+								th:if="${pcrtdtls.approveStatus==1||pcrtdtls.approveStatus==0}">
+
+								<div class="form-group row">
+									<div class="col-sm-12" id="rejectdiv1">
+										<input type="hidden" th:field="*{id}"
+											th:value="${pcrtdtls.Id}">
+
+										<button type="submit" class="btn btn-success" th:name="ok"
+											th:value="${pcrtdtls.Id}">Approve</button>
+										<button type="button" th:value="${pcrtdtls.Id}" id="rejectID"
+											th:onclick="sendBackase();"
+											class="btn btn-danger float-right">Send back for
+											update</button>
+
+										<a href="totalPendingCourtCaseDtlForApproval" class="btn btn-info float-right">Back</a>
+
+									</div>
+									<div id="rejectdiv" style="display: none;" class="col-sm-12">
+										<label for="input-10" class="col-sm-4 col-form-label">Remarks</label>
+										<input class="form-control col-sm-4" type="text"
+											th:field="*{sendBackRemarks}" maxlength="50">
+										<button type="submit" class="btn btn-danger btn-round m-1"
+											th:name="sendBackCase">Send back for update</button>
+
+									</div>
+
+
+								</div>
+							</th:block>
+
+							<th:block th:if="${pcrtdtls.approveStatus==2}">
+
+
+								<div class="form-group row">
+
+									<span style="color: blue">Approved</span> &nbsp; <a
+										href="puhHome" class="btn btn-info float-right">Back</a>
+								</div>
+							</th:block>
+
+
+							<th:block th:if="${pcrtdtls.approveStatus==3}">
+								<div class="form-group row">
+									<span style="color: red">Sent back for update</span>
+									<!-- <button type="button" class="btn btn-warning" disabled="disabled">Sent back for update</button> -->
+									&nbsp; <a href="puhHome" class="btn btn-info float-right">Back</a>
+								</div>
+								<div class="form-group row">
+
+
+									<label for="input-16" class="col-sm-2 col-form-label">
+										Remarks<span class="text-danger">: </span>
+
+									</label>
+									<div class="col-sm-4">
+
+										<label class="col-form-label text-primary"> <span
+											th:text="${pcrtdtls.sendBackRemarks}"></span></label>
+
+									</div>
+
+								</div>
+
+
+							</th:block>
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<input type="text" style="display: none;" th:field="*{invCaseId}"
+				th:id="invcaseDetailsId">
+		</form>
+
+		<script type="text/javascript">
+			function sendBackase() {
+				//alert('testpage');
+				$("#rejectdiv").show();
+				$("#rejectdiv1").hide();
+				window.scrollTo(1000, document.body.scrollHeight);
+
+			}
+		</script>
+	</div>
+
+
+</body>
+</html>

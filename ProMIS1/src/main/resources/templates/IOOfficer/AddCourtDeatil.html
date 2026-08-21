@@ -1,0 +1,216 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Add New Respondent</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Add
+						Court Details</li>
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible"
+			role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<form th:action="@{/addCourtOrderdtl}" method="post"
+			class="needs-validation" autocomplete="off">
+
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+
+
+
+
+
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-address-book-o"></i> Court Case Detailsfert
+							</h4>
+
+
+
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">SFIO
+									As <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio"
+											name="inlineRadioOptions" id="inlineRadio1" value="3" />
+										<label class="form-check-label" for="inlineRadio1">Petitioner
+										</label>
+									</div>
+
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio"
+											name="inlineRadioOptions" id="inlineRadio2" value="2" />
+										<label class="form-check-label" for="inlineRadio2">Respondent</label>
+									</div>
+
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio"
+											name="inlineRadioOptions" id="inlineRadio3" value="1" />
+										<label class="form-check-label" for="inlineRadio3">Appellant</label>
+									</div>
+									
+									
+									
+								</div>
+
+
+							</div>
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">Court
+									Case No <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control"
+										placeholder="Enter Court Case No ">
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Filling Date <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="uiJoiningDate"
+										placeholder="Enter Filling Date">
+								</div>
+
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Prosecution Case No <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control">
+								</div>
+								<label for="input-10" class="col-sm-2 col-form-label">
+									Complainant Name <span class="text-danger">*</span>
+								</label>
+
+								<div class="col-sm-4">
+									<input type="text" class="form-control">
+								</div>
+
+
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									MCA Order No <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control">
+								</div>
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Cause Title <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control">
+								</div>
+
+							</div>
+
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Gist  <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control">
+								</div>
+
+								<label for="input-10" class="col-sm-2 col-form-label">Years
+									of Violation <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control">
+										<option value="Mr">2018</option>
+										<option value="Ms">2019</option>
+										<option value="Mrs">2020</option>
+									</select>
+								</div>
+							</div>
+
+
+
+
+
+
+
+
+							<div class="form-footer">
+								<button type="reset" class="btn btn-danger">
+									<i class="fa fa-times"></i> Reset
+								</button>
+								<button type="button" class="btn btn-success" id="update_btn">
+									<i class="fa fa-check-square-o"></i> SAVE
+								</button>
+								<a class="btn btn-dark" href="AddcaseResp"> <i
+									class="fa fa-check-square-o"></i> Back
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var table = $('#userTable').DataTable({});
+			});
+
+			$('#uiDob').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+
+			$('#uiJoiningDate').datepicker({
+				autoclose : true,
+				todayHighlight : true,
+				format : 'dd/mm/yyyy',
+			});
+		</script>
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+
+
+
+
+	</div>
+
+</body>
+</html>

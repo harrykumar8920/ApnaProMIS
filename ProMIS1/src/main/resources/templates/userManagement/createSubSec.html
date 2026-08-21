@@ -1,0 +1,252 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Add Sub Sec</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="home">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Add Sub
+						Section</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<form th:action="@{/saveAddSubSec}" method="post"
+			class="needs-validation" th:object="${addSubSec}">
+
+			<div th:if="${message}" class="alert alert-success alert-dismissible"
+				role="alert">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<div class="alert-icon">
+					<i class="fa fa-check"></i>
+				</div>
+				<div class="alert-message">
+					<span th:text="${message}"></span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-sitemap"></i> Add Sub Sections
+							</h4>
+							<input type="hidden" th:field="*{id}">
+							<div class="form-group row">
+								<label for="input-10" class="col-sm-2 col-form-label">
+									Act <span class="text-danger">*</span>
+								</label>
+								<th:block th:if="${addSubSec.isEditSubSec == false}">
+									<div class="col-sm-4">
+										<select class="form-control" id="actList" th:field="*{act}">
+											<option th:value="0" th:utext="Choose" />
+											<option th:each="acts: ${actList}" th:value="${acts.id}"
+												th:utext="${acts.Act}" />
+										</select><span class="text-danger" th:errors="*{act}"></span>
+									</div>
+								</th:block>
+								<th:block th:if="${addSubSec.isEditSubSec == true}">
+									<div class="col-sm-4" style="display: none;">
+										<select class="form-control" id="actList" th:field="*{act}">
+											<option th:value="0" th:utext="Choose" />
+											<option th:each="acts: ${actList}" th:value="${acts.id}"
+												th:utext="${acts.Act}" />
+										</select><span class="text-danger" th:errors="*{act}"></span>
+									</div>
+								</th:block>
+								<th:block th:if="${addSubSec.isEditSubSec == true}">
+
+									<div class="col-sm-4">
+										<label th:text="${addSubSec.act.act}"></label>
+									</div>
+								</th:block>
+								<label for="input-10" class="col-sm-2 col-form-label">Section
+									<span class="text-danger">*</span>
+								</label>
+								<th:block th:if="${addSubSec.isEditSubSec == true}">
+									<div class="col-sm-4">
+										<label th:text="${addSubSec.section.section}"></label>
+									</div>
+								</th:block>
+								<th:block th:if="${addSubSec.isEditSubSec == false}">
+									<div class="col-sm-4">
+										<select class="form-control" id="seclst" th:field="*{section}">
+											<option value="0">Choose Section</option>
+											<option th:each="Section: ${seclst}" th:value="${Section.id}"
+												th:utext="${Section.section}" />
+										</select> <span class="text-danger" th:errors="*{Section}"></span>
+									</div>
+								</th:block>
+								<th:block th:if="${addSubSec.isEditSubSec == true}">
+									<div class="col-sm-4" style="display: none;">
+										<select class="form-control" id="seclst" th:field="*{section}">
+											<option value="0">Choose Section</option>
+											<option th:each="Section: ${seclst}" th:value="${Section.id}"
+												th:utext="${Section.section}" />
+										</select> <span class="text-danger" th:errors="*{Section}"></span>
+									</div>
+								</th:block>
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">SubSection
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" id="subSection"
+										th:field="*{subSection}" name="subSection"
+										placeholder="Enter SubSection" maxlength="40"> <span
+										class="text-danger" th:errors="*{SubSection}"></span>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">Description
+									<!-- <span class="text-danger">*</span> -->
+								</label>
+								<div class="col-sm-4">
+									<textarea class="form-control" id="act" name="the-textarea"
+										th:field="*{description}" placeholder="Enter Description"
+										rows="4" maxlength="250" autofocus></textarea>
+									<div id="the-count">
+										<span>Character Count-</span><span id="current"> 0</span> <span
+											id="maximum">/ 250</span>
+									</div>
+
+								</div>
+							</div>
+							<div class="form-footer">
+								<!-- <button type="reset" class="btn btn-danger">
+									<i class="fa fa-times"></i> CANCEL
+								</button> -->
+								<th:block th:if="${addSubSec.isEditSubSec == false}">
+									<button type="submit" class="btn btn-success">
+										<i class="fa fa-check-square-o"></i> Add
+									</button>
+								</th:block>
+
+								<th:block th:if="${addSubSec.isEditSubSec == true}">
+									<button type="submit" class="btn btn-success">
+										<i class="fa fa-check-square-o"></i> Update
+									</button>
+								</th:block>
+
+
+
+								<a href="backSubSec" class="btn btn-dark">Back</a>
+
+
+							</div>
+
+
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+			<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+			<script
+				src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+			<script src="plugins/jquery.steps/js/jquery.steps.min.js"></script>
+			<script src="plugins/jquery-validation/js/jquery.validate.min.js"></script>
+			<!--wizard initialization-->
+			<script src="plugins/jquery.steps/js/jquery.wizard-init.js"></script>
+
+
+
+
+
+			<script type="text/javascript">
+				$('#actList')
+						.on(
+								'change',
+								function() {
+									var stateid = $('#actList').val();
+									//alert("hello " + stateid);
+									debugger
+									$
+											.ajax({
+												//crossDomain: true,
+												type : "GET",
+												url : "getsection?stateid="
+														+ stateid,
+												//contentType : "application/json; charset=utf-8",
+												cache : false,
+												timeout : 600000,
+												success : function(data) {
+													//alert(data.lenth)
+													$('#seclst').html('');
+													var options = '';
+													options += '<option value="0">Select</option>';
+													for (var i = 0; i < data.length; i++) {
+														options += '<option value="' + data[i].id + '">'
+																+ data[i].section
+																+ '</option>';
+													}
+													$('#seclst')
+															.append(options);
+												}
+
+											});
+									//alert("hello "+actList);
+
+								});
+			</script>
+			<script type="text/javascript">
+				$('textarea')
+						.keyup(
+								function() {
+
+									var characterCount = $(this).val().length, current = $('#current'), maximum = $('#maximum'), theCount = $('#the-count');
+
+									current.text(characterCount);
+
+									/*This isn't entirely necessary, just playin around*/
+									if (characterCount < 70) {
+										current.css('color', '#666');
+									}
+									if (characterCount > 70
+											&& characterCount < 90) {
+										current.css('color', '#6d5555');
+									}
+									if (characterCount > 90
+											&& characterCount < 100) {
+										current.css('color', '#793535');
+									}
+									if (characterCount > 100
+											&& characterCount < 120) {
+										current.css('color', '#841c1c');
+									}
+									if (characterCount > 120
+											&& characterCount < 139) {
+										current.css('color', '#8f0001');
+									}
+
+									if (characterCount >= 140) {
+										maximum.css('color', '#8f0001');
+										current.css('color', '#8f0001');
+										theCount.css('font-weight', 'bold');
+									} else {
+										maximum.css('color', '#666');
+										theCount.css('font-weight', 'normal');
+									}
+
+								});
+			</script>
+
+		</form>
+	</div>
+</body>
+</html>

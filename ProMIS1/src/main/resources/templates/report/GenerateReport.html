@@ -1,0 +1,330 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+
+<style>
+.line {
+	border-bottom: 5px solid black;
+	margin-top: 5px;
+	width: 90%;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+<form th:action="@{/generateReport1}" method="post"
+			class="needs-validation" th:object="${complaintReport}" id="complaintReport">
+			
+			<input type="hidden" class="inputTxt form-control" autocomplete="off"
+				id="id" th:field="*{id}" name="id" required /> 
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Report</li>
+				</ol>
+			</div>
+		</div>
+		<div class="row text-black">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<!-- <h4 class="form-header text-uppercase">
+							<i class="fa fa-briefcase"></i> Complaint Report
+						</h4> -->
+
+						<div class="form-group row">
+							<div class="col-lg-12" align="center">
+								<label>
+									<h5>IN THE COURT OF</h5>
+								</label> <label>
+									<h5>
+										<span th:text="${courtDtl.courtType.courtName}"></span>
+									</h5>
+								</label><br> <label><h5>
+										<span th:text="${courtDtl.state.state}"></span>
+									</h5> </label>, <label>
+									<h5>
+										<span th:text="${courtDtl.city.districtName}"></span>
+									</h5>
+								</label> <br>
+
+							</div>
+						</div>
+
+
+						<div class="form-group row">
+							<div class="col-lg-12" align="center">
+								<label style="font-weight: bolder;">CRIMINAL COMPLAINT
+									NO.</label>
+							</div>
+
+						</div>
+
+						<div class="form-group row">
+							<div class="col-lg-3">
+								<label style="font-style: italic; text-decoration: underline;">In
+									the matter of:</label>
+							</div>
+
+						</div>
+
+						<div class="form-group row">
+							<div class="col-lg-3">
+								<label>Serious Fraud Investigation Office </label>
+							</div>
+							<div class="col-lg-6"></div>
+
+							<div class="col-lg-3" align="right">
+
+								<label>….…Complainant </label>
+							</div>
+						</div>
+
+						<div class="col-lg-12" align="center">
+							<label> <span>Versus </span>
+							</label>
+						</div>
+
+
+						<div class="form-group row">
+							<div class="col-lg-3">
+								<label><span th:text="${courtDtl.causeTitle}"></span> </label><br>
+								<span>(As per Memo of Parties) </span>
+							</div>
+							<div class="col-lg-6"></div>
+
+							<div class="col-lg-3" align="right">
+
+								<label>……..Accused </label>
+							</div>
+						</div>
+						<hr style="width: 50%;">
+						<div class="col-lg-12" align="center">
+							<label> <span>MEMO OF PARTIES </span>
+							</label>
+						</div>
+
+
+						<div class="form-group row">
+							<div class="col-lg-6">
+								<label>In the matter of: <br>Serious Fraud
+									Investigation Office <br>Ministry of Corporate Affairs <br>
+									Government of India<br> <br> Through:
+								</label> <br> <br> <label><span
+									th:text="${compdtl.IOName}"></span> </label> <br> Ministry of
+								Corporate Affairs, <br>Government of India <br>
+								Serious Fraud Investigation Office
+							</div>
+
+						</div>
+
+
+
+						<div class="col-lg-12" align="center">
+							<label> <span>Versus </span>
+							</label>
+						</div>
+
+						<br>
+						<div class="form-group row">
+							<div class="col-lg-6">
+
+								<table class="table table-borderless" id="personList1">
+
+
+									<tbody>
+										<tr th:each="p,stats: ${CompanyList}">
+
+											<td th:text="${p.id}" style="display: none;"></td>
+											<td><span th:text="${p.company.companyName}"></span><br>
+												<span th:text="${p.company.cin}"></span> <br> <span
+												th:text="${p.company.address}"></span> <br> </td>
+										</tr>
+									</tbody>
+
+
+
+								</table>
+								<table class="table table-borderless" id="personList1">
+
+
+									<tbody>
+										<tr th:each="p,stats: ${personList}">
+
+											<td th:text="${p.id}" style="display: none;"></td>
+											<td><span th:text="${p.accusedMaster.accusedName}"></span><br>
+												<span th:text="${p.accusedMaster.panNumber}"></span> <br>
+												<span th:text="${p.company.company.companyName}"></span> <br>
+												</td>
+										</tr>
+									</tbody>
+
+
+
+								</table>
+							</div>
+						</div>
+
+						<div class="col-lg-12" align="right">
+
+							<label>……..Accused </label>
+						</div>
+
+
+						<div class="col-lg-12" align="center">
+
+							<label
+								style="text-decoration: underline; text-align: justify; font-weight: bolder; font-size: large;">COMPLAINT
+								U/S. 439(2) R/W S. 436 R/W S. 212 OF THE <br> COMPANIES
+								ACT, 2013, R/W S.621 (1) OF THE COMPANIES ACT, <br> 1956,
+								R/W S. 193 OF THE CODE OF CRIMINAL PROCEDURE, 1973 <br>
+								SEEKING TAKING OF COGNIZANCE AND PROSECUTION OF <br>THE
+								ACCUSED NAMED HEREIN ABOVE FOR THE OFFENCES, <br>COMMITTED
+								BY THEM JOINTLY AND SEVERALLY,<br> MENTIONED HEREIN UNDER:-
+							</label>
+						</div>
+
+
+						<textarea rows="4" class="form-control"
+							placeholder="Add Sections "></textarea>
+						<br> <span style="font-weight: bolder; color: black;">MOST
+							RESPECTFULLY SHOWETH: </span> <br> <br> <span th:id="textArea"></span>
+
+						
+						<table class="table" id="personList">
+
+							<thead>
+
+							</thead>
+							<tbody>
+								<tr th:each="p,stats: ${complaintReport.addAccused}">
+									<td th:text="${stats.count}"></td>
+									<td th:text="${p.id}" style="display: none;"></td>
+									<td><span th:text="${p.accusedMaster.accusedName}"></span>
+
+										<br> <br> <label style="font-style: oblique;">
+											DESCRIPTION </label> <span th:id="'summernoteEditor_'+${p.id}">
+
+											<p class="text-justify" th:text="${p.accDesc}"></p>
+
+									</span> <!-- <label style="font-style: oblique;"> Background </label> <span
+										th:id="'backgroundDesc_'+${p.id}">
+
+											<p class="text-justify"></p> --> </span>
+								</tr>
+							</tbody>
+
+
+
+						</table>
+						<br> <br> 
+						
+						</span>
+						<label style="font-style: oblique;">
+							BACKGROUND </label> <span th:id="backGround"></span>
+
+
+
+						<div class="col-lg-12" align="center">
+							<label> <span>Prayer </span>
+							</label>
+						</div>
+
+						<span th:id="prayrLst"></span>
+
+
+
+						<div class="form-group row">
+							<div class="col-lg-6">
+								<label>Place :</label> <input type="text"><br> <label>Date
+									:</label> <input type="text"> <br>
+
+
+							</div>
+
+						</div>
+
+
+						<div class="form-footer">
+
+
+							<a href="getCompleteCase" class="btn btn-danger"> <i
+								class="fa fa-times"></i> Back
+							</a>
+							<button type="submit" th:name="forward" class="btn btn-success">
+								<i class="fa fa-check-square-o"></i> Forward
+							</button>
+
+							<button type="button" th:name="saveDraft" th:id="saveDraft"
+								class="btn btn-success">
+								<i class="fa fa-check-square-o"></i> Save Draft
+							</button>
+
+							<a href="#" th:onclick="'javascript:pdfFView();'"
+								class="btn btn-info">Preview</a>
+
+						</div>
+					</div>
+
+
+
+				</div>
+			</div>
+		</div>
+
+</form>
+
+		<script src="plugins/summernote/dist/summernote-bs4.min.js"></script>
+		<script>
+			var perId = "";
+
+			$('#personList tr').each(function(j, v) {
+				perId = ($(this).children('td:eq(1)').text())
+
+				$('#summernoteEditor_' + perId).summernote({
+					height : 400,
+					tabsize : 2
+				});
+
+				$('#backgroundDesc_' + perId).summernote({
+					height : 400,
+					tabsize : 2
+				});
+
+			})
+
+			/* $('#summernoteEditor_521').summernote({
+				height : 400,
+				tabsize : 2
+			});
+			 */
+			$('#textArea').summernote({
+				height : 400,
+				tabsize : 2
+			});
+
+			 $('#prayrLst').summernote({
+					height : 400,
+					tabsize : 2
+				});
+			 
+			 
+			$('#backGround').summernote({
+				height : 400,
+				tabsize : 2
+			});
+		</script>
+	</div>
+
+</body>
+</html>

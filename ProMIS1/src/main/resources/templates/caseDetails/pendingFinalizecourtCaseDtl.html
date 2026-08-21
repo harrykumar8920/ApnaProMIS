@@ -1,0 +1,341 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+	<link href="plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css">
+	<title>Pending Sanction Orders for Finalization</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+		<div th:if="${message}" class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+		<div class="row pt-2 pb-2">
+			<!-- <div class="col-sm-9">
+				<h5 class="page-title"></h5>
+			</div> -->
+
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+
+
+					<li class="breadcrumb-item"><a href="puhHome">Home</a></li>
+
+
+
+					<li class="breadcrumb-item active" aria-current="page">Pending
+						Sanction Orders for Finalization</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="form-header ">Pending Sanction Orders for
+							Finalization</h4>
+
+
+						<form th:action="@{/viewPendingTaskdtl2}" method="post" th:object="${assignedTaskPuh}"
+							id="viewPendingTaskdtl1">
+
+							<div class="row">
+											
+											<div class="col-sm-4 pb-2">
+												<input class="form-control" type="text" id="tableSearch" placeholder="Please Enter Here for Search ...." />
+											</div>
+											</div>
+
+							<div class="table-responsive">
+								<table class="table table-bordered" id="assignedTable">
+									<thead class="bg-info text-white">
+										<tr>
+											<th>S.No.</th>
+											<!-- <th hidden="">id</th>
+											<th hidden="">userid</th> -->
+
+
+											<th>File no. of <br>Sanction / Court order
+											</th>
+											<th>File Number</th>
+											<th>PROSECUTION <br>SANCTION / Court DATE
+											</th>
+
+
+
+											<th>PROSECUTION <br>SANCTION / <br>Court ORDER
+												FILE
+											</th>
+											<th>Company Name</th>
+											<!-- <th>Order Type</th> -->
+
+
+
+											<!-- 	<th>sfioAs</th>
+ -->
+											<th>Forwarded by</th>
+											<th>Action</th>
+											<!-- <th>Remarks by PUH</th> -->
+
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="p,stats: ${lstCourtCase}">
+											<!-- <td th:text="${stats.count}"></td> -->
+											<td th:text="${currentRow+stats.count-1}"></td>
+
+											<td th:text="${p.proSectionOrderNumber}"></td>
+											<td th:text="${p.fileNumber}"></td>
+
+											<td th:text="${#dates.format(p.proSanctionDate, 'dd/MM/yyyy')}">
+											</td>
+
+
+											<td><label class=" col-form-label text-primary">
+													<a th:target="_blank"
+														th:href="@{|/downloadFiles?fileName=${p.proSanctionFileName}|}">
+														<!-- <span
+											th:text="${p.proSanctionFileName}"></span> -->
+														<span>View</span> <span
+															th:unless="${p.proSanctionFileName==null}"><i
+																class="fa fa-file-pdf-o"
+																style="font-size: 24px; color: red"></i></span>
+													</a>
+												</label></td>
+											<td th:text="${p.caseTitle}"></td>
+											<!-- <td><span th:if="${p.typeofOrder == 1}">Prosecution
+													Sanction Order </span> <span th:if="${p.typeofOrder == 3}">Investigation
+													Order </span> <span th:if="${p.typeofOrder == 2}">Court
+													Notice <br>Court Type : <span
+													th:text="${p.courtType.courtName}"></span>
+											</span></td> -->
+
+
+											<td>
+												
+													<span th:text="${p.createdBy.salutation + ' ' 
+																																		            + p.createdBy.firstName + ' ' 
+																																		            + (p.createdBy.middleName ?: '') + ' ' 
+																																		            + p.createdBy.lastName}"></span>
+											</td>
+
+											<td>
+												<th:block th:if="${p.finalisationStatus==1}">
+													<button type="submit" class="btn btn-success"
+														th:name="viewCaseDetails" th:value="${p.id}">View
+														Sanction Order Details</button>
+												</th:block>
+												<th:block th:if="${p.typeofOrder==2}">
+													<button type="submit" class="btn btn-success"
+														th:name="viewCaseDetails" th:value="${p.id}">View
+														Court Notice Details</button>
+												</th:block>
+												<th:block th:if="${p.typeofOrder==3}">
+													<button type="submit" class="btn btn-success"
+														th:name="viewCaseDetails" th:value="${p.id}">View
+														Investigation order Details</button>
+												</th:block>
+											</td>
+											<!-- <td th:text="${p.remarksByPUH}"></td> -->
+
+
+										</tr>
+
+
+									</tbody>
+
+								</table>
+							</div>
+
+
+						</form>
+						<!-- 
+						<div class="d-flex justify-content-between px-3">
+						<div  th:if="${totalPages > 1}">
+								Total Rows: [[${totalItems}]]
+								</div>
+								<div  th:if="${totalPages > 1}">
+								Page Number: [[${currentPage}]]
+								</div></div>
+								
+								
+								
+								<div class=" row col-md-12  pagination justify-content-center" th:if="${totalPages > 1}">
+										<div class="page-item">
+										
+										<a class="page-link" th:if="${currentPage > 1}" href="#"
+											th:onclick="'DetailsforNCRBPending(\'' + ${currentPage - 1} +'\');'">Preview</a>
+										<span class="page-link" th:unless="${currentPage > 1}" >Preview</span>
+									</div >
+									
+										<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+											
+											<a class="page-link" th:if="${currentPage != i}" href="#" 
+											th:onclick="'DetailsforNCRBPending(\'' + ${i} +'\');'">[[${i}]]</a>
+											<span class="page-link"  th:unless="${currentPage != i}">[[${i}]]</span> &nbsp;
+											&nbsp;
+										</span>
+									
+									<div class="page-item">
+								<a class="page-link" th:if="${currentPage < totalPages}" href="#"
+											th:onclick="'DetailsforNCRBPending(\'' + ${currentPage + 1} +'\');'">Next</a>
+										<span class="page-link" th:unless="${currentPage < totalPages}" >Next</span>
+</div>
+									
+										<div class="page-item">
+										<a class="page-link page-item" th:if="${currentPage < totalPages}" href="#"
+											th:onclick="'DetailsforNCRBPending(\'' + ${totalPages} +'\');'">Last</a>
+
+										<span class="page-link" th:unless="${currentPage < totalPages}">Last</span>
+									</div>
+								
+								
+								
+							</div>
+							
+							
+							<form action="getUsers1" id="getUsers" th:object="${pageNoDTO}" method="post">
+							
+							
+							<input type="hidden" th:field=*{pageno}>
+							<input type="hidden" th:field=*{totalPage}>
+							
+							
+							
+							<input type="hidden" th:name=${_csrf.parameterName} th:value=${_csrf.token}>
+							
+							
+							</form> -->
+						<div class="d-flex justify-content-between px-3 py-3">
+							<div th:if="${totalPages > 0}">Total Rows:
+								[[${totalItems}]]</div>
+							<div th:if="${totalPages > 0}">Showing [[${currentRow}]] to
+								[[${lastRow}]] of [[${totalRow}]]</div>
+							<div th:if="${totalPages > 0}">Page Number:
+								[[${currentPage}]]</div>
+						</div>
+						<div class=" row col-md-12  pagination justify-content-center" th:if="${totalPages > 1}">
+							<div class="page-item">
+								<a class="page-link" th:if="${currentPage > 0}" href="#"
+									th:onclick="'DetailsforNCRBPending(\'' + ${currentPage - 1} +'\');'">Preview</a>
+								<span class="page-link" th:unless="${currentPage > 0}">Preview</span>
+							</div>
+							<span th:each="i: ${#numbers.sequence(1, totalPages)}"> <a class="page-link"
+									th:if="${currentPage != i}" href="#"
+									th:onclick="'DetailsforNCRBPending(\'' + ${i} +'\');'">[[${i}]]</a>
+								<span class="page-link" th:unless="${currentPage != i}">[[${i}]]</span>
+								&nbsp; &nbsp;
+							</span>
+							<div class="page-item">
+								<a class="page-link" th:if="${currentPage < totalPages}" href="#"
+									th:onclick="'DetailsforNCRBPending(\'' + ${currentPage + 1} +'\');'">Next</a>
+								<span class="page-link" th:unless="${currentPage < totalPages}">Next</span>
+							</div>
+							<div class="page-item">
+								<a class="page-link page-item" th:if="${currentPage < totalPages}" href="#"
+									th:onclick="'DetailsforNCRBPending(\'' + ${totalPages} +'\');'">Last</a>
+								<span class="page-link" th:unless="${currentPage < totalPages}">Last</span>
+							</div>
+						</div>
+						<form action="getUsers1" id="getUsers" th:object="${pageNoDTO}" method="post">
+							<input type="hidden" th:field=*{pageno}> <input type="hidden" th:name=${_csrf.parameterName}
+								th:value=${_csrf.token}>
+						</form>
+
+
+
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+			  $("#tableSearch").on("keyup", function () {
+			    var value = $(this).val().toLowerCase();
+			    $("#assignedTable tbody tr").filter(function () {
+			      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+			    });
+			  });
+			});
+
+			function DetailsforNCRBPending(pageId) {
+
+				$('#pageno').val(pageId);
+				$('#getUsers').attr('action', 'pendingFinalizecourtCaseDtl1');
+				$('#getUsers').submit();
+
+			}
+		</script>
+
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+
+				// code to read selected table row cell data (values).
+				$("#assignedTable").on('click', '.btnSelect', function () {
+					// get the current row
+					var currentRow = $(this).closest("tr");
+
+
+					var id = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+					var user = currentRow.find("td:eq(2)").text(); // get current row 2nd TD
+
+					$('#viewPendingTaskdtl1').attr('action', 'initiateApprove');
+					$('#id').val(id);
+					$('#user').val(user);
+
+					alert($('#id').val());
+					alert($('#user').val());
+
+
+					$('#viewPendingTaskdtl1').submit();
+
+				});
+			});
+
+
+		</script>
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jszip.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/pdfmake.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/vfs_fonts.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.html5.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.print.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.colVis.min.js"></script>
+
+
+
+	</div>
+
+
+
+
+</body>
+
+</html>

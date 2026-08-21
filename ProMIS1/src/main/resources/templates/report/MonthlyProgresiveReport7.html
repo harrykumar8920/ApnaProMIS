@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+<link href="css/bootstrap-datetimepicker-build.css" rel="stylesheet" />
+<title>Monthly Progressive Report 7</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-8">
+				<h5 class="page-title">Monthly Progressive Report-Point 7</h5>
+			</div>
+		<div class="col-sm-4">
+				<ol class="breadcrumb">
+					<li th:if="${userRole=='ROLE_PROSECUTORUNITHEAD'}" class="breadcrumb-item"><a href="puhHome">Home</a></li>
+					<li th:if="${userRole=='ROLE_PUH_STAFF'}" class="breadcrumb-item"><a href="puhStaffhome">Home</a></li>
+					
+
+				</ol>
+			</div>
+		</div>
+
+		<!-- <div class="card"> -->
+		<!-- <div class="card-header bg-info text-white text-uppercase"></div>
+			 -->
+		<!-- <div class="card-body"> -->
+		<form th:action="@{/monthlyProgresiveReport77}"
+			th:object="${reportWeeklyInput}" method="post">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+
+							<div class="form-group row">
+								<label class="control-label" id="fromDate">From Date</label>
+								<div class="col-sm-2">
+									<input class="form-control" type="text" th:field="*{date}"
+										placehoder="Start Date" id="startdate" required="required" />
+
+								</div>
+
+
+								<label class="control-label" id="toDate">To Date </label>
+								<div class="col-sm-2">
+									<input class="form-control" th:field="*{toDate}" type="text"
+										placehoder="End Date" id="enddate" required="required" />
+								</div>
+								<div class="col-sm-4">
+
+									<Button class="btn btn-success" type="submit">
+										<i class="ace-icon fa fa-check bigger-110"></i> Submit
+									</Button>
+									&nbsp; &nbsp; &nbsp;
+									<button class="btn btn-warning" type="reset">
+										<i class="ace-icon fa fa-undo bigger-110"></i> Reset
+									</button>
+
+
+									&nbsp; &nbsp; &nbsp;
+									<a th:if="${userRole=='ROLE_PROSECUTORUNITHEAD'}"
+										href="puhHome"><i
+										class="ace-icon fa fa-arrow-left bigger-110 btn btn-danger ">Back</i></a>
+
+									<a th:if="${userRole=='ROLE_PUH_STAFF'}" href="puhStaffhome"><i
+										class="ace-icon fa fa-arrow-left bigger-110 btn btn-danger ">Back</i></a>
+								</div>
+							</div>
+							<!-- <div class="clearfix form-actions">
+								<div class="col-md-offset-3 col-md-9">
+
+									<Button class="btn btn-success" type="submit">
+										<i class="ace-icon fa fa-check bigger-110"></i> Submit
+									</Button>
+									&nbsp; &nbsp; &nbsp;
+									<button class="btn btn-warning" type="reset">
+										<i class="ace-icon fa fa-undo bigger-110"></i> Reset
+									</button>
+
+
+									&nbsp; &nbsp; &nbsp;
+									<button class="btn btn-danger" type="button"
+										onclick="window.history.back();">
+										<i class="ace-icon fa fa-arrow-left bigger-110 "></i> Back
+									</button>
+								</div>
+							</div>
+ -->
+			
+			<h4>
+				<span th:text="${message}"></span>
+			</h4>				
+
+<div class="table-responsive">
+							<table class="table table-bordered" id="monthlyReport">
+									<thead class="bg-info">
+										<tr>
+											<th class="text-wrap">S.No.</th>
+											<th class="text-wrap">Title</th>
+											<th class="text-wrap">HC Case Number</th>
+											<th class="text-wrap">Cause Title of the case</th>
+												
+												<th class="text-wrap">Last Date of hearing</th>
+											<th class="text-wrap">Next Date of hearing</th>
+											<!-- <th class="text-wrap">Whether reply field</th> -->
+											
+											<th class="text-wrap">Name of the Law officer of <br>UOI or standing counsel</th>
+											<th class="text-wrap">Counsel Name : Mobile no.</th>
+																						
+											<th class="text-wrap">Present position of the case/Stage</th>
+											
+											
+
+
+										</tr>
+									</thead>
+									<tbody>
+
+
+										<tr th:each="detail,iStat :${courtCasedtl}">
+											<td th:text="${iStat.count}"></td>
+											
+											<td class="text-wrap" th:text="${detail.procourtdtl.addCase.caseTitle} ? ${detail.procourtdtl.addCase.caseTitle} : NA"></td>
+											<td class="text-wrap" th:text="${detail.procourtdtl.courtCaseNo} ? ${detail.procourtdtl.courtCaseNo} : NA"></td>
+											<td class="text-wrap" th:text="${detail.procourtdtl.causeTitle} ? ${detail.procourtdtl.causeTitle} : NA"></td>
+											
+											<!-- <td class="text-wrap">
+											
+											<span th:each="sumType,rowStat : ${detail.company}">
+											
+											<span th:text="${sumType.company.companyName}"> </span>
+												<br></span>
+												</td> -->
+												
+											<td class="text-wrap" th:text="${#dates.format(detail.lastHearingDate, 'dd/MM/yyyy')} ? ${#dates.format(detail.lastHearingDate, 'dd/MM/yyyy')} : NA"></td>
+											
+											
+											<td class="text-wrap" th:text="${#dates.format(detail.nextHearingDate, 'dd/MM/yyyy')} ? ${#dates.format(detail.nextHearingDate, 'dd/MM/yyyy')} : NA"></td>
+											
+											<!-- <td th:text="${detail.procourtdtl.isWhetherreplyfiled} ? 'Yes' : 'No'" /> -->
+											
+											<td class="text-wrap" >
+											<span
+												th:text="${detail.counselName.name + '--- ' +  detail.officer.name  } ? ${detail.counselName.name + '--- ' +  detail.officer.name  } : NA">
+												</span>
+												</td>
+												
+											<td class="text">
+												<span th:text="${detail.counselName.name}"></span> :
+												<span th:text="${detail.counselName.mobile ?: 'NA'}"></span>
+											</td>
+											<td class="text-wrap" th:text="${detail.status.statusName} ? ${detail.status.statusName} : NA"></td>
+											
+											
+											
+											
+											<!-- <td class="text-wrap">
+											<span
+												th:text="${detail.counselName}">
+												</span>
+												<br>
+												<span
+												th:text="${detail.counselName1}">
+												</span>
+											
+											
+											</td> -->
+											
+											
+											
+											<!-- <td class="text-wrap" th:text="${detail.accused}"></td>
+											 -->
+											 <!-- <td class="text-wrap"><span
+											th:each="sumType,rowStat : ${detail.company}"> <span
+												th:text="${sumType.company.companyName}">
+												</span>
+												</span></td> -->
+												
+											
+											
+											
+											
+											
+											 <!-- <td class="text" th:text="${#dates.format(detail.fillingDate, 'dd/MM/yyyy')}">
+												<td class="text" th:text="${detail.fy}">
+												<td class="text-wrap" th:text="${detail.courtType}"></td>
+												<td class="text-wrap"><span
+											th:each="sumType,rowStat : ${detail.hd}"> <span
+												th:text="${sumType.nextHearingDate}">
+												</span>
+												</span></td>
+												<td class="text-wrap"><span
+											th:each="sumType,rowStat : ${detail.hd}"> <span
+												th:text="${sumType.status.statusName}">
+												</span>
+												</span></td> -->
+													<!--<div class="dropdown-menu">
+													<button type="submit" th:name="Courtdtl" th:id="caseId"
+														th:value="${detail.id}" class="dropdown-item">
+														View Court case Details</button>
+
+													<button type="submit" th:name="assignTask"
+														th:value="${detail.id}" class="dropdown-item">Assigned
+														Task</button>
+
+												</div></td>
+ -->
+
+</td>
+
+
+										</tr>
+
+
+									</tbody>
+
+								</table>
+
+									
+							
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+
+
+<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script
+			src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/jszip.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/pdfmake.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/vfs_fonts.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.html5.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.print.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/buttons.colVis.min.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			$("#startdate")
+			.datepicker(
+					{
+
+						format : 'dd-mm-yyyy',
+						endDate : new Date(),
+					// autoclose: true,
+					})
+			.on(
+					'changeDate',
+					function(
+							selected) {
+						var minDate = new Date(
+								selected.date
+										.valueOf());
+						var seven_date = minDate.getDate()+7;
+						var curr_month = minDate.getMonth();
+						
+						var curr_year = minDate.getFullYear();
+						var sevenDate =(seven_date + "/" + curr_month + "/" + curr_year);
+						$('#enddate').datepicker('setStartDate',minDate);
+			});
+			
+						
+						 
+						/* $(
+								'#enddate')
+								.datepicker(
+										'setStartDate',
+										minDate);
+					});  */
+					
+
+	$("#enddate")
+			.datepicker(
+					{
+						format : 'dd-mm-yyyy',
+						//endDate : new Date(),
+						  
+
+					})
+			.on(
+					'changeDate',
+					function(
+							selected) {
+						var minDate = new Date(
+								selected.date
+										.valueOf());
+						
+						$(
+								'#startdate')
+								.datepicker(
+										'setEndDate',
+										minDate);
+					});
+			
+			
+			
+			
+			 var table = $('#monthlyReport').DataTable( {
+//		 	        lengthChange: false,
+			       dom: 'Bfrtip',
+			        /* buttons: [
+			            'copyHtml5',
+			            'excelHtml5',
+			            'csvHtml5',
+			            'pdfHtml5'
+			        ] */
+			        buttons: {
+					    buttons: [{
+					      extend: 'excel',
+					      text: '<i class="fa fa-print"></i> Excel',
+					      title: $('h4').text(),
+					    
+					      exportOptions: {
+					        columns: ':not(.no-print)'
+					      },
+					      footer: true,
+					      autoPrint: false
+					    },
+					    /* {
+						      extend: 'print',
+						      
+								
+						      text: '<i class="fa fa-print"></i> Print',
+						   
+						      title: $('h4').text(),
+						      exportOptions: {
+						        columns: ':not(.no-print)'
+						      },
+						      footer: true,
+						      autoPrint: false
+						    }, */{
+					     // extend: 'pdf',
+					      extend: 'pdfHtml5',
+			                orientation: 'landscape',
+			                pageSize: 'LEGAL',
+					      
+					      text: '<i class="fa fa-file-pdf-o"></i> PDF',
+					      title: $('h4').text(),
+					    
+					      exportOptions: {
+					        columns: ':not(.no-print)'
+					      },
+					      footer: true
+					    }],
+					    
+					    
+					    dom: {
+					      container: {
+					        className: 'dt-buttons'
+					      },
+					      button: {
+					        className: 'btn btn-default'
+					      }
+					    }
+					  }
+			      } );
+		});
+		
+		</script>
+
+
+	</div>
+</body>
+</html>

@@ -1,0 +1,662 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<title>ADD Disposed DETAILS</title>
+	<style>
+		.accused-table th {
+			background-color: #14b6ff;
+			color: white;
+		}
+
+		.accused-table td,
+		.accused-table th {
+			vertical-align: middle;
+			font-size: 13px;
+		}
+
+		.remove-btn {
+			cursor: pointer;
+			color: red;
+		}
+	</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+
+		<!-- Breadcrumb -->
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-12">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="userHome">Home</a></li>
+					<li class="breadcrumb-item"><a href="ApproveproTaskList">Task Details</a></li>
+					<li class="breadcrumb-item">
+						<a href="javascript:void(0);" onclick="saveIPC();">Criminal Complainant Details</a>
+					</li>
+					<li class="breadcrumb-item active">Disposed Details</li>
+				</ol>
+			</div>
+		</div>
+
+		<!-- Alert -->
+		<div th:if="${message}" class="alert alert-success alert-dismissible p-3" role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<span th:text="${message}"></span>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+
+						<form th:action="@{/saveDisposedDetails}" id="saveSupplementary" method="post"
+							enctype="multipart/form-data">
+
+							<!-- Hidden fields -->
+							<input type="hidden" name="id" th:value="${disposed.id != null ? disposed.id : ''}">
+							<input type="hidden" name="assignedTask"
+								th:value="${disposed.assignedTask != null ? disposed.assignedTask.id : ''}">
+							<input type="hidden" name="procourtdtl"
+								th:value="${disposed.procourtdtl != null ? disposed.procourtdtl.id : ''}">
+
+							<!-- Accused JSON — JS se fill hoga -->
+							<input type="hidden" name="accusedJsonData" id="accusedJsonData">
+
+							<div class="card">
+								<div class="card-header">
+									<h4 class="page-title">Add Disposed Details</h4>
+								</div>
+
+								<div class="card-body">
+
+									<!-- Manner of Disposal -->
+									<div class="form-group row mb-3">
+										<label class="col-sm-3 col-form-label">
+											Manner of Disposal <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<select class="form-control" name="mannerDisposal" id="mannerDisposal"
+												required>
+												<option value="">Choose</option>
+												<option value="Dismissed on the ground of Limitation">
+													Dismissed on the ground of Limitation</option>
+												<option value="Dismissed as Withdrawn">
+													Dismissed as Withdrawn</option>
+												<option value="Dismissed on the ground of Non- prosecution">
+													Dismissed on the ground of Non- prosecution</option>
+												<option value="Other">Other</option>
+											</select>
+										</div>
+									</div>
+
+									<!-- Counsel (outer) + Copy of Order FILE 1 -->
+									<div class="form-group row mb-3">
+										<label class="col-sm-3 col-form-label">
+											Counsel Name <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<select class="form-control" name="counsel" id="counsel" required>
+												<option th:each="stlst: ${councelRepo}" th:value="${stlst.id}"
+													th:utext="${stlst.name}" />
+											</select>
+										</div>
+										<label class="col-sm-3 col-form-label">
+											Copy of Order
+										</label>
+										<div class="col-sm-3">
+											<input type="file" class="form-control" name="orderFile" id="orderFile"
+												accept=".pdf" required>
+										</div>
+									</div>
+
+									<!-- Officer (outer) + Dismissal Order FILE 2 -->
+									<div class="form-group row mb-3">
+										<label class="col-sm-3 col-form-label">
+											Officer from Prosecution <span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<select class="form-control" name="pairaviOfficer" id="pairaviOfficer"
+												required>
+												<option th:each="stlst: ${pairaviOfficerList}" th:value="${stlst.id}"
+													th:utext="${stlst.name}" />
+											</select>
+										</div>
+										<label class="col-sm-3 col-form-label">
+											Details of Dismissal Order &nbsp;<span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-3">
+											<textarea type="text" class="form-control" id="dismissalOrder" name="dismissalOrder"
+												placeholder="Enter Here"></textarea>
+
+										</div>
+									</div>
+
+									<!-- ══ Accused Section ══ -->
+									<div class="card-body" style="border: 2px solid #14b6ff;">
+										<h6 class="mb-3" style="color:#14b6ff;">Accused Disposal Details</h6>
+
+										<!-- Accused select + Case Status -->
+										<div class="form-group row mb-3">
+											<label class="col-sm-3 col-form-label">
+												Select Accused <span class="text-danger">*</span>
+											</label>
+											<div class="col-sm-3">
+												<select class="form-control" id="accusedId">
+													<option value="">-- Select --</option>
+													<option th:each="stlst: ${personList}" th:value="${stlst.id}"
+														th:utext="${stlst.accusedName}" />
+												</select>
+											</div>
+											<label class="col-sm-3 col-form-label">
+												Select Disposal qua each Accused
+												<span class="text-danger">*</span>
+											</label>
+											<div class="col-sm-3">
+												<select class="form-control" id="caseStatus"
+													onchange="toggleConditionalFields(this)">
+													<option value="">Select</option>
+													<option value="Conviction">Conviction</option>
+													<option value="Acquittal">Acquittal</option>
+													<option value="Compounded">Compounded</option>
+													<option value="Abated due to Death">Abated due to Death</option>
+													<option value="Discharged during Trial">
+														Discharged during Trial</option>
+												</select>
+											</div>
+										</div>
+
+										<!-- Conviction sub-option -->
+										<div class="form-group row mb-3" id="furtheroptionconviction"
+											style="display:none;">
+											<label class="col-sm-3 col-form-label">
+												Further option conviction <span class="text-danger">*</span>
+											</label>
+											<div class="col-sm-3">
+												<select class="form-control" id="convictionaccusedguilty">
+													<option value="Conviction due to accused pleading guilty">
+														Conviction due to accused pleading guilty</option>
+													<option value="Conviction after appreciation of evidence">
+														Conviction after appreciation of evidence</option>
+												</select>
+											</div>
+										</div>
+
+										<!-- Compounded fields -->
+										<div class="form-group row mb-3" id="overallsenctioncompoundedelse"
+											style="display:none;">
+											<label class="col-sm-3 col-form-label">
+												Sections Compounded
+											</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="senctioncompunded"
+													placeholder="Enter Here">
+											</div>
+											<label class="col-sm-3 col-form-label">
+												Forum of Compounding
+											</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="forumcompounding"
+													placeholder="Enter Here">
+											</div>
+										</div>
+
+										<!-- Conviction Fine + Imprisonment -->
+										<div class="form-group row mb-3" id="convictioneachaccused"
+											style="display:none;">
+											<label class="col-sm-3 col-form-label">
+												Total Fine Imposed
+											</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="fineimposed"
+													placeholder="Enter Here">
+											</div>
+											<label class="col-sm-3 col-form-label">
+												Imprisonment
+											</label>
+											<div class="col-sm-3">
+												<input type="text" class="form-control" id="imprisonment"
+													placeholder="Enter Here">
+											</div>
+										</div>
+
+										<!-- Brief Details -->
+										<div class="form-group row mb-3">
+											<label class="col-sm-3 col-form-label" id="overallbriefdetails">
+												Overall Brief Details
+											</label>
+											<label class="col-sm-3 col-form-label" id="overallforconviction"
+												style="display:none;">
+												Overall details of conviction
+											</label>
+											<div class="col-sm-3">
+												<textarea type="text" class="form-control" id="briefdetails"
+													placeholder="Enter Here"></textarea>
+
+											</div>
+										</div>
+
+										<!-- ADD DETAILS BUTTON -->
+										<button type="button" class="btn btn-success mb-3" onclick="addAccusedRow()">
+											<i class="fa fa-plus"></i> Add Details
+										</button>
+
+										<!-- Dynamic accused table -->
+										<div id="accusedTableDiv" style="display:none; margin-top:15px;">
+											<table class="table table-bordered accused-table">
+												<thead>
+													<tr>
+														<th>#</th>
+														<th>Accused Name</th>
+														<th>Case Status</th>
+														<th>Conviction Type</th>
+														<th>Fine</th>
+														<th>Imprisonment</th>
+														<th>Sections Compounded</th>
+														<th>Forum</th>
+														<th>Brief Details</th>
+														<th>Action</th>
+													</tr>
+												</thead>
+												<tbody id="accusedTableBody"></tbody>
+											</table>
+										</div>
+
+									</div><!-- end accused card -->
+								</div><!-- card-body -->
+								<div class="card-footer">
+									<div class="form-group d-flex justify-content-between pt-3">
+										<button type="button" class="btn btn-primary" onclick="saveIPC();">
+											Back
+										</button>
+										<button type="submit" class="btn btn-success" onclick="return prepareSubmit()">
+											Final Save
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="card-header">
+							<h4 class="page-title">View Disposed Details</h4>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered" id="assignedTable">
+									<thead class="bg-info text-white">
+										<tr>
+											<th>S.No.</th>
+											<th>Manner of Disposal</th>
+											<th>Court Case No</th>
+											<th>Company Name</th>
+											<th>Counsel Name</th>
+											<th>Officer from Prosecution</th>
+											<th>Copy of Order</th>
+											<th>Accused <br>Disposal qua each Accused</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="p,stats: ${byAssignedTaskAndProcourtdtlAndCreatedBy}">
+											<td th:text="${stats.count}"></td>
+											<td th:text="${p.mannerDisposal}"></td>
+											<td th:text="${p.procourtdtl.courtCaseNo}"></td>
+											<td th:text="${p.procourtdtl.addCase.caseTitle}"></td>
+											<td th:text="${p.counsel.name}"></td>
+											<td th:text="${p.pairaviOfficer.name}"></td>
+											<!--<td th:text="${p.orderfilename}"></td>-->
+											<td><label	class="col-form-label text-primary">
+													<a th:target="_blank"
+														th:href="@{|/downloadFiles?fileName=${p.orderfilename}|}"><span
+															th:text="${p.orderfilename}"></span><i
+															class="fa fa-file-pdf-o"
+															style="font-size: 24px; color: red"></i></a>
+												</label></td>
+	
+																					
+											<td>
+												<span th:each="a, stat : ${p.accusedDisposal}">
+													<span th:text="${a.accused.accusedName}"></span>&nbsp;-&nbsp;<span
+														th:text="${a.caseStatus}"></span>
+													<span th:if="${!stat.last}">, <br> </span>
+												</span>
+											</td>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</di>
+			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+			<script>
+
+				/* ═══════════════════════════════════════════════════
+				   In-memory store for accused rows
+				═══════════════════════════════════════════════════ */
+				let accusedRows = [];
+
+				/* ═══════════════════════════════════════════════════
+				   Helper: SweetAlert warning
+				═══════════════════════════════════════════════════ */
+				function showWarning(message) {
+					Swal.fire({
+						icon: 'warning',
+						title: 'Missing Information',
+						text: message,
+						confirmButtonColor: '#14b6ff'
+					});
+				}
+
+				/* ═══════════════════════════════════════════════════
+				   Add Details — collect fields and push to array
+				═══════════════════════════════════════════════════ */
+				function addAccusedRow() {
+
+					const accusedSelect = document.getElementById('accusedId');
+					const accusedId = accusedSelect.value.trim();
+					const accusedName = accusedSelect.options[accusedSelect.selectedIndex].text;
+					const caseStatusEl = document.getElementById('caseStatus');
+					const caseStatus = caseStatusEl.value.trim();
+
+					// Validation: Accused select
+					if (!accusedId) {
+						showWarning('Please select an Accused.');
+						return;
+					}
+
+					// Validation: Case Status
+					if (!caseStatus) {
+						showWarning('Please select Disposal Status (qua each Accused).');
+						return;
+					}
+
+					// Conditional validation based on case status
+					if (caseStatus === 'Conviction') {
+						const convictionType = document.getElementById('convictionaccusedguilty').value;
+						if (!convictionType) {
+							showWarning('Please select the Further Conviction Option.');
+							return;
+						}
+						const fineimposed = document.getElementById('fineimposed').value.trim();
+						if (!fineimposed) {
+							showWarning('Please enter Total Fine Imposed.');
+							return;
+						}
+						const imprisonment = document.getElementById('imprisonment').value.trim();
+						if (!imprisonment) {
+							showWarning('Please enter Imprisonment details.');
+							return;
+						}
+						const briefdetails = document.getElementById('briefdetails').value.trim();
+						if (!briefdetails) {
+							showWarning('Please enter Overall details of conviction.');
+							return;
+						}
+					}
+
+					if (caseStatus === 'Compounded') {
+						const senctioncompunded = document.getElementById('senctioncompunded').value.trim();
+						if (!senctioncompunded) {
+							showWarning('Please enter Sections Compounded.');
+							return;
+						}
+						const forumcompounding = document.getElementById('forumcompounding').value.trim();
+						if (!forumcompounding) {
+							showWarning('Please enter Forum of Compounding.');
+							return;
+						}
+						const briefdetails = document.getElementById('briefdetails').value.trim();
+						if (!briefdetails) {
+							showWarning('Please enter Overall Brief Details.');
+							return;
+						}
+					}
+
+					if (['Acquittal', 'Abated due to Death', 'Discharged during Trial'].includes(caseStatus)) {
+						const briefdetails = document.getElementById('briefdetails').value.trim();
+						if (!briefdetails) {
+							showWarning('Please enter Overall Brief Details.');
+							return;
+						}
+					}
+
+					// Duplicate check
+					if (accusedRows.some(r => r.accusedId === accusedId)) {
+						showWarning('This accused is already added. Remove it first to re-add.');
+						return;
+					}
+
+					// Build row
+					const rowData = {
+						accusedId: accusedId,
+						accusedName: accusedName,
+						caseStatus: caseStatus,
+						convictionaccusedguilty : (caseStatus === 'Conviction') 
+						                                 ? document.getElementById('convictionaccusedguilty').value 
+						                                 : null,
+						fineimposed: document.getElementById('fineimposed').value,
+						imprisonment: document.getElementById('imprisonment').value,
+						senctioncompunded: document.getElementById('senctioncompunded').value,
+						forumcompounding: document.getElementById('forumcompounding').value,
+						briefdetails: document.getElementById('briefdetails').value
+					};
+
+					accusedRows.push(rowData);
+					renderTable();
+					clearAccusedForm();
+
+					Swal.fire({
+						icon: 'success',
+						title: 'Added!',
+						text: 'Accused details added successfully.',
+						timer: 1200,
+						showConfirmButton: false
+					});
+				}
+
+				/* ═══════════════════════════════════════════════════
+				   Render accused table
+				═══════════════════════════════════════════════════ */
+				function renderTable() {
+
+					const tbody = document.getElementById('accusedTableBody');
+					const tableDiv = document.getElementById('accusedTableDiv');
+					tbody.innerHTML = '';
+
+					if (accusedRows.length === 0) {
+						tableDiv.style.display = 'none';
+						return;
+					}
+					tableDiv.style.display = 'block';
+
+					accusedRows.forEach((row, idx) => {
+						const tr = document.createElement('tr');
+						tr.innerHTML =
+							`<td>${idx + 1}</td>
+					 <td>${row.accusedName}</td>
+					 <td>${row.caseStatus}</td>
+					 <td>${row.convictionaccusedguilty || '-'}</td>
+					 <td>${row.fineimposed || '-'}</td>
+					 <td>${row.imprisonment || '-'}</td>
+					 <td>${row.senctioncompunded || '-'}</td>
+					 <td>${row.forumcompounding || '-'}</td>
+					 <td>${row.briefdetails || '-'}</td>
+					 <td>
+					   <span class="remove-btn"
+					         onclick="removeAccusedRow(${idx})"
+					         title="Remove">
+					     <i class="fa fa-trash"></i> Remove
+					   </span>
+					 </td>`;
+						tbody.appendChild(tr);
+					});
+				}
+
+				/* ═══════════════════════════════════════════════════
+				   Remove a row by index (with confirmation)
+				═══════════════════════════════════════════════════ */
+				function removeAccusedRow(idx) {
+					Swal.fire({
+						icon: 'warning',
+						title: 'Remove this accused?',
+						text: 'This entry will be removed from the list.',
+						showCancelButton: true,
+						confirmButtonText: 'Yes, remove it',
+						cancelButtonText: 'Cancel',
+						confirmButtonColor: '#d33'
+					}).then((result) => {
+						if (result.isConfirmed) {
+							accusedRows.splice(idx, 1);
+							renderTable();
+						}
+					});
+				}
+
+				/* ═══════════════════════════════════════════════════
+				   Clear accused input section after Add
+				═══════════════════════════════════════════════════ */
+				function clearAccusedForm() {
+					document.getElementById('accusedId').value = '';
+					document.getElementById('caseStatus').value = '';
+					document.getElementById('fineimposed').value = '';
+					document.getElementById('imprisonment').value = '';
+					document.getElementById('senctioncompunded').value = '';
+					document.getElementById('forumcompounding').value = '';
+					document.getElementById('briefdetails').value = '';
+					toggleConditionalFields({value: ''});
+				}
+
+				/* ═══════════════════════════════════════════════════
+				   Validate top-level (outer) mandatory fields
+				═══════════════════════════════════════════════════ */
+				function validateOuterFields() {
+
+					const mannerDisposal = document.getElementById('mannerDisposal').value.trim();
+					if (!mannerDisposal) {
+						showWarning('Please select Manner of Disposal.');
+						return false;
+					}
+
+					const counsel = document.getElementById('counsel').value.trim();
+					if (!counsel) {
+						showWarning('Please select Counsel Name.');
+						return false;
+					}
+
+					const orderFile = document.getElementById('orderFile').value.trim();
+					if (!orderFile) {
+						showWarning('Please upload Copy of Order (PDF).');
+						return false;
+					}
+
+					const pairaviOfficer = document.getElementById('pairaviOfficer').value.trim();
+					if (!pairaviOfficer) {
+						showWarning('Please select Officer from Prosecution.');
+						return false;
+					}
+
+					const dismissalOrder = document.getElementById('dismissalOrder').value.trim();
+					if (!dismissalOrder) {
+						showWarning('Please enter Details of Dismissal Order.');
+						return false;
+					}
+
+					return true;
+				}
+
+				/* ═══════════════════════════════════════════════════
+				   Final Save — validate + confirm + serialize
+				═══════════════════════════════════════════════════ */
+				function prepareSubmit() {
+
+					// 1. Validate outer mandatory fields
+					if (!validateOuterFields()) {
+						return false;
+					}
+
+					// 2. At least one accused row must be added
+					if (accusedRows.length === 0) {
+						showWarning('Please add at least one accused disposal detail before saving.');
+						return false;
+					}
+
+					// 3. Confirmation before final save
+					Swal.fire({
+						icon: 'question',
+						title: 'Are you sure?',
+						text: 'Do you want to save the Disposed Details?',
+						showCancelButton: true,
+						confirmButtonText: 'Yes, Save it',
+						cancelButtonText: 'Cancel',
+						confirmButtonColor: '#28a745',
+						cancelButtonColor: '#d33'
+					}).then((result) => {
+						if (result.isConfirmed) {
+							document.getElementById('accusedJsonData').value = JSON.stringify(accusedRows);
+							document.getElementById('saveSupplementary').submit();
+						}
+					});
+
+					return false; // stop default submit, we submit manually after confirm
+				}
+
+				/* ═══════════════════════════════════════════════════
+				   Show / hide conditional accused fields
+				═══════════════════════════════════════════════════ */
+				function toggleConditionalFields(el) {
+					const val = (el && el.value) ? el.value : '';
+
+					if (val === 'Conviction') {
+						hide('overallbriefdetails');
+						show('overallforconviction');
+						show('furtheroptionconviction');
+						hide('overallsenctioncompoundedelse');
+						show('convictioneachaccused');
+
+					} else if (val === 'Compounded') {
+						show('overallsenctioncompoundedelse');
+						hide('convictioneachaccused');
+						show('overallbriefdetails');
+						hide('overallforconviction');
+						hide('furtheroptionconviction');
+
+					} else {
+						show('overallbriefdetails');
+						hide('overallforconviction');
+						hide('furtheroptionconviction');
+						hide('overallsenctioncompoundedelse');
+						hide('convictioneachaccused');
+					}
+				}
+
+				function show(id) {const el = document.getElementById(id); if (el) el.style.display = '';}
+				function hide(id) {const el = document.getElementById(id); if (el) el.style.display = 'none';}
+
+				/* ═══════════════════════════════════════════════════
+				   Back button
+				═══════════════════════════════════════════════════ */
+				function saveIPC() {
+					document.getElementById('saveSupplementary').action = 'backFromSupplimentory';
+					document.getElementById('saveSupplementary').submit();
+				}
+
+				/* Page load */
+				document.addEventListener('DOMContentLoaded', function () {
+					toggleConditionalFields({value: ''});
+				});
+
+			</script>
+		</div>
+</body>
+
+</html>

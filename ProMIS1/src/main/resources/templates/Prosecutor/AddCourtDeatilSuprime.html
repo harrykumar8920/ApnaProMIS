@@ -1,0 +1,1431 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="css/jquery-confirm.min.css">
+	<script src="js/jquery-confirm.min.js"></script>
+	<title>Add New Respondent</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="userHome">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Add Suprime Court Details
+					</li>
+				</ol>
+			</div>
+		</div>
+
+		<div th:if="${message}" class="alert alert-success alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<div class="alert-icon">
+				<i class="fa fa-check"></i>
+			</div>
+			<div class="alert-message">
+				<span th:text="${message}"></span>
+			</div>
+		</div>
+
+
+		<form th:action="@{/addCourtOrderdtl}" method="post" class="needs-validation" autocomplete="off"
+			th:object="${proCourtCaseDetails}" id="proCourtCaseDetails" enctype="multipart/form-data">
+			<input type="hidden" id="cityid" th:filed="*{city}"> <input type="hidden" th:field="*{viewFile}"> <input
+				type="hidden" th:field="*{courtTypeC}"> <input type="hidden" th:field="*{acterror}">
+			<input type="hidden" th:field="*{backgroundFileName}">
+			<input type="hidden" th:field="*{briefFileName}">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h5>
+								<i class="fa fa-address-book-o"></i>Add Suprime Court Details
+							</h5>
+							<div class="form-header text-uppercase">
+								<div class="row">
+									<label for="input-16" class="col-sm-2 col-form-label pt-3"><span
+											th:if="${proCourtCaseDetails.typeofOrder==2}">COURT
+											NOTICE</span><span th:if="${proCourtCaseDetails.typeofOrder!=2}">FILE
+											NO. OF SANCTION ORDER</span></label> <label class="col-sm-4 text-primary"
+										style="font-size: 13px" th:text="*{proSectionOrderNumber}">
+									</label> <label for="input-16" class="col-sm-2 col-form-label pt-3">
+										<span th:if="${proCourtCaseDetails.typeofOrder==2}">COURT
+											NOTICE DATE</span><span
+											th:if="${proCourtCaseDetails.typeofOrder!=2}">SANCTION
+											ORDER DATE</span>
+									</label> <label class="col-sm-4 text-primary" style="font-size: 13px"
+										th:text="*{#dates.format(proSanctionDate, 'dd/MM/yyyy')}">
+									</label>
+								</div>
+								<div class="row">
+									<label for="input-16" class="col-sm-2 col-form-label pt-3">Company</label>
+									<label class="col-sm-4 text-primary" style="font-size: 13px" th:text="*{caseTitle}">
+									</label> <label for="input-16" class="col-sm-2 col-form-label pt-3"> PETITIONER'S
+										NAME</label> <label class="col-sm-4 text-primary" style="font-size: 13px"
+										th:text="*{petionerName}"> </label>
+								</div>
+
+								<div class="row" th:if="${proCourtCaseDetails.typeofOrder==2}">
+									<label for="input-16" class="col-sm-2 col-form-label pt-3">CourtType<span
+											th:if="*{courtTypeC}!=NCLT">/State/District</span><span
+											th:if="*{courtTypeC}==NCLT">/Bench Name</span></label> <label
+										class="col-sm-10 text-primary" style="font-size: 13px"
+										th:if="*{courtTypeC}!=NCLT"
+										th:text="*{courtType.courtName}+'/'+*{state.state}+'/'+*{city.districtName}">
+									</label> <label class="col-sm-10 text-primary" th:if="*{courtTypeC}==NCLT"
+										style="font-size: 13px"
+										th:text="*{courtType.courtName}+' /'+*{bench_Name.bench}">
+									</label>
+								</div>
+
+							</div>
+
+							<input type="hidden" th:field="*{proSectionOrderNumber}">
+							<input type="hidden" th:field="*{proSanctionDate}"> <input type="hidden"
+								th:field="*{assignedTaskID}"> <input type="hidden" th:field="*{fy}" id="fy"> <input
+								type="hidden" th:field="*{caseType}"> <input type="hidden" th:field="*{id}">
+
+
+
+
+
+
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">SFIO
+									As <span class="text-danger">*</span>
+								</label> <span class="text-danger" th:errors="*{sfioAs}"></span>
+								<input type="hidden" id="selectedSfioAsId"
+									th:value="${proCourtCaseDetails.sfioAs != null ? proCourtCaseDetails.sfioAs.id : 0}" />
+								<div class="col-sm-8">
+									<th:block id="Petitioner">
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="inlineRadioOptions"
+												id="inlineRadio1" value="1" th:checked /> <label
+												class="form-check-label"
+												for="inlineRadio1">Petitioner/Complainant/Applicant
+											</label>
+										</div>
+									</th:block>
+
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="inlineRadioOptions"
+											id="inlineRadio2" value="2" /> <label class="form-check-label"
+											for="inlineRadio2">Respondent</label>
+									</div>
+
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="inlineRadioOptions"
+											id="inlineRadio3" value="3" /> <label class="form-check-label"
+											for="inlineRadio3">Appellant</label>
+									</div>
+
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="inlineRadioOptions"
+											id="inlineRadio4" value="4" /> <label class="form-check-label"
+											for="inlineRadio4">On the
+											Behalf of Union of India</label>
+									</div>
+
+									<input type="hidden" th:field="*{sfioAs}" th:id="sfioAs">
+
+
+
+								</div>
+
+
+							</div>
+							<div class="form-group row">
+								<div class="col-sm-2">
+									<label for="input-16">Whether MCA is party <span class="text-danger">*</span>
+									</label> <span class="text-danger" th:errors="*{isMCAParty}"></span>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="isMCAParty" id="isMCAParty1"
+											value="true"
+											th:checked="${proCourtCaseDetails.isMCAParty == true or proCourtCaseDetails.isMCAParty == null}" />
+										<label class="form-check-label" for="isMCAParty">YES
+										</label>
+									</div>
+
+
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="isMCAParty" id="isMCAParty2"
+											value="false"
+											th:checked="${proCourtCaseDetails.isMCAParty == false or proCourtCaseDetails.isMCAParty == null}" />
+										<label class="form-check-label" for="isMCAParty">NO</label>
+									</div>
+
+
+
+
+									<input type="hidden" th:field="*{isMCAParty}" th:id="isMCAParty">
+
+
+
+								</div>
+								<div class="col-sm-2">
+									<label for="input-16">Whether Reply Filed<span class="text-danger">*</span>
+									</label> <span class="text-danger" th:errors="*{isWhetherreplyfiled}"></span>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="isWhetherreplyfiled"
+											id="isWhetherreplyfiled1" value="true"
+											th:checked="${proCourtCaseDetails.isWhetherreplyfiled == true or proCourtCaseDetails.isWhetherreplyfiled == null}" />
+										<label class="form-check-label" for="isWhetherreplyfiled1" th:checked>YES
+										</label>
+									</div>
+
+
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="isWhetherreplyfiled"
+											id="isWhetherreplyfiled2" value="false"
+											th:checked="${proCourtCaseDetails.isWhetherreplyfiled == false}" /> <label
+											class="form-check-label" for="isWhetherreplyfiled2">NO</label>
+									</div>
+
+
+
+
+									<input type="hidden" th:field="*{isWhetherreplyfiled}" th:id="isWhetherreplyfiled">
+									<input type="hidden" class="text-danger" id="typeOfType" th:field="*{type}">
+
+
+								</div>
+
+
+
+							</div>
+							<!--<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Type <span class="text-danger">* </span>
+								</label>
+								<div class="col-sm-4">
+
+									<select class="form-control" id="typeOfCaseType">
+										<option value="select">Select</option>
+										<option th:each="court:${typeList}" th:value="${court.id}"
+											th:utext="${court.type}" />
+
+									</select> <span class="text-danger" th:errors="*{type}"></span>
+								</div>
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Type of case <span class="text-danger">* </span>
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{typeOfCase}">
+										<option value="select">Select</option>
+										<option th:each="court:${typeofcase}" th:value="${court.id}"
+											th:utext="${court.typeOfCase}" />
+
+									</select> <span class="text-danger" th:errors="*{typeOfCase}"></span>
+								</div>
+							</div>-->
+							<div class="form-group row">
+
+
+								<label for="input-10" class="col-sm-2 col-form-label" id="courtTypeLabel">Court
+									Type <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4" id="courtTypeDiv">
+									<select class="form-control" th:field="*{courtType}" id="courtType">
+										<!-- <option th:value="0" th:utext="Choose" /> -->
+										<option th:each="court:${courtType}" th:value="${court.id}"
+											th:utext="${court.courtName}" />
+									</select> <span class="text-danger" th:errors="*{courtType}"></span>
+								</div>
+
+								<label for="input-10" class="col-sm-2 col-form-label" >Bench Name
+									<span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control" th:field="*{bench_Name}" id="bench_Name">
+
+										<option th:each="court:${typeOfBench}" th:value="${court.id}"
+											th:utext="${court.bench}" />
+
+									</select> <span class="text-danger" th:errors="*{bench_Name}"></span>
+
+								</div>
+
+								
+
+							</div>
+							<div class="form-group row">
+								
+
+								<label for="input-16" class="col-sm-2 col-form-label">Petitioner No </label>
+								
+								<div class="col-sm-4">
+									
+										
+											<input type="text" class="form-control" th:field="*{courtCaseNo1}"
+																							placeholder="Enter Petitioner No " >
+											
+											
+											<span class="text-danger" th:errors="*{courtCaseNo1}"></span>
+										
+										
+									
+
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">Petitioner Year </label>
+																
+																<div class="col-sm-4">
+																	
+																		
+																			<input type="text" class="form-control" 
+																															placeholder="Enter Petitioner Year " >
+																			
+																			
+																			<span class="text-danger" th:errors="*{courtCaseNo1}"></span>
+																		
+																		
+																	
+
+																</div>
+
+
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+								Subject <span class="text-danger"></span></label>
+								<div class="col-sm-4">
+									<select class="form-control" >
+										<option>Need to be dropdown value </option>
+	
+									</select> <span class="text-danger"></span>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Releted to Investigation <span class="text-danger"></span></label>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" placeholder="Enter Releted to Investigation"> <span class="text-danger"></span>
+									</div>
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+								Name of the Investigation <span class="text-danger"></span></label>
+								
+								
+									<div class="col-sm-4">
+										<input type="text" class="form-control" placeholder="Enter Investigation Name"> <span class="text-danger"></span>
+									</div>
+									<label for="input-16" class="col-sm-2 col-form-label">
+									Prayer <span class="text-danger"></span></label>
+									
+									
+										<div class="col-sm-4">
+											<input type="text" class="form-control" placeholder="Enter prayer Here"> <span class="text-danger"></span>
+										</div>
+							</div>
+							
+							
+							
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Filing Date <span class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" th:field="*{fillingDate}" id="uifillingDate"
+										placeholder="Enter Filing Date"> <span class="text-danger"
+										th:errors="*{fillingDate}"></span>
+								</div>
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Filing File <span class="text-danger"></span>
+								</label>
+								<div class="col-sm-4">
+									<input type="file" class="form-control" 
+										placeholder="Enter File here"> <span class="text-danger"
+										></span>
+								</div>
+
+							</div>
+
+
+							
+							<!--<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Cause Title/Case Title  <span class="text-danger">*</span> 
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" th:field="*{causeTitle}"> <span
+										class="text-danger" th:errors="*{causeTitle}"></span>
+									<span class="text-danger" id="causeTitle1"></span>
+
+								</div>
+
+							</div>-->
+							
+
+
+
+							
+
+							<div class="form-group row">
+
+								<label for="input-16" class="col-sm-2 col-form-label" style="display: none;">
+									Case Title /Company Name <span class="text-danger">*</span>
+
+								</label>
+								<div class="col-sm-4" style="display: none;">
+									<input type="text" class="form-control" th:id="caseTitle1" th:field="*{caseTitle}"
+										readonly="readonly"> <span class="text-danger" th:errors="*{caseTitle}"></span>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Petitioner file
+								</label>
+								<div class="col-sm-4">
+									<input type="file" class="form-control" th:field="*{briefFile}"> <span
+										class="text-danger" th:errors="*{briefFile}"></span>
+								</div>
+								<div class="col-sm-1" th:if="${proCourtCaseDetails.briefFileName} != ''">
+
+
+									<label class=" col-form-label text-primary"
+										th:if="${proCourtCaseDetails.briefFileName} != null"> <a th:target="_blank"
+											th:href="@{|/downloadFiles?fileName=*{briefFileName}|}"><span>View</span>
+											<span th:if="*{gistFile}"><i class="fa fa-file-pdf-o"
+													style="font-size: 24px; color: red"></i></span></a></label>
+
+
+
+
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label for="input-16" class="col-sm-2 col-form-label">
+									Synopsis <!-- <span class="text-danger">*</span> -->
+								</label>
+								<div class="col-sm-10">
+									<textarea class="inputTxt form-control" cols="2" rows="3" th:id="brief"
+										th:field="*{brief}" name="brief" placeholder="Enter Brief" maxlength="5000"
+										onkeyup="countWords()"></textarea>
+									<span id="wordCount">0</span> Words <span class="text-danger">
+										Maximum Words limit is 400</span><br> <span class="text-danger"
+										th:errors="*{brief}"></span>
+								</div>
+
+
+
+							</div>
+							
+							
+							
+
+
+							
+
+							<div class="form-footer">
+								<a class="btn btn-dark" href="prosecutorPendingTaskList"> <i
+										class="fa fa-check-square-o"></i> Back
+								</a>
+								<th:block th:unless="${proCourtCaseDetails.id}">
+									
+
+
+								</th:block>
+								<th:block th:if="${proCourtCaseDetails.id}">
+									<button type="button" class="btn btn-success" onclick="savedtl();">
+										<i class="fa fa-check-square-o"></i> Update
+									</button>
+								</th:block>
+								<th:block th:unless="${proCourtCaseDetails.id}">
+									<button type="button" class="btn btn-success" onclick="savedtl();">
+										<i class="fa fa-check-square-o"></i> SAVE
+									</button>
+								</th:block>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<input type="text" style="display: none;" th:field="*{invCaseId}" th:id="invCaseId">
+				<div class="modal fade bd-example-modal-xl " id="exampleModal" tabindex="1" role="dialog"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-xl" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Case Details
+									As Entered By Investigation Team</h5>
+
+
+
+
+
+
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body ">
+
+								<table id="compsumid" class="table table-bordered table-responsive-lg">
+									<thead>
+										<tr>
+											<th>Case Id</th>
+											<th style="display: none"></th>
+											<th>Case ID</th>
+											<th>Financial Year</th>
+
+											<th>MCA order No</th>
+											<th>MCA order Date</th>
+
+
+											<th>Case Title</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody id="companyTable">
+
+									</tbody>
+
+
+								</table>
+
+								<!-- 						<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary"
+									onclick="addCaseDetails();">OK</button>
+							</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal fade" id="largesizemodal">
+
+					<!-- <div class="modal fade" id="largesizemodal"> -->
+					<div class="modal-dialog modal-lg modal-dialog-centered">
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<h5 class="modal-title text-white">ADD Act & Section</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form th:action="@{/addCourtOrderdtl}" method="post" class="needs-validation"
+									autocomplete="off" th:object="${proCourtCaseDetails}" id="proCourtCaseDetails"
+									enctype="multipart/form-data">
+
+									<div class="form-group row">
+
+
+										<label for="input-10" class="col-sm-2 col-form-label">ACT
+											<span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-4">
+											<select class="form-control" th:field="*{act}" id="actid">
+												<!-- 	<option th:value="0" th:utext="Choose" /> -->
+												<option th:each="court:${addActList}" th:value="${court.id}"
+													th:utext="${court.act}" />
+											</select> <span class="text-danger" th:errors="*{act}"></span>
+										</div>
+										<label for="input-10" class="col-sm-2 col-form-label">Section
+											<span class="text-danger">*</span>
+										</label>
+										<div class="col-sm-4">
+											<select class="form-control" th:field="*{section}" id="seclst">
+												<!-- <option th:value="0" th:utext="Choose" /> -->
+
+												<option th:each="court:${seclst}" th:value="${court.id}"
+													th:utext="${court.section}" />
+
+
+
+
+											</select> <span class="text-danger" th:errors="*{section}"></span>
+										</div>
+
+									</div>
+									<div class="form-group row">
+										<label for="input-10" class="col-sm-2 col-form-label">Sub
+											Section <span class="text-danger"></span>
+										</label>
+										<div class="col-sm-4">
+											<select class="form-control" th:field="*{subsection}">
+												<option th:each="court:${subseclst}" th:value="${court.id}"
+													th:utext="${court.subSection}" />
+											</select> <span class="text-danger" th:errors="*{subsection}"></span>
+										</div>
+										<label for="input-10" class="col-sm-2 col-form-label">Clause
+											<span class="text-danger"></span>
+										</label>
+										<div class="col-sm-4">
+
+											<select class="form-control" th:field="*{clause}">
+
+												<option th:each="court:${clauselist}" th:value="${court.clause}"
+													th:utext="${court.clause}" />
+											</select> <span class="text-danger" th:errors="*{clause}"></span>
+										</div>
+									</div>
+									<div class="form-group row">
+
+										<label for="input-16" class="col-sm-2 col-form-label">Description
+											<span class="text-danger"></span>
+										</label>
+										<div class="col-sm-10">
+											<textarea type="text" class="form-control" id="Description"
+												th:field="*{description}" name="Description" required="required"
+												placeholder="Enter Description" maxlength="200"></textarea>
+										</div>
+									</div>
+
+								</form>
+
+
+
+
+
+
+								<div id="msg"></div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-dark" data-dismiss="modal">
+									<i class="fa fa-times"></i> Close
+								</button>
+								<button type="button" class="btn btn-primary" id="addIPC" onclick="saveIPC();">
+									<i class="fa fa-plus"></i> Add
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<input type="hidden" th:field="*{actSectionID}"> <input type="hidden" th:field="*{gistFile}">
+		</form>
+
+		<script type="text/javascript">
+
+
+		</script>
+
+		<!-- 		<script type="text/javascript">
+			$(function() {
+				$("#cnrNumber").keypress(
+						function(e) {
+							var keyCode = e.keyCode || e.which;
+							//alert(keyCode);
+
+							$("#lblError4").html("");
+
+							//Regex for Valid Characters i.e. Numbers.
+							var regex = /^[a-z0-9]+$/i;
+
+							//Validate TextBox value against the Regex.
+							var isValid = regex.test(String
+									.fromCharCode(keyCode));
+							if (!isValid) {
+								$("#lblError4").html(
+										"Please enter only alphanumeric.");
+							}
+
+							return isValid;
+						});
+			});
+		</script> -->
+		<script type="text/javascript">
+			$(document).ready(function () {
+				var selectedType = $('#typeOfType').val();
+				var typeOfCase1 = $('#typeOfCase').val(); // Get preselected value
+
+				$('#typeOfCaseType').val(selectedType);
+				$('#typeOfCaseType').prop('disabled', true);
+				$("#typeOfCaseType").change(function () {
+					var selectedText = $(this).find("option:selected").text();
+					var courtType = $(this).val();
+
+					$.ajax({
+						type: "GET",
+						url: "getTypeOfCase?courtType=" + courtType,
+						data: courtType,
+						success: function (data) {
+							var html = '';
+							var len = data.length;
+
+							if (len > 0) {
+								//html += '<option value="0"> Choose</option>';
+								for (var i = 0; i < len; i++) {
+									html += '<option value="' + data[i].id + '">' + data[i].typeOfCase + '</option>';
+								}
+								$("#typeOfCase").html(html);
+
+							} else {
+								html += '<option value="0">-- Select --</option>';
+								$("#typeOfCase").html(html);
+								alert("check  kar hai");
+								// ✅ Set selected value after populating
+								if (typeOfCase1 != '0') {
+									$("#typeOfCase").val(typeOfCase1);
+								}
+							}
+						}
+					});
+				});
+
+				// Trigger change after binding
+				$('#typeOfCaseType').trigger('change');
+			});
+		</script>
+
+
+		
+		<script type="text/javascript">
+			$(document)
+				.ready(
+					function () {
+						var compname = $("#caseTitle1").val();
+						$("#compname").val(compname);
+						const textField = document
+							.getElementById('backgroundofcase');
+						const wordCountDisplay = document
+							.getElementById('wordCount1');
+						const words = textField.value.split(' ')
+							.filter(Boolean);
+						const wordCount = words.length;
+						wordCountDisplay.innerHTML = wordCount;
+
+						if (wordCount > 401) {
+							var wordCount1 = document
+								.getElementById("backgroundofcase");
+							var characters = wordCount1.value.split('');
+							var lenth = characters.length;
+							// alert(lenth);
+							document.getElementById("backgroundofcase").maxLength = lenth;
+						}
+
+					})
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function () {
+				const textField = document.getElementById('brief');
+				const wordCountDisplay = document.getElementById('wordCount');
+				const words = textField.value.split(' ').filter(Boolean);
+				const wordCount = words.length;
+				wordCountDisplay.innerHTML = wordCount;
+
+				if (wordCount > 401) {
+					var wordCount1 = document.getElementById("brief");
+					var characters = wordCount1.value.split('');
+					var lenth = characters.length;
+					// alert(lenth);
+					document.getElementById("brief").maxLength = lenth;
+				}
+
+			})
+		</script>
+
+		<script type="text/javascript">
+			function deleteActSection(x) {
+
+				$('#actSectionID').val(x);
+
+				$('#proCourtCaseDetails').attr('action', 'deleteActSection');
+				$('#proCourtCaseDetails').submit();
+
+			}
+		</script>
+
+
+
+
+		<script type="text/javascript">
+			$(function () {
+				$("#courtCaseNo2").keypress(
+					function (e) {
+						var keyCode = e.keyCode || e.which;
+
+						$("#lblError1").html("");
+
+						//Regex for Valid Characters i.e. Numbers.
+						var regex = /^[0-9a-zA-Z]+$/;
+
+						//Validate TextBox value against the Regex.
+						var isValid = regex.test(String
+							.fromCharCode(keyCode));
+						if (!isValid) {
+							$("#lblError1").html(
+								"Please enter only numeric value.");
+						}
+
+						return isValid;
+					});
+			});
+
+			$(function () {
+				$("#courtCaseNo3").keypress(
+					function (e) {
+						var keyCode = e.keyCode || e.which;
+
+						$("#lblError3").html("");
+
+						//Regex for Valid Characters i.e. Numbers.
+						var regex = /^[0-9]+$/;
+
+						//Validate TextBox value against the Regex.
+						var isValid = regex.test(String
+							.fromCharCode(keyCode));
+						if (!isValid) {
+							$("#lblError3").html(
+								"Please enter only numeric value.");
+						}
+
+						return isValid;
+					});
+			});
+		</script>
+
+
+
+
+
+
+		<script type="text/javascript">
+			$(document)
+				.ready(
+					function () {
+						var stateid = $('#actid').val();
+						//alert(stateid)
+						debugger
+						$
+							.ajax({
+								//crossDomain: true,
+								type: "GET",
+								url: "getsection?stateid="
+									+ stateid,
+								//contentType : "application/json; charset=utf-8",
+								cache: false,
+								timeout: 600000,
+								success: function (data) {
+									//alert(data.lenth)
+									$('#seclst').html('');
+									var options = '';
+									if (data.length > 1) {
+										options += '<option value="0">Choose</option>';
+									}
+									for (var i = 0; i < data.length; i++) {
+										options += '<option value="' + data[i].id + '">'
+											+ data[i].section
+											+ '</option>';
+									}
+									$('#seclst').append(options);
+								}
+
+							});
+
+						var table = $('#userTable').DataTable({});
+						var table1 = $('#compsumid').DataTable({});
+
+						var err = $('#acterror').val();
+						if (err > 2) {
+							$('#largesizemodal').modal('show');
+						}
+						var isMCAParty = $("#isMCAParty").val()
+						$(
+							"input[name=isMCAParty][value="
+							+ isMCAParty + "]").prop(
+								'checked', true);
+						var isWhetherreplyfiled = $(
+							"#isWhetherreplyfiled").val()
+						$(
+							"input[name=isWhetherreplyfiled][value="
+							+ isWhetherreplyfiled + "]")
+							.prop('checked', true);
+						var sfioAsId = $("#sfioAs").val()
+
+						$(
+							"input[name=inlineRadioOptions][value="
+							+ sfioAsId + "]").prop(
+								'checked', true);
+
+						if (sfioAsId == '1' || sfioAsId == '2') {
+							$('#snmsCasedtl').show();
+						} else {
+							$('#snmsCasedtl').hide();
+						}
+
+					});
+			$('#corrigendumDate').datepicker({
+				autoclose: true,
+				todayHighlight: true,
+				endDate: new Date(),
+				format: 'dd/mm/yyyy',
+
+			});
+
+			$('#uifillingDate').datepicker({
+				autoclose: true,
+				todayHighlight: true,
+				endDate: new Date(),
+				format: 'dd/mm/yyyy',
+			});
+
+			function showDetails() {
+				var mcaorder = $("#mcaorderno").val();
+				var compname = $("#compname").val();
+
+				if (mcaorder == '' && compname == '') {
+					//alert("Enter MCA order number or Company Name ")
+				}
+				$
+					.ajax({
+						//crossDomain: true,
+						type: "GET",
+						url: "showmcaOrderDetails?mcaorder="
+							+ encodeURIComponent(mcaorder)
+							+ "&compname=" + compname,
+						contentType: "application/json; charset=utf-8",
+						dataType: "json",
+						//contentType : "application/json; charset=utf-8",
+						cache: false,
+						timeout: 600000,
+						success: function (data) {
+							//alert(data);
+							$("#exampleModal").modal("show");
+							//alert("exampleModal1111");
+							debugger
+							var html = '';
+							var len1 = data.length;
+							$('#companyTable').empty();
+							for (var i = 0; i < len1; i++) {
+								//alert("After For Loop al1111");
+
+								//								debugger
+								var a = i + 1;
+								var isAdded = false;
+								var trString = '';
+
+								$('#compsumid tr').each(
+									function (j, v) {
+										if ($(this)
+											.children('td:eq(0)')
+											.text() == data[i][5]) {
+											isAdded = true
+										}
+										;
+									});
+								/*  if(isAdded)
+										trString = '<td><input type="button"  value = "Already Added" class = "btn btn-info" disabled="true"/></td></tr>';
+									else
+										trString ='<td><input type="button"  value = "ADD XOXO" class = "btn btn-success"  onclick = "addpersondetail(\'' + data[i][0] +'\',\''+data[i][1]+'\',\''+data[i][2]+'\',\''+data[i][3]+'\',\''+data[i][5]+'\')"/></td></tr>';	 
+								 */
+								// alert("hi12344          "+data[i][2]);
+								// alert("exampleModaldata");
+								if (data[i][2] == null) {
+									data[i][2] = '';
+								}
+								if (data[i][3] == null) {
+									data[i][3] = '';
+								}
+								html += '<tr><td>'
+									+ a
+									+ '</td>'
+									+
+
+									//<spam th:text="${#dates.format(courtdtl.proDate, 'dd/MM/yyyy')}"></span>
+
+									'<td class="text-wrap">'
+									+ data[i]['caseId']
+									+ '</td>'
+									+ '<td class="text-wrap">'
+									+ data[i]['financeYear']
+									+ '</td>'
+									+ '<td class="text-wrap">'
+									+ data[i]['mcaOrderNo']
+									+ '</td>'
+									+
+									//'<td class="text-wrap"  >'+data[i]['mcaOrderDate']+'</td>'+
+
+									'<td class="text-wrap"  >'
+									+ formatDate(data[i]['mcaOrderDate'])
+									+ '</td>'
+									+
+
+									'<td class="text-wrap">'
+									+ data[i]['caseTitle']
+									+ '</td>'
+									+
+
+									'<td><input type="button"  value = "ADD" class = "btn btn-success"  onclick = "addCaseDetails(\''
+									+ data[i]['caseId'] + '\'   ,  \''
+									+ data[i]['caseTitle'] + '\' , \''
+									+ data[i]['id'] + '\' ,  \''
+									+ data[i]['mcaOrderNo'] + '\' , \''
+									+ data[i]['financeYear']
+									+ '\'  );"></td>' +
+
+									trString;
+
+							}
+
+							function formatDate(date) {
+								var d = new Date(date), month = ''
+									+ (d.getMonth() + 1), day = ''
+										+ d.getDate(), year = d
+											.getFullYear();
+
+								if (month.length < 2)
+									month = '0' + month;
+								if (day.length < 2)
+									day = '0' + day;
+
+								return [day, month, year].join('/');
+							}
+
+							$('#companyTable').append(html);
+
+						},
+
+						/* if (data.caseId != null) {
+						
+							$('#caseId').text(data.caseId);
+							
+						}
+						if (data.financeYear != null) {
+							$('#fy').text(data.financeYear);
+						}
+
+						$('#caseTitle').text(data.caseTitle);
+
+						if (data.mcaOrderNo != null) {
+							$('#mcaOrderNo').text(data.mcaOrderNo);
+							
+						}
+
+						if (data.mcaOrderDate != null) {
+							var d = new Date(data.mcaOrderDate);
+
+							var mcaDate = d.toLocaleDateString('en-GB',
+									data.mcaOrderDate);
+							$('#mcaDate').text(data.mcaOrderDate);
+						}
+						$('#invcaseDetailsId').val(data.id)
+						$("#caseId1").val(data.caseId);
+						$("#caseTitle12").val(data.caseTitle);
+						$("#exampleModal").modal("show");
+						}, */
+						error: function (xhr, status, error) {
+							alert('NO DATA FOUND');
+							/*      $("#largesizemodal").modal("hide");*/
+							/* 			 $('#compnayBlock').show(); */
+
+						}
+
+					});
+
+			}
+
+			function addCaseDetails(caseId1, caseTitle12, id, mcaorderno, fy) {
+				debugger
+
+				//alert(caseId1+" " +caseTitle12+" "+mcaorderno+" "+fy+" "+id);
+
+				//alert("call addCaseDetails");
+				$("#exampleModal").modal("hide");
+
+				$("#caseNo").val(caseId1);
+				$("#caseTitle1").val(caseTitle12);
+				$("#mcaorderno").val(mcaorderno);
+				$("#fy").val(fy);
+				$("#invCaseId").val(id);
+
+				$("#mcaorderno").prop('readonly', false);
+				$("#fy").prop('readonly', true);
+				$("#caseNo").prop('readonly', true);
+				$("#caseTitle1").prop('readonly', true);
+
+			}
+		</script>
+		<script type="text/javascript">
+			$('#stateid')
+				.on(
+					'change',
+					function () {
+						var stateid = $('#stateid').val();
+						//alert(stateid)
+						$
+							.ajax({
+								//crossDomain: true,
+								type: "GET",
+								url: "showsDistrictList?stateid="
+									+ stateid,
+								//contentType : "application/json; charset=utf-8",
+								cache: false,
+								timeout: 600000,
+								success: function (data) {
+									$('#citylst').html('');
+									var options = '';
+									options += '<option value="0">Select</option>';
+									for (var i = 0; i < data.length; i++) {
+										options += '<option value="' + data[i].id + '">'
+											+ data[i].districtName
+											+ '</option>';
+									}
+									$('#citylst').append(options);
+								}
+
+							});
+
+					});
+
+			$("input[name='inlineRadioOptions']")
+				.change(
+					function () {
+						$('#sfioAs')
+							.val(
+								$(
+									'input:radio[name=inlineRadioOptions]:checked')
+									.val());
+
+						if ($(this).attr('id') == 'inlineRadio1') {
+							$('#snmsCasedtl').show();
+							var compname = $("#caseTitle1").val();
+							//alert(compname);
+							$("#compname").val(compname);
+							// $("#caseTitle1").val('');
+
+							//$('#prosecutionSON').show();
+							//$('#prosecutionSFile').show();
+
+						} else if ($(this).attr('id') == 'inlineRadio2') {
+							$('#snmsCasedtl').show();
+							var compname = $("#caseTitle1").val();
+							$("#compname").val(compname);
+							// $("#caseTitle1").val('');
+						}
+
+						else {
+							$('#snmsCasedtl').hide();
+							//$('#prosecutionSON').hide();
+							//	$('#prosecutionSFile').hide();
+						}
+
+					});
+
+			function savedtl() {
+				$('#proCourtCaseDetails').attr("action",
+					"SaveproCourtCaseDetails");
+				$('#proCourtCaseDetails').submit();
+
+			}
+			function resetdtl() {
+				$('#proCourtCaseDetails').attr("action",
+					"resetproCourtCaseDetails");
+				$('#proCourtCaseDetails').submit();
+
+			}
+
+			function countWords() {
+				const textField = document.getElementById('brief');
+				const wordCountDisplay = document.getElementById('wordCount');
+				const words = textField.value.split(' ').filter(Boolean);
+				const wordCount = words.length;
+				wordCountDisplay.innerHTML = wordCount;
+
+				if (wordCount > 401) {
+					var wordCount1 = document.getElementById("brief");
+					var characters = wordCount1.value.split('');
+					var lenth = characters.length;
+					// alert(lenth);
+					document.getElementById("brief").maxLength = lenth;
+				}
+
+			}
+
+			function countWords1() {
+				const textField = document.getElementById('backgroundofcase');
+				const wordCountDisplay = document.getElementById('wordCount1');
+				const words = textField.value.split(' ').filter(Boolean);
+				const wordCount = words.length;
+				wordCountDisplay.innerHTML = wordCount;
+
+				if (wordCount > 401) {
+					var wordCount1 = document
+						.getElementById("backgroundofcase");
+					var characters = wordCount1.value.split('');
+					var lenth = characters.length;
+					// alert(lenth);
+					document.getElementById("backgroundofcase").maxLength = lenth;
+				}
+
+			}
+
+			$("#courtType")
+				.change(
+					function () {
+
+						//alert('test case');
+						var selectedText = $(this).find(
+							"option:selected").text();
+						var courtType = $(this).val();
+						if (courtType == 3 || courtType == 4) {
+							$("#cnr_number_label").hide();
+							$("#cnr_number_label_").show();
+							$("#CITY_LABEL").hide();
+							$("#heder_title1").show();
+							$("#heder_title3").show();
+							$("#heder_title").hide();
+							$("#heder_title2").hide();
+							$("#State_LABEL").hide();
+							$("#stateid").hide();
+							$("#CITY_DIV").hide();
+							$("#benchNameLabel").show();
+							$("#benchNameDiv").show();
+
+							$("#corrigendum_Date_div").hide();
+							$("#corrigendumDate_label").hide();
+						} else {
+							$("#cnr_number_label").show();
+							$("#heder_title").show();
+							$("#heder_title2").show();
+							$("#heder_title1").hide();
+							$("#heder_title3").hide();
+							$("#corrigendumDate_label").show();
+							$("#cnr_number_label_").hide();
+							$("#benchNameLabel").hide();
+							$("#benchNameDiv").hide();
+							$("#CITY_LABEL").show();
+							$("#State_LABEL").show();
+							$("#stateid").show();
+							$("#CITY_DIV").show();
+							$("#corrigendum_Date_div").show();
+						}
+
+						//alert('test bench');
+						$
+							.ajax({
+								type: "GET",
+								url: "getBench?courtType="
+									+ courtType,
+								data: courtType,
+								success: function (data) {
+									var html = '';
+									var len = data.length;
+									//alert(len);
+									if (len > 0) {
+										for (var i = 0; i < len; i++) {
+											html += '<option value="' + data[i].id + '">'
+												+ data[i].bench
+												+ '</option>';
+										}
+										$("#bench_Name").html(html);
+									} else {
+
+										html += '<option value="0">-- Select --</option>';
+										$("#bench_Name").html(html);
+
+									}
+								}
+							});
+
+						$
+							.ajax({
+								type: "GET",
+								url: "getState?courtType="
+									+ courtType,
+								data: courtType,
+								success: function (data) {
+
+									//alert(data);
+									var html = '';
+									var len = data.length;
+									//	alert(len); 
+
+									if (len > 0) {
+										for (var i = 0; i < len; i++) {
+											html += '<option value="' + data[i].id + '">'
+												+ data[i].state
+												+ '</option>';
+										}
+										$("#stateid").html(html);
+									} else {
+										html += '<option value="0">-- Select --</option>';
+										html += '<option value="0">-- Select --</option>';
+										$("#stateid").html(html);
+										$("#stateid").prop(
+											"disabled", true);
+									}
+								}
+							});
+
+						$
+							.ajax({
+								type: "GET",
+								url: "getcity?courtType="
+									+ courtType,
+								data: courtType,
+								success: function (data) {
+									var html = '';
+									var len = data.length;
+									/* alert(len); */
+
+									if (len > 0) {
+										for (var i = 0; i < len; i++) {
+											html += '<option value="' + data[i].id + '">'
+												+ data[i].districtName
+												+ '</option>';
+										}
+										$("#citylst").html(html);
+									} else {
+
+										html += '<option value="0">-- Select --</option>';
+										$("#citylst").html(html);
+										$("#citylst").prop(
+											"readonly", true);
+									}
+								}
+							});
+
+					});
+
+			$('#actid')
+				.on(
+					'change',
+					function () {
+						var stateid = $('#actid').val();
+						//alert(stateid)
+						debugger
+						$
+							.ajax({
+								//crossDomain: true,
+								type: "GET",
+								url: "getsection?stateid="
+									+ stateid,
+								//contentType : "application/json; charset=utf-8",
+								cache: false,
+								timeout: 600000,
+								success: function (data) {
+									//alert(data.lenth)
+									$('#seclst').html('');
+									var options = '';
+									if (data.length > 1) {
+										options += '<option value="0">Choose</option>';
+									}
+									for (var i = 0; i < data.length; i++) {
+										options += '<option value="' + data[i].id + '">'
+											+ data[i].section
+											+ '</option>';
+									}
+									$('#seclst').append(options);
+								}
+
+							});
+
+					});
+
+			$('#seclst')
+				.on(
+					'change',
+					function () {
+						var stateid = $('#seclst').val();
+						//alert(stateid)
+						debugger
+						$
+							.ajax({
+								//crossDomain: true,
+								type: "GET",
+								url: "getsection1?stateid="
+									+ stateid,
+								//contentType : "application/json; charset=utf-8",
+								cache: false,
+								timeout: 600000,
+								success: function (data) {
+									//alert(data.lenth)
+									$('#seclst1').html('');
+									var options = '';
+									options += '<option value="0">Choose</option>';
+									for (var i = 0; i < data.length; i++) {
+										options += '<option value="' + data[i].id + '">'
+											+ data[i].subSection
+											+ '</option>';
+									}
+									$('#seclst1').append(options);
+								}
+
+							});
+
+					});
+		</script>
+
+		<script type="text/javascript">
+			function saveIPC() {
+
+				$('#proCourtCaseDetails').attr("action", "SaveActSection");
+				$('#proCourtCaseDetails').submit();
+
+			}
+		</script>
+
+
+		<script type="text/javascript">
+			document.addEventListener("DOMContentLoaded", function () {
+				const selectedId = document.getElementById("selectedSfioAsId").value;
+				const allowedIds = [1, 2, 3, 4];
+
+				allowedIds.forEach(function (id) {
+					const radio = document.getElementById("inlineRadio" + id);
+					if (radio) {
+						radio.disabled = false;
+						if (radio.value === selectedId) {
+							radio.checked = true;
+						}
+					}
+				});
+
+				// Disable any other radio buttons outside allowedIds (optional safety)
+				document.querySelectorAll('input[name="inlineRadioOptions"]').forEach(function (radio) {
+					if (!allowedIds.includes(parseInt(radio.value))) {
+						radio.disabled = true;
+					}
+				});
+			});
+
+
+			document.addEventListener("DOMContentLoaded", function () {
+				const mcaPartyValue = document.getElementById("isMCAParty").value;
+
+				if (mcaPartyValue === "true") {
+					document.getElementById("isMCAParty1").checked = true;
+				} else if (mcaPartyValue === "false") {
+					document.getElementById("isMCAParty2").checked = true;
+				}
+			});
+			document.addEventListener("DOMContentLoaded", function () {
+				const mcaPartyValue = document.getElementById("isWhetherreplyfiled").value;
+
+				if (mcaPartyValue === "true") {
+					document.getElementById("isWhetherreplyfiled1").checked = true;
+				} else if (mcaPartyValue === "false") {
+					document.getElementById("isWhetherreplyfiled2").checked = true;
+				}
+			});
+
+		</script>
+
+
+
+
+
+
+		<script type="text/javascript" src="js/customValidation.js"></script>
+
+
+	</div>
+
+</body>
+
+</html>

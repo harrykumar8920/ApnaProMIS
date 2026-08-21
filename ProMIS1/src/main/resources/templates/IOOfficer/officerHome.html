@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/layout"
+	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Home Page</title>
+
+	<style>
+		.modal.fade .modal-dialog {
+
+			transform: translateY(-120px);
+
+			transition: all .8s ease;
+
+		}
+
+		.modal.show .modal-dialog {
+
+			transform: translateY(0);
+
+		}
+
+		.modal-fullscreen {
+
+			max-width: 100%;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+
+		}
+
+		.modal-fullscreen .modal-content {
+
+			height: 100%;
+			border-radius: 0;
+
+		}
+	</style>
+</head>
+
+<body>
+
+	<div layout:fragment="content" sec:authorize="hasRole('ROLE_OFFICER')">
+
+		<div class="row mt-3">
+
+
+
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="card gradient-ohhappiness">
+					<div class="card-body">
+						<h5 class="text-white mb-0"><span th:text="${TotalTask}"></span><span class="float-right"><i
+									class="zmdi zmdi-layers"></i></span></h5>
+						<div class="progress my-3" style="height:3px;">
+							<div class="progress-bar" style="width:55%"></div>
+						</div>
+						<p class="mb-0 text-white small-font"> Total Tasks Assigned <span class="float-right"><a
+									href="prosecutorTaskList" class="text-white">More Info</a> <i
+									class="zmdi zmdi-long-arrow-right"></i></span></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="card gradient-orange">
+					<div class="card-body">
+						<h5 class="text-white mb-0"><span th:text="${PendingTask}"></span><span class="float-right"><i
+									class="zmdi zmdi-layers"></i></span></h5>
+						<div class="progress my-3" style="height:3px;">
+							<div class="progress-bar" style="width:55%"></div>
+						</div>
+						<p class="mb-0 text-white small-font">Pending Court Case Details<span class="float-right"><a
+									href="prosecutorPendingTaskList" class="text-white">More Info</a> <i
+									class="zmdi zmdi-long-arrow-right"></i></span></p>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="card gradient-ibiza">
+					<div class="card-body">
+						<h5 class="text-white mb-0"><span th:text="${ApprovedTask}"></span><span class="float-right"><i
+									class="zmdi zmdi-layers"></i></span></h5>
+						<div class="progress my-3" style="height:3px;">
+							<div class="progress-bar" style="width:55%"></div>
+						</div>
+						<p class="mb-0 text-white small-font">Tasks in progress <span class="float-right"><a
+									href="ApproveproTaskList" class="text-white">More Info</a> <i
+									class="zmdi zmdi-long-arrow-right"></i></span></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="card gradient-veer">
+					<div class="card-body">
+						<h5 class="text-white mb-0"><span th:text="${TotalCase}"></span><span class="float-right"><i
+									class="zmdi zmdi-layers"></i></span></h5>
+						<div class="progress my-3" style="height:3px;">
+							<div class="progress-bar" style="width:55%"></div>
+						</div>
+						<p class="mb-0 text-white small-font">Total Number of Cases <span class="float-right"><a
+									href="totalNumberOfCourtCases" class="text-white">More Info</a> <i
+									class="zmdi zmdi-long-arrow-right"></i></span></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="card gradient-info">
+					<div class="card-body">
+						<h5 class="text-white mb-0"><span th:text="${totalsendbackcase}"></span><span
+								class="float-right"><i class="zmdi zmdi-layers"></i></span></h5>
+						<div class="progress my-3" style="height:3px;">
+							<div class="progress-bar" style="width:55%"></div>
+						</div>
+						<p class="mb-0 text-white small-font">Total Number of Cases sent back by PUH<span
+								class="float-right"><a href="totalNumberOfSendBackCourtCases" class="text-white">More
+									Info</a> <i class="zmdi zmdi-long-arrow-right"></i></span></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="card gradient-ohhappiness">
+					<div class="card-body">
+						<h5 class="text-white mb-0"><span id="totalNotice" th:text="${totalforwardcase}"></span> <span
+								class="float-right"><i class="fa fa-clock-o"></i></span></h5>
+						<div class="progress my-3" style="height:3px;">
+							<div class="progress-bar" style="width:55%"></div>
+						</div>
+						<p class="mb-0 text-white small-font">Total Number of Cases forwarded to PUH<span
+								class="float-right"><a href="totalforwardCourtCase" class="text-white">More Info</a> <i
+									class="zmdi zmdi-long-arrow-right"></i></span></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="card gradient-veer">
+					<div class="card-body">
+						<h5 class="text-white mb-0"><span th:text="${TotalCase1}"></span><span class="float-right"><i
+									class="zmdi zmdi-layers"></i></span></h5>
+						<div class="progress my-3" style="height:3px;">
+							<div class="progress-bar" style="width:55%"></div>
+						</div>
+						<p class="mb-0 text-white small-font">Total Number of Sanction Orders & Court Notices<span
+								class="float-right"><a href="listOfCourtCasesS?casetype=0" class="text-white">More
+									Info</a> <i class="zmdi zmdi-long-arrow-right"></i></span></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="card gradient-info">
+					<div class="card-body">
+						<h5 class="text-white mb-0"><span th:text="${totalsendbackcase1}"></span><span
+								class="float-right"><i class="zmdi zmdi-layers"></i></span></h5>
+						<div class="progress my-3" style="height:3px;">
+							<div class="progress-bar" style="width:55%"></div>
+						</div>
+						<p class="mb-0 text-white small-font">Sanction Orders & Court Notices send back by PUH<span
+								class="float-right"><a href="listOfSendBackCourtCases" class="text-white">More Info</a>
+								<i class="zmdi zmdi-long-arrow-right"></i></span></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="card gradient-ohhappiness">
+					<div class="card-body">
+						<h5 class="text-white mb-0"><span id="totalNotice" th:text="${totalforwardcase1}"></span> <span
+								class="float-right"><i class="fa fa-clock-o"></i></span></h5>
+						<div class="progress my-3" style="height:3px;">
+							<div class="progress-bar" style="width:55%"></div>
+						</div>
+						<p class="mb-0 text-white small-font">Sanction Orders & Court Notices to be finalized by
+							PUH<span class="float-right"><a href="listOfForwardCourtCases" class="text-white">More
+									Info</a> <i class="zmdi zmdi-long-arrow-right"></i></span></p>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="card gradient-veer">
+					<div class="card-body">
+						<h5 class="text-white mb-0"><span id="totalNotice" th:text="${totaltodaycase}"></span> <span
+								class="float-right"><i class="fa fa-clock-o"></i></span></h5>
+						<div class="progress my-3" style="height:3px;">
+							<div class="progress-bar" style="width:55%"></div>
+						</div>
+						<p class="mb-0 text-white small-font">Cases Due for Hearing next 7 days<span
+								class="float-right"><a href="todayHearingDetailsProsecution" class="text-white">More
+									Info</a> <i class="zmdi zmdi-long-arrow-right"></i></span></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="card gradient-veer">
+					<div class="card-body">
+						<h5 class="text-white mb-0"><span id="totalNotice" th:text="${totaltodaycase1}"></span> <span
+								class="float-right"><i class="fa fa-clock-o"></i></span></h5>
+						<div class="progress my-3" style="height:3px;">
+							<div class="progress-bar" style="width:55%"></div>
+						</div>
+						<p class="mb-0 text-white small-font">Cases Listed in past 7 days<span class="float-right"><a
+									href="todayHearingDetailsLastProsecution" class="text-white">More Info</a> <i
+									class="zmdi zmdi-long-arrow-right"></i></span></p>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-6 col-xl-4">
+				<div class="card gradient-veer">
+					<div class="card-body">
+						<h5 class="text-white mb-0"><span id="totalNotice" th:text="${totalapprovedsection}"></span>
+							<span class="float-right"><i class="fa fa-clock-o"></i></span>
+						</h5>
+						<div class="progress my-3" style="height:3px;">
+							<div class="progress-bar" style="width:55%"></div>
+						</div>
+						<p class="mb-0 text-white small-font">Sanction Orders <span class="float-right"><a
+									href="listOfCourtCasesnew" class="text-white">More Info</a> <i
+									class="zmdi zmdi-long-arrow-right"></i></span></p>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- Report Modal -->
+
+		<div class="modal fade" id="reportModal" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-xl" role="document">
+
+				<div class="modal-content">
+
+					<div class="modal-header bg-primary text-white">
+
+						<h2 class="modal-title text-white">
+							Pending Next Dates of Hearing
+						</h2>
+
+						<button type="button" class="close text-white" data-dismiss="modal">
+
+							<span>&times;</span>
+
+						</button>
+
+					</div>
+
+					<div class="modal-body">
+
+						<table id="assignedTable" class="table table-bordered table-striped">
+
+							<thead class="thead-dark">
+
+								<tr>
+									<th>S.No</th>
+									<th>Cause Title</th>
+									<th>Case No</th>
+									<th>Company Name</th>
+									<th>Next Date</th>
+								</tr>
+
+							</thead>
+
+							<tbody>
+
+								<tr th:each="obj,stat : ${reportList}">
+
+									<td th:text="${stat.count}"></td>
+
+									<td class="text-wrap" th:text="${obj.procourtdtl.causeTitle}"></td>
+
+									<td th:text="${obj.procourtdtl.courtCaseNo}"></td>
+
+									<td class="text-wrap" th:text="${obj.procourtdtl.addCase.caseTitle}"></td>
+
+
+									<td th:text="${#dates.format(obj.nextHearingDate, 'dd-MM-yyyy')}"></td>
+
+								</tr>
+
+							</tbody>
+
+						</table>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+		<script th:inline="javascript">
+			$(document).ready(function () {
+				var showFirstLoginPopup = /*[[${showFirstLoginPopup}]]*/ false;
+				if (showFirstLoginPopup === true) {
+					$('#reportModal').modal({
+						backdrop: 'static',
+						keyboard: false
+					});
+
+					$('#reportModal').modal('show');
+				}
+			});
+
+
+		</script>
+		<!-- Existing DataTables core -->
+		<script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+
+		<!-- ✅ NAYE — Buttons extension + dependencies -->
+		<script src="plugins/bootstrap-datatable/js1/dataTables.buttons.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js1/buttons.bootstrap4.min.js"></script>
+
+		<!-- Excel export dependency -->
+		<script src="plugins/bootstrap-datatable/js1/jszip.min.js"></script>
+
+		<!-- PDF export dependency -->
+		<script src="plugins/bootstrap-datatable/js1/pdfmake.min.js"></script>
+		<script src="plugins/bootstrap-datatable/js1/vfs_fonts.js"></script>
+
+		<!-- Excel/CSV/PDF export logic -->
+		<script src="plugins/bootstrap-datatable/js1/buttons.html5.min.js"></script>
+
+		<!-- Print button logic -->
+		<script src="plugins/bootstrap-datatable/js1/buttons.print.min.js"></script>
+		<script type="text/javascript">
+		    $(document).ready(function () {
+
+		        var table = $('#assignedTable').DataTable({
+		            buttons: [
+		                {
+		                    extend: 'excel',
+		                    text: '<i class="fa fa-file-excel-o"></i> Excel',
+		                    className: 'btn btn-success btn-sm'
+		                },
+		                {
+		                    extend: 'pdf',
+		                    text: '<i class="fa fa-file-pdf-o"></i> PDF',
+		                    className: 'btn btn-danger btn-sm'
+		                },
+		                {
+		                    extend: 'print',
+		                    text: '<i class="fa fa-print"></i> Print',
+		                    className: 'btn btn-secondary btn-sm'
+		                }
+		            ]
+		        });
+
+		        // ✅ IMPORTANT: Buttons ko table ke upar render karo
+		        table.buttons().container()
+		            .appendTo('#assignedTable_wrapper .col-md-6:eq(0)');
+
+		    });
+		</script>
+	</div>
+
+</body>
+
+</html>

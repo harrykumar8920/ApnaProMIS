@@ -1,0 +1,157 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>CREATE NEW TASK</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+		<div class="row pt-2 pb-2">
+			<div class="col-sm-3">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="home">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">CREATE NEW TASK</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<form th:action="@{/createNewTasks}" method="post"
+			class="needs-validation" th:object="${createTasksList}">
+			<input type="hidden" th:field="*{id}">
+			<div th:if="${message}" class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<div class="alert-icon">
+					<i class="fa fa-check"></i>
+				</div>
+				<div class="alert-message">
+					<span th:text="${message}"></span>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+
+
+
+
+							<h4 class="form-header text-uppercase">
+								<i class="fa fa-tasks"></i> Add NEW TASK
+							</h4>
+
+							<div class="form-group row">
+								<label for="input-10" class="col-sm-2 col-form-label">Task
+									Name <span class="text-danger">*</span>
+								</label>
+								<div class="col-sm-4">
+									<input type="text" class="inputTxt form-control"
+										autocomplete="off" name="task" th:field="*{task}"
+										placeholder="Task Name"  maxlength="70" />
+										
+									<span class="text-danger" th:errors="*{task}"></span>
+										
+							
+
+								</div>
+
+								<div class="col-sm-4">
+									<th:block th:if="${createTasksList.edittask==false}">
+										<button type="submit" class="btn btn-success">
+											<i class="fa fa-check-square-o"></i> Save
+										</button>
+
+									</th:block>
+									<th:block th:if="${createTasksList.edittask==true}">
+										<button type="submit" class="btn btn-success">
+											<i class="fa fa-check-square-o"></i>UPDATE
+										</button>
+									</th:block>
+									<button type="reset" class="btn btn-danger">
+										<i class="fa fa-times"></i> Reset
+									</button>
+								</div>
+
+							</div>
+					
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+	</form>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+				<div class="card-header"><i class="fa fa-table" ></i> Task Details</div>
+				 <div class="card-body">
+                      <div class="table-responsive">
+                       <table id="dtable" class="table table-bordered">
+                               <thead   class="bg-info text-white">
+                             			<tr>
+											<th>S.No.</th>
+											<th>Task Name</th>
+											<th>Action</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="p,stats: ${tasklst}">
+											<td th:text="${stats.count}"></td>
+										    <td th:text="${p.task}"></td>  
+
+										
+								<td>
+											
+							<form  th:action="@{/editTask}"  method="post" autocomplete="off">
+					<button class="btn btn-success text-wrap" type="submit"    th:name="editTask"    th:value="${p.Id}">Edit</button>
+									   </form>
+								
+									</td>
+
+										</tr>
+
+
+
+									</tbody>
+
+								</table>
+							</div>
+
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+				<script src="plugins/bootstrap-datatable/js/jquery.d.min.js"></script>
+		 <script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+	     <script src="plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+         <script src="plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+         <script src="plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+ 
+	
+		<script type="text/javascript">
+		$(document).ready(function(){
+			
+			 var table = $('#dtable').DataTable( {
+//		 	        lengthChange: false,
+			        buttons: [ 'copy', 'excel', 'pdf', 'print', 'colvis' ]
+			      } );
+		});
+		
+		</script>	
+
+
+
+	</div>
+
+</body>
+</html>
